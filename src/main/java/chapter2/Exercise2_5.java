@@ -1,6 +1,6 @@
 package chapter2;
 
-public class Exercise5 {
+public class Exercise2_5 {
   
   public static void main(String[] args) {
     int numberOfDinosaursInPark = 45;

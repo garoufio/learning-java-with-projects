@@ -1,6 +1,6 @@
 package chapter2;
 
-public class Exercise6 {
+public class Exercise2_6 {
   
   public static void main(String[] args) {
     double safetyRating = 9.6;

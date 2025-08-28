@@ -1,6 +1,6 @@
 package chapter3;
 
-public class Exercise1 {
+public class Exercise3_1 {
   
   public static void main(String[] args) {
     double weight1 = 845;

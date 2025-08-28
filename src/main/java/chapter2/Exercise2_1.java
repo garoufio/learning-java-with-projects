@@ -1,6 +1,6 @@
 package chapter2;
 
-public class Exercise1 {
+public class Exercise2_1 {
   
   public static void main(String[] args) {
     String breed = "Velosaurus";

@@ -1,6 +1,6 @@
 package chapter3;
 
-public class Exercise3 {
+public class Exercise3_3 {
   
   public static void main(String[] args) {
     int year = 2025;

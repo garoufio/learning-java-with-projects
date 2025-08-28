@@ -1,6 +1,6 @@
 package chapter3;
 
-public class Exercise6 {
+public class Exercise3_6 {
   
   public static void main(String[] args) {
     double safetyThreshold = 8.0;

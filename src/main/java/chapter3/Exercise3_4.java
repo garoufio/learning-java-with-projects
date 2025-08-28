@@ -1,6 +1,6 @@
 package chapter3;
 
-public class Exercise4 {
+public class Exercise3_4 {
   
   public static void main(String[] args) {
     int maxVisitors = 50;
