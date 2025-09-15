@@ -4,6 +4,12 @@ import java.util.Scanner;
 
 public class Project {
   
+  public static final int MAX_VISITORS_CAPACITY = 1000;
+  public static final int MAX_DINOSAURS_CAPACITY = 80;
+  public static final int MAX_EMPLOYEES = 30;
+  
+  //-------------------------------------------------------------------------------------------------------------------
+  
   // Use scanner for reading input from the user
   Scanner sc = new Scanner(System.in);
   

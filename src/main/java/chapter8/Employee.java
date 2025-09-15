@@ -13,7 +13,7 @@ public class Employee {
   public Employee(String name, String jobTitle, int yearsOfExperience) {
     this.name = name;
     this.jobTitle = jobTitle;
-    this.yearsOfExperience = yearsOfExperience;
+    setYearsOfExperience(yearsOfExperience);
   }
   
   //-------------------------------------------------------------------------------------------------------------------
@@ -49,7 +49,7 @@ public class Employee {
   //-------------------------------------------------------------------------------------------------------------------
   
   public void setYearsOfExperience(int yearsOfExperience) {
-    this.yearsOfExperience = yearsOfExperience;
+    this.yearsOfExperience = yearsOfExperience >= 0 ? yearsOfExperience : -1;
   }
   
   //-------------------------------------------------------------------------------------------------------------------

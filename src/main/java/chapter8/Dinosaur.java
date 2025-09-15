@@ -6,14 +6,14 @@ public class Dinosaur {
   
   private String name;
   private int age;
-  private String species;
+  private DinosaurType type;
   
   //-------------------------------------------------------------------------------------------------------------------
   
-  public Dinosaur(String name, int age, String species) {
+  public Dinosaur(String name, int age, DinosaurType type) {
     this.name = name;
-    this.age = age;
-    this.species = species;
+    setAge(age);
+    this.type = type;
   }
   
   //-------------------------------------------------------------------------------------------------------------------
@@ -37,43 +37,42 @@ public class Dinosaur {
   //-------------------------------------------------------------------------------------------------------------------
   
   public void setAge(int age) {
-    this.age = age;
+    this.age = age >= 0 ? age : -1;
   }
   
   //-------------------------------------------------------------------------------------------------------------------
   
-  public String getSpecies() {
-    return species;
+  public DinosaurType getType() {
+    return type;
   }
   
   //-------------------------------------------------------------------------------------------------------------------
   
-  public void setSpecies(String species) {
-    this.species = species;
+  public void setSpecies(DinosaurType type) {
+    this.type = type;
   }
   
   //-------------------------------------------------------------------------------------------------------------------
   
   @Override
   public boolean equals(Object o) {
-    if (this == o) return true;
     if (o == null || getClass() != o.getClass()) return false;
     Dinosaur dinosaur = (Dinosaur) o;
-    return age == dinosaur.age && Objects.equals(name, dinosaur.name) && Objects.equals(species, dinosaur.species);
+    return (age == dinosaur.age && Objects.equals(name, dinosaur.name) && type == dinosaur.type);
   }
   
   //-------------------------------------------------------------------------------------------------------------------
   
   @Override
   public int hashCode() {
-    return Objects.hash(name, age, species);
+    return Objects.hash(name, age, type);
   }
   
   //-------------------------------------------------------------------------------------------------------------------
   
   @Override
   public String toString() {
-    return "Dinosaur [name=" + name + ", age=" + age + ", species=" + species + "]";
+    return "Dinosaur [name=" + name + ", age=" + age + ", type=" + type.name() + "]";
   }
   
   //-------------------------------------------------------------------------------------------------------------------

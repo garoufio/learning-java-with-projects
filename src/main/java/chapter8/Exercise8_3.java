@@ -18,7 +18,7 @@ public class Exercise8_3 {
     Dinosaur[] dinos = new Dinosaur[numberOfDinosaurs];
     
     for  (int i = 0; i < numberOfDinosaurs; i++) {
-      dinos[i] = new Dinosaur("DinoName" + (i + 1), i * 2 + 1, "Species" + (i + 1));
+      dinos[i] = new Dinosaur("DinoName" + (i + 1), i * 2 + 1, DinosaurType.CARNIVORE);
     }
     return dinos;
   }

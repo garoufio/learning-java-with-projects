@@ -5,32 +5,32 @@ import java.util.Objects;
 
 public class Enclosure {
   
-  private String name;
+  private EnclosureType enclosureType;
   private Dinosaur[] dinosaurs;
   
   //-------------------------------------------------------------------------------------------------------------------
   
-  public Enclosure(String name) {
-    this(name, null);
+  public Enclosure(EnclosureType enclosureType) {
+    this(enclosureType, null);
   }
   
   //-------------------------------------------------------------------------------------------------------------------
   
-  public Enclosure(String name, Dinosaur[] dinosaurs) {
-    this.name = name;
+  public Enclosure(EnclosureType enclosureType, Dinosaur[] dinosaurs) {
+    this.enclosureType = enclosureType;
     this.dinosaurs = dinosaurs;
   }
   
   //-------------------------------------------------------------------------------------------------------------------
   
-  public String getName() {
-    return name;
+  public EnclosureType getEnclosureType() {
+    return enclosureType;
   }
   
   //-------------------------------------------------------------------------------------------------------------------
   
-  public void setName(String name) {
-    this.name = name;
+  public void setEnclosureType(EnclosureType enclosureType) {
+    this.enclosureType = enclosureType;
   }
   
   //-------------------------------------------------------------------------------------------------------------------
@@ -51,21 +51,21 @@ public class Enclosure {
   public boolean equals(Object o) {
     if (o == null || getClass() != o.getClass()) return false;
     Enclosure enclosure = (Enclosure) o;
-    return Objects.equals(name, enclosure.name) && Objects.deepEquals(dinosaurs, enclosure.dinosaurs);
+    return (enclosureType == enclosure.getEnclosureType() && Objects.deepEquals(dinosaurs, enclosure.dinosaurs));
   }
   
   //-------------------------------------------------------------------------------------------------------------------
   
   @Override
   public int hashCode() {
-    return Objects.hash(name, Arrays.hashCode(dinosaurs));
+    return Objects.hash(enclosureType, Arrays.hashCode(dinosaurs));
   }
   
   //-------------------------------------------------------------------------------------------------------------------
   
   @Override
   public String toString() {
-    return "Enclosure [name=" + name + ", dinosaurs=" + dinosaurs + "]";
+    return "Enclosure [name=" + enclosureType.name() + ", dinosaurs=" + dinosaurs + "]";
   }
   
   //-------------------------------------------------------------------------------------------------------------------
