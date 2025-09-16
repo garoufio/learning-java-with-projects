@@ -13,6 +13,7 @@ public class Park {
   private Employee[] employees;
   private Ticket[] tickets;
   private Enclosure[] enclosures;
+  private Dinosaur[] dinosaurs;
   
   //-------------------------------------------------------------------------------------------------------------------
   

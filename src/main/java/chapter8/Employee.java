@@ -7,12 +7,12 @@ public class Employee {
   
   private UUID uuid;
   private String name;
-  private EmployeeJobTitle jobTitle;
+  private JobTitle jobTitle;
   private int yearsOfExperience;
   
   //-------------------------------------------------------------------------------------------------------------------
   
-  public Employee(String name, EmployeeJobTitle jobTitle, int yearsOfExperience) {
+  public Employee(String name, JobTitle jobTitle, int yearsOfExperience) {
     this.uuid = UUID.randomUUID();
     this.name = name;
     this.jobTitle = jobTitle;
@@ -39,13 +39,13 @@ public class Employee {
   
   //-------------------------------------------------------------------------------------------------------------------
   
-  public EmployeeJobTitle getJobTitle() {
+  public JobTitle getJobTitle() {
     return jobTitle;
   }
   
   //-------------------------------------------------------------------------------------------------------------------
   
-  public void setJobTitle(EmployeeJobTitle jobTitle) {
+  public void setJobTitle(JobTitle jobTitle) {
     this.jobTitle = jobTitle;
   }
   
