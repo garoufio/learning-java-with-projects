@@ -9,7 +9,7 @@ public class Park {
   public static final LocalTime CLOSING_HOUR = LocalTime.of(19, 30, 0);
   
   private boolean isOpen;
-  private Dinosaur[] dinosaurs;
+ 
   private Employee[] employees;
   private Ticket[] tickets;
   private Enclosure[] enclosures;
@@ -67,127 +67,11 @@ public class Park {
   // Dinosaurs handling
   //-------------------------------------------------------------------------------------------------------------------
   
-  public void addDinosaurs(Dinosaur... dinosaur) {
-    if (dinosaur == null) {
-      System.out.println("No dinosaurs were added");
-      return;
-    }
-    
-    if (dinosaurs == null) {
-      dinosaurs = Arrays.copyOf(dinosaur, dinosaur.length);
-    }
-    else {
-      Dinosaur[] arr = new Dinosaur[dinosaurs.length + dinosaur.length];
-      System.arraycopy(dinosaurs, 0, arr, 0, dinosaurs.length);
-      System.arraycopy(dinosaur, 0, arr, dinosaurs.length, dinosaur.length);
-      dinosaurs = Arrays.copyOf(arr, arr.length);
-    }
-  }
   
-  //-------------------------------------------------------------------------------------------------------------------
-  
-  public Dinosaur[] getDinosaurs() {
-    return dinosaurs == null ? null : Arrays.copyOf(dinosaurs, dinosaurs.length);
-  }
-  
-  //-------------------------------------------------------------------------------------------------------------------
-  
-  private int getSingleDinosaurIndex(Dinosaur dinosaur) {
-    if  (dinosaurs == null) return -1;
-    
-    for (int i = 0; i < dinosaurs.length; i++) {
-      if (dinosaurs[i].equals(dinosaur)) return i;
-    }
-    return -1;
-  }
-  
-  //-------------------------------------------------------------------------------------------------------------------
-  
-  public Dinosaur getSingleDinosaur(Dinosaur dinosaur) {
-    if  (dinosaur == null) return null;
-    
-    for (Dinosaur d : this.dinosaurs) {
-      if (d.equals(dinosaur)) {
-        return d;
-      }
-    }
-    return null;
-  }
-  
-  //-------------------------------------------------------------------------------------------------------------------
-  
-  public boolean removeDinosaur(Dinosaur dinosaur) {
-    if (dinosaur == null) return false;
-    
-    int index = getSingleDinosaurIndex(dinosaur);
-    if (index < 0) return false;
-    
-    dinosaurs[index] = null;
-    return true;
-  }
   
   //-------------------------------------------------------------------------------------------------------------------
   // Employees handling
   //-------------------------------------------------------------------------------------------------------------------
-  
-  public Employee[] getEmployees() {
-    return employees == null ? null : Arrays.copyOf(employees, employees.length);
-  }
-  
-  //-------------------------------------------------------------------------------------------------------------------
-  
-  public void addEmployees(Employee... employees) {
-    if (employees == null) {
-      System.out.println("No dinosaurs were added");
-      return;
-    }
-    
-    if (this.employees == null) {
-      this.employees = Arrays.copyOf(employees, employees.length);
-    }
-    else {
-      Employee[] arr = new Employee[this.employees.length + employees.length];
-      System.arraycopy(this.employees, 0, arr, 0, this.employees.length);
-      System.arraycopy(employees, 0, arr, this.employees.length, employees.length);
-      this.employees = Arrays.copyOf(arr, arr.length);
-    }
-  }
-  
-  //-------------------------------------------------------------------------------------------------------------------
-  
-  private int getSingleEmployeeIndex(Employee employee) {
-    if (employee == null) return -1;
-    
-    for (int i = 0; i < employees.length; i++) {
-      if (employees[i].equals(employee)) return i;
-    }
-    return -1;
-  }
-  
-  //-------------------------------------------------------------------------------------------------------------------
-  
-  public Employee getSingleEmployee(Employee employee) {
-    if  (employee == null) return null;
-    
-    for (Employee e : this.employees) {
-      if (e.equals(employee)) {
-        return e;
-      }
-    }
-    return null;
-  }
-  
-  //-------------------------------------------------------------------------------------------------------------------
-  
-  public boolean removeEmployee(Employee employee) {
-    if (employee == null) return false;
-    
-    int index = getSingleEmployeeIndex(employee);
-    if (index < 0) return false;
-    
-    employees[index] = null;
-    return true;
-  }
   
   //-------------------------------------------------------------------------------------------------------------------
   // Tickets handling

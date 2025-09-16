@@ -1,19 +1,28 @@
 package chapter8;
 
 import java.util.Objects;
+import java.util.UUID;
 
 public class Employee {
   
+  private UUID uuid;
   private String name;
-  private String jobTitle;
+  private EmployeeJobTitle jobTitle;
   private int yearsOfExperience;
   
   //-------------------------------------------------------------------------------------------------------------------
   
-  public Employee(String name, String jobTitle, int yearsOfExperience) {
+  public Employee(String name, EmployeeJobTitle jobTitle, int yearsOfExperience) {
+    this.uuid = UUID.randomUUID();
     this.name = name;
     this.jobTitle = jobTitle;
     setYearsOfExperience(yearsOfExperience);
+  }
+  
+  //-------------------------------------------------------------------------------------------------------------------
+  
+  public String getUuid() {
+    return uuid.toString();
   }
   
   //-------------------------------------------------------------------------------------------------------------------
@@ -30,13 +39,13 @@ public class Employee {
   
   //-------------------------------------------------------------------------------------------------------------------
   
-  public String getJobTitle() {
+  public EmployeeJobTitle getJobTitle() {
     return jobTitle;
   }
   
   //-------------------------------------------------------------------------------------------------------------------
   
-  public void setJobTitle(String jobTitle) {
+  public void setJobTitle(EmployeeJobTitle jobTitle) {
     this.jobTitle = jobTitle;
   }
   
@@ -59,9 +68,9 @@ public class Employee {
     if (this == o) return true;
     if (o == null || getClass() != o.getClass()) return false;
     Employee employee = (Employee) o;
-    return yearsOfExperience == employee.yearsOfExperience &&
+    return (yearsOfExperience == employee.yearsOfExperience &&
         Objects.equals(name, employee.name) &&
-        Objects.equals(jobTitle, employee.jobTitle);
+        jobTitle == employee.jobTitle);
   }
   
   //-------------------------------------------------------------------------------------------------------------------
