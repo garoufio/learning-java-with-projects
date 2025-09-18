@@ -30,6 +30,23 @@ public class EmployeeService {
       this.employees = Arrays.copyOf(employees, employees.length);
     }
     else {
+      // find empty slots
+      int countEmpty = 0;
+      for (Employee e : this.employees) {
+        if (e == null) countEmpty++;
+      }
+      // fill empty slots
+      if (countEmpty >= employees.length) {
+        for (int i = 0, j = 0; i < this.employees.length && j < employees.length; i++) {
+          if (this.employees[i] == null) {
+            this.employees[i] = employees[j];
+            j++;
+          }
+        }
+        return;
+      }
+      /* if the number of newly added employees is greater than the empty slots, increase the size of the array and
+      add them */
       Employee[] arr = new Employee[this.employees.length + employees.length];
       System.arraycopy(this.employees, 0, arr, 0, this.employees.length);
       System.arraycopy(employees, 0, arr, this.employees.length, employees.length);
@@ -43,7 +60,7 @@ public class EmployeeService {
     if (employee == null) return -1;
     
     for (int i = 0; i < employees.length; i++) {
-      if (employees[i].equals(employee)) return i;
+      if (employees[i] != null && employees[i].equals(employee)) return i;
     }
     return -1;
   }
@@ -55,7 +72,7 @@ public class EmployeeService {
     if  (employees == null) return null;
     
     for (Employee e : employees) {
-      if (e.getName().equals(name)) return e;
+      if (e != null && e.getName().equals(name)) return e;
     }
     return null;
   }
@@ -67,14 +84,32 @@ public class EmployeeService {
     if (this.employees == null) return null;
     
     for (Employee e : this.employees) {
-      if (e.equals(employee)) return e;
+      if (e != null && e.equals(employee)) return e;
     }
     return null;
   }
   
   //-------------------------------------------------------------------------------------------------------------------
   
-  //public Employee getEmployee(int index) {}
+  public Employee[] getEmployees(EmployeeJobTitle jobTitle) {
+    if (jobTitle == null) return null;
+    if  (employees == null) return null;
+    
+    int capacity = 0;
+    for (Employee e : employees) {
+      if (e != null && e.getJobTitle() == jobTitle) capacity++;
+    }
+    if (capacity == 0) return null;
+    
+    Employee[] arr = new Employee[capacity];
+    for (int i = 0, j = 0; i < employees.length && j < arr.length; i++) {
+      if (employees[i] != null && employees[i].getJobTitle() == jobTitle) {
+        arr[j] = employees[i];
+        j++;
+      }
+    }
+    return arr;
+  }
   
   //-------------------------------------------------------------------------------------------------------------------
   

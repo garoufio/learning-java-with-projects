@@ -14,19 +14,36 @@ public class DinosaurService {
   
   //-------------------------------------------------------------------------------------------------------------------
   
-  public void addDinosaurs(Dinosaur... dinosaur) {
-    if (dinosaur == null) {
+  public void addDinosaurs(Dinosaur... dinosaurs) {
+    if (dinosaurs == null) {
       System.out.println("No dinosaurs were added");
       return;
     }
     
     if (this.dinosaurs == null) {
-      this.dinosaurs = Arrays.copyOf(dinosaur, dinosaur.length);
+      this.dinosaurs = Arrays.copyOf(dinosaurs, dinosaurs.length);
     }
     else {
-      Dinosaur[] arr = new Dinosaur[this.dinosaurs.length + dinosaur.length];
+      // find empty slots
+      int countEmpty = 0;
+      for (Dinosaur d : this.dinosaurs) {
+        if (d == null) countEmpty++;
+      }
+      // fill empty slots
+      if (countEmpty >= dinosaurs.length) {
+        for (int i = 0, j = 0; i < this.dinosaurs.length && j < dinosaurs.length; i++) {
+          if (this.dinosaurs[i] == null) {
+            this.dinosaurs[i] = dinosaurs[j];
+            j++;
+          }
+        }
+        return;
+      }
+      /* if the number of newly added dinosaurs is greater than the empty slots, increase the size of the array and
+      add them */
+      Dinosaur[] arr = new Dinosaur[this.dinosaurs.length + dinosaurs.length];
       System.arraycopy(this.dinosaurs, 0, arr, 0, this.dinosaurs.length);
-      System.arraycopy(dinosaur, 0, arr, this.dinosaurs.length, dinosaur.length);
+      System.arraycopy(dinosaurs, 0, arr, this.dinosaurs.length, dinosaurs.length);
       this.dinosaurs = Arrays.copyOf(arr, arr.length);
     }
   }
@@ -43,7 +60,7 @@ public class DinosaurService {
     if  (dinosaurs == null) return -1;
     
     for (int i = 0; i < dinosaurs.length; i++) {
-      if (dinosaurs[i].equals(dinosaur)) return i;
+      if (dinosaurs[i] != null && dinosaurs[i].equals(dinosaur)) return i;
     }
     return -1;
   }
@@ -54,7 +71,7 @@ public class DinosaurService {
     if (dinosaurs == null) return null;
     
     for (Dinosaur d : dinosaurs) {
-      if (d.getName().equals(dinosaurName)) return d;
+      if (d != null && d.getName().equals(dinosaurName)) return d;
     }
     return null;
   }
@@ -65,25 +82,25 @@ public class DinosaurService {
     if  (dinosaur == null) return null;
     
     for (Dinosaur d : this.dinosaurs) {
-      if (d.equals(dinosaur)) return d;
+      if (d != null && d.equals(dinosaur)) return d;
     }
     return null;
   }
   
   //-------------------------------------------------------------------------------------------------------------------
   
-  public Dinosaur[] getDinosaursByType(DinosaurType dinosaurType) {
+  public Dinosaur[] getDinosaurs(DinosaurType dinosaurType) {
     if (dinosaurs == null) return null;
     
     int capacity = 0;
     for (Dinosaur d : dinosaurs) {
-      if (d.getType() == dinosaurType) capacity++;
+      if (d != null && d.getType() == dinosaurType) capacity++;
     }
     if (capacity == 0) return null;
     
     Dinosaur[] arr = new Dinosaur[capacity];
     for (int i = 0, j = 0; i < dinosaurs.length && j < arr.length; i++) {
-      if (dinosaurs[i].getType() == dinosaurType) {
+      if (dinosaurs[i] != null && dinosaurs[i].getType() == dinosaurType) {
         arr[j] =  dinosaurs[i];
         j++;
       }
@@ -93,18 +110,18 @@ public class DinosaurService {
   
   //-------------------------------------------------------------------------------------------------------------------
   
-  public Dinosaur[] getDinosaursBySpecies(DinosaurSpecies dinosaurSpecies) {
+  public Dinosaur[] getDinosaurs(DinosaurSpecies dinosaurSpecies) {
     if (dinosaurs == null) return null;
     
     int capacity = 0;
     for (Dinosaur d : dinosaurs) {
-      if (d.getSpecies() == dinosaurSpecies) capacity++;
+      if (d != null && d.getSpecies() == dinosaurSpecies) capacity++;
     }
     if (capacity == 0) return null;
     
     Dinosaur[] arr = new Dinosaur[capacity];
     for (int i = 0, j = 0; i < dinosaurs.length && j < arr.length; i++) {
-      if (dinosaurs[i].getSpecies() == dinosaurSpecies) {
+      if (dinosaurs[i] != null && dinosaurs[i].getSpecies() == dinosaurSpecies) {
         arr[j] =  dinosaurs[i];
         j++;
       }
