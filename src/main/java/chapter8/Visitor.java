@@ -1,3 +1,3 @@
 package chapter8;
 
-public record Visitor (String firstname, String lastname) {}
+public record Visitor (String firstname, String lastname, String PhoneNumber) {}
