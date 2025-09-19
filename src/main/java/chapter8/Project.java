@@ -336,7 +336,70 @@ public class Project {
   //-------------------------------------------------------------------------------------------------------------------
   
   private void removeDinosaur() {
-    // TODO
+    for (;;) {
+      System.out.printf("\nRemove by:\n");
+      System.out.println("1. Dinosaur name");
+      System.out.println("2. Dinosaur type");
+      System.out.println("3. Dinosaur species");
+      System.out.println("4. Detailed search");
+      System.out.println("5. Return to dinosaur menu");
+      System.out.print("Enter your choice: ");
+      int choice = sc.nextInt();
+      switch (choice) {
+        case 1 -> {
+          String name = readDinosaurName();
+          boolean isRemoved = dinosaurService.removeDinosaur(name);
+          if (isRemoved) System.out.println("Dinosaur removed!");
+          else System.out.printf("Dinosaur '%s' not found!\n", name);
+        }
+        case 2 -> {
+          DinosaurType type = readDinosaurType();
+          Dinosaur[] dinosaurs = dinosaurService.getDinosaurs(type);
+          if (dinosaurs == null || dinosaurs.length == 0) {
+            System.out.printf("No dinosaur(s) found for type '%s'!\n",  type.name());
+          } else {
+            for (Dinosaur dinosaur : dinosaurs) {
+              if (dinosaurService.removeDinosaur(dinosaur)) {
+                System.out.println("Dinosaur removed: " + dinosaur.toString());
+              } else {
+                System.out.printf("Failed to remove dinosaur: '%s'!\n", dinosaur.toString());
+              }
+            }
+          }
+        }
+        case 3 -> {
+          DinosaurSpecies species = readDinosaurSpecies();
+          Dinosaur[] dinosaurs = dinosaurService.getDinosaurs(species);
+          if (dinosaurs == null || dinosaurs.length == 0) {
+            System.out.printf("No dinosaur(s) found for species '%s'!\n",  species.name());
+          }
+          else {
+            for (Dinosaur dinosaur : dinosaurs) {
+              if (dinosaurService.removeDinosaur(dinosaur)) {
+                System.out.println("Dinosaur removed: " + dinosaur.toString());
+              } else {
+                System.out.printf("Failed to remove dinosaur: '%s'!\n", dinosaur.toString());
+              }
+            }
+          }
+        }
+        case 4 -> {
+          String name = readDinosaurName();
+          int age = readDinosaurAge();
+          DinosaurType type = readDinosaurType();
+          DinosaurSpecies species = readDinosaurSpecies();
+          Dinosaur dinosaur = new Dinosaur(name, age, type, species);
+          if (dinosaurService.removeDinosaur(dinosaur)) {
+            System.out.println("Dinosaur removed: " + dinosaur.toString());
+          } else {
+            System.out.printf("Failed to remove dinosaur: '%s'!\n'", dinosaur.toString());
+          }
+        }
+        case 5 -> { break; }
+        default -> System.out.println("Invalid choice. Please try again.");
+      }
+      if (choice < 6) break;
+    }
   }
   
   //-------------------------------------------------------------------------------------------------------------------

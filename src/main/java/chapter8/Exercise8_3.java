@@ -30,7 +30,7 @@ public class Exercise8_3 {
     
     for   (int i = 0; i < numberOfEmployees; i++) {
       employees[i] = new Employee(
-          "EmployeeName" + (i + 1), null, i * 2 + 1
+          "EmployeeName" + (i + 1), JobTitle.CURATOR, i * 2 + 1
       );
     }
     return employees;

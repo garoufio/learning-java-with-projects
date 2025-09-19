@@ -91,7 +91,7 @@ public class EmployeeService {
   
   //-------------------------------------------------------------------------------------------------------------------
   
-  public Employee[] getEmployees(EmployeeJobTitle jobTitle) {
+  public Employee[] getEmployees(JobTitle jobTitle) {
     if (jobTitle == null) return null;
     if  (employees == null) return null;
     
