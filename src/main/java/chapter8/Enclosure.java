@@ -41,7 +41,7 @@ public class Enclosure {
   
   //-------------------------------------------------------------------------------------------------------------------
   
-  public void setDinosaurs(Dinosaur[] dinosaurs) {
+  public void setDinosaurs(Dinosaur... dinosaurs) {
     this.dinosaurs = dinosaurs;
   }
   
@@ -65,7 +65,13 @@ public class Enclosure {
   
   @Override
   public String toString() {
-    return "Enclosure [name=" + enclosureType.name() + ", dinosaurs=" + dinosaurs + "]";
+    StringBuilder sb = new StringBuilder();
+    sb.append("Enclosure [name=" + enclosureType.name() + ", dinosaurs:\n");
+    for (Dinosaur d : dinosaurs) {
+      if (d != null) sb.append(d + "\n");
+    }
+    sb.append("]");
+    return sb.toString();
   }
   
   //-------------------------------------------------------------------------------------------------------------------

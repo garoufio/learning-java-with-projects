@@ -1,7 +1,6 @@
 package chapter8;
 
-import java.text.DateFormat;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.Objects;
 import java.util.UUID;
 
@@ -11,7 +10,7 @@ public class Ticket {
   private TicketType ticketType;
   private double price;
   private Visitor visitor;
-  private LocalDateTime visitDateTime;
+  private LocalDate visitDate;
   
   //-------------------------------------------------------------------------------------------------------------------
   
@@ -20,14 +19,14 @@ public class Ticket {
     this.ticketType = ticketType;
     this.visitor = visitor;
     this.price = ticketType.getPrice();
-    this.visitDateTime = LocalDateTime.now();
+    this.visitDate = LocalDate.now();
   }
   
   //-------------------------------------------------------------------------------------------------------------------
   
-  public Ticket(TicketType ticketType, Visitor visitor, LocalDateTime visitDateTime) {
+  public Ticket(TicketType ticketType, Visitor visitor, LocalDate visitDate) {
     this(ticketType, visitor);
-    this.visitDateTime = visitDateTime;
+    this.visitDate = visitDate;
   }
   
   //-------------------------------------------------------------------------------------------------------------------
@@ -68,14 +67,20 @@ public class Ticket {
   
   //-------------------------------------------------------------------------------------------------------------------
   
-  public LocalDateTime getVisitDateTime() {
-    return visitDateTime;
+  public LocalDate getVisitDate() {
+    return visitDate;
   }
   
   //-------------------------------------------------------------------------------------------------------------------
   
-  public void setVisitDateTime(LocalDateTime visitDateTime) {
-    this.visitDateTime = visitDateTime;
+  public void setVisitDateTime(LocalDate visitDate) {
+    this.visitDate = visitDate;
+  }
+  
+  //-------------------------------------------------------------------------------------------------------------------
+  
+  public UUID getUuid() {
+    return uuid;
   }
   
   //-------------------------------------------------------------------------------------------------------------------
@@ -88,14 +93,14 @@ public class Ticket {
         Objects.equals(uuid, ticket.uuid) &&
         ticketType == ticket.ticketType &&
         Objects.equals(visitor, ticket.visitor) &&
-        Objects.equals(visitDateTime, ticket.visitDateTime));
+        Objects.equals(visitDate, ticket.visitDate));
   }
   
   //-------------------------------------------------------------------------------------------------------------------
   
   @Override
   public int hashCode() {
-    return Objects.hash(uuid, ticketType, price, visitor, visitDateTime);
+    return Objects.hash(uuid, ticketType, price, visitor, visitDate);
   }
   
   //-------------------------------------------------------------------------------------------------------------------
@@ -103,11 +108,11 @@ public class Ticket {
   @Override
   public String toString() {
     return "Ticket [" +
-        "uuid=" + uuid +
+        "uuid=" + uuid.toString() +
         ", ticketType=" + ticketType.name() +
         ", price=" + price +
         ", visitor=" + visitor +
-        ", visitDateTime=" + visitDateTime +
+        ", visitDate=" + visitDate +
         "]";
   }
   

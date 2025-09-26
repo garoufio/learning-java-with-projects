@@ -1,6 +1,8 @@
 package chapter8;
 
+import java.time.LocalDate;
 import java.util.Arrays;
+import java.util.UUID;
 
 public class TicketService {
   
@@ -67,6 +69,17 @@ public class TicketService {
   
   //-------------------------------------------------------------------------------------------------------------------
   
+  public Ticket getTicket(UUID id) {
+    if (id == null) return null;
+    
+    for (Ticket t : this.tickets) {
+      if (t != null && t.getUuid().compareTo(id) == 0) return t;
+    }
+    return null;
+  }
+  
+  //-------------------------------------------------------------------------------------------------------------------
+  
   public Ticket getTicket(Ticket ticket) {
     if  (ticket == null) return null;
     
@@ -78,14 +91,47 @@ public class TicketService {
   
   //-------------------------------------------------------------------------------------------------------------------
   
-  public Ticket getTicket(Visitor visitor) {
-    if (visitor == null) return null;
+  public Ticket[] getTickets(Visitor visitor) {
+    if  (visitor == null) return null;
     if  (tickets == null) return null;
     
+    // find the number of matched Visitors
+    int visitorsFound = 0;
     for (Ticket t : tickets) {
-      if (t != null && t.getVisitor().equals(visitor)) return t;
+      if (t == null) continue;
+      
+      // search only by firstname + lastname
+      if (visitor.phoneNumber().equals("")) {
+        if (t.getVisitor().firstname().equals(visitor.firstname()) &&
+            t.getVisitor().lastname().equals(visitor.lastname())
+        ) {
+          visitorsFound++;
+        }
+      } else { // search by firstname + lastname + phone number
+        if (t.getVisitor().equals(visitor)) visitorsFound++;
+      }
     }
-    return null;
+    if (visitorsFound == 0) return null;
+    
+    Ticket[] arr = new Ticket[visitorsFound];
+    for (int i = 0, j = 0; i < tickets.length && j < visitorsFound; i++) {
+      if (tickets[i] == null) continue;
+      
+      if (visitor.phoneNumber().equals("")) {
+        if (tickets[i].getVisitor().firstname().equals(visitor.firstname()) &&
+            tickets[i].getVisitor().lastname().equals(visitor.lastname())
+        ) {
+          arr[j] = tickets[i];
+          j++;
+        }
+      } else {
+        if (tickets[i].getVisitor().equals(visitor)) {
+          arr[j] = tickets[i];
+          j++;
+        }
+      }
+    }
+    return arr;
   }
   
   //-------------------------------------------------------------------------------------------------------------------
@@ -94,14 +140,14 @@ public class TicketService {
     if  (ticketType == null) return null;
     if  (tickets == null) return null;
     
-    int capacity = 0;
+    int ticketsFound = 0;
     for (Ticket t : tickets) {
-      if (t != null && t.getTicketType() == ticketType) capacity++;
+      if (t != null && t.getTicketType() == ticketType) ticketsFound++;
     }
-    if (capacity == 0) return null;
+    if (ticketsFound == 0) return null;
     
-    Ticket[] arr = new Ticket[capacity];
-    for (int i = 0, j = 0; i < tickets.length && j < capacity; i++) {
+    Ticket[] arr = new Ticket[ticketsFound];
+    for (int i = 0, j = 0; i < tickets.length && j < ticketsFound; i++) {
       if (tickets[i] != null && tickets[i].getTicketType() == ticketType) {
         arr[j] = tickets[i];
         j++;
@@ -112,20 +158,69 @@ public class TicketService {
   
   //-------------------------------------------------------------------------------------------------------------------
   
-  public boolean removeTicket(Ticket ticket) {
-    if (ticket == null) return false;
+  public Ticket[] getTickets(String phone) {
+    if  (phone == null) return null;
+    if (tickets == null) return null;
     
-    int index = getTicketIndex(ticket);
-    if (index < 0) return false;
+    int ticketsFound = 0;
+    for (Ticket t : tickets) {
+      if (t != null && t.getVisitor().phoneNumber().equals(phone)) ticketsFound++;
+    }
+    if (ticketsFound == 0) return null;
     
-    tickets[index] = null;
-    return true;
+    Ticket[] arr = new Ticket[ticketsFound];
+    for (int i = 0, j = 0; i < tickets.length && j < ticketsFound; i++) {
+      if (tickets[i] != null && tickets[i].getVisitor().phoneNumber().equals(phone)) {
+        arr[j] = tickets[i];
+        j++;
+      }
+    }
+    return arr;
+  }
+  
+  //-------------------------------------------------------------------------------------------------------------------
+  
+  public Ticket[] getTickets(LocalDate date) {
+    if  (date == null) return null;
+    if (tickets == null) return null;
+    
+    int ticketsFound = 0;
+    for (Ticket t : tickets) {
+      if (t != null && t.getVisitDate().isEqual(date)) ticketsFound++;
+    }
+    if (ticketsFound == 0) return null;
+    
+    Ticket[] arr = new Ticket[ticketsFound];
+    for (int i = 0, j = 0; i < tickets.length && j < ticketsFound; i++) {
+      if (tickets[i] != null && tickets[i].getVisitDate().isEqual(date)) {
+        arr[j] = tickets[i];
+        j++;
+      }
+    }
+    return arr;
+  }
+  
+  //-------------------------------------------------------------------------------------------------------------------
+  
+  public boolean removeTicket(Ticket... ticket) {
+    if (ticket == null || tickets.length == 0) return false;
+    if (this.tickets == null || this.tickets.length == 0) return false;
+    
+    int countRemoved = 0;
+    for  (Ticket t : ticket) {
+      int index = getTicketIndex(t);
+      if (index < 0) continue;
+      
+      this.tickets[index] = null;
+      countRemoved++;
+    }
+    return countRemoved > 0;
   }
   
   //-------------------------------------------------------------------------------------------------------------------
   
   public boolean removeTicket(Visitor visitor) {
-    return removeTicket(getTicket(visitor));
+    return removeTicket(getTickets(visitor));
   }
   
   //-------------------------------------------------------------------------------------------------------------------

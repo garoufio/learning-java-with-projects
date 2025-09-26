@@ -95,13 +95,13 @@ public class EmployeeService {
     if (jobTitle == null) return null;
     if  (employees == null) return null;
     
-    int capacity = 0;
+    int employeesFound = 0;
     for (Employee e : employees) {
-      if (e != null && e.getJobTitle() == jobTitle) capacity++;
+      if (e != null && e.getJobTitle() == jobTitle) employeesFound++;
     }
-    if (capacity == 0) return null;
+    if (employeesFound == 0) return null;
     
-    Employee[] arr = new Employee[capacity];
+    Employee[] arr = new Employee[employeesFound];
     for (int i = 0, j = 0; i < employees.length && j < arr.length; i++) {
       if (employees[i] != null && employees[i].getJobTitle() == jobTitle) {
         arr[j] = employees[i];

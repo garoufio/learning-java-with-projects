@@ -92,13 +92,13 @@ public class DinosaurService {
   public Dinosaur[] getDinosaurs(DinosaurType dinosaurType) {
     if (dinosaurs == null) return null;
     
-    int capacity = 0;
+    int dinosaursFound = 0;
     for (Dinosaur d : dinosaurs) {
-      if (d != null && d.getType() == dinosaurType) capacity++;
+      if (d != null && d.getType() == dinosaurType) dinosaursFound++;
     }
-    if (capacity == 0) return null;
+    if (dinosaursFound == 0) return null;
     
-    Dinosaur[] arr = new Dinosaur[capacity];
+    Dinosaur[] arr = new Dinosaur[dinosaursFound];
     for (int i = 0, j = 0; i < dinosaurs.length && j < arr.length; i++) {
       if (dinosaurs[i] != null && dinosaurs[i].getType() == dinosaurType) {
         arr[j] =  dinosaurs[i];
@@ -113,13 +113,13 @@ public class DinosaurService {
   public Dinosaur[] getDinosaurs(DinosaurSpecies dinosaurSpecies) {
     if (dinosaurs == null) return null;
     
-    int capacity = 0;
+    int dinosaursFound = 0;
     for (Dinosaur d : dinosaurs) {
-      if (d != null && d.getSpecies() == dinosaurSpecies) capacity++;
+      if (d != null && d.getSpecies() == dinosaurSpecies) dinosaursFound++;
     }
-    if (capacity == 0) return null;
+    if (dinosaursFound == 0) return null;
     
-    Dinosaur[] arr = new Dinosaur[capacity];
+    Dinosaur[] arr = new Dinosaur[dinosaursFound];
     for (int i = 0, j = 0; i < dinosaurs.length && j < arr.length; i++) {
       if (dinosaurs[i] != null && dinosaurs[i].getSpecies() == dinosaurSpecies) {
         arr[j] =  dinosaurs[i];
