@@ -1,6 +1,6 @@
 package chapter8;
 
-import java.util.Arrays;
+import chapter8.project.*;
 
 public class Exercise8_3 {
   

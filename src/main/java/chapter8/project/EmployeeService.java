@@ -1,4 +1,4 @@
-package chapter8;
+package chapter8.project;
 
 import java.util.Arrays;
 
@@ -21,7 +21,7 @@ public class EmployeeService {
   //-------------------------------------------------------------------------------------------------------------------
   
   public void addEmployees(Employee... employees) {
-    if (employees == null) {
+    if (employees == null || employees.length == 0) {
       System.out.println("No employees were added");
       return;
     }
@@ -57,7 +57,7 @@ public class EmployeeService {
   //-------------------------------------------------------------------------------------------------------------------
   
   private int getEmployeeIndex(Employee employee) {
-    if (employee == null) return -1;
+    if (employees == null || employee == null) return -1;
     
     for (int i = 0; i < employees.length; i++) {
       if (employees[i] != null && employees[i].equals(employee)) return i;
@@ -68,8 +68,7 @@ public class EmployeeService {
   //-------------------------------------------------------------------------------------------------------------------
   
   public Employee getEmployee(String name) {
-    if (name == null) return null;
-    if  (employees == null) return null;
+    if (employees == null || name == null) return null;
     
     for (Employee e : employees) {
       if (e != null && e.getName().equals(name)) return e;
@@ -80,8 +79,7 @@ public class EmployeeService {
   //-------------------------------------------------------------------------------------------------------------------
   
   public Employee getEmployee(Employee employee) {
-    if  (employee == null) return null;
-    if (this.employees == null) return null;
+    if  (employees == null || employee == null) return null;
     
     for (Employee e : this.employees) {
       if (e != null && e.equals(employee)) return e;
@@ -92,8 +90,7 @@ public class EmployeeService {
   //-------------------------------------------------------------------------------------------------------------------
   
   public Employee[] getEmployees(JobTitle jobTitle) {
-    if (jobTitle == null) return null;
-    if  (employees == null) return null;
+    if (employees == null || jobTitle == null) return null;
     
     int employeesFound = 0;
     for (Employee e : employees) {
@@ -114,7 +111,7 @@ public class EmployeeService {
   //-------------------------------------------------------------------------------------------------------------------
   
   public boolean removeEmployee(Employee employee) {
-    if (employee == null) return false;
+    if (employees == null || employee == null) return false;
     
     int index = getEmployeeIndex(employee);
     if (index < 0) return false;

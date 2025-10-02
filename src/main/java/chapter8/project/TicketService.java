@@ -1,4 +1,4 @@
-package chapter8;
+package chapter8.project;
 
 import java.time.LocalDate;
 import java.util.Arrays;
@@ -23,7 +23,7 @@ public class TicketService {
   //-------------------------------------------------------------------------------------------------------------------
   
   public void addTickets(Ticket... tickets) {
-    if (tickets == null) {
+    if (tickets == null || tickets.length == 0) {
       System.out.println("No tickets were added");
       return;
     }
@@ -59,7 +59,7 @@ public class TicketService {
   //-------------------------------------------------------------------------------------------------------------------
   
   private int getTicketIndex(Ticket ticket) {
-    if (ticket == null) return -1;
+    if (tickets == null || ticket == null) return -1;
     
     for (int i = 0; i < tickets.length; i++) {
       if (tickets[i] != null && tickets[i].equals(ticket)) return i;
@@ -70,7 +70,7 @@ public class TicketService {
   //-------------------------------------------------------------------------------------------------------------------
   
   public Ticket getTicket(UUID id) {
-    if (id == null) return null;
+    if (tickets == null || id == null) return null;
     
     for (Ticket t : this.tickets) {
       if (t != null && t.getUuid().compareTo(id) == 0) return t;
@@ -81,7 +81,7 @@ public class TicketService {
   //-------------------------------------------------------------------------------------------------------------------
   
   public Ticket getTicket(Ticket ticket) {
-    if  (ticket == null) return null;
+    if  (tickets == null || ticket == null) return null;
     
     for (Ticket t : this.tickets) {
       if (t != null && t.equals(ticket)) return t;
@@ -92,8 +92,7 @@ public class TicketService {
   //-------------------------------------------------------------------------------------------------------------------
   
   public Ticket[] getTickets(Visitor visitor) {
-    if  (visitor == null) return null;
-    if  (tickets == null) return null;
+    if  (tickets == null || visitor == null) return null;
     
     // find the number of matched Visitors
     int visitorsFound = 0;
@@ -137,8 +136,7 @@ public class TicketService {
   //-------------------------------------------------------------------------------------------------------------------
   
   public Ticket[] getTickets(TicketType ticketType) {
-    if  (ticketType == null) return null;
-    if  (tickets == null) return null;
+    if  (tickets == null || ticketType == null) return null;
     
     int ticketsFound = 0;
     for (Ticket t : tickets) {
@@ -159,8 +157,7 @@ public class TicketService {
   //-------------------------------------------------------------------------------------------------------------------
   
   public Ticket[] getTickets(String phone) {
-    if  (phone == null) return null;
-    if (tickets == null) return null;
+    if (tickets == null || phone == null) return null;
     
     int ticketsFound = 0;
     for (Ticket t : tickets) {
@@ -181,8 +178,7 @@ public class TicketService {
   //-------------------------------------------------------------------------------------------------------------------
   
   public Ticket[] getTickets(LocalDate date) {
-    if  (date == null) return null;
-    if (tickets == null) return null;
+    if  (tickets == null || date == null) return null;
     
     int ticketsFound = 0;
     for (Ticket t : tickets) {
@@ -203,8 +199,7 @@ public class TicketService {
   //-------------------------------------------------------------------------------------------------------------------
   
   public boolean removeTicket(Ticket... ticket) {
-    if (ticket == null || tickets.length == 0) return false;
-    if (this.tickets == null || this.tickets.length == 0) return false;
+    if (tickets == null || ticket == null) return false;
     
     int countRemoved = 0;
     for  (Ticket t : ticket) {

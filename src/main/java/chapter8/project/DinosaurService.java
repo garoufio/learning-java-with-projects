@@ -1,4 +1,4 @@
-package chapter8;
+package chapter8.project;
 
 import java.util.Arrays;
 
@@ -15,7 +15,7 @@ public class DinosaurService {
   //-------------------------------------------------------------------------------------------------------------------
   
   public void addDinosaurs(Dinosaur... dinosaurs) {
-    if (dinosaurs == null) {
+    if (dinosaurs == null || dinosaurs.length == 0) {
       System.out.println("No dinosaurs were added");
       return;
     }
@@ -68,7 +68,7 @@ public class DinosaurService {
   //-------------------------------------------------------------------------------------------------------------------
   
   public Dinosaur getDinosaur(String dinosaurName) {
-    if (dinosaurs == null) return null;
+    if (dinosaurs == null || dinosaurName == null) return null;
     
     for (Dinosaur d : dinosaurs) {
       if (d != null && d.getName().equals(dinosaurName)) return d;
@@ -79,7 +79,7 @@ public class DinosaurService {
   //-------------------------------------------------------------------------------------------------------------------
   
   public Dinosaur getDinosaur(Dinosaur dinosaur) {
-    if  (dinosaur == null) return null;
+    if  (dinosaurs == null || dinosaur == null) return null;
     
     for (Dinosaur d : this.dinosaurs) {
       if (d != null && d.equals(dinosaur)) return d;
@@ -90,7 +90,7 @@ public class DinosaurService {
   //-------------------------------------------------------------------------------------------------------------------
   
   public Dinosaur[] getDinosaurs(DinosaurType dinosaurType) {
-    if (dinosaurs == null) return null;
+    if (dinosaurs == null || dinosaurType == null) return null;
     
     int dinosaursFound = 0;
     for (Dinosaur d : dinosaurs) {
@@ -111,7 +111,7 @@ public class DinosaurService {
   //-------------------------------------------------------------------------------------------------------------------
   
   public Dinosaur[] getDinosaurs(DinosaurSpecies dinosaurSpecies) {
-    if (dinosaurs == null) return null;
+    if (dinosaurs == null || dinosaurSpecies == null) return null;
     
     int dinosaursFound = 0;
     for (Dinosaur d : dinosaurs) {
@@ -132,7 +132,7 @@ public class DinosaurService {
   //-------------------------------------------------------------------------------------------------------------------
   
   public boolean removeDinosaur(Dinosaur dinosaur) {
-    if (dinosaur == null) return false;
+    if (dinosaurs == null || dinosaur == null) return false;
     
     int index = getDinosaurIndex(dinosaur);
     if (index < 0) return false;

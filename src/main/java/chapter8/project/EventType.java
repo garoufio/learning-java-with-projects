@@ -1,29 +1,26 @@
-package chapter8;
+package chapter8.project;
 
-public enum TicketType {
-  INFANT(0),
-  CHILD(5),
-  ADULT(10),
-  ELDER(7),
-  DISABLED_PERSON(5),
-  SCHOOL(5),
-  FORBIDDEN(0),
-  VIP(18);
+public enum EventType {
+  SCHOOL(20),
+  GROUP(10),
+  SUMMER_CAMP(30),
+  VIP(5),
+  EMERGENCY(0);
   
   //-------------------------------------------------------------------------------------------------------------------
   
-  private double price;
+  private int numberOfVisitors;
   
   //-------------------------------------------------------------------------------------------------------------------
   
-  TicketType(double price) {
-    this.price = price;
+  EventType(int numberOfVisitors) {
+    this.numberOfVisitors = numberOfVisitors;
   }
   
   //-------------------------------------------------------------------------------------------------------------------
   
-  public double getPrice() {
-    return price;
+  public int getNumberOfVisitors() {
+    return numberOfVisitors;
   }
   
   //-------------------------------------------------------------------------------------------------------------------

@@ -1,28 +1,21 @@
-package chapter8;
+package chapter8.project;
 
 import java.util.Objects;
-import java.util.UUID;
 
-public class Employee {
+public class Dinosaur {
   
-  private UUID uuid;
   private String name;
-  private JobTitle jobTitle;
-  private int yearsOfExperience;
+  private int age;
+  private DinosaurType type;
+  private DinosaurSpecies species;
   
   //-------------------------------------------------------------------------------------------------------------------
   
-  public Employee(String name, JobTitle jobTitle, int yearsOfExperience) {
-    this.uuid = UUID.randomUUID();
+  public Dinosaur(String name, int age, DinosaurType type,  DinosaurSpecies species) {
     this.name = name;
-    this.jobTitle = jobTitle;
-    setYearsOfExperience(yearsOfExperience);
-  }
-  
-  //-------------------------------------------------------------------------------------------------------------------
-  
-  public String getUuid() {
-    return uuid.toString();
+    setAge(age);
+    this.type = type;
+    this.species = species;
   }
   
   //-------------------------------------------------------------------------------------------------------------------
@@ -39,52 +32,65 @@ public class Employee {
   
   //-------------------------------------------------------------------------------------------------------------------
   
-  public JobTitle getJobTitle() {
-    return jobTitle;
+  public int getAge() {
+    return age;
   }
   
   //-------------------------------------------------------------------------------------------------------------------
   
-  public void setJobTitle(JobTitle jobTitle) {
-    this.jobTitle = jobTitle;
+  public void setAge(int age) {
+    this.age = age >= 0 ? age : -1;
   }
   
   //-------------------------------------------------------------------------------------------------------------------
   
-  public int getYearsOfExperience() {
-    return yearsOfExperience;
+  public DinosaurType getType() {
+    return type;
   }
   
   //-------------------------------------------------------------------------------------------------------------------
   
-  public void setYearsOfExperience(int yearsOfExperience) {
-    this.yearsOfExperience = yearsOfExperience >= 0 ? yearsOfExperience : -1;
+  public void setType(DinosaurType type) {
+    this.type = type;
+  }
+  
+  //-------------------------------------------------------------------------------------------------------------------
+  
+  public DinosaurSpecies getSpecies() {
+    return species;
+  }
+  
+  //-------------------------------------------------------------------------------------------------------------------
+  
+  public void setSpecies(DinosaurSpecies species) {
+    this.species = species;
   }
   
   //-------------------------------------------------------------------------------------------------------------------
   
   @Override
   public boolean equals(Object o) {
-    if (this == o) return true;
     if (o == null || getClass() != o.getClass()) return false;
-    Employee employee = (Employee) o;
-    return (yearsOfExperience == employee.yearsOfExperience &&
-        Objects.equals(name, employee.name) &&
-        jobTitle == employee.jobTitle);
+    Dinosaur dinosaur = (Dinosaur) o;
+    return (age == dinosaur.age &&
+        Objects.equals(name, dinosaur.name) &&
+        type == dinosaur.type &&
+        species == dinosaur.species
+    );
   }
   
   //-------------------------------------------------------------------------------------------------------------------
   
   @Override
   public int hashCode() {
-    return Objects.hash(name, jobTitle, yearsOfExperience);
+    return Objects.hash(name, age, type, species);
   }
   
   //-------------------------------------------------------------------------------------------------------------------
   
   @Override
   public String toString() {
-    return "Employee [name=" + name + ", jobTitle=" + jobTitle.name() + ", yearsOfExperience=" + yearsOfExperience + "]";
+    return "Dinosaur [name=" + name + ", age=" + age + ", type=" + type.name() + ", species=" + species + "]";
   }
   
   //-------------------------------------------------------------------------------------------------------------------

@@ -1,4 +1,4 @@
-package chapter8;
+package chapter8.project;
 
 import java.time.LocalDate;
 import java.util.Objects;

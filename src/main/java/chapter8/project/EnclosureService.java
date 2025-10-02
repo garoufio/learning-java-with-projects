@@ -1,4 +1,4 @@
-package chapter8;
+package chapter8.project;
 
 import java.util.Arrays;
 
@@ -15,7 +15,7 @@ public class EnclosureService {
   //-------------------------------------------------------------------------------------------------------------------
   
   public void addEnclosure(Enclosure... enclosures) {
-    if (enclosures == null) {
+    if (enclosures == null || enclosures.length == 0) {
       System.out.println("No enclosures were added");
       return;
     }
@@ -51,8 +51,7 @@ public class EnclosureService {
   //-------------------------------------------------------------------------------------------------------------------
   
   private int getEnclosureIndex(Enclosure enclosure) {
-    if (enclosure == null) return -1;
-    if (this.enclosures == null) return -1;
+    if (enclosures == null || enclosure == null) return -1;
     
     for (int i = 0; i < enclosures.length; i++) {
       if (enclosures[i] != null && enclosures[i].equals(enclosure)) return i;
@@ -63,14 +62,13 @@ public class EnclosureService {
   //-------------------------------------------------------------------------------------------------------------------
   
   public Enclosure[] getAllEnclosures() {
-    return this.enclosures;
+    return this.enclosures == null ? null : Arrays.copyOf(this.enclosures, this.enclosures.length);
   }
   
   //-------------------------------------------------------------------------------------------------------------------
   
   public Enclosure getEnclosure(Enclosure enclosure) {
-    if (enclosure == null) return null;
-    if (this.enclosures == null) return null;
+    if (enclosures == null || enclosure == null) return null;
     
     for (Enclosure e : this.enclosures) {
       if (e != null && e.equals(enclosure)) return e;
@@ -81,8 +79,7 @@ public class EnclosureService {
   //-------------------------------------------------------------------------------------------------------------------
   
   public Enclosure getEnclosure(EnclosureType enclosureType) {
-    if (enclosureType == null) return null;
-    if (this.enclosures == null) return null;
+    if (enclosures == null || enclosureType == null) return null;
     
     for (Enclosure e : this.enclosures) {
       if (e != null && e.getEnclosureType() == enclosureType) return e;
@@ -93,8 +90,7 @@ public class EnclosureService {
   //-------------------------------------------------------------------------------------------------------------------
   
   public Enclosure getEnclosure(String dinosaurName) {
-    if (dinosaurName == null) return null;
-    if (this.enclosures == null) return null;
+    if (enclosures == null || dinosaurName == null) return null;
     
     for (Enclosure e : this.enclosures) {
       if (e == null) continue;
@@ -114,13 +110,12 @@ public class EnclosureService {
       DinosaurSpecies dinosaurSpecies,
       String dinosaurName
   ) {
-    if (dinosaurName == null || dinosaurType == null || dinosaurSpecies == null) return null;
-    if (this.enclosures == null) return null;
+    if (enclosures == null || dinosaurName == null || dinosaurType == null || dinosaurSpecies == null) return null;
     
     for (Enclosure e : this.enclosures) {
       if (e == null) continue;
       
-      if (!e.getEnclosureType().equals(enclosureType)) continue;
+      if (e != null && !e.getEnclosureType().equals(enclosureType)) continue;
       Dinosaur[] dinosaurs = e.getDinosaurs();
       for (Dinosaur d : dinosaurs) {
         if (d != null && d.getName().equals(dinosaurName) &&
@@ -134,12 +129,12 @@ public class EnclosureService {
   //-------------------------------------------------------------------------------------------------------------------
   
   public Enclosure[] getEnclosures(DinosaurType dinosaurType) {
-    if (dinosaurType == null) return null;
-    if (this.enclosures == null) return null;
+    if (enclosures == null || dinosaurType == null) return null;
     
     int foundEnclosures = 0;
     for (Enclosure e : this.enclosures) {
       if (e == null) continue;
+      
       Dinosaur[] dinosaurs = e.getDinosaurs();
       for (Dinosaur d : dinosaurs) {
         if (d != null && d.getType().equals(dinosaurType)) foundEnclosures++;
@@ -151,6 +146,7 @@ public class EnclosureService {
     int index = 0;
     for (Enclosure e : this.enclosures) {
       if (e == null) continue;
+      
       Dinosaur[] dinosaurs = e.getDinosaurs();
       for (Dinosaur d : dinosaurs) {
         if (d != null && d.getType().equals(dinosaurType)) {
@@ -164,12 +160,12 @@ public class EnclosureService {
   //-------------------------------------------------------------------------------------------------------------------
   
   public Enclosure[] getEnclosures(DinosaurSpecies dinosaurSpecies) {
-    if (dinosaurSpecies == null) return null;
-    if (this.enclosures == null) return null;
+    if (enclosures == null || dinosaurSpecies == null) return null;
     
     int foundEnclosures = 0;
     for (Enclosure e : this.enclosures) {
       if (e == null) continue;
+      
       Dinosaur[] dinosaurs = e.getDinosaurs();
       for (Dinosaur d : dinosaurs) {
         if (d != null && d.getSpecies().equals(dinosaurSpecies)) foundEnclosures++;
@@ -181,6 +177,7 @@ public class EnclosureService {
     int index = 0;
     for (Enclosure e : this.enclosures) {
       if (e == null) continue;
+      
       Dinosaur[] dinosaurs = e.getDinosaurs();
       for (Dinosaur d : dinosaurs) {
         if (d != null && d.getSpecies().equals(dinosaurSpecies)) {
@@ -191,12 +188,10 @@ public class EnclosureService {
     return enclosures;
   }
   
-  
   //-------------------------------------------------------------------------------------------------------------------
   
   public boolean removeEnclosure(Enclosure enclosure) {
-    if (enclosure == null) return false;
-    if (this.enclosures == null) return false;
+    if (enclosures == null || enclosure == null) return false;
     
     int index = getEnclosureIndex(enclosure);
     if (index < 0) return false;
@@ -209,6 +204,25 @@ public class EnclosureService {
   
   public boolean removeEnclosure(EnclosureType enclosureType) {
     return removeEnclosure(getEnclosure(enclosureType));
+  }
+  
+  //-------------------------------------------------------------------------------------------------------------------
+  
+  public boolean removeDinosaurFromEnclosure(Enclosure enclosure, Dinosaur dinosaur) {
+    if (enclosures == null || enclosure == null || dinosaur == null) return false;
+    
+    // check if the enclosure exists
+    Enclosure e = this.getEnclosure(enclosure);
+    if (e != null) {
+      Dinosaur[] eDinosaurs = e.getDinosaurs();
+      for (int i = 0; i < eDinosaurs.length; i++) {
+        if (eDinosaurs[i] != null && eDinosaurs[i].equals(dinosaur)) {
+          eDinosaurs[i] = null;
+          break;
+        }
+      }
+    }
+    return true;
   }
   
   //-------------------------------------------------------------------------------------------------------------------

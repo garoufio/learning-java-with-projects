@@ -1,4 +1,4 @@
-package chapter8;
+package chapter8.project;
 
 public enum DinosaurSpecies {
   TYRANNOSAURUS, TRICERATOPS, VELOCIRAPTOR, STEGOSAURUS,  BRACHIOSAURUS,

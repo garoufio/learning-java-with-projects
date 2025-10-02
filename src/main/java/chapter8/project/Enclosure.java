@@ -1,4 +1,4 @@
-package chapter8;
+package chapter8.project;
 
 import java.util.Arrays;
 import java.util.Objects;
@@ -47,6 +47,38 @@ public class Enclosure {
   
   //-------------------------------------------------------------------------------------------------------------------
   
+  public boolean addDinosaur(Dinosaur dinosaur) {
+    if (dinosaur == null) return false;
+    if (this.dinosaurs == null) this.dinosaurs = new Dinosaur[Project.MAX_DINOSAURS];
+    
+    int index = -1;
+    for (int i = 0; i < this.dinosaurs.length; i++) {
+      if (this.dinosaurs[i] == null) {
+        index = i;
+        break;
+      }
+    }
+    if (index > -1) {
+      this.dinosaurs[index] = dinosaur;
+    } else {
+      if (this.dinosaurs.length + 1 <= Project.MAX_DINOSAURS) {
+        Dinosaur[] dinosaurs = new Dinosaur[this.dinosaurs.length + 1];
+        for (int i = 0; i < this.dinosaurs.length; i++) {
+          dinosaurs[i] = this.dinosaurs[i];
+        }
+        dinosaurs[dinosaurs.length - 1] = dinosaur;
+        this.dinosaurs = dinosaurs;
+        return true;
+      }
+      else {
+        System.out.println("The enclosure cannot accept any more dinosaurs.");
+      }
+    }
+    return false;
+  }
+  
+  //-------------------------------------------------------------------------------------------------------------------
+  
   @Override
   public boolean equals(Object o) {
     if (o == null || getClass() != o.getClass()) return false;
@@ -66,9 +98,12 @@ public class Enclosure {
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("Enclosure [name=" + enclosureType.name() + ", dinosaurs:\n");
-    for (Dinosaur d : dinosaurs) {
-      if (d != null) sb.append(d + "\n");
+    sb.append("Enclosure [type=" + enclosureType.name());
+    if (dinosaurs != null) {
+      sb.append(", \n\tdinosaurs:\n");
+      for (Dinosaur d : dinosaurs) {
+        if (d != null) sb.append("\t" + d + "\n");
+      }
     }
     sb.append("]");
     return sb.toString();

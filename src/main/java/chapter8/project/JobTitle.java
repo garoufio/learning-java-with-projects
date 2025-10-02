@@ -1,4 +1,4 @@
-package chapter8;
+package chapter8.project;
 
 public enum JobTitle {
   CURATOR("Manages specific animal collections, plant collections, or exhibits"),

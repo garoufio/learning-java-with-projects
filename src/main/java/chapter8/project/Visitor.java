@@ -1,4 +1,4 @@
-package chapter8;
+package chapter8.project;
 
 public record Visitor (String firstname, String lastname, String phoneNumber) {
   
