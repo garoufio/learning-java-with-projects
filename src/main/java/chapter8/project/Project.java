@@ -36,7 +36,7 @@ public class Project {
     employeeController = new EmployeeController(sc, employeeService);
     ticketController = new TicketController(sc, ticketService);
     enclosureController = new EnclosureController(sc, enclosureService);
-    specialEventsController = new SpecialEventsController(sc, eventsService);
+    specialEventsController = new SpecialEventsController(sc, eventsService, ticketService);
     park = new Park();
   }
   

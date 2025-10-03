@@ -1,6 +1,7 @@
 package chapter8.project;
 
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.Scanner;
 import java.util.UUID;
 
@@ -238,6 +239,57 @@ public class Util {
     } while (enclosureType == null);
     
     return enclosureType;
+  }
+  
+  //-------------------------------------------------------------------------------------------------------------------
+  // Special events
+  //-------------------------------------------------------------------------------------------------------------------
+  
+  protected static LocalTime readSpecialEventTime(Scanner sc) {
+    System.out.print("Please enter a time: ");
+    return LocalTime.parse(sc.next());
+  }
+  
+  //-------------------------------------------------------------------------------------------------------------------
+  
+  protected static LocalDate readSpecialEventDate(Scanner sc) {
+    System.out.print("Please enter a date: ");
+    return LocalDate.parse(sc.next());
+  }
+  
+  //-------------------------------------------------------------------------------------------------------------------
+  
+    protected static String readSpecialEventField(Scanner sc, String field) {
+    System.out.printf("Enter event's %s: ", field);
+    return sc.next();
+  }
+  
+  //-------------------------------------------------------------------------------------------------------------------
+  
+  protected static EventType readSpecialEventType(Scanner sc) {
+    EventType eventType;
+    do {
+      System.out.println("Select the event's type: ");
+      int count = 1;
+      for (EventType t : EventType.values()) {
+        System.out.printf("%d. %s\n", count++, t.name());
+      }
+      System.out.print("Enter your choice: ");
+      int choice = sc.nextInt();
+      eventType = switch (choice) {
+        case 1 -> EventType.SCHOOL;
+        case 2 -> EventType.GROUP;
+        case 3 -> EventType.SUMMER_CAMP;
+        case 4 -> EventType.VIP;
+        case 5 -> EventType.EMERGENCY;
+        default -> {
+          System.out.println("Invalid choice for Event type. Please try again.");
+          yield null;
+        }
+      };
+    } while (eventType == null);
+    
+    return eventType;
   }
   
   //-------------------------------------------------------------------------------------------------------------------

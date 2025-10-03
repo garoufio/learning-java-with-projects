@@ -39,6 +39,17 @@ public class SpecialEventsService {
   
   //-------------------------------------------------------------------------------------------------------------------
   
+  public SpecialEvent getSpecialEvent(SpecialEvent event) {
+    if  (specialEvents == null || event == null) return null;
+    
+    for (SpecialEvent se : specialEvents) {
+      if (se != null && se.equals(event)) return se;
+    }
+    return null;
+  }
+  
+  //-------------------------------------------------------------------------------------------------------------------
+  
   public SpecialEvent[] getSpecialEvents(String str, boolean getByContactNumber) {
     if (specialEvents == null || str == null) return null;
     
@@ -173,6 +184,7 @@ public class SpecialEventsService {
     specialEvents[index] = null;
     return true;
   }
+  
   //-------------------------------------------------------------------------------------------------------------------
   
 }

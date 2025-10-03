@@ -190,14 +190,14 @@ public class SpecialEvent {
     return "SpecialEvent [" +
         "id=" + uuid +
         ", name=" + name +
-        ", description='" + description +
-        ", contactNumber='" + contactNumber +
-        ", contactName='" + contactName +
-        ", contactEmail='" + contactEmail +
+        ", description=" + description +
+        ", contactNumber=" + contactNumber +
+        ", contactName=" + contactName +
+        ", contactEmail=" + contactEmail +
         ", date=" + date +
         ", time=" + time +
-        ", tickets=" + Arrays.toString(tickets) +
         ", eventType=" + eventType +
+        ",\ntickets=" + Arrays.toString(tickets) +
         "]";
   }
   
