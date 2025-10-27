@@ -2,7 +2,7 @@ package chapter9.project;
 
 import java.util.Objects;
 
-public class AquaticDinosaur extends Dinosaur {
+public non-sealed class AquaticDinosaur extends Dinosaur {
 
   private int maxDepth;   // max diving depth in meters
   private boolean isAmphibious;

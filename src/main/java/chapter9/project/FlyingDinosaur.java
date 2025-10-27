@@ -2,7 +2,7 @@ package chapter9.project;
 
 import java.util.Objects;
 
-public class FlyingDinosaur extends Dinosaur {
+public non-sealed class FlyingDinosaur extends Dinosaur {
 
   private int maxHeight; // max flying height in meters
   

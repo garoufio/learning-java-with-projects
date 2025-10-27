@@ -2,7 +2,7 @@ package chapter9.project;
 
 import java.util.Objects;
 
-public class TerrestrialDinosaur extends Dinosaur {
+public non-sealed class TerrestrialDinosaur extends Dinosaur {
   
   int maxSpeed;   // max running speed
   

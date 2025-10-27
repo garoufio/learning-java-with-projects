@@ -1,83 +1,86 @@
 package chapter9.project;
 
+import java.time.LocalDate;
 import java.util.Objects;
+import java.util.UUID;
 
-public sealed class Dinosaur permits AquaticDinosaur, FlyingDinosaur, TerrestrialDinosaur {
+public sealed class Ticket permits RegularTicket, SeasonTicket {
   
-  private String name;
-  private int age;
-  private DinosaurType type;
-  private DinosaurSpecies species;
-  private DinosaurSize size;
+  private UUID uuid;
+  private TicketType ticketType;
+  private double price;
+  private Visitor visitor;
+  private LocalDate visitDate;
   
   //-------------------------------------------------------------------------------------------------------------------
   
-  public Dinosaur(String name, int age, DinosaurType type,  DinosaurSpecies species, DinosaurSize size) {
-    this.name = name;
-    setAge(age);
-    this.type = type;
-    this.species = species;
-    this.size = size;
+  public Ticket(TicketType ticketType, Visitor visitor) {
+    this.uuid = UUID.randomUUID();
+    this.ticketType = ticketType;
+    this.visitor = visitor;
+    this.price = ticketType.getPrice();
+    this.visitDate = LocalDate.now();
   }
   
   //-------------------------------------------------------------------------------------------------------------------
   
-  public String getName() {
-    return name;
+  public Ticket(TicketType ticketType, Visitor visitor, LocalDate visitDate) {
+    this(ticketType, visitor);
+    this.visitDate = visitDate;
   }
   
   //-------------------------------------------------------------------------------------------------------------------
   
-  public void setName(String name) {
-    this.name = name;
+  public TicketType getTicketType() {
+    return ticketType;
   }
   
   //-------------------------------------------------------------------------------------------------------------------
   
-  public int getAge() {
-    return age;
+  public void setTicketType(TicketType ticketType) {
+    this.ticketType = ticketType;
   }
   
   //-------------------------------------------------------------------------------------------------------------------
   
-  public void setAge(int age) {
-    this.age = age >= 0 ? age : -1;
+  public double getPrice() {
+    return price;
   }
   
   //-------------------------------------------------------------------------------------------------------------------
   
-  public DinosaurType getType() {
-    return type;
+  public void setPrice(double price) {
+    this.price = price;
   }
   
   //-------------------------------------------------------------------------------------------------------------------
   
-  public void setType(DinosaurType type) {
-    this.type = type;
+  public Visitor getVisitor() {
+    return visitor;
   }
   
   //-------------------------------------------------------------------------------------------------------------------
   
-  public DinosaurSpecies getSpecies() {
-    return species;
+  public void setVisitor(Visitor visitor) {
+    this.visitor = visitor;
   }
   
   //-------------------------------------------------------------------------------------------------------------------
   
-  public void setSpecies(DinosaurSpecies species) {
-    this.species = species;
+  public LocalDate getVisitDate() {
+    return visitDate;
   }
   
   //-------------------------------------------------------------------------------------------------------------------
   
-  public DinosaurSize getSize() {
-    return size;
+  public void setVisitDateTime(LocalDate visitDate) {
+    this.visitDate = visitDate;
   }
   
   //-------------------------------------------------------------------------------------------------------------------
   
-  public void setSize(DinosaurSize size) {
-    this.size = size;
+  public UUID getUuid() {
+    return uuid;
   }
   
   //-------------------------------------------------------------------------------------------------------------------
@@ -87,32 +90,31 @@ public sealed class Dinosaur permits AquaticDinosaur, FlyingDinosaur, Terrestria
     if (o == null || getClass() != o.getClass()) return false;
     if (this == o) return true;
     
-    Dinosaur dinosaur = (Dinosaur) o;
-    return (age == dinosaur.age &&
-        name.equals(dinosaur.name) &&
-        type == dinosaur.type &&
-        species == dinosaur.species &&
-        size == dinosaur.size
-    );
+    Ticket ticket = (Ticket) o;
+    return (Double.compare(price, ticket.price) == 0 &&
+        Objects.equals(uuid, ticket.uuid) &&
+        ticketType == ticket.ticketType &&
+        visitor.equals(ticket.visitor) &&
+        Objects.equals(visitDate, ticket.visitDate));
   }
   
   //-------------------------------------------------------------------------------------------------------------------
   
   @Override
   public int hashCode() {
-    return Objects.hash(name, age, type, species, size);
+    return Objects.hash(uuid, ticketType, price, visitor, visitDate);
   }
   
   //-------------------------------------------------------------------------------------------------------------------
   
   @Override
   public String toString() {
-    return "Dinosaur [" +
-        "name=" + name +
-        ", age=" + age +
-        ", type=" + type.name() +
-        ", species=" + species +
-        ", size=" + size +
+    return "Ticket [" +
+        "uuid=" + uuid.toString() +
+        ", ticketType=" + ticketType.name() +
+        ", price=" + price +
+        ", visitor=" + visitor +
+        ", visitDate=" + visitDate +
         "]";
   }
   

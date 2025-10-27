@@ -2,7 +2,7 @@ package chapter9.project;
 
 import java.util.Objects;
 
-public class Vet extends Employee {
+public non-sealed class Vet extends Employee {
 
   private String specialty;
   

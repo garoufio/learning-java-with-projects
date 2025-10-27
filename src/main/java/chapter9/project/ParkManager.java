@@ -2,7 +2,7 @@ package chapter9.project;
 
 import java.util.Objects;
 
-public class ParkManager extends Employee {
+public non-sealed class ParkManager extends Employee {
   
   private boolean hasDrivingLicense;
   

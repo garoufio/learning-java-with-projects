@@ -3,7 +3,7 @@ package chapter9.project;
 import java.util.Objects;
 import java.util.UUID;
 
-public class Employee {
+public sealed class Employee permits Curator, ParkManager, Vet {
   
   private UUID uuid;
   private String name;
@@ -65,8 +65,8 @@ public class Employee {
   
   @Override
   public boolean equals(Object o) {
-    if (this == o) return true;
     if (o == null || getClass() != o.getClass()) return false;
+    if (this == o) return true;
     
     Employee employee = (Employee) o;
     return (yearsOfExperience == employee.yearsOfExperience &&

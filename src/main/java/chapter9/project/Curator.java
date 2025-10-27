@@ -3,7 +3,7 @@ package chapter9.project;
 import java.util.Arrays;
 import java.util.Objects;
 
-public class Curator extends Employee {
+public non-sealed class Curator extends Employee {
 
   private DinosaurSpecies[] species;
   
