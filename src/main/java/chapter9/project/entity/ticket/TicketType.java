@@ -1,4 +1,4 @@
-package chapter9.project;
+package chapter9.project.entity.ticket;
 
 public enum TicketType {
   INFANT(0),
@@ -9,10 +9,11 @@ public enum TicketType {
   SCHOOL(5),
   FORBIDDEN(0),
   VIP(18),
-  SEASON_3(30),
-  SEASON_6(55),
-  SEASON_8(70),
-  SEASON_12(100);
+  ALL_DAY(22),
+  SEASON_3(50),
+  SEASON_6(100),
+  SEASON_8(130),
+  SEASON_12(170);
   
   //-------------------------------------------------------------------------------------------------------------------
   

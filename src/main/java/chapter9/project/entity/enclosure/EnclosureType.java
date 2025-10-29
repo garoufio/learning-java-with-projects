@@ -1,4 +1,4 @@
-package chapter9.project;
+package chapter9.project.entity.enclosure;
 
 public enum EnclosureType {
   RAPTORS_PARK, FLYING_CAGE, POOL_PARK, FREE_PARK, CENTRAL_BUILDING,

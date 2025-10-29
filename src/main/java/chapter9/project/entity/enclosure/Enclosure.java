@@ -1,6 +1,9 @@
-package chapter9.project;
+package chapter9.project.entity.enclosure;
 
 import chapter8.project.Project;
+import chapter9.project.entity.SafetyLevel;
+import chapter9.project.entity.dinosaur.Dinosaur;
+import chapter9.project.entity.employee.Employee;
 
 import java.util.Arrays;
 import java.util.Objects;

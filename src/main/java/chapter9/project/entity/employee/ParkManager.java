@@ -1,4 +1,4 @@
-package chapter9.project;
+package chapter9.project.entity.employee;
 
 import java.util.Objects;
 

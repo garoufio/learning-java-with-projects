@@ -1,38 +1,28 @@
-package chapter9.project;
+package chapter9.project.entity.employee;
 
-import java.util.Arrays;
 import java.util.Objects;
 
-public non-sealed class Curator extends Employee {
+public non-sealed class Vet extends Employee {
 
-  private DinosaurSpecies[] species;
+  private String specialty;
   
   //-------------------------------------------------------------------------------------------------------------------
   
-  public Curator(String name, int yearsOfExperience, DinosaurSpecies... species) {
-    super(name, JobTitle.CURATOR, yearsOfExperience);
-    copySpecies(species);
+  public Vet(String name, int yearsOfExperience, String specialty) {
+    super(name, JobTitle.VETERINARIAN, yearsOfExperience);
+    this.specialty = specialty;
   }
   
   //-------------------------------------------------------------------------------------------------------------------
   
-  public DinosaurSpecies[] getSpecies() {
-    return species;
+  public String getSpecialty() {
+    return specialty;
   }
   
   //-------------------------------------------------------------------------------------------------------------------
   
-  public void setSpecies(DinosaurSpecies... species) {
-    copySpecies(species);
-  }
-  
-  //-------------------------------------------------------------------------------------------------------------------
-  
-  private void copySpecies(DinosaurSpecies... species) {
-    if (species == null) return;
-    
-    this.species = new DinosaurSpecies[species.length];
-    System.arraycopy(species, 0, this.species, 0, species.length);
+  public void setSpecialty(String specialty) {
+    this.specialty = specialty;
   }
   
   //-------------------------------------------------------------------------------------------------------------------
@@ -41,10 +31,9 @@ public non-sealed class Curator extends Employee {
   public boolean equals(Object o) {
     if (!super.equals(o)) return false;
     
-    Employee e = (Employee) o;
-    if (e instanceof Curator c) {
-      return Arrays.equals(species, c.species);
-    }
+    Employee employee = (Employee) o;
+    if (employee instanceof Vet v) return specialty.equals(v.specialty);
+    
     return false;
   }
   
@@ -52,18 +41,18 @@ public non-sealed class Curator extends Employee {
   
   @Override
   public int hashCode() {
-    return Objects.hash(getName(), getYearsOfExperience(), Arrays.hashCode(species));
+    return Objects.hash(getName(), getYearsOfExperience(), specialty);
   }
   
   //-------------------------------------------------------------------------------------------------------------------
   
   @Override
   public String toString() {
-    return "Curator: [" +
+    return "Veterinarian: [" +
         "name=" + getName() + ", " +
         "jobTitle=" + getJobTitle().name() +
         ", yearsOfExperience=" + getYearsOfExperience() +
-        ", species=" + Arrays.toString(species) +
+        ",  specialty=" + specialty +
         "]";
   }
   

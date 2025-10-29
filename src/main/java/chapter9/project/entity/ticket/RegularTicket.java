@@ -1,4 +1,4 @@
-package chapter9.project;
+package chapter9.project.entity.ticket;
 
 import java.time.LocalDate;
 import java.util.Objects;
@@ -12,11 +12,7 @@ public non-sealed class RegularTicket extends Ticket {
   
   public RegularTicket(TicketType ticketType, Visitor visitor, LocalDate visitDate, boolean reserveParking) {
     super(ticketType, visitor, visitDate);
-    this.reserveParking = reserveParking;
-    if (this.reserveParking) {
-      double price = this.getPrice();
-      this.setPrice(price + PARKING_RESERVATION_FEE);
-    }
+    setReservedParking(reserveParking);
   }
   
   //-------------------------------------------------------------------------------------------------------------------

@@ -1,4 +1,4 @@
-package chapter9.project;
+package chapter9.project.entity.ticket;
 
 import java.time.LocalDate;
 import java.util.Objects;
@@ -13,6 +13,7 @@ public non-sealed class SeasonTicket extends Ticket {
   public SeasonTicket(TicketType ticketType, Visitor visitor, LocalDate fromDate) {
     super(ticketType, visitor);
     this.fromDate = fromDate;
+    this.setVisitDate(fromDate);
     initToDate();
   }
   
@@ -25,8 +26,9 @@ public non-sealed class SeasonTicket extends Ticket {
       case SEASON_8 -> this.toDate = fromDate.plusMonths(8);
       case SEASON_12 -> this.toDate = fromDate.plusYears(1);
       default ->  {
-        System.out.println("Invalid season ticket type" + this.getTicketType());
+        System.out.println("Invalid season ticket type. Ticket type changed to daily ticket." + this.getTicketType());
         this.toDate = fromDate;
+        this.setTicketType(TicketType.ALL_DAY);
       }
     }
   }

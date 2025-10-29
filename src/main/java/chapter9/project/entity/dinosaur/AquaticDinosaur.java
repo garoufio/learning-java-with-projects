@@ -1,35 +1,49 @@
-package chapter9.project;
+package chapter9.project.entity.dinosaur;
 
 import java.util.Objects;
 
-public non-sealed class TerrestrialDinosaur extends Dinosaur {
-  
-  int maxSpeed;   // max running speed
+public non-sealed class AquaticDinosaur extends Dinosaur {
+
+  private int maxDepth;   // max diving depth in meters
+  private boolean isAmphibious;
   
   //-------------------------------------------------------------------------------------------------------------------
   
-  public TerrestrialDinosaur(
+  public AquaticDinosaur(
       String name,
       int age,
       DinosaurType type,
-      DinosaurSpecies species,
       DinosaurSize size,
-      int maxSpeed
+      int maxDepth,
+      boolean isAmphibious
   ) {
-    super(name, age, type, species, size);
-    this.maxSpeed = maxSpeed;
+    super(name, age, type, DinosaurSpecies.PLIOSAURS, size);
+    setMaxDepth(maxDepth);
+    this.isAmphibious = isAmphibious;
   }
   
   //-------------------------------------------------------------------------------------------------------------------
   
-  public int getMaxSpeed() {
-    return maxSpeed;
+  public int getMaxDepth() {
+    return maxDepth;
   }
   
   //-------------------------------------------------------------------------------------------------------------------
   
-  public void setMaxSpeed(int maxSpeed) {
-    this.maxSpeed = maxSpeed;
+  public void setMaxDepth(int maxDepth) {
+    this.maxDepth = maxDepth > 0 ? maxDepth : 0;
+  }
+  
+  //-------------------------------------------------------------------------------------------------------------------
+  
+  public boolean isAmphibious() {
+    return isAmphibious;
+  }
+  
+  //-------------------------------------------------------------------------------------------------------------------
+  
+  public void setAmphibious(boolean amphibious) {
+    isAmphibious = amphibious;
   }
   
   //-------------------------------------------------------------------------------------------------------------------
@@ -39,8 +53,9 @@ public non-sealed class TerrestrialDinosaur extends Dinosaur {
     if (!super.equals(o)) return false;
     
     Dinosaur dinosaur = (Dinosaur) o;
-    if (dinosaur instanceof TerrestrialDinosaur t) {
-      return maxSpeed == t.maxSpeed;
+    if (dinosaur instanceof AquaticDinosaur a) {
+      return maxDepth == a.maxDepth &&
+          isAmphibious == a.isAmphibious;
     }
     return false;
   }
@@ -49,23 +64,24 @@ public non-sealed class TerrestrialDinosaur extends Dinosaur {
   
   @Override
   public int hashCode() {
-    return Objects.hash(getName(), getAge(), getType(), getSpecies(), getSize(), maxSpeed);
+    return Objects.hash(getName(), getAge(), getType(), getSpecies(), getSize(), maxDepth, isAmphibious);
   }
   
   //-------------------------------------------------------------------------------------------------------------------
   
   @Override
   public String toString() {
-    return "TerrestrialDinosaur [" +
+    return "AquaticDinosaur [" +
         "name=" + getName() +
-        ", age=" + getAge() +
+        ", age=" + getAge() + ", " +
         ", type=" + getType().name() +
         ", species=" + getSpecies().name() +
         ", size=" + getSize().name() +
-        ", maxSpeed=" + maxSpeed +
+        ", maxDepth=" + maxDepth +
+        ", isAmphibious=" + isAmphibious +
         "]";
   }
   
   //-------------------------------------------------------------------------------------------------------------------
-  
+
 }

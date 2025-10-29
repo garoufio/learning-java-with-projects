@@ -1,4 +1,4 @@
-package chapter9.project;
+package chapter9.project.entity.dinosaur;
 
 public enum DinosaurSpecies {
   TYRANNOSAURUS, TRICERATOPS, VELOCIRAPTOR, STEGOSAURUS,  BRACHIOSAURUS,
