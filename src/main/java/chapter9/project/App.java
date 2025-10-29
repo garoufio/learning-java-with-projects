@@ -1,5 +1,9 @@
 package chapter9.project;
 
+import chapter9.project.entity.employee.Employee;
+import chapter9.project.entity.employee.ParkManager;
+import chapter9.project.entity.employee.Vet;
+
 public class App {
   
   public static void main(String[] args) {
