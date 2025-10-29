@@ -1,4 +1,4 @@
-package chapter8.project;
+package chapter8.project.entity;
 
 public enum EventType {
   SCHOOL(20),

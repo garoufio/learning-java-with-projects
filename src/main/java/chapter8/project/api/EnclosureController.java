@@ -1,4 +1,10 @@
-package chapter8.project;
+package chapter8.project.api;
+
+import chapter8.project.service.EnclosureService;
+import chapter8.project.entity.EnclosureType;
+import chapter8.project.entity.DinosaurSpecies;
+import chapter8.project.entity.DinosaurType;
+import chapter8.project.entity.Enclosure;
 
 import java.util.Scanner;
 

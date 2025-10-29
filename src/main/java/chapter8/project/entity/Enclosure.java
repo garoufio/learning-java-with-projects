@@ -1,4 +1,6 @@
-package chapter8.project;
+package chapter8.project.entity;
+
+import chapter8.project.Project;
 
 import java.util.Arrays;
 import java.util.Objects;

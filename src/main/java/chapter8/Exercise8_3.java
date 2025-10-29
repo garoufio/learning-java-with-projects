@@ -1,6 +1,6 @@
 package chapter8;
 
-import chapter8.project.*;
+import chapter8.project.entity.*;
 
 public class Exercise8_3 {
   

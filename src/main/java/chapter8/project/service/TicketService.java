@@ -1,4 +1,8 @@
-package chapter8.project;
+package chapter8.project.service;
+
+import chapter8.project.entity.TicketType;
+import chapter8.project.entity.Visitor;
+import chapter8.project.entity.Ticket;
 
 import java.time.LocalDate;
 import java.util.Arrays;

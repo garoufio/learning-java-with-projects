@@ -1,4 +1,7 @@
-package chapter8.project;
+package chapter8.project.service;
+
+import chapter8.project.entity.JobTitle;
+import chapter8.project.entity.Employee;
 
 import java.util.Arrays;
 

@@ -1,4 +1,4 @@
-package chapter8.project;
+package chapter8.project.entity;
 
 import java.util.Objects;
 import java.util.UUID;

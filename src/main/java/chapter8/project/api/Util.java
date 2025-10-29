@@ -1,4 +1,6 @@
-package chapter8.project;
+package chapter8.project.api;
+
+import chapter8.project.entity.*;
 
 import java.time.LocalDate;
 import java.time.LocalTime;

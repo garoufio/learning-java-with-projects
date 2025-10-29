@@ -1,4 +1,8 @@
-package chapter8.project;
+package chapter8.project.service;
+
+import chapter8.project.Project;
+import chapter8.project.entity.EventType;
+import chapter8.project.entity.SpecialEvent;
 
 import java.time.LocalDate;
 import java.util.Arrays;

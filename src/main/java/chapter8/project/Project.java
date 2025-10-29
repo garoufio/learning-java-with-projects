@@ -1,5 +1,9 @@
 package chapter8.project;
 
+import chapter8.project.api.*;
+import chapter8.project.entity.*;
+import chapter8.project.service.*;
+
 import java.util.Scanner;
 
 public class Project {

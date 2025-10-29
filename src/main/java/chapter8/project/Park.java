@@ -1,5 +1,10 @@
 package chapter8.project;
 
+import chapter8.project.entity.Dinosaur;
+import chapter8.project.entity.Employee;
+import chapter8.project.entity.Enclosure;
+import chapter8.project.entity.Ticket;
+
 import java.time.LocalTime;
 import java.util.Arrays;
 

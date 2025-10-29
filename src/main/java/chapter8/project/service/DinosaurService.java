@@ -1,4 +1,8 @@
-package chapter8.project;
+package chapter8.project.service;
+
+import chapter8.project.entity.Dinosaur;
+import chapter8.project.entity.DinosaurSpecies;
+import chapter8.project.entity.DinosaurType;
 
 import java.util.Arrays;
 
