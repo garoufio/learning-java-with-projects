@@ -1,45 +1,27 @@
 package chapter9.project.entity.enclosure;
 
-import chapter8.project.Project;
-import chapter9.project.entity.SafetyLevel;
+import chapter9.project.App;
 import chapter9.project.entity.dinosaur.Dinosaur;
 import chapter9.project.entity.employee.Employee;
 
-import java.util.Arrays;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 public class Enclosure {
   
   private EnclosureType enclosureType;
   private SafetyLevel safetyLevel;
-  private Dinosaur[] dinosaurs;
-  private Employee[] employees;
+  private List<Dinosaur> dinosaurs;
+  private List<Employee> employees;
   
   //-------------------------------------------------------------------------------------------------------------------
   
-  public Enclosure(EnclosureType enclosureType, SafetyLevel safetyLevel, Dinosaur[] dinosaurs) {
+  public Enclosure(EnclosureType enclosureType, SafetyLevel safetyLevel, List<Dinosaur> dinosaurs, List<Employee> employees) {
     this.enclosureType = enclosureType;
     this.safetyLevel = safetyLevel;
-    this.dinosaurs = dinosaurs;
-    this.employees = new Employee[Project.MAX_EMPLOYEES];
-  }
-  
-  //-------------------------------------------------------------------------------------------------------------------
-  
-  public Enclosure(EnclosureType enclosureType, SafetyLevel safetyLevel, Employee[] employees) {
-    this.enclosureType = enclosureType;
-    this.safetyLevel = safetyLevel;
-    this.employees = employees;
-    this.dinosaurs = new Dinosaur[Project.MAX_DINOSAURS];
-  }
-  
-  //-------------------------------------------------------------------------------------------------------------------
-  
-  public Enclosure(EnclosureType enclosureType, SafetyLevel safetyLevel, Dinosaur[] dinosaurs, Employee[] employees) {
-    this.enclosureType = enclosureType;
-    this.safetyLevel = safetyLevel;
-    this.dinosaurs = dinosaurs;
-    this.employees = employees;
+    setDinosaurs(dinosaurs);
+    setEmployees(employees);
   }
   
   //-------------------------------------------------------------------------------------------------------------------
@@ -56,90 +38,72 @@ public class Enclosure {
   
   //-------------------------------------------------------------------------------------------------------------------
   
-  public Dinosaur[] getDinosaurs() {
+  public List<Dinosaur> getDinosaurs() {
     return dinosaurs;
   }
   
   //-------------------------------------------------------------------------------------------------------------------
   
-  public void setDinosaurs(Dinosaur... dinosaurs) {
-    this.dinosaurs = dinosaurs;
+  public void setDinosaurs(List<Dinosaur> dinosaurs) {
+    if (dinosaurs == null || dinosaurs.size() > App.MAX_DINOSAURS) this.dinosaurs = new ArrayList<>();
+    else this.dinosaurs = dinosaurs;
   }
   
   //-------------------------------------------------------------------------------------------------------------------
   
   public boolean addDinosaur(Dinosaur dinosaur) {
-    if (dinosaur == null) return false;
-    if (this.dinosaurs == null) this.dinosaurs = new Dinosaur[Project.MAX_DINOSAURS];
+    if (this.dinosaurs == null || dinosaur == null) return false;
+    if (this.dinosaurs.contains(dinosaur)) {
+      System.out.printf("Dinosaur '%s' already exists\n", dinosaur);
+      return false;
+    }
+    if (this.dinosaurs.size() == App.MAX_DINOSAURS) {
+      System.out.println("The park cannot accept any more dinosaurs");
+      return false;
+    }
     
-    int index = -1;
-    for (int i = 0; i < this.dinosaurs.length; i++) {
-      if (this.dinosaurs[i] == null) {
-        index = i;
-        break;
-      }
+    if (!this.getEnclosureType().getDinosaurSpecies().contains(dinosaur.getSpecies())) {
+      System.out.println("The enclosure cannot accept a dinosaurs of species " + dinosaur.getSpecies());
+      return false;
     }
-    if (index > -1) {
-      this.dinosaurs[index] = dinosaur;
-    } else {
-      if (this.dinosaurs.length + 1 <= Project.MAX_DINOSAURS) {
-        Dinosaur[] dinosaurs = new Dinosaur[this.dinosaurs.length + 1];
-        for (int i = 0; i < this.dinosaurs.length; i++) {
-          dinosaurs[i] = this.dinosaurs[i];
-        }
-        dinosaurs[dinosaurs.length - 1] = dinosaur;
-        this.dinosaurs = dinosaurs;
-        return true;
-      }
-      else {
-        System.out.println("The enclosure cannot accept any more dinosaurs.");
-      }
-    }
-    return false;
+    this.dinosaurs.add(dinosaur);
+    
+    return true;
   }
   
   //-------------------------------------------------------------------------------------------------------------------
   
-  public Employee[] getEmployees() {
+  public List<Employee> getEmployees() {
     return this.employees;
   }
   
   //-------------------------------------------------------------------------------------------------------------------
   
-  public void setEmployees(Employee... employees) {
-    this.employees = employees;
+  public void setEmployees(List<Employee> employees) {
+    if (employees == null || employees.size() > App.MAX_EMPLOYEES) this.employees = new ArrayList<>();
+    else this.employees = employees;
   }
   
   //-------------------------------------------------------------------------------------------------------------------
   
   public boolean addEmployee(Employee employee) {
-    if (employee == null) return false;
-    if (this.employees == null) this.employees = new Employee[Project.MAX_EMPLOYEES];
+    if (this.employees == null || employee == null) return false;
+    if (this.employees.contains(employee)) {
+      System.out.printf("Employee '%s' already exists\n", employee);
+      return false;
+    }
+    if (this.employees.size() == App.MAX_EMPLOYEES) {
+      System.out.println("The park cannot accept any more employees");
+      return false;
+    }
     
-    int index = -1;
-    for (int i = 0; i < this.employees.length; i++) {
-      if (this.employees[i] == null) {
-        index = i;
-        break;
-      }
+    if (!this.getEnclosureType().getEmployees().contains(employee.getJobTitle())) {
+      System.out.println("The enclosure cannot accept an employee with job title " + employee.getJobTitle());
+      return false;
     }
-    if (index > -1) {
-      this.employees[index] = employee;
-    } else {
-      if (this.employees.length + 1 <= Project.MAX_EMPLOYEES) {
-        Employee[] employees = new Employee[this.employees.length + 1];
-        for (int i = 0; i < this.employees.length; i++) {
-          employees[i] = this.employees[i];
-        }
-        employees[employees.length - 1] = employee;
-        this.employees = employees;
-        return true;
-      }
-      else {
-        System.out.println("The enclosure cannot accept any more employees.");
-      }
-    }
-    return false;
+    this.employees.add(employee);
+    
+    return true;
   }
   
   //-------------------------------------------------------------------------------------------------------------------
@@ -156,23 +120,40 @@ public class Enclosure {
   
   //-------------------------------------------------------------------------------------------------------------------
   
+  private boolean compareDinosaurLists(List<Dinosaur> dinosaurs) {
+    if (this.dinosaurs == null || dinosaurs == null) return false;
+    if (this.dinosaurs.size() != dinosaurs.size()) return false;
+    
+    return this.dinosaurs.containsAll(dinosaurs);
+  }
+  
+  //-------------------------------------------------------------------------------------------------------------------
+  
+  private boolean compareEmployeeLists(List<Employee> employees) {
+    if (this.employees == null || employees == null) return false;
+    if (this.employees.size() != employees.size()) return false;
+    
+    return this.employees.containsAll(employees);
+  }
+  
+  //-------------------------------------------------------------------------------------------------------------------
+  
   @Override
   public boolean equals(Object o) {
     if (o == null || getClass() != o.getClass()) return false;
-    if (this == o) return true;
-    
     Enclosure enclosure = (Enclosure) o;
-    return (enclosureType == enclosure.getEnclosureType() &&
+    
+    return enclosureType == enclosure.enclosureType &&
         safetyLevel == enclosure.safetyLevel &&
-        Arrays.deepEquals(dinosaurs, enclosure.dinosaurs) &&
-        Arrays.deepEquals(employees, enclosure.employees));
+        compareDinosaurLists(enclosure.dinosaurs) &&
+        compareEmployeeLists(enclosure.employees);
   }
   
   //-------------------------------------------------------------------------------------------------------------------
   
   @Override
   public int hashCode() {
-    return Objects.hash(enclosureType, safetyLevel, Arrays.hashCode(dinosaurs), Arrays.hashCode(employees));
+    return Objects.hash(enclosureType, safetyLevel, dinosaurs, employees);
   }
   
   //-------------------------------------------------------------------------------------------------------------------

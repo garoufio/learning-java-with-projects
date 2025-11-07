@@ -1,5 +1,6 @@
 package chapter9.project.api;
 
+import chapter9.project.entity.enclosure.SafetyLevel;
 import chapter9.project.entity.dinosaur.*;
 import chapter9.project.entity.employee.*;
 import chapter9.project.entity.enclosure.*;
@@ -78,6 +79,8 @@ public class Util {
         case 6 -> DinosaurSpecies.SPINOSAURUS;
         case 7 -> DinosaurSpecies.PARASAUROLOPHUS;
         case 8 -> DinosaurSpecies.ANKYLOSAURUS;
+        case 9 -> DinosaurSpecies.PTEROSAUR;
+        case 10 -> DinosaurSpecies.PLIOSAURS;
         default -> {
           System.out.println("Invalid choice. Please try again.");
           yield null;
@@ -86,6 +89,32 @@ public class Util {
     } while (species == null);
     
     return species;
+  }
+  
+  //-------------------------------------------------------------------------------------------------------------------
+  
+  protected static DinosaurSize readDinosaurSize(Scanner sc) {
+    DinosaurSize size = null;
+    do {
+      System.out.println("Select the dinosaur size: ");
+      int count = 1;
+      for (DinosaurSize s : DinosaurSize.values()) {
+        System.out.printf("%d. %s\n", count++, s.name());
+      }
+      System.out.print("Enter your choice: ");
+      int choice = sc.nextInt();
+      size = switch (choice) {
+        case 1 -> DinosaurSize.SMALL;
+        case 2 -> DinosaurSize.MEDIUM;
+        case 3 -> DinosaurSize.BIG;
+        default -> {
+          System.out.println("Invalid choice. Please try again.");
+          yield null;
+        }
+      };
+    } while (size == null);
+    
+    return size;
   }
   
   //-------------------------------------------------------------------------------------------------------------------
@@ -130,6 +159,11 @@ public class Util {
         case 6 -> TicketType.SCHOOL;
         case 7 -> TicketType.FORBIDDEN;
         case 8 -> TicketType.VIP;
+        case 9 -> TicketType.ALL_DAY;
+        case 10 -> TicketType.SEASON_3;
+        case 11 -> TicketType.SEASON_6;
+        case 12 -> TicketType.SEASON_8;
+        case 13 -> TicketType.SEASON_12;
         default -> {
           System.out.println("Invalid choice for ticket type. Please try again.");
           yield null;
@@ -208,6 +242,8 @@ public class Util {
         case 12 -> JobTitle.FINANCE_MANAGER;
         case 13 -> JobTitle.EDUCATOR;
         case 14 -> JobTitle.ZOOLOGIST;
+        case 15 -> JobTitle.SECURITY_OFFICER;
+        case 16 -> JobTitle.PARK_MANAGER;
         default -> {
           System.out.println("Invalid choice for Job Title type. Please try again.");
           yield null;
@@ -222,7 +258,7 @@ public class Util {
   // Enclosures
   //-------------------------------------------------------------------------------------------------------------------
   
-  protected static EnclosureType readEnclosureType(Scanner sc) {
+  protected static EnclosureType  readEnclosureType(Scanner sc) {
     EnclosureType enclosureType = null;
     do {
       System.out.println("Select the enclosure type: ");
@@ -237,6 +273,12 @@ public class Util {
         case 2 -> EnclosureType.FLYING_CAGE;
         case 3 -> EnclosureType.POOL_PARK;
         case 4 -> EnclosureType.FREE_PARK;
+        case 5 -> EnclosureType.CENTRAL_BUILDING;
+        case 6 -> EnclosureType.TICKETS_KIOSK;
+        case 7 -> EnclosureType.VET_CENTER;
+        case 8 -> EnclosureType.FOOD_STORE;
+        case 9 -> EnclosureType.PARKING_LOT;
+        case 10 -> EnclosureType.SURVEILLANCE_BUILDING;
         default -> {
           System.out.println("Invalid choice for enclosure type. Please try again.");
           yield null;
@@ -245,6 +287,34 @@ public class Util {
     } while (enclosureType == null);
     
     return enclosureType;
+  }
+  
+  //-------------------------------------------------------------------------------------------------------------------
+  
+  protected static SafetyLevel  readSafetyLevel(Scanner sc) {
+    SafetyLevel safetyLevel = null;
+    
+    do {
+      System.out.println("Select the safety level: ");
+      int count = 1;
+      for (SafetyLevel e : SafetyLevel.values()) {
+        System.out.printf("%d. %s\n", count++, e.name());
+      }
+      System.out.println("Enter your choice: ");
+      int choice = sc.nextInt();
+      safetyLevel = switch (choice) {
+        case 1 -> SafetyLevel.LOW;
+        case 2 -> SafetyLevel.MEDIUM;
+        case 3 -> SafetyLevel.HIGH;
+        case 4 -> SafetyLevel.EMERGENCY;
+        default -> {
+          System.out.println("Invalid choice for safety level. Please try again.");
+          yield null;
+        }
+      };
+    } while (safetyLevel == null);
+    
+    return safetyLevel;
   }
   
   //-------------------------------------------------------------------------------------------------------------------
@@ -265,7 +335,7 @@ public class Util {
   
   //-------------------------------------------------------------------------------------------------------------------
   
-    protected static String readSpecialEventField(Scanner sc, String field) {
+  protected static String readSpecialEventField(Scanner sc, String field) {
     System.out.printf("Enter event's %s: ", field);
     return sc.next();
   }
