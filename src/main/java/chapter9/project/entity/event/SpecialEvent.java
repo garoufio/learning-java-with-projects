@@ -4,9 +4,7 @@ import chapter9.project.entity.ticket.Ticket;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
-import java.util.Arrays;
-import java.util.Objects;
-import java.util.UUID;
+import java.util.*;
 
 public class SpecialEvent {
 
@@ -18,7 +16,7 @@ public class SpecialEvent {
   private String contactEmail;
   private LocalDate date;
   private LocalTime time;
-  private Ticket[] tickets;
+  private List<Ticket> tickets;
   private EventType eventType;
 
   //-------------------------------------------------------------------------------------------------------------------
@@ -135,14 +133,14 @@ public class SpecialEvent {
   
   //-------------------------------------------------------------------------------------------------------------------
   
-  public Ticket[] getTickets() {
+  public List<Ticket> getTickets() {
     return tickets;
   }
   
   //-------------------------------------------------------------------------------------------------------------------
   
-  public void setTickets(Ticket[] tickets) {
-    this.tickets = tickets;
+  public void setTickets(List<Ticket> tickets) {
+    this.tickets = tickets == null ? new ArrayList<>() : tickets;
   }
   
   //-------------------------------------------------------------------------------------------------------------------
@@ -181,7 +179,7 @@ public class SpecialEvent {
   public int hashCode() {
     return Objects.hash(
         uuid, name, description, contactNumber, contactName,
-        contactEmail, date, time, Arrays.hashCode(tickets), eventType
+        contactEmail, date, time, tickets.hashCode(), eventType
     );
   }
   
@@ -189,7 +187,8 @@ public class SpecialEvent {
   
   @Override
   public String toString() {
-    return "SpecialEvent [" +
+    StringBuilder sb = new StringBuilder();
+    sb.append("SpecialEvent [" +
         "id=" + uuid +
         ", name=" + name +
         ", description=" + description +
@@ -199,8 +198,17 @@ public class SpecialEvent {
         ", date=" + date +
         ", time=" + time +
         ", eventType=" + eventType +
-        ",\ntickets=" + Arrays.toString(tickets) +
-        "]";
+        ",\ntickets="
+    );
+    if (tickets == null || tickets.isEmpty()) {
+      sb.append("none");
+    } else {
+      for (Ticket t : tickets) {
+        sb.append("\n" + t.toString());
+      }
+    }
+    sb.append("\n]");
+    return sb.toString();
   }
   
   //-------------------------------------------------------------------------------------------------------------------

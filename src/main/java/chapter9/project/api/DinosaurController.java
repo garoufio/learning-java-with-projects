@@ -102,13 +102,9 @@ public class DinosaurController {
       if (enclosure != null) {
         if (enclosure.addDinosaur(dinosaur)) {
           dinosaurService.addDinosaurs(dinosaur);
-          System.out.println("Dinosaur added!");
-          return;
-        }
-      }
-      else System.out.println("The selected enclosure does not exist in the park. Please try again.");
-    }
-    System.out.println("No dinosaur has been added!");
+        } else System.out.println("The dinosaur could not be added to this enclosure. Please try again");
+      } else System.out.println("The selected enclosure does not exist in the park. Please try again");
+    } else System.out.println("Invalid enclosure type. No dinosaur has been added\n");
   }
   
   //-------------------------------------------------------------------------------------------------------------------
@@ -134,51 +130,86 @@ public class DinosaurController {
         case 1 -> {
           String name = Util.readDinosaurName(sc);
           Dinosaur dinosaur = dinosaurService.getDinosaur(name);
-          if (dinosaur == null) System.out.printf("Dinosaur '%s' not found!\n", name);
-          else System.out.printf("Dinosaur found: '%s'\n", dinosaur.toString());
+          if (dinosaur == null) System.out.printf("Dinosaur '%s' not found\n", name);
+          else System.out.printf("Dinosaur found: '%s'\n", dinosaur);
         }
         case 2 -> {
           DinosaurType type = Util.readDinosaurType(sc);
           List<Dinosaur> dinosaurs = dinosaurService.getDinosaurs(type);
-          if (dinosaurs == null) System.out.printf("No dinosaur(s) found for type '%s'!\n", type.name());
+          if (dinosaurs.isEmpty()) System.out.printf("No dinosaur(s) found for type '%s'\n", type.name());
           else printDinosaurs(dinosaurs);
         }
         case 3 -> {
           DinosaurSpecies species = Util.readDinosaurSpecies(sc);
           List<Dinosaur> dinosaurs = dinosaurService.getDinosaurs(species);
-          if (dinosaurs == null) System.out.printf("No dinosaur(s) found for species '%s'!\n", species.name());
+          if (dinosaurs.isEmpty()) System.out.printf("No dinosaur(s) found for species '%s'\n", species.name());
           else printDinosaurs(dinosaurs);
         }
         case 4 -> {
+          DinosaurSize size = Util.readDinosaurSize(sc);
+          List<Dinosaur> dinosaurs = dinosaurService.getDinosaurs(size);
+          if (dinosaurs.isEmpty()) System.out.printf("No dinosaur(s) found for size '%s'\n", size.name());
+          else printDinosaurs(dinosaurs);
+        }
+        case 5 -> {
           String name = Util.readDinosaurName(sc);
           int age = Util.readDinosaurAge(sc);
           DinosaurType type = Util.readDinosaurType(sc);
           DinosaurSpecies species = Util.readDinosaurSpecies(sc);
           DinosaurSize size = Util.readDinosaurSize(sc);
           Dinosaur dinosaur = dinosaurService.getDinosaur(new Dinosaur(name, age, type, species, size));
-          if (dinosaur == null) System.out.println("Dinosaur not found!");
-          else System.out.printf("Dinosaur found: '%s'\n", dinosaur.toString());
+          if (dinosaur == null) System.out.println("Dinosaur not found");
+          else System.out.printf("Dinosaur found: '%s'\n", dinosaur);
         }
-        case 5 -> { break; }
-        default -> System.out.println("Invalid choice. Please try again.");
+        case 6 -> { }
+        default -> System.out.println("Invalid choice. Please try again");
       }
-      if (choice < 6) break;
+      if (choice > 0 && choice < 7) break;
     }
   }
   
   //-------------------------------------------------------------------------------------------------------------------
   
-  public void removeDinosaurFromEnclosure(Enclosure enclosure, Dinosaur dinosaur) {
+  private void removeDinosaurFromEnclosure(Enclosure enclosure, Dinosaur dinosaur) {
     if (enclosure == null) {
-      System.out.printf("The enclosure for dinosaur '%s' does not exist in the park\n", dinosaur.getName());
+      System.out.printf("The enclosure for dinosaur '%s' does not exist in the park\n", dinosaur);
     } else {
       if (enclosureService.removeDinosaurFromEnclosure(enclosure, dinosaur)) {
-        if (dinosaurService.removeDinosaur(dinosaur)) System.out.printf("Dinosaur '%s' removed\n", dinosaur);
-        else System.out.println("Dinosaur could not be removed from the Dinosaur's list!");
+        System.out.printf("Dinosaur '%s' removed from the enclosure '%s'\n", dinosaur, enclosure.getEnclosureType());
       } else {
-        System.out.println("Dinosaur could not be removed from the enclosure!");
+        System.out.printf("Dinosaur '%s' could not be removed from the enclosure\n", dinosaur);
       }
     }
+  }
+  
+  //-------------------------------------------------------------------------------------------------------------------
+  
+  public void removeDinosaurFromEnclosure(List<Enclosure> enclosures, Dinosaur dinosaur) {
+    if (enclosures == null || enclosures.isEmpty()) {
+      System.out.println("The enclosure(s) do not exist in the park\n");
+    } else {
+      for (Enclosure e : enclosures) {
+        removeDinosaurFromEnclosure(e, dinosaur);
+      }
+    }
+  }
+  
+  //-------------------------------------------------------------------------------------------------------------------
+  
+  private void removeDinosaur(Dinosaur dinosaur) {
+    if (dinosaur == null) {
+      System.out.println("Dinosaur not found");
+      return;
+    }
+    
+    // remove dinosaur from the list
+    if (dinosaurService.removeDinosaur(dinosaur)) {
+      System.out.println("Dinosaur removed");
+      // remove dinosaur from the related enclosure
+      List<Enclosure> enclosures = enclosureService.getEnclosure(dinosaur);
+      removeDinosaurFromEnclosure(enclosures, dinosaur);
+    }
+    else System.out.printf("Dinosaur '%s' could not be removed\n", dinosaur);
   }
   
   //-------------------------------------------------------------------------------------------------------------------
@@ -190,52 +221,54 @@ public class DinosaurController {
       switch (choice) {
         case 1 -> {
           String name = Util.readDinosaurName(sc);
-          Dinosaur dinosaur = dinosaurService.getDinosaur(name);
-          if (dinosaur == null) System.out.printf("Dinosaur '%s' not found!\n", name);
-          else {
-            Enclosure enclosure = enclosureService.getEnclosure(name);
-            removeDinosaurFromEnclosure(enclosure, dinosaur);
-          }
+          removeDinosaur(dinosaurService.getDinosaur(name));
         }
         case 2 -> {
           DinosaurType type = Util.readDinosaurType(sc);
           List<Dinosaur> dinosaurs = dinosaurService.getDinosaurs(type);
-          if (dinosaurs == null || dinosaurs.isEmpty()) {
-            System.out.printf("No dinosaur(s) found for type '%s'!\n", type.name());
+          if (dinosaurs.isEmpty()) {
+            System.out.printf("No dinosaur(s) found for type '%s'\n", type);
           } else {
             for (Dinosaur d : dinosaurs) {
-              Enclosure enclosure = enclosureService.getEnclosure(d.getName());
-              removeDinosaurFromEnclosure(enclosure, d);
+              removeDinosaur(d);
             }
           }
         }
         case 3 -> {
           DinosaurSpecies species = Util.readDinosaurSpecies(sc);
           List<Dinosaur> dinosaurs = dinosaurService.getDinosaurs(species);
-          if (dinosaurs == null || dinosaurs.isEmpty()) {
-            System.out.printf("No dinosaur(s) found for species '%s'!\n",  species.name());
+          if (dinosaurs.isEmpty()) {
+            System.out.printf("No dinosaur(s) found for species '%s'\n",  species.name());
           }
           else {
             for (Dinosaur d : dinosaurs) {
-              Enclosure enclosure = enclosureService.getEnclosure(d.getName());
-              removeDinosaurFromEnclosure(enclosure, d);
+              removeDinosaur(d);
             }
           }
         }
         case 4 -> {
+          DinosaurSize size = Util.readDinosaurSize(sc);
+          List<Dinosaur> dinosaurs = dinosaurService.getDinosaurs(size);
+          if (dinosaurs.isEmpty()) {
+            System.out.printf("No dinosaur(s) found for size '%s'\n", size.name());
+          } else {
+            for (Dinosaur d : dinosaurs) {
+              removeDinosaur(d);
+            }
+          }
+        }
+        case 5 -> {
           String name = Util.readDinosaurName(sc);
           int age = Util.readDinosaurAge(sc);
           DinosaurType type = Util.readDinosaurType(sc);
           DinosaurSpecies species = Util.readDinosaurSpecies(sc);
           DinosaurSize size = Util.readDinosaurSize(sc);
-          Dinosaur dinosaur = new Dinosaur(name, age, type, species, size);
-          Enclosure enclosure = enclosureService.getEnclosure(name);
-          removeDinosaurFromEnclosure(enclosure, dinosaur);
+          removeDinosaur(new Dinosaur(name, age, type, species, size));
         }
-        case 5 -> { break; }
-        default -> System.out.println("Invalid choice. Please try again.");
+        case 6 -> { }
+        default -> System.out.println("Invalid choice. Please try again");
       }
-      if (choice < 6) break;
+      if (choice > 0 && choice < 7) break;
     }
   }
   

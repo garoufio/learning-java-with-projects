@@ -82,7 +82,7 @@ public enum EnclosureType {
   
   private List<DinosaurSpecies> dinosaurSpecies;
   private List<JobTitle> employees;
-  
+
   //-------------------------------------------------------------------------------------------------------------------
   
   EnclosureType(List<JobTitle> employees) {
@@ -104,7 +104,7 @@ public enum EnclosureType {
   
   //-------------------------------------------------------------------------------------------------------------------
   
-  public List<JobTitle> getEmployees() {
+  public List<JobTitle> getEmployeeJobTitles() {
     return employees;
   }
   

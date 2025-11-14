@@ -10,6 +10,13 @@ public non-sealed class RegularTicket extends Ticket {
   
   //-------------------------------------------------------------------------------------------------------------------
   
+  public RegularTicket(TicketType ticketType, Visitor visitor, boolean reserveParking) {
+    super(ticketType, visitor);
+    setReservedParking(reserveParking);
+  }
+  
+  //-------------------------------------------------------------------------------------------------------------------
+  
   public RegularTicket(TicketType ticketType, Visitor visitor, LocalDate visitDate, boolean reserveParking) {
     super(ticketType, visitor, visitDate);
     setReservedParking(reserveParking);
@@ -57,7 +64,7 @@ public non-sealed class RegularTicket extends Ticket {
   
   @Override
   public String toString() {
-    return "Ticket [" +
+    return "Regular Ticket [" +
         "uuid=" + this.getUuid().toString() +
         ", ticketType=" + this.getTicketType() +
         ", price=" + this.getPrice() +

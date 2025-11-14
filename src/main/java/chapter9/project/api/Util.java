@@ -182,8 +182,7 @@ public class Util {
       String answer = sc.next();
       if (answer.equalsIgnoreCase("Y")) {
         return LocalDate.now();
-      }
-      else if (answer.equalsIgnoreCase("N")) {
+      } else if (answer.equalsIgnoreCase("N")) {
         System.out.print("Please enter a date: ");
         return LocalDate.parse(sc.next());
       }
@@ -197,6 +196,21 @@ public class Util {
     System.out.print("Enter ticket ID: ");
     String ticketID = sc.next();
     return UUID.fromString(ticketID);
+  }
+  
+  //-------------------------------------------------------------------------------------------------------------------
+  
+  protected static boolean reserveParkingSpot(Scanner sc) {
+    for (;;) {
+      System.out.print("Do you want to reserve a parking spot (Y/N)? ");
+      String answer = sc.next();
+      if (answer.equalsIgnoreCase("Y")) {
+        return true;
+      } else if (answer.equalsIgnoreCase("N")) {
+        return false;
+      }
+      System.out.println("Invalid choice. Please try again.");
+    }
   }
   
   //-------------------------------------------------------------------------------------------------------------------

@@ -45,8 +45,7 @@ public class Enclosure {
   //-------------------------------------------------------------------------------------------------------------------
   
   public void setDinosaurs(List<Dinosaur> dinosaurs) {
-    if (dinosaurs == null || dinosaurs.size() > App.MAX_DINOSAURS) this.dinosaurs = new ArrayList<>();
-    else this.dinosaurs = dinosaurs;
+    this.dinosaurs = (dinosaurs == null ? new ArrayList<>() : dinosaurs);
   }
   
   //-------------------------------------------------------------------------------------------------------------------
@@ -54,16 +53,16 @@ public class Enclosure {
   public boolean addDinosaur(Dinosaur dinosaur) {
     if (this.dinosaurs == null || dinosaur == null) return false;
     if (this.dinosaurs.contains(dinosaur)) {
-      System.out.printf("Dinosaur '%s' already exists\n", dinosaur);
+      System.out.printf("Dinosaur '%s' already exists in this enclosure\n", dinosaur);
       return false;
     }
-    if (this.dinosaurs.size() == App.MAX_DINOSAURS) {
+    if (this.dinosaurs.size() >= App.MAX_DINOSAURS) {
       System.out.println("The park cannot accept any more dinosaurs");
       return false;
     }
     
-    if (!this.getEnclosureType().getDinosaurSpecies().contains(dinosaur.getSpecies())) {
-      System.out.println("The enclosure cannot accept a dinosaurs of species " + dinosaur.getSpecies());
+    if (!this.enclosureType.getDinosaurSpecies().contains(dinosaur.getSpecies())) {
+      System.out.println("The enclosure cannot accept a dinosaur of species " + dinosaur.getSpecies());
       return false;
     }
     this.dinosaurs.add(dinosaur);
@@ -80,8 +79,7 @@ public class Enclosure {
   //-------------------------------------------------------------------------------------------------------------------
   
   public void setEmployees(List<Employee> employees) {
-    if (employees == null || employees.size() > App.MAX_EMPLOYEES) this.employees = new ArrayList<>();
-    else this.employees = employees;
+    this.employees = (employees == null ? new ArrayList<>() : employees);
   }
   
   //-------------------------------------------------------------------------------------------------------------------
@@ -89,7 +87,7 @@ public class Enclosure {
   public boolean addEmployee(Employee employee) {
     if (this.employees == null || employee == null) return false;
     if (this.employees.contains(employee)) {
-      System.out.printf("Employee '%s' already exists\n", employee);
+      System.out.printf("Employee '%s' already exists in this enclosure\n", employee);
       return false;
     }
     if (this.employees.size() == App.MAX_EMPLOYEES) {
@@ -97,7 +95,7 @@ public class Enclosure {
       return false;
     }
     
-    if (!this.getEnclosureType().getEmployees().contains(employee.getJobTitle())) {
+    if (!this.enclosureType.getEmployeeJobTitles().contains(employee.getJobTitle())) {
       System.out.println("The enclosure cannot accept an employee with job title " + employee.getJobTitle());
       return false;
     }
