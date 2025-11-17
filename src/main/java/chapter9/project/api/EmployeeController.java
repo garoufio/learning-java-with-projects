@@ -3,6 +3,7 @@ package chapter9.project.api;
 import chapter9.project.entity.employee.Employee;
 import chapter9.project.entity.employee.JobTitle;
 import chapter9.project.entity.enclosure.Enclosure;
+import chapter9.project.entity.enclosure.EnclosureType;
 import chapter9.project.service.EmployeeService;
 import chapter9.project.service.EnclosureService;
 
@@ -85,7 +86,18 @@ public class EmployeeController {
     // read job title
     JobTitle jobTitle = Util.readEmployeeJobTitle(sc);
     sc.nextLine();
-    employeeService.addEmployees(new Employee(name, jobTitle, yearsOfExperience));
+    Employee employee = new Employee(name, jobTitle, yearsOfExperience);
+    
+    // add employee into an eclosure
+    EnclosureType enclosureType = Util.readEnclosureType(sc);
+    if (enclosureType != null) {
+      Enclosure enclosure = enclosureService.getEnclosure(enclosureType);
+      if (enclosure != null) {
+        if (enclosure.addEmployee(employee)) {
+          employeeService.addEmployees(employee);
+        } else System.out.println("The employee could not be added to this enclosure. Please try again");
+      } else System.out.println("The selected enclosure does not exist in the park. Please try again");
+    } else System.out.println("Invalid enclosure type. No employee has been added\n");
   }
   
   //-------------------------------------------------------------------------------------------------------------------

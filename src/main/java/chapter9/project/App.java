@@ -138,39 +138,92 @@ public class App {
   
   //-------------------------------------------------------------------------------------------------------------------
   
+  private List<Employee> getEmployeesByEnclosure(EmployeeService employeeService, EnclosureType enclosureType) {
+    List<Employee> employees = new ArrayList<>();
+    for (JobTitle jobTitle : enclosureType.getEmployeeJobTitles()) {
+      for (Employee e : employeeService.getEmployees(jobTitle)) {
+        employees.add(e);
+      }
+    }
+    return employees;
+  }
+  
+  //-------------------------------------------------------------------------------------------------------------------
+  
+  private List<Dinosaur> getDinosaursByEnclosure(DinosaurService dinosaurService, EnclosureType enclosureType) {
+    List<Dinosaur> dinosaurs = new ArrayList<>();
+    for (DinosaurSpecies dinosaurSpecies : enclosureType.getDinosaurSpecies()) {
+      for (Dinosaur d : dinosaurService.getDinosaurs(dinosaurSpecies)) {
+        dinosaurs.add(d);
+      }
+    }
+    return dinosaurs;
+  }
+  
+  //-------------------------------------------------------------------------------------------------------------------
+  
   private List<Enclosure> createEnclosures(DinosaurService dinosaurService, EmployeeService employeeService) {
     List<Enclosure> enclosures = new ArrayList<>();
 
-    List<Dinosaur> raptorsParkDinosaurs = new ArrayList<>();
-    EnclosureType raptorsPark = EnclosureType.RAPTORS_PARK;
-    for (DinosaurSpecies dinosaurSpecies : raptorsPark.getDinosaurSpecies()) {
-      for (Dinosaur d : dinosaurService.getDinosaurs(dinosaurSpecies)) {
-        raptorsParkDinosaurs.add(d);
-      }
-    }
-    List<Employee> raptorsParkEmployees = new ArrayList<>();
-    for (JobTitle jobTitle : raptorsPark.getEmployeeJobTitles()) {
-      for (Employee e : employeeService.getEmployees(jobTitle)) {
-        raptorsParkEmployees.add(e);
-      }
-    }
-    enclosures.add(new Enclosure(EnclosureType.RAPTORS_PARK, SafetyLevel.HIGH, raptorsParkDinosaurs, raptorsParkEmployees));
-    
-   EnclosureType freePark =  EnclosureType.FREE_PARK;
-   List<Dinosaur> freeParkDinosaurs = new ArrayList<>();
-   for (DinosaurSpecies dinosaurSpecies : freePark.getDinosaurSpecies()) {
-     for (Dinosaur d : dinosaurService.getDinosaurs(dinosaurSpecies)) {
-       freeParkDinosaurs.add(d);
-     }
-   }
-   List<Employee> freeParkEmployees = new ArrayList<>();
-   for (JobTitle jobTitle : freePark.getEmployeeJobTitles()) {
-     for (Employee e : employeeService.getEmployees(jobTitle)) {
-       freeParkEmployees.add(e);
-     }
-   }
-   enclosures.add(new Enclosure(freePark, SafetyLevel.MEDIUM, freeParkDinosaurs, freeParkEmployees));
-   
+    // add Raptors Park enclosure and the related dinosaurs and employees
+    enclosures.add(new Enclosure(
+        EnclosureType.RAPTORS_PARK,
+        SafetyLevel.HIGH,
+        getDinosaursByEnclosure(dinosaurService, EnclosureType.RAPTORS_PARK),
+        getEmployeesByEnclosure(employeeService, EnclosureType.RAPTORS_PARK)
+        )
+    );
+    // add Free Park enclosure and the related dinosaurs and employees
+   enclosures.add(new Enclosure(
+       EnclosureType.FREE_PARK,
+       SafetyLevel.MEDIUM,
+       getDinosaursByEnclosure(dinosaurService, EnclosureType.FREE_PARK),
+       getEmployeesByEnclosure(employeeService, EnclosureType.FREE_PARK)
+       )
+   );
+   // add Central Building enclosure and the related employees
+   enclosures.add(new Enclosure(
+           EnclosureType.CENTRAL_BUILDING,
+           SafetyLevel.LOW,
+           getDinosaursByEnclosure(dinosaurService, EnclosureType.CENTRAL_BUILDING),
+           getEmployeesByEnclosure(employeeService, EnclosureType.CENTRAL_BUILDING)
+       )
+   );
+   // add Tickets Kiosk enclosure and the related employees
+   enclosures.add(new Enclosure(
+       EnclosureType.TICKETS_KIOSK,
+       SafetyLevel.LOW,
+       getDinosaursByEnclosure(dinosaurService, EnclosureType.TICKETS_KIOSK),
+       getEmployeesByEnclosure(employeeService, EnclosureType.TICKETS_KIOSK)
+   ));
+   // add Vet Center enclosure and the related employees
+   enclosures.add(new Enclosure(
+      EnclosureType.VET_CENTER,
+      SafetyLevel.MEDIUM,
+      getDinosaursByEnclosure(dinosaurService, EnclosureType.VET_CENTER),
+      getEmployeesByEnclosure(employeeService, EnclosureType.VET_CENTER)
+   ));
+   // add Food Store enclosure and the related employees
+   enclosures.add(new Enclosure(
+      EnclosureType.FOOD_STORE,
+      SafetyLevel.LOW,
+      getDinosaursByEnclosure(dinosaurService, EnclosureType.FOOD_STORE),
+      getEmployeesByEnclosure(employeeService, EnclosureType.FOOD_STORE)
+   ));
+   // add Parking Lot enclosure and the related employees
+   enclosures.add(new Enclosure(
+       EnclosureType.PARKING_LOT,
+        SafetyLevel.LOW,
+        getDinosaursByEnclosure(dinosaurService, EnclosureType.PARKING_LOT),
+        getEmployeesByEnclosure(employeeService, EnclosureType.PARKING_LOT)
+   ));
+   // add Surveillance Building enclosure and the related employees
+    enclosures.add(new Enclosure(
+        EnclosureType.SURVEILLANCE_BUILDING,
+        SafetyLevel.MEDIUM,
+        getDinosaursByEnclosure(dinosaurService, EnclosureType.SURVEILLANCE_BUILDING),
+        getEmployeesByEnclosure(employeeService, EnclosureType.SURVEILLANCE_BUILDING)
+    ));
    return enclosures;
   }
   
