@@ -7,6 +7,7 @@ import chapter9.project.entity.enclosure.EnclosureType;
 import chapter9.project.service.EmployeeService;
 import chapter9.project.service.EnclosureService;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
@@ -88,16 +89,22 @@ public class EmployeeController {
     sc.nextLine();
     Employee employee = new Employee(name, jobTitle, yearsOfExperience);
     
-    // add employee into an eclosure
-    EnclosureType enclosureType = Util.readEnclosureType(sc);
-    if (enclosureType != null) {
-      Enclosure enclosure = enclosureService.getEnclosure(enclosureType);
-      if (enclosure != null) {
-        if (enclosure.addEmployee(employee)) {
-          employeeService.addEmployees(employee);
-        } else System.out.println("The employee could not be added to this enclosure. Please try again");
-      } else System.out.println("The selected enclosure does not exist in the park. Please try again");
-    } else System.out.println("Invalid enclosure type. No employee has been added\n");
+    // add employee to all the related enclosures
+    List<Enclosure> enclosures = enclosureService.getAllEnclosures();
+    if (enclosures.isEmpty()) {
+      System.out.printf("No enclosures found for employee job title '%s'. Employee cannot be added\n", jobTitle);
+      return;
+    }
+    for (Enclosure e : enclosures) {
+      if (e.getEnclosureType().getEmployeeJobTitles().contains(jobTitle)) {
+        if (e.addEmployee(employee)) {
+          System.out.printf("Employee '%s' added to enclosure '%s'\n", employee, e.getEnclosureType());
+        } else {
+          System.out.printf("Employee '%s' could not be added to enclosure '%s'\n", employee, e.getEnclosureType());
+        }
+      }
+    }
+    employeeService.addEmployees(employee);
   }
   
   //-------------------------------------------------------------------------------------------------------------------
