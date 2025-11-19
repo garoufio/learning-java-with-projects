@@ -8,7 +8,7 @@ import java.util.*;
 
 public class SpecialEvent {
 
-  private UUID uuid;
+  private final UUID uuid;
   private String name;
   private String description;
   private String contactNumber;

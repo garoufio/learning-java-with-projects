@@ -3,11 +3,9 @@ package chapter9.project.api;
 import chapter9.project.entity.employee.Employee;
 import chapter9.project.entity.employee.JobTitle;
 import chapter9.project.entity.enclosure.Enclosure;
-import chapter9.project.entity.enclosure.EnclosureType;
 import chapter9.project.service.EmployeeService;
 import chapter9.project.service.EnclosureService;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 

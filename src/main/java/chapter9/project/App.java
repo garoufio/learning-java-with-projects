@@ -141,9 +141,7 @@ public class App {
   private List<Employee> getEmployeesByEnclosure(EmployeeService employeeService, EnclosureType enclosureType) {
     List<Employee> employees = new ArrayList<>();
     for (JobTitle jobTitle : enclosureType.getEmployeeJobTitles()) {
-      for (Employee e : employeeService.getEmployees(jobTitle)) {
-        employees.add(e);
-      }
+      employees.addAll(employeeService.getEmployees(jobTitle));
     }
     return employees;
   }
@@ -153,9 +151,7 @@ public class App {
   private List<Dinosaur> getDinosaursByEnclosure(DinosaurService dinosaurService, EnclosureType enclosureType) {
     List<Dinosaur> dinosaurs = new ArrayList<>();
     for (DinosaurSpecies dinosaurSpecies : enclosureType.getDinosaurSpecies()) {
-      for (Dinosaur d : dinosaurService.getDinosaurs(dinosaurSpecies)) {
-        dinosaurs.add(d);
-      }
+      dinosaurs.addAll(dinosaurService.getDinosaurs(dinosaurSpecies));
     }
     return dinosaurs;
   }

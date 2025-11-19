@@ -208,8 +208,7 @@ public class EnclosureService {
     if (this.enclosures == null ||
         dinosaurName == null ||
         dinosaurType == null ||
-        dinosaurSpecies == null ||
-        dinosaurName == null
+        dinosaurSpecies == null
     ) return null;
     
     for (Enclosure e : this.enclosures) {

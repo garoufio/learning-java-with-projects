@@ -122,7 +122,10 @@ public class Enclosure {
     if (this.dinosaurs == null || dinosaurs == null) return false;
     if (this.dinosaurs.size() != dinosaurs.size()) return false;
     
-    return this.dinosaurs.containsAll(dinosaurs);
+    for (Dinosaur dinosaur : dinosaurs) {
+      if (!this.dinosaurs.contains(dinosaur)) return false;
+    }
+    return true;
   }
   
   //-------------------------------------------------------------------------------------------------------------------
@@ -131,7 +134,10 @@ public class Enclosure {
     if (this.employees == null || employees == null) return false;
     if (this.employees.size() != employees.size()) return false;
     
-    return this.employees.containsAll(employees);
+    for (Employee employee : employees) {
+      if (!this.employees.contains(employee)) return false;
+    }
+    return true;
   }
   
   //-------------------------------------------------------------------------------------------------------------------
@@ -159,17 +165,17 @@ public class Enclosure {
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("Enclosure [type=" + enclosureType.name() + ", [safetyLevel=" + safetyLevel.name());
+    sb.append("Enclosure [type=").append(enclosureType.name()).append(", [safetyLevel=").append(safetyLevel.name());
     if (dinosaurs != null) {
       sb.append(", \n\tdinosaurs:\n");
       for (Dinosaur d : dinosaurs) {
-        if (d != null) sb.append("\t" + d + "\n");
+        if (d != null) sb.append("\t").append(d).append("\n");
       }
     }
     if (employees != null) {
       sb.append(", \n\temployees:\n");
       for (Employee e : employees) {
-        if (e != null) sb.append("\t" + e + "\n");
+        if (e != null) sb.append("\t").append(e).append("\n");
       }
     }
     sb.append("]");

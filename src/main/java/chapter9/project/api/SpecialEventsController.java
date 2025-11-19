@@ -1,6 +1,4 @@
 package chapter9.project.api;
-
-import chapter9.project.api.Util;
 import chapter9.project.entity.event.*;
 import chapter9.project.entity.ticket.*;
 import chapter9.project.service.SpecialEventsService;
@@ -226,7 +224,7 @@ public class SpecialEventsController {
           if (specialEvent == null) System.out.println("No event found!");
           else System.out.printf("Event found: '%s'\n", specialEvent);
         }
-        case 7 -> { break; }
+        case 7 -> { }
         default -> System.out.println("Invalid choice. Please try again.");
       }
       if (choice < 8) break;
@@ -240,7 +238,7 @@ public class SpecialEventsController {
     
     List<Ticket> tickets = event.getTickets();
     if (specialEventsService.removeSpecialEvent(event)) {
-      ticketsService.removeTicket(tickets);
+      return ticketsService.removeTicket(tickets);
     }
     return false;
   }
@@ -340,7 +338,7 @@ public class SpecialEventsController {
             else System.out.println("Unable to remove event");
           }
         }
-        case 7 -> { break; }
+        case 7 -> { }
         default -> System.out.println("Invalid choice. Please try again.");
       }
       if (choice > 0 && choice < 8) break;
