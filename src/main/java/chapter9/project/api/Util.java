@@ -19,9 +19,9 @@ public class Util {
   //-------------------------------------------------------------------------------------------------------------------
   
   protected static String readDinosaurName(Scanner sc) {
+    sc.nextLine();
     System.out.print("Enter dinosaur name: ");
-    String name = sc.next();
-    return name;
+    return sc.nextLine();
   }
   
   //-------------------------------------------------------------------------------------------------------------------
@@ -123,12 +123,13 @@ public class Util {
   
   protected static String readVisitorField(Scanner sc, String field) {
     System.out.printf("Enter visitor's %s: ", field);
-    return sc.next();
+    return sc.nextLine();
   }
   
   //-------------------------------------------------------------------------------------------------------------------
   
   protected static Visitor readVisitor(Scanner sc) {
+    sc.nextLine();
     String firstname = readVisitorField(sc, "firstname");
     sc.nextLine();
     String lastname = readVisitorField(sc, "lastname");
@@ -217,9 +218,29 @@ public class Util {
   // Employees
   //-------------------------------------------------------------------------------------------------------------------
   
+  protected static String readEditEmployee(Scanner sc, Employee employee, String field) {
+    String answer;
+    for (;;) {
+      if (employee == null) System.out.printf("Edit employee's %s? (Y/N) ", field);
+      else System.out.printf("Edit employee '%s'? (Y/N) ", employee);
+      
+      answer = sc.next();
+      if (answer.equalsIgnoreCase("Y") || answer.equalsIgnoreCase("N")) {
+        sc.nextLine();
+        return answer.toUpperCase();
+      } else {
+        sc.nextLine();
+        System.out.println("Invalid choice. Please try again");
+      }
+    }
+  }
+  
+  //-------------------------------------------------------------------------------------------------------------------
+  
   protected static String readEmployeeName(Scanner sc) {
+    sc.nextLine();
     System.out.print("Enter employee name: ");
-    return sc.next();
+    return sc.nextLine();
   }
   
   //-------------------------------------------------------------------------------------------------------------------
@@ -350,8 +371,9 @@ public class Util {
   //-------------------------------------------------------------------------------------------------------------------
   
   protected static String readSpecialEventField(Scanner sc, String field) {
+    sc.nextLine();
     System.out.printf("Enter event's %s: ", field);
-    return sc.next();
+    return sc.nextLine();
   }
   
   //-------------------------------------------------------------------------------------------------------------------

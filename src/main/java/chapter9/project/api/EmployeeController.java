@@ -31,8 +31,9 @@ public class EmployeeController {
       System.out.println("1. Show all Employees");
       System.out.println("2. Add Employee");
       System.out.println("3. Find Employee");
-      System.out.println("4. Remove Employee");
-      System.out.println("5. Return to main menu");
+      System.out.println("4. Edit Employee");
+      System.out.println("5. Remove Employee");
+      System.out.println("6. Return to main menu");
       System.out.print("Enter your choice: ");
       int choice = sc.nextInt();
       switch (choice) {
@@ -46,15 +47,18 @@ public class EmployeeController {
           findEmployee();
           break;
         case 4:
-          removeEmployee();
+          editEmployee();
           break;
         case 5:
+          removeEmployee();
+          break;
+        case 6:
           System.out.println("Returning to main menu...");
           break;
         default:
           System.out.println("Invalid choice. Please try again.");
       }
-      if (choice == 5) {
+      if (choice == 6) {
         System.out.println();
         break;
       }
@@ -119,9 +123,9 @@ public class EmployeeController {
       switch (choice) {
         case 1 -> {
           String name = Util.readEmployeeName(sc);
-          Employee employee = employeeService.getEmployee(name);
-          if (employee == null) System.out.printf("Employee '%s' not found!\n", name);
-          else System.out.printf("Employee found: '%s'\n", employee);
+          List<Employee> employees = employeeService.getEmployee(name);
+          if (employees.isEmpty()) System.out.printf("Employee '%s' not found!\n", name);
+          else printEmployees(employees);
         }
         case 2 -> {
           JobTitle jobTitle = Util.readEmployeeJobTitle(sc);
@@ -141,6 +145,63 @@ public class EmployeeController {
         default -> System.out.println("Invalid choice. Please try again.");
       }
       if (choice > 0 && choice < 5) break;
+    }
+  }
+  
+  //-------------------------------------------------------------------------------------------------------------------
+  
+  private void editEmployeeDetails(Employee employee) {
+    // change name
+    if (Util.readEditEmployee(sc, null, "name").equals("Y")) {
+      String newName = Util.readEmployeeName(sc);
+      employee.setName(newName);
+    }
+    // change jobTitle
+    if (Util.readEditEmployee(sc, null, "job title").equals("Y")) {
+      JobTitle newJobTitle = Util.readEmployeeJobTitle(sc);
+      employee.setJobTitle(newJobTitle);
+    }
+    // change yearsOfExperience
+    if (Util.readEditEmployee(sc, null, "years of experience").equals("Y")) {
+      int newYearsOfExperience = Util.readEmployeeYearsOfExperience(sc);
+      employee.setYearsOfExperience(newYearsOfExperience);
+    }
+  }
+  
+  //-------------------------------------------------------------------------------------------------------------------
+  
+  private void editEmployee() {
+    for (;;) {
+      System.out.printf("\nEdit by:\n");
+      System.out.println("1. Name");
+      System.out.println("2. Detailed search");
+      System.out.println("3. Return to employee menu");
+      System.out.print("Enter your choice: ");
+      int choice = sc.nextInt();
+      switch (choice) {
+        case 1 -> {
+          String name = Util.readEmployeeName(sc);
+          List<Employee> employees = employeeService.getEmployee(name);
+          if (!employees.isEmpty()) {
+            System.out.printf("'%d' employees found with name '%s'\n", employees.size(), name);
+            for (Employee e : employees) {
+              if (Util.readEditEmployee(sc, e, null).equals("Y")) editEmployeeDetails(e);
+            }
+          } else System.out.printf("Employee with name '%s' not found\n", name);
+        }
+        case 2 -> {
+          String name = Util.readEmployeeName(sc);
+          int yearsOfExperience = Util.readEmployeeYearsOfExperience(sc);
+          JobTitle jobTitle = Util.readEmployeeJobTitle(sc);
+          Employee employee = employeeService.getEmployee(new Employee(name, jobTitle, yearsOfExperience));
+          if (employee != null) {
+            editEmployeeDetails(employee);
+          } else System.out.println("Employee not found");
+        }
+        case 3 -> { }
+        default -> System.out.println("Invalid choice. Please try again.");
+      }
+      if (choice > 0 && choice < 4) break;
     }
   }
   
@@ -202,7 +263,10 @@ public class EmployeeController {
       switch (choice) {
         case 1 -> {
           String name = Util.readEmployeeName(sc);
-          removeEmployee(employeeService.getEmployee(name));
+          List<Employee> employees = employeeService.getEmployee(name);
+          for (Employee e : employees) {
+            removeEmployee(e);
+          }
         }
         case 2 -> {
           JobTitle jobTitle = Util.readEmployeeJobTitle(sc);

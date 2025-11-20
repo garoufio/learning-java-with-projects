@@ -51,13 +51,14 @@ public class EmployeeService {
   
   //-------------------------------------------------------------------------------------------------------------------
   
-  public Employee getEmployee(String name) {
-    if (this.employees == null || name == null) return null;
+  public List<Employee> getEmployee(String name) {
+    if (this.employees == null || this.employees.isEmpty() || name == null) return List.of();
     
+    List<Employee> employees = new ArrayList<>();
     for (Employee e : this.employees) {
-      if (e != null && e.getName().equals(name)) return e;
+      if (e != null && e.getName().equals(name)) employees.add(e);
     }
-    return null;
+    return employees;
   }
   
   //-------------------------------------------------------------------------------------------------------------------
