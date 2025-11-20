@@ -1,0 +1,8 @@
+package chapter10.project.entity.dinosaur;
+
+public interface Actionable {
+  
+  public void eat();
+  public void move();
+  
+}
