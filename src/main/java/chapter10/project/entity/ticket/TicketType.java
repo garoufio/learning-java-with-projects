@@ -1,31 +1,34 @@
-package chapter10.project.entity.dinosaur;
+package chapter10.project.entity.ticket;
 
-public enum DinosaurSpecies {
-  TYRANNOSAURUS(1.75),
-  TRICERATOPS(0.75),
-  VELOCIRAPTOR(1.10),
-  STEGOSAURUS(1.5),
-  BRACHIOSAURUS(2.1),
-  SPINOSAURUS(1.1),
-  PARASAUROLOPHUS(1.4),
-  ANKYLOSAURUS(1.2),
-  PTEROSAUR(0.6),
-  PLIOSAURS(1.8);
+public enum TicketType {
+  INFANT(0),
+  CHILD(5),
+  ADULT(10),
+  ELDER(7),
+  DISABLED_PERSON(5),
+  SCHOOL(5),
+  FORBIDDEN(0),
+  VIP(18),
+  ALL_DAY(22),
+  SEASON_3(50),
+  SEASON_6(100),
+  SEASON_8(130),
+  SEASON_12(170);
   
   //-------------------------------------------------------------------------------------------------------------------
   
-  private double foodScaleFactor;
+  private double price;
   
   //-------------------------------------------------------------------------------------------------------------------
   
-  DinosaurSpecies(double foodScaleFactor) {
-    this.foodScaleFactor = foodScaleFactor;
+  TicketType(double price) {
+    this.price = price;
   }
   
   //-------------------------------------------------------------------------------------------------------------------
   
-  public double getFoodScaleFactor() {
-    return foodScaleFactor;
+  public double getPrice() {
+    return price;
   }
   
   //-------------------------------------------------------------------------------------------------------------------

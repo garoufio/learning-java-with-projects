@@ -1,9 +1,12 @@
 package chapter10.project.entity.employee;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Objects;
 import java.util.UUID;
 
-public class Employee {
+public class Employee implements Worker {
   
   private UUID uuid;
   private String name;
@@ -86,6 +89,26 @@ public class Employee {
   @Override
   public String toString() {
     return "Employee [name=" + name + ", jobTitle=" + jobTitle.name() + ", yearsOfExperience=" + yearsOfExperience + "]";
+  }
+  
+  //-------------------------------------------------------------------------------------------------------------------
+  
+  @Override
+  public void work(LocalDateTime from, LocalDateTime to) {
+    System.out.printf(
+        "Employee '%s' is working from %s to %s\n",
+        name, from.format(DateTimeFormatter.ISO_LOCAL_DATE_TIME), to.format(DateTimeFormatter.ISO_LOCAL_DATE_TIME)
+    );
+  }
+  
+  //-------------------------------------------------------------------------------------------------------------------
+  
+  @Override
+  public void daysOff(LocalDate from, LocalDate to) {
+    System.out.printf(
+        "Employee '%s' is taking days off from %s to %s\n",
+        name, from.format(DateTimeFormatter.ISO_LOCAL_DATE), to.format(DateTimeFormatter.ISO_LOCAL_DATE)
+    );
   }
   
   //-------------------------------------------------------------------------------------------------------------------

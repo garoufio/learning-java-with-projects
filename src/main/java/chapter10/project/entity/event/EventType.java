@@ -1,31 +1,26 @@
-package chapter10.project.entity.dinosaur;
+package chapter10.project.entity.event;
 
-public enum DinosaurSpecies {
-  TYRANNOSAURUS(1.75),
-  TRICERATOPS(0.75),
-  VELOCIRAPTOR(1.10),
-  STEGOSAURUS(1.5),
-  BRACHIOSAURUS(2.1),
-  SPINOSAURUS(1.1),
-  PARASAUROLOPHUS(1.4),
-  ANKYLOSAURUS(1.2),
-  PTEROSAUR(0.6),
-  PLIOSAURS(1.8);
+public enum EventType {
+  SCHOOL(20),
+  GROUP(10),
+  SUMMER_CAMP(30),
+  VIP(5),
+  EMERGENCY(0);
   
   //-------------------------------------------------------------------------------------------------------------------
   
-  private double foodScaleFactor;
+  private int numberOfVisitors;
   
   //-------------------------------------------------------------------------------------------------------------------
   
-  DinosaurSpecies(double foodScaleFactor) {
-    this.foodScaleFactor = foodScaleFactor;
+  EventType(int numberOfVisitors) {
+    this.numberOfVisitors = numberOfVisitors;
   }
   
   //-------------------------------------------------------------------------------------------------------------------
   
-  public double getFoodScaleFactor() {
-    return foodScaleFactor;
+  public int getNumberOfVisitors() {
+    return numberOfVisitors;
   }
   
   //-------------------------------------------------------------------------------------------------------------------

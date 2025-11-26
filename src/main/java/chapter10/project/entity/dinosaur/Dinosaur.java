@@ -1,9 +1,9 @@
 package chapter10.project.entity.dinosaur;
 
-import java.io.Serializable;
 import java.util.Objects;
 
-public class Dinosaur implements Actionable, Comparable<Dinosaur> {
+public sealed abstract class Dinosaur implements Actionable, Comparable<Dinosaur>
+    permits FlyingDinosaur, AquaticDinosaur, TerrestrialDinosaur {
   
   private String name;
   private int age;
@@ -108,7 +108,8 @@ public class Dinosaur implements Actionable, Comparable<Dinosaur> {
   
   @Override
   public String toString() {
-    return "Dinosaur [" +
+    return this.getClass().getSimpleName() +
+        " [" +
         "name=" + name +
         ", age=" + age +
         ", type=" + type.name() +
@@ -120,15 +121,15 @@ public class Dinosaur implements Actionable, Comparable<Dinosaur> {
   //-------------------------------------------------------------------------------------------------------------------
   
   @Override
-  public void eat() {
-    System.out.println(name + " is eating");
+  public void move() {
+    System.out.printf("%s '%s' is moving\n", this.getClass().getSimpleName(), name);
   }
   
   //-------------------------------------------------------------------------------------------------------------------
   
   @Override
-  public void move() {
-    System.out.println(name + " is moving");
+  public void eat() {
+    System.out.printf("%s '%s' is eating\n", this.getClass().getSimpleName(), name);
   }
   
   //-------------------------------------------------------------------------------------------------------------------
