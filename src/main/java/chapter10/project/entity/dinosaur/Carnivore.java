@@ -8,8 +8,8 @@ public interface Carnivore {
   double AVERAGE_DAILY_MEAT_AMOUNT_SMALL_SIZED = 30; // in kg
   double AVERAGE_DAILY_MEAT_AMOUNT_MEDIUM_SIZED = 50; // in kg
   double AVERAGE_DAILY_MEAT_AMOUNT_BIG_SIZED = 70; // in kg
-  double SMALL_SIZED_FOOD_MULTIPLIER = 0.75;
-  double BIG_SIZED_FOOD_MULTIPLIER = 1.25;
+  double SMALL_SIZED_FOOD_MULTIPLIER = 0.65;
+  double BIG_SIZED_FOOD_MULTIPLIER = 1.35;
   
   //-------------------------------------------------------------------------------------------------------------------
   

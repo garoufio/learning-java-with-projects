@@ -2,7 +2,7 @@ package chapter10.project.entity.dinosaur;
 
 import java.util.Objects;
 
-public non-sealed class AquaticDinosaur extends Dinosaur {
+public non-sealed class AquaticDinosaur extends Dinosaur implements Carnivore, Herbivore, Omnivore {
   
   private int maxDivingDepth; // in meters
   private int maxUnderwaterSpeed; // in kilometers per hour
@@ -86,15 +86,15 @@ public non-sealed class AquaticDinosaur extends Dinosaur {
   
   @Override
   public String toString() {
-    return this.getClass().getSimpleName() +
+    return getSpecies().getScientificName() +
         " [" +
         "name=" + getName() +
         ", age=" + getAge() +
         ", type=" + getType().name() +
         ", species=" + getSpecies().name() +
         ", size=" + getSize().name() +
-        ", maxDivingDepth=" + maxDivingDepth +
-        ", maxUnderwaterSpeed=" + maxUnderwaterSpeed +
+        ", maxDivingDepth=" + maxDivingDepth + "m" +
+        ", maxUnderwaterSpeed=" + maxUnderwaterSpeed + "Km/h" +
         ", isAmphibious=" + isAmphibious +
         "]";
   }
@@ -103,16 +103,50 @@ public non-sealed class AquaticDinosaur extends Dinosaur {
   
   @Override
   public void move() {
-    System.out.printf("%s '%s' is moving\n", this.getClass().getSimpleName(), getName());
+    System.out.printf(
+        "%s '%s' can swim up to '%d' Km/h and can dive up to '%d' meters deep\n",
+        getSpecies().getScientificName(), getName(), getMaxDivingDepth()
+    );
   }
   
   //-------------------------------------------------------------------------------------------------------------------
   
   @Override
   public void eat() {
-    System.out.printf("%s '%s' is eating\n", this.getClass().getSimpleName(), getName());
+    System.out.printf(
+        "%s '%s' has to eat '%.2f' Kg of %s daily\n",
+        getSpecies().getScientificName(), getName(), feed(getSpecies(), getSize()),
+        switch (getType()) {
+          case CARNIVORE -> "meat";
+          case HERBIVORE -> "plants";
+          case OMNIVORE -> "meat and plants";
+          default -> "food";
+        }
+    );
   }
   
   //-------------------------------------------------------------------------------------------------------------------
+  @Override
+  public double feed(DinosaurSpecies species, DinosaurSize size) {
+    return switch(getType()) {
+      case CARNIVORE -> Carnivore.super.feed(species, size);
+      case HERBIVORE -> Herbivore.super.feed(species, size);
+      case OMNIVORE -> Omnivore.super.feed(species, size);
+      default -> {
+        System.out.printf("Unknown dinosaur type '%s'. Cannot determine food amount\n", getType());
+        yield 0;
+      }
+    };
+  }
+  
+  //-------------------------------------------------------------------------------------------------------------------
+  
+  public void info() {
+    move();
+    eat();
+  }
+  
+  //-------------------------------------------------------------------------------------------------------------------
+  
   
 }

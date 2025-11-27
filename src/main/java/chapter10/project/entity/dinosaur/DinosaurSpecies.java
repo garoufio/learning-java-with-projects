@@ -1,24 +1,26 @@
 package chapter10.project.entity.dinosaur;
 
 public enum DinosaurSpecies {
-  TYRANNOSAURUS(1.75),
-  TRICERATOPS(0.75),
-  VELOCIRAPTOR(1.10),
-  STEGOSAURUS(1.5),
-  BRACHIOSAURUS(2.1),
-  SPINOSAURUS(1.1),
-  PARASAUROLOPHUS(1.4),
-  ANKYLOSAURUS(1.2),
-  PTEROSAUR(0.6),
-  PLIOSAURS(1.8);
+  TYRANNOSAURUS("Tyrannosaurus", 1.75),
+  TRICERATOPS("Triceratops", 0.75),
+  VELOCIRAPTOR("Velociraptor", 1.10),
+  STEGOSAURUS("Stegosaurus", 1.5),
+  BRACHIOSAURUS("Brachiosaurus", 2.1),
+  SPINOSAURUS("Stegosaurus", 1.1),
+  PARASAUROLOPHUS("Parasaurolophus", 1.4),
+  ANKYLOSAURUS("Ankylosaurus", 1.2),
+  PTEROSAUR("Pterosaur",  0.6),
+  PLIOSAURS("Pliosaur", 1.8);
   
   //-------------------------------------------------------------------------------------------------------------------
   
+  private String scientificName;
   private double foodScaleFactor;
   
   //-------------------------------------------------------------------------------------------------------------------
   
-  DinosaurSpecies(double foodScaleFactor) {
+  DinosaurSpecies(String scientificName, double foodScaleFactor) {
+    this.scientificName = scientificName;
     this.foodScaleFactor = foodScaleFactor;
   }
   
@@ -26,6 +28,12 @@ public enum DinosaurSpecies {
   
   public double getFoodScaleFactor() {
     return foodScaleFactor;
+  }
+  
+  //-------------------------------------------------------------------------------------------------------------------
+  
+  public String getScientificName() {
+    return scientificName;
   }
   
   //-------------------------------------------------------------------------------------------------------------------

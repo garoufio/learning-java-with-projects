@@ -16,7 +16,10 @@ public enum JobTitle {
   EDUCATOR("Leads educational tours and programs for the public"),
   ZOOLOGIST("Studies and works to conserve species and their habitats"),
   SECURITY_OFFICER("Responsible for the overall security of the park"),
-  PARK_MANAGER("Responsible for the correct parking of the cars in the parking area");
+  SECURITY_MANAGER("Oversees the security operations and personnel within the zoo"),
+  PARK_MANAGER("Responsible for the correct parking of the cars in the parking area"),
+  CLEANING_STAFF("Maintains cleanliness and hygiene throughout the zoo premises"),
+  MAINTENANCE_STAFF("Handles repairs and maintenance of zoo facilities and infrastructure");
 
   //-------------------------------------------------------------------------------------------------------------------
 

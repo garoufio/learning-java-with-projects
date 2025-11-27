@@ -293,7 +293,10 @@ public class Util {
         case 13 -> JobTitle.EDUCATOR;
         case 14 -> JobTitle.ZOOLOGIST;
         case 15 -> JobTitle.SECURITY_OFFICER;
-        case 16 -> JobTitle.PARK_MANAGER;
+        case 16 -> JobTitle.SECURITY_MANAGER;
+        case 17 -> JobTitle.PARK_MANAGER;
+        case 18 -> JobTitle.CLEANING_STAFF;
+        case 19 -> JobTitle.MAINTENANCE_STAFF;
         default -> {
           System.out.println("Invalid choice for Job Title type. Please try again.");
           yield null;

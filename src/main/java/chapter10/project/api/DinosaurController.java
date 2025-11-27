@@ -76,68 +76,13 @@ public class DinosaurController {
   
   //-------------------------------------------------------------------------------------------------------------------
   
-  private Dinosaur addAquaticDinosaur(
-      String name,
-      int age,
-      DinosaurSpecies species,
-      DinosaurSize size,
-      int divingDepth,
-      int underwaterSpeed,
-      boolean isAmphibious
-  ) {
-    return switch (species) {
-      case PLIOSAURS -> new Pliosaurs(name, age, size, divingDepth, underwaterSpeed, isAmphibious);
-      default -> null;
-    };
-  }
-  
-  //-------------------------------------------------------------------------------------------------------------------
-  
-  private Dinosaur addFlyingDinosaur(
-      String name,
-      int age,
-      DinosaurSpecies species,
-      DinosaurSize size,
-      int wingspan,
-      int maxAltitude,
-      int flyingSpeed
-  ) {
-    return switch (species) {
-      case PTEROSAUR -> new Pterosaur(name, age, size, wingspan, maxAltitude, flyingSpeed);
-      default -> null;
-    };
-  }
-  
-  //-------------------------------------------------------------------------------------------------------------------
-  
-  private Dinosaur addTerrestrialDinosaur(
-      String name,
-      int age,
-      DinosaurSpecies species,
-      DinosaurSize size,
-      int height,
-      int speed
-  ) {
-    return switch (species) {
-      case TYRANNOSAURUS -> new Tyrannosaurus(name, age, size, height, speed);
-      case TRICERATOPS -> new Triceratops(name, age, size, height, speed);
-      case VELOCIRAPTOR -> new Velociraptor(name, age, size, height, speed);
-      case STEGOSAURUS -> new Stegosaurus(name, age, size, height, speed);
-      case BRACHIOSAURUS -> new Brachiosaurus(name, age, size, height, speed);
-      case SPINOSAURUS -> new Spinosaurus(name, age, size, height, speed);
-      case PARASAUROLOPHUS -> new Parasaurolophus(name, age, size, height, speed);
-      case ANKYLOSAURUS -> new Ankylosaurus(name, age, size, height, speed);
-      default -> null;
-    };
-  }
-  
-  //-------------------------------------------------------------------------------------------------------------------
-  
   public void addDinosaur() {
     // read name
     String name = Util.readDinosaurName(sc);
     // read age
     int age = Util.readDinosaurIntField(sc, "age");
+    // read dinosaur type
+    DinosaurType type = Util.readDinosaurType(sc);
     // read dinosaur species
     DinosaurSpecies species = Util.readDinosaurSpecies(sc);
     // read dinosaur size
@@ -149,19 +94,19 @@ public class DinosaurController {
            SPINOSAURUS, PARASAUROLOPHUS, ANKYLOSAURUS -> {
         int height = Util.readDinosaurIntField(sc, "height (in centimeters)");
         int speed = Util.readDinosaurIntField(sc, "max running speed (in Km/h)");
-        yield addTerrestrialDinosaur(name, age, species, size, height, speed);
+        yield new TerrestrialDinosaur(name, age, type, species, size, height, speed);
       }
       case PLIOSAURS -> {
         int divingDepth = Util.readDinosaurIntField(sc, "max diving depth (in meters)");
         int underwaterSpeed = Util.readDinosaurIntField(sc, "max underwater speed (in Km/h)");
         boolean isAmphibious = Util.readDinosaurAmphibiousCapability(sc);
-        yield addAquaticDinosaur(name, age, species, size, divingDepth, underwaterSpeed, isAmphibious);
+        yield new AquaticDinosaur(name, age, type, species, size, divingDepth, underwaterSpeed, isAmphibious);
       }
       case PTEROSAUR -> {
         int wingspan = Util.readDinosaurIntField(sc, "wingspan (in centimeters)");
         int maxAltitude = Util.readDinosaurIntField(sc, "max altitude (in meters)");
         int flyingSpeed = Util.readDinosaurIntField(sc, "max flying speed (in Km/h)");
-        yield addFlyingDinosaur(name, age, species, size, wingspan, maxAltitude, flyingSpeed);
+        yield new FlyingDinosaur(name, age, type, species, size, wingspan, maxAltitude, flyingSpeed);
       }
       default -> null;
     };
@@ -229,6 +174,7 @@ public class DinosaurController {
         case 5 -> {
           String name = Util.readDinosaurName(sc);
           int age = Util.readDinosaurIntField(sc, "age");
+          DinosaurType type = Util.readDinosaurType(sc);
           DinosaurSpecies species = Util.readDinosaurSpecies(sc);
           DinosaurSize size = Util.readDinosaurSize(sc);
           Dinosaur dinosaur = switch (species) {
@@ -236,19 +182,19 @@ public class DinosaurController {
                  SPINOSAURUS, PARASAUROLOPHUS, ANKYLOSAURUS -> {
               int height = Util.readDinosaurIntField(sc, "height (in centimeters)");
               int speed = Util.readDinosaurIntField(sc, "max running speed (in Km/h)");
-              yield addTerrestrialDinosaur(name, age, species, size, height, speed);
+              yield new TerrestrialDinosaur(name, age, type, species, size, height, speed);
             }
             case PLIOSAURS -> {
               int divingDepth = Util.readDinosaurIntField(sc, "max diving depth (in meters)");
               int underwaterSpeed = Util.readDinosaurIntField(sc, "max underwater speed (in Km/h)");
               boolean isAmphibious = Util.readDinosaurAmphibiousCapability(sc);
-              yield addAquaticDinosaur(name, age, species, size, divingDepth, underwaterSpeed, isAmphibious);
+              yield new AquaticDinosaur(name, age, type, species, size, divingDepth, underwaterSpeed, isAmphibious);
             }
             case PTEROSAUR -> {
               int wingspan = Util.readDinosaurIntField(sc, "wingspan (in centimeters)");
               int maxAltitude = Util.readDinosaurIntField(sc, "max altitude (in meters)");
               int flyingSpeed = Util.readDinosaurIntField(sc, "max flying speed (in Km/h)");
-              yield addFlyingDinosaur(name, age, species, size, wingspan, maxAltitude, flyingSpeed);
+              yield new FlyingDinosaur(name, age, type, species, size, wingspan, maxAltitude, flyingSpeed);
             }
             default -> null;
           };
@@ -303,8 +249,7 @@ public class DinosaurController {
       // remove dinosaur from the related enclosure
       List<Enclosure> enclosures = enclosureService.getEnclosure(dinosaur);
       removeDinosaurFromEnclosure(enclosures, dinosaur);
-    }
-    else System.out.printf("Dinosaur '%s' could not be removed\n", dinosaur);
+    } else System.out.printf("Dinosaur '%s' could not be removed\n", dinosaur);
   }
   
   //-------------------------------------------------------------------------------------------------------------------
@@ -355,6 +300,7 @@ public class DinosaurController {
         case 5 -> {
           String name = Util.readDinosaurName(sc);
           int age = Util.readDinosaurIntField(sc, "age");
+          DinosaurType type = Util.readDinosaurType(sc);
           DinosaurSpecies species = Util.readDinosaurSpecies(sc);
           DinosaurSize size = Util.readDinosaurSize(sc);
           Dinosaur dinosaur = switch (species) {
@@ -362,19 +308,19 @@ public class DinosaurController {
                  SPINOSAURUS, PARASAUROLOPHUS, ANKYLOSAURUS -> {
               int height = Util.readDinosaurIntField(sc, "height (in centimeters)");
               int speed = Util.readDinosaurIntField(sc, "max running speed (in Km/h)");
-              yield addTerrestrialDinosaur(name, age, species, size, height, speed);
+              yield new TerrestrialDinosaur(name, age, type, species, size, height, speed);
             }
             case PLIOSAURS -> {
               int divingDepth = Util.readDinosaurIntField(sc, "max diving depth (in meters)");
               int underwaterSpeed = Util.readDinosaurIntField(sc, "max underwater speed (in Km/h)");
               boolean isAmphibious = Util.readDinosaurAmphibiousCapability(sc);
-              yield addAquaticDinosaur(name, age, species, size, divingDepth, underwaterSpeed, isAmphibious);
+              yield new AquaticDinosaur(name, age, type, species, size, divingDepth, underwaterSpeed, isAmphibious);
             }
             case PTEROSAUR -> {
               int wingspan = Util.readDinosaurIntField(sc, "wingspan (in centimeters)");
               int maxAltitude = Util.readDinosaurIntField(sc, "max altitude (in meters)");
               int flyingSpeed = Util.readDinosaurIntField(sc, "max flying speed (in Km/h)");
-              yield addFlyingDinosaur(name, age, species, size, wingspan, maxAltitude, flyingSpeed);
+              yield new FlyingDinosaur(name, age, type, species, size, wingspan, maxAltitude, flyingSpeed);
             }
             default -> null;
           };

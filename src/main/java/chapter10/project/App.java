@@ -77,9 +77,10 @@ public class App {
     System.out.println("2. Manage Park Employees");
     System.out.println("3. Manage Tickets");
     System.out.println("4. Manage Enclosures");
-    System.out.println("5. Check Park Status");
-    System.out.println("6. Handle Special Events");
-    System.out.println("7. Exit");
+    System.out.println("5. Manage Vehicles");
+    System.out.println("6. Check Park Status");
+    System.out.println("7. Handle Special Events");
+    System.out.println("8. Exit");
     System.out.print("Enter your choice: ");
   }
   
@@ -100,12 +101,15 @@ public class App {
         enclosureController.manageEnclosures();
         break;
       case 5:
-        checkParkStatus();
+        System.out.println("Vehicle management is not implemented yet."); // TODO
         break;
       case 6:
-        specialEventsController.handleSpecialEvents();
+        checkParkStatus();
         break;
       case 7:
+        specialEventsController.handleSpecialEvents();
+        break;
+      case 8:
         System.out.println("Exiting...");
         System.exit(0);
       default:
@@ -120,30 +124,26 @@ public class App {
   private List<Dinosaur> createDinosaurs() {
     List<Dinosaur> dinosaurs = new ArrayList<>();
     
-    dinosaurs.add(new Velociraptor("Claire", 5, DinosaurSize.MEDIUM, 217, 65));
-    dinosaurs.add(new Tyrannosaurus("Jago", 9, DinosaurSize.BIG, 412, 48));
-    dinosaurs.add(new Stegosaurus("Margot", 12, DinosaurSize.BIG, 408, 35));
-    dinosaurs.add(new Spinosaurus("Hermes", 2, DinosaurSize.BIG, 334, 27));
-    return dinosaurs;
-  }
-  
-  //-------------------------------------------------------------------------------------------------------------------
-  
-  private List<Employee> getEmployeesByEnclosure(EmployeeService employeeService, EnclosureType enclosureType) {
-    List<Employee> employees = new ArrayList<>();
-    for (JobTitle jobTitle : enclosureType.getEmployeeJobTitles()) {
-      employees.addAll(employeeService.getEmployees(jobTitle));
-    }
-    return employees;
-  }
-  
-  //-------------------------------------------------------------------------------------------------------------------
-  
-  private List<Dinosaur> getDinosaursByEnclosure(DinosaurService dinosaurService, EnclosureType enclosureType) {
-    List<Dinosaur> dinosaurs = new ArrayList<>();
-    for (DinosaurSpecies dinosaurSpecies : enclosureType.getDinosaurSpecies()) {
-      dinosaurs.addAll(dinosaurService.getDinosaurs(dinosaurSpecies));
-    }
+    dinosaurs.add(
+        new TerrestrialDinosaur(
+            "Claire", 5, DinosaurType.CARNIVORE, DinosaurSpecies.VELOCIRAPTOR, DinosaurSize.MEDIUM, 217, 65
+        )
+    );
+    dinosaurs.add(
+        new TerrestrialDinosaur(
+            "Jago", 9, DinosaurType.CARNIVORE, DinosaurSpecies.TYRANNOSAURUS, DinosaurSize.BIG, 412, 48
+        )
+    );
+    dinosaurs.add(
+        new TerrestrialDinosaur(
+            "Margot", 12, DinosaurType.HERBIVORE, DinosaurSpecies.BRACHIOSAURUS, DinosaurSize.BIG, 408, 35
+        )
+    );
+    dinosaurs.add(
+        new TerrestrialDinosaur(
+            "Hermes", 2, DinosaurType.HERBIVORE, DinosaurSpecies.STEGOSAURUS, DinosaurSize.BIG, 334, 27
+        )
+    );
     return dinosaurs;
   }
   
@@ -220,6 +220,7 @@ public class App {
     List<Employee>  employees = new ArrayList<>();
     
     employees.add(new Employee("Mike", JobTitle.ZOOLOGIST, 7));
+    employees.add(new Employee("Elsa", JobTitle.ZOOLOGIST, 17));
     employees.add(new Employee("Lisa", JobTitle.EVENTS_MANAGER, 12));
     employees.add(new Employee("Laura", JobTitle.CURATOR, 2));
     employees.add(new Employee("Philip", JobTitle.GENERAL_DIRECTOR, 11));
@@ -231,6 +232,12 @@ public class App {
     employees.add(new Employee("David", JobTitle.HR_MANAGER, 15));
     employees.add(new Employee("Jimmy", JobTitle.HR_ASSISTANT, 3));
     employees.add(new Employee("Angie", JobTitle.PUBLIC_RELATIONS_MANAGER, 14));
+    employees.add(new Employee("Larry", JobTitle.SECURITY_MANAGER, 24));
+    employees.add(new Employee("James", JobTitle.SECURITY_OFFICER, 12));
+    employees.add(new Employee("Nina", JobTitle.SECURITY_OFFICER, 9));
+    employees.add(new Employee("Sophie", JobTitle.TICKETS_MANAGER, 4));
+    employees.add(new Employee("Paula", JobTitle.CLEANING_STAFF, 12));
+    employees.add(new Employee("Robert", JobTitle.MAINTENANCE_STAFF, 6));
     
     return employees;
   }
@@ -292,6 +299,28 @@ public class App {
     if (park.getParkStatus()) System.out.println("The Park is open until " + Park.CLOSING_HOUR);
     else System.out.println("The Park will welcome its guests tomorrow from " + Park.OPENING_HOUR);
     System.out.println();
+  }
+  
+  //-------------------------------------------------------------------------------------------------------------------
+  // Utility methods
+  //-------------------------------------------------------------------------------------------------------------------
+  
+  private List<Employee> getEmployeesByEnclosure(EmployeeService employeeService, EnclosureType enclosureType) {
+    List<Employee> employees = new ArrayList<>();
+    for (JobTitle jobTitle : enclosureType.getEmployeeJobTitles()) {
+      employees.addAll(employeeService.getEmployees(jobTitle));
+    }
+    return employees;
+  }
+  
+  //-------------------------------------------------------------------------------------------------------------------
+  
+  private List<Dinosaur> getDinosaursByEnclosure(DinosaurService dinosaurService, EnclosureType enclosureType) {
+    List<Dinosaur> dinosaurs = new ArrayList<>();
+    for (DinosaurSpecies dinosaurSpecies : enclosureType.getDinosaurSpecies()) {
+      dinosaurs.addAll(dinosaurService.getDinosaurs(dinosaurSpecies));
+    }
+    return dinosaurs;
   }
   
   //-------------------------------------------------------------------------------------------------------------------

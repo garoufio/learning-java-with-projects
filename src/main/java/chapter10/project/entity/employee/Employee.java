@@ -88,7 +88,12 @@ public class Employee implements Worker {
   
   @Override
   public String toString() {
-    return "Employee [name=" + name + ", jobTitle=" + jobTitle.name() + ", yearsOfExperience=" + yearsOfExperience + "]";
+    return "Employee " +
+        "[name=" + name +
+        ", jobTitle=" + jobTitle.name() +
+        ", responsibility=" + jobTitle.getDescription() +
+        ", yearsOfExperience=" + yearsOfExperience +
+        "]";
   }
   
   //-------------------------------------------------------------------------------------------------------------------

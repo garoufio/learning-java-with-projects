@@ -88,12 +88,12 @@ public sealed abstract class Dinosaur implements Actionable, Comparable<Dinosaur
     if (o == null || getClass() != o.getClass()) return false;
     if (this == o) return true;
     
-    Dinosaur dinosaur = (Dinosaur) o;
-    return (age == dinosaur.age &&
-        name.equals(dinosaur.name) &&
-        type == dinosaur.type &&
-        species == dinosaur.species &&
-        size == dinosaur.size
+    Dinosaur that = (Dinosaur) o;
+    return (age == that.age &&
+        name.equals(that.name) &&
+        type == that.type &&
+        species == that.species &&
+        size == that.size
     );
   }
   

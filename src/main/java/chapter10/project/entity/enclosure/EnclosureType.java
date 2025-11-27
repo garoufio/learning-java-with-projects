@@ -11,7 +11,7 @@ public enum EnclosureType {
       List.of(
           JobTitle.CURATOR, JobTitle.ZOOKEEPER, JobTitle.ZOOLOGIST,
           JobTitle.VETERINARIAN, JobTitle.SECURITY_OFFICER, JobTitle.GENERAL_DIRECTOR,
-          JobTitle.EDUCATOR
+          JobTitle.EDUCATOR, JobTitle.MAINTENANCE_STAFF, JobTitle.SECURITY_MANAGER
       )
   ),
   FLYING_CAGE(
@@ -19,7 +19,7 @@ public enum EnclosureType {
       List.of(
           JobTitle.CURATOR, JobTitle.ZOOKEEPER, JobTitle.ZOOLOGIST,
           JobTitle.VETERINARIAN, JobTitle.SECURITY_OFFICER, JobTitle.GENERAL_DIRECTOR,
-          JobTitle.EDUCATOR
+          JobTitle.EDUCATOR, JobTitle.MAINTENANCE_STAFF, JobTitle.SECURITY_MANAGER
       )
   ),
   POOL_PARK(
@@ -27,7 +27,7 @@ public enum EnclosureType {
       List.of(
           JobTitle.CURATOR, JobTitle.ZOOKEEPER, JobTitle.ZOOLOGIST,
           JobTitle.VETERINARIAN, JobTitle.SECURITY_OFFICER, JobTitle.GENERAL_DIRECTOR,
-          JobTitle.EDUCATOR
+          JobTitle.EDUCATOR, JobTitle.MAINTENANCE_STAFF, JobTitle.SECURITY_MANAGER
       )
   ),
   FREE_PARK(
@@ -38,7 +38,7 @@ public enum EnclosureType {
       List.of(
           JobTitle.CURATOR, JobTitle.ZOOKEEPER, JobTitle.ZOOLOGIST,
           JobTitle.VETERINARIAN, JobTitle.SECURITY_OFFICER, JobTitle.GENERAL_DIRECTOR,
-          JobTitle.EDUCATOR
+          JobTitle.EDUCATOR, JobTitle.MAINTENANCE_STAFF, JobTitle.SECURITY_MANAGER
       )
   ),
   CENTRAL_BUILDING(
@@ -46,26 +46,30 @@ public enum EnclosureType {
           JobTitle.CURATOR, JobTitle.ZOOKEEPER, JobTitle.VETERINARIAN, JobTitle.VETERINARY_TECHNICIAN,
           JobTitle.GENERAL_DIRECTOR, JobTitle.OPERATIONS_DIRECTOR, JobTitle.HR_MANAGER, JobTitle.HR_ASSISTANT,
           JobTitle.TICKETS_MANAGER, JobTitle.EVENTS_MANAGER, JobTitle.PUBLIC_RELATIONS_MANAGER, JobTitle.FINANCE_MANAGER,
-          JobTitle.EDUCATOR, JobTitle.ZOOLOGIST, JobTitle.SECURITY_OFFICER, JobTitle.PARK_MANAGER
+          JobTitle.EDUCATOR, JobTitle.ZOOLOGIST, JobTitle.SECURITY_OFFICER, JobTitle.PARK_MANAGER, JobTitle.CLEANING_STAFF,
+          JobTitle.MAINTENANCE_STAFF, JobTitle.SECURITY_MANAGER
       )
   ),
   TICKETS_KIOSK(
       List.of(
           JobTitle.GENERAL_DIRECTOR, JobTitle.HR_MANAGER, JobTitle.HR_ASSISTANT,
           JobTitle.TICKETS_MANAGER, JobTitle.EVENTS_MANAGER, JobTitle.PUBLIC_RELATIONS_MANAGER,
-          JobTitle.SECURITY_OFFICER
+          JobTitle.SECURITY_OFFICER, JobTitle.CLEANING_STAFF, JobTitle.MAINTENANCE_STAFF,
+          JobTitle.SECURITY_MANAGER
       )
   ),
   VET_CENTER(
       List.of(
           JobTitle.GENERAL_DIRECTOR, JobTitle.OPERATIONS_DIRECTOR, JobTitle.HR_MANAGER, JobTitle.HR_ASSISTANT,
           JobTitle.VETERINARIAN, JobTitle.VETERINARY_TECHNICIAN, JobTitle.CURATOR, JobTitle.ZOOKEEPER,
-          JobTitle.ZOOLOGIST, JobTitle.SECURITY_OFFICER
+          JobTitle.ZOOLOGIST, JobTitle.SECURITY_OFFICER, JobTitle.CLEANING_STAFF,
+          JobTitle.MAINTENANCE_STAFF, JobTitle.SECURITY_MANAGER
       )
   ),
   FOOD_STORE(List.of(
           JobTitle.CURATOR, JobTitle.ZOOKEEPER, JobTitle.VETERINARIAN, JobTitle.ZOOLOGIST,
-          JobTitle.GENERAL_DIRECTOR, JobTitle.SECURITY_OFFICER
+          JobTitle.GENERAL_DIRECTOR, JobTitle.SECURITY_OFFICER, JobTitle.CLEANING_STAFF,
+          JobTitle.MAINTENANCE_STAFF, JobTitle.SECURITY_MANAGER
       )
   ),
   PARKING_LOT(
@@ -73,10 +77,15 @@ public enum EnclosureType {
           JobTitle.CURATOR, JobTitle.ZOOKEEPER, JobTitle.VETERINARIAN, JobTitle.VETERINARY_TECHNICIAN,
           JobTitle.GENERAL_DIRECTOR, JobTitle.OPERATIONS_DIRECTOR, JobTitle.HR_MANAGER, JobTitle.HR_ASSISTANT,
           JobTitle.TICKETS_MANAGER, JobTitle.EVENTS_MANAGER, JobTitle.PUBLIC_RELATIONS_MANAGER, JobTitle.FINANCE_MANAGER,
-          JobTitle.EDUCATOR, JobTitle.ZOOLOGIST, JobTitle.SECURITY_OFFICER, JobTitle.PARK_MANAGER
+          JobTitle.EDUCATOR, JobTitle.ZOOLOGIST, JobTitle.SECURITY_OFFICER, JobTitle.PARK_MANAGER, JobTitle.CLEANING_STAFF,
+          JobTitle.MAINTENANCE_STAFF, JobTitle.SECURITY_MANAGER
       )
   ),
-  SURVEILLANCE_BUILDING(List.of(JobTitle.GENERAL_DIRECTOR, JobTitle.SECURITY_OFFICER, JobTitle.OPERATIONS_DIRECTOR));
+  SURVEILLANCE_BUILDING(
+      List.of(
+          JobTitle.GENERAL_DIRECTOR, JobTitle.SECURITY_OFFICER, JobTitle.OPERATIONS_DIRECTOR, JobTitle.SECURITY_MANAGER
+      )
+  );
   
   //-------------------------------------------------------------------------------------------------------------------
   

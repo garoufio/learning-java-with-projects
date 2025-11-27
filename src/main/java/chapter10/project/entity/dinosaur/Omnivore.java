@@ -8,8 +8,8 @@ public interface Omnivore {
   double AVERAGE_DAILY_FOOD_AMOUNT_SMALL_SIZED = 40; // in kg
   double AVERAGE_DAILY_FOOD_AMOUNT_MEDIUM_SIZED = 60; // in kg
   double AVERAGE_DAILY_FOOD_AMOUNT_BIG_SIZED = 80; // in kg
-  double SMALL_SIZED_FOOD_MULTIPLIER = 0.75;
-  double BIG_SIZED_FOOD_MULTIPLIER = 1.25;
+  double SMALL_SIZED_FOOD_MULTIPLIER = 0.5;
+  double BIG_SIZED_FOOD_MULTIPLIER = 1.5;
   
   //-------------------------------------------------------------------------------------------------------------------
   
