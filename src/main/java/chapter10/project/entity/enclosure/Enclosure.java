@@ -165,15 +165,15 @@ public class Enclosure {
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("Enclosure [type=").append(enclosureType.name()).append(", [safetyLevel=").append(safetyLevel.name());
-    if (dinosaurs != null) {
-      sb.append(", \n\tdinosaurs:\n");
+    sb.append("Enclosure [type=").append(enclosureType.name()).append(", safetyLevel=").append(safetyLevel.name());
+    if (!(dinosaurs == null || dinosaurs.isEmpty())) {
+      sb.append("\n\tDinosaurs:\n");
       for (Dinosaur d : dinosaurs) {
         if (d != null) sb.append("\t").append(d).append("\n");
       }
     }
-    if (employees != null) {
-      sb.append(", \n\temployees:\n");
+    if (!(employees == null || employees.isEmpty())) {
+      sb.append("\n\tEmployees:\n");
       for (Employee e : employees) {
         if (e != null) sb.append("\t").append(e).append("\n");
       }
