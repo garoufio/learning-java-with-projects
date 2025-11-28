@@ -14,7 +14,15 @@ public abstract class Vehicle {
   
   //-------------------------------------------------------------------------------------------------------------------
   
-  public Vehicle(String make, String model, int productionYear, String color, int numberOfWheels, double maxSpeed, boolean canFly) {
+  public Vehicle(
+      String make,
+      String model,
+      int productionYear,
+      String color,
+      int numberOfWheels,
+      double maxSpeed,
+      boolean canFly
+  ) {
     this.make = make;
     this.model = model;
     this.productionYear = productionYear;
@@ -98,7 +106,7 @@ public abstract class Vehicle {
   
   //-------------------------------------------------------------------------------------------------------------------
   
-  public boolean isCanFly() {
+  public boolean getCanFly() {
     return canFly;
   }
   
@@ -113,15 +121,16 @@ public abstract class Vehicle {
   @Override
   public boolean equals(Object o) {
     if (o == null || getClass() != o.getClass()) return false;
+    if (this == o) return true;
     
-    Vehicle vehicle = (Vehicle) o;
-    return productionYear == vehicle.productionYear &&
-        numberOfWheels == vehicle.numberOfWheels &&
-        Double.compare(maxSpeed, vehicle.maxSpeed) == 0 &&
-        canFly == vehicle.canFly &&
-        make.equalsIgnoreCase(vehicle.make) &&
-        model.equalsIgnoreCase(vehicle.model) &&
-        model.equalsIgnoreCase(vehicle.color);
+    Vehicle that = (Vehicle) o;
+    return productionYear == that.productionYear &&
+        numberOfWheels == that.numberOfWheels &&
+        Double.compare(maxSpeed, that.maxSpeed) == 0 &&
+        make.equalsIgnoreCase(that.make) &&
+        model.equalsIgnoreCase(that.model) &&
+        model.equalsIgnoreCase(that.color) &&
+        canFly == that.canFly;
   }
   
   //-------------------------------------------------------------------------------------------------------------------
