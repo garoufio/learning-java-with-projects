@@ -71,10 +71,10 @@ public class Employee implements Worker {
     if (o == null || getClass() != o.getClass()) return false;
     if (this == o) return true;
     
-    Employee employee = (Employee) o;
-    return (yearsOfExperience == employee.yearsOfExperience &&
-        Objects.equals(name, employee.name) &&
-        jobTitle == employee.jobTitle);
+    Employee that = (Employee) o;
+    return (yearsOfExperience == that.yearsOfExperience &&
+        Objects.equals(name, that.name) &&
+        jobTitle == that.jobTitle);
   }
   
   //-------------------------------------------------------------------------------------------------------------------
@@ -88,9 +88,8 @@ public class Employee implements Worker {
   
   @Override
   public String toString() {
-    return "Employee " +
-        "[name=" + name +
-        ", jobTitle=" + jobTitle.name() +
+    return jobTitle.getTitle() + " [" +
+        "name=" + name +
         ", responsibility=" + jobTitle.getDescription() +
         ", yearsOfExperience=" + yearsOfExperience +
         "]";
@@ -101,8 +100,9 @@ public class Employee implements Worker {
   @Override
   public void work(LocalDateTime from, LocalDateTime to) {
     System.out.printf(
-        "Employee '%s' is working from %s to %s\n",
-        name, from.format(DateTimeFormatter.ISO_LOCAL_DATE_TIME), to.format(DateTimeFormatter.ISO_LOCAL_DATE_TIME)
+        "%s '%s' is working from %s to %s\n",
+        jobTitle.getTitle(), name,
+        from.format(DateTimeFormatter.ISO_LOCAL_DATE_TIME), to.format(DateTimeFormatter.ISO_LOCAL_DATE_TIME)
     );
   }
   
@@ -111,8 +111,9 @@ public class Employee implements Worker {
   @Override
   public void daysOff(LocalDate from, LocalDate to) {
     System.out.printf(
-        "Employee '%s' is taking days off from %s to %s\n",
-        name, from.format(DateTimeFormatter.ISO_LOCAL_DATE), to.format(DateTimeFormatter.ISO_LOCAL_DATE)
+        "%s '%s' is taking days off from %s to %s\n",
+        jobTitle.getTitle(), name,
+        from.format(DateTimeFormatter.ISO_LOCAL_DATE), to.format(DateTimeFormatter.ISO_LOCAL_DATE)
     );
   }
   

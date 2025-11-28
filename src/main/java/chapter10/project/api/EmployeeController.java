@@ -33,7 +33,8 @@ public class EmployeeController {
       System.out.println("3. Find Employee");
       System.out.println("4. Edit Employee");
       System.out.println("5. Remove Employee");
-      System.out.println("6. Return to main menu");
+      System.out.println("6. Employees schedule");
+      System.out.println("7. Return to main menu");
       System.out.print("Enter your choice: ");
       int choice = sc.nextInt();
       switch (choice) {
@@ -53,12 +54,16 @@ public class EmployeeController {
           removeEmployee();
           break;
         case 6:
+          System.out.println("Employees schedule feature is under development.");
+          // TODO
+          break;
+        case 7:
           System.out.println("Returning to main menu...");
           break;
         default:
           System.out.println("Invalid choice. Please try again.");
       }
-      if (choice == 6) {
+      if (choice == 7) {
         System.out.println();
         break;
       }
