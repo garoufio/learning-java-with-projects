@@ -89,7 +89,6 @@ public non-sealed class FlyingDinosaur extends Dinosaur implements Carnivore, He
         "name=" + getName() +
         ", age=" + getAge() +
         ", type=" + getType().name() +
-        ", species=" + getSpecies().name() +
         ", size=" + getSize().name() +
         ", wingSpan=" + wingSpan + "cm" +
         ", maxAltitude=" + maxAltitude + "m" +

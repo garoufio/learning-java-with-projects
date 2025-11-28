@@ -91,7 +91,6 @@ public non-sealed class AquaticDinosaur extends Dinosaur implements Carnivore, H
         "name=" + getName() +
         ", age=" + getAge() +
         ", type=" + getType().name() +
-        ", species=" + getSpecies().name() +
         ", size=" + getSize().name() +
         ", maxDivingDepth=" + maxDivingDepth + "m" +
         ", maxUnderwaterSpeed=" + maxUnderwaterSpeed + "Km/h" +

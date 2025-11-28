@@ -74,7 +74,6 @@ public non-sealed class TerrestrialDinosaur extends Dinosaur implements Carnivor
         "name=" + getName() +
         ", age=" + getAge() +
         ", type=" + getType().name() +
-        ", species=" + getSpecies().name() +
         ", size=" + getSize().name() +
         ", height=" + height + "cm" +
         ", maxRunningSpeed=" + maxRunningSpeed + "Km/h" +

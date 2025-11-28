@@ -146,30 +146,38 @@ public class DinosaurController {
     for (;;) {
       printDinosaurSubmenuOptions("Find");
       int choice = sc.nextInt();
-      switch (choice) {
+      List<Dinosaur> foundDinosaurs = switch (choice) {
         case 1 -> {
           String name = Util.readDinosaurName(sc);
           Dinosaur dinosaur = dinosaurService.getDinosaur(name);
-          if (dinosaur == null) System.out.printf("Dinosaur '%s' not found\n", name);
-          else System.out.printf("Dinosaur found: '%s'\n", dinosaur);
+          if (dinosaur == null) {
+            System.out.printf("Dinosaur '%s' not found\n", name);
+            yield List.of();
+          } else yield List.of(dinosaur);
         }
         case 2 -> {
           DinosaurType type = Util.readDinosaurType(sc);
           List<Dinosaur> dinosaurs = dinosaurService.getDinosaurs(type);
-          if (dinosaurs.isEmpty()) System.out.printf("No dinosaur(s) found for type '%s'\n", type.name());
-          else printDinosaurs(dinosaurs);
+          if (dinosaurs.isEmpty()) {
+            System.out.printf("No dinosaur(s) found for type '%s'\n", type.name());
+            yield List.of();
+          } else yield dinosaurs;
         }
         case 3 -> {
           DinosaurSpecies species = Util.readDinosaurSpecies(sc);
           List<Dinosaur> dinosaurs = dinosaurService.getDinosaurs(species);
-          if (dinosaurs.isEmpty()) System.out.printf("No dinosaur(s) found for species '%s'\n", species.name());
-          else printDinosaurs(dinosaurs);
+          if (dinosaurs.isEmpty()) {
+            System.out.printf("No dinosaur(s) found for species '%s'\n", species.name());
+            yield List.of();
+          } else yield dinosaurs;
         }
         case 4 -> {
           DinosaurSize size = Util.readDinosaurSize(sc);
           List<Dinosaur> dinosaurs = dinosaurService.getDinosaurs(size);
-          if (dinosaurs.isEmpty()) System.out.printf("No dinosaur(s) found for size '%s'\n", size.name());
-          else printDinosaurs(dinosaurs);
+          if (dinosaurs.isEmpty()) {
+            System.out.printf("No dinosaur(s) found for size '%s'\n", size.name());
+            yield List.of();
+          } else yield dinosaurs;
         }
         case 5 -> {
           String name = Util.readDinosaurName(sc);
@@ -199,11 +207,36 @@ public class DinosaurController {
             default -> null;
           };
           Dinosaur foundDinosaur = dinosaurService.getDinosaur(dinosaur);
-          if (foundDinosaur == null) System.out.println("Dinosaur not found");
-          else System.out.printf("Dinosaur found: '%s'\n", foundDinosaur);
+          if (foundDinosaur == null) {
+            if (dinosaur == null) System.out.println("No dinosaur found with the provided details");
+            else System.out.printf("Dinosaur not found with the provided details: %s\n", dinosaur);
+            yield List.of();
+          } else yield List.of(foundDinosaur);
         }
-        case 6 -> { }
-        default -> System.out.println("Invalid choice. Please try again");
+        case 6 -> List.of();
+        default -> {
+          System.out.println("Invalid choice. Please try again");
+          yield List.of();
+        }
+      };
+      if (!foundDinosaurs.isEmpty()) {
+        printDinosaurs(foundDinosaurs);
+        
+        for (;;) {
+          System.out.print("Do you want to see more info about the found dinosaur(s)? (Y/N): ");
+          String moreInfoChoice = sc.next();
+          if (moreInfoChoice.equalsIgnoreCase("Y")) {
+            for (Dinosaur d : foundDinosaurs) {
+              d.info();
+              System.out.println("-------------------------");
+            }
+            break;
+          } else if (moreInfoChoice.equalsIgnoreCase("N")) {
+            break;
+          } else {
+            System.out.println("Invalid choice. Please enter Y or N");
+          }
+        }
       }
       if (choice > 0 && choice < 7) break;
     }
