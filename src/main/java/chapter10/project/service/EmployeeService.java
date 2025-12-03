@@ -65,7 +65,7 @@ public class EmployeeService {
   //-------------------------------------------------------------------------------------------------------------------
   
   public Employee getEmployee(Employee employee) {
-    if  (this.employees == null || employee == null) return null;
+    if (this.employees == null || employee == null) return null;
     
     for (Employee e : this.employees) {
       if (e != null && e.equals(employee)) return e;

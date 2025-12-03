@@ -10,6 +10,8 @@ import chapter10.project.entity.enclosure.SafetyLevel;
 import chapter10.project.entity.event.EventType;
 import chapter10.project.entity.ticket.TicketType;
 import chapter10.project.entity.ticket.Visitor;
+import chapter10.project.entity.vehicle.Vehicle;
+import chapter10.project.entity.vehicle.VehicleType;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -420,6 +422,78 @@ public class Util {
     } while (eventType == null);
     
     return eventType;
+  }
+  
+  //-------------------------------------------------------------------------------------------------------------------
+  // Vehicles
+  //-------------------------------------------------------------------------------------------------------------------
+  
+  public static VehicleType readVehicleType(Scanner sc) {
+    VehicleType vehicleType;
+    do {
+      System.out.println("Select the vehicle type: ");
+      int count = 1;
+      for (VehicleType t : VehicleType.values()) {
+        System.out.printf("%d. %s\n", count++, t.name());
+      }
+      System.out.print("Enter your choice: ");
+      int choice = sc.nextInt();
+      vehicleType = switch (choice) {
+        case 1 -> VehicleType.CAR;
+        case 2 -> VehicleType.MOTORCYCLE;
+        case 3 -> VehicleType.TRUCK;
+        case 4 -> VehicleType.HELICOPTER;
+        default -> {
+          System.out.println("Invalid choice for Vehicle type. Please try again.");
+          yield null;
+        }
+      };
+    } while (vehicleType == null);
+    
+    return vehicleType;
+  }
+  
+  //-------------------------------------------------------------------------------------------------------------------
+  
+  public static String readVehicleField(Scanner sc, String field) {
+    sc.nextLine();
+    System.out.printf("Enter vehicle's %s: ", field);
+    return sc.nextLine();
+  }
+  
+  //-------------------------------------------------------------------------------------------------------------------
+  
+  public static int readVehicleIntField(Scanner sc, String field) {
+    sc.nextLine();
+    System.out.printf("Enter vehicle's %s: ", field);
+    return sc.nextInt();
+  }
+  
+  //-------------------------------------------------------------------------------------------------------------------
+  
+  public static double readVehicleDoubleField(Scanner sc, String field) {
+    sc.nextLine();
+    System.out.printf("Enter vehicle's %s: ", field);
+    return sc.nextDouble();
+  }
+  
+  //-------------------------------------------------------------------------------------------------------------------
+  
+  protected static String readEditVehicle(Scanner sc, Vehicle vehicle, String field) {
+    String answer;
+    for (;;) {
+      if (vehicle == null) System.out.printf("Edit vehicle's %s? (Y/N) ", field);
+      else System.out.printf("Edit vehicle '%s'? (Y/N) ", vehicle);
+      
+      answer = sc.next();
+      if (answer.equalsIgnoreCase("Y") || answer.equalsIgnoreCase("N")) {
+        sc.nextLine();
+        return answer.toUpperCase();
+      } else {
+        sc.nextLine();
+        System.out.println("Invalid choice. Please try again");
+      }
+    }
   }
   
   //-------------------------------------------------------------------------------------------------------------------

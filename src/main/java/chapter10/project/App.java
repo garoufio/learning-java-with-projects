@@ -6,6 +6,7 @@ import chapter10.project.entity.employee.*;
 import chapter10.project.entity.enclosure.*;
 import chapter10.project.entity.ticket.*;
 import chapter10.project.api.*;
+import chapter10.project.entity.vehicle.*;
 import chapter10.project.service.*;
 
 import java.time.LocalDate;
@@ -19,6 +20,7 @@ public class App {
   public static final int MAX_DINOSAURS = 50;
   public static final int MAX_EMPLOYEES = 50;
   public static final int MAX_ENCLOSURES = 20;
+  public static final int MAX_VEHICLES = 40;
   public static final int MAX_DAILY_SPECIAL_EVENTS = 5;
   
   //-------------------------------------------------------------------------------------------------------------------
@@ -28,6 +30,7 @@ public class App {
   private TicketController ticketController;
   private EnclosureController enclosureController;
   private SpecialEventsController specialEventsController;
+  private VehicleController vehicleController;
   private Park park;
   // Use scanner for reading input from the user
   private Scanner sc;
@@ -42,12 +45,14 @@ public class App {
     EnclosureService enclosureService = new EnclosureService(createEnclosures(dinosaurService, employeeService));
     TicketService ticketService = new TicketService(createTickets());
     SpecialEventsService eventsService = new SpecialEventsService();
+    VehicleService vehicleService = new VehicleService(createVehicles());
     // creation of controllers
     dinosaurController = new DinosaurController(sc, dinosaurService, enclosureService);
     employeeController = new EmployeeController(sc, employeeService, enclosureService);
     ticketController = new TicketController(sc, ticketService);
     enclosureController = new EnclosureController(sc, enclosureService);
     specialEventsController = new SpecialEventsController(sc, eventsService, ticketService);
+    vehicleController = new VehicleController(sc, vehicleService);
     park = new Park();
   }
   
@@ -101,7 +106,7 @@ public class App {
         enclosureController.manageEnclosures();
         break;
       case 5:
-        System.out.println("Vehicle management is not implemented yet."); // TODO
+        vehicleController.manageVehicles();
         break;
       case 6:
         checkParkStatus();
@@ -289,6 +294,57 @@ public class App {
     );
     
     return tickets;
+  }
+  
+  //-------------------------------------------------------------------------------------------------------------------
+  
+  private List<Vehicle> createVehicles() {
+    List<Vehicle> vehicles = new ArrayList<>();
+    
+    vehicles.add(
+        new Car("Toyota", "RAV4", 2020, "White", 4, 180)
+    );
+    vehicles.add(
+        new Car("Toyota", "RAV4", 2022, "White", 4, 200)
+    );
+    vehicles.add(
+        new Car("Ford", "Raptor", 2024, "White", 4, 200)
+    );
+    vehicles.add(
+        new Car("Ford", "Raptor", 2025, "White", 4, 200)
+    );
+    vehicles.add(
+        new Car("Jeep", "Wrangler", 2021, "White", 4, 190)
+    );
+    vehicles.add(
+        new Car("Jeep", "Wrangler", 2021, "White", 4, 190)
+    );
+    vehicles.add(
+        new Truck("Volvo", "FMX", 2021, "White", 6, 5, 130, 15000)
+    );
+    vehicles.add(
+        new Truck("Volvo", "FMX", 2024, "White", 6, 5, 130, 15000)
+    );
+    vehicles.add(
+        new Truck("Volvo", "FH 16", 2023, "White", 6, 5, 130, 20000)
+    );
+    vehicles.add(
+        new Truck("Volvo", "FH 16", 2025, "White", 6, 5, 130, 20000)
+    );
+    vehicles.add(
+        new Motorcycle("Suzuki", "V-Strom 600", 2022, "White", 2, 180)
+    );
+    vehicles.add(
+        new Motorcycle("Suzuki", "V-Strom 600", 2022, "White", 2, 180)
+    );
+    vehicles.add(
+        new Helicopter("Agusta", "AW109 GrandNew", 2025, "White", 8, 283, 681, 3050, 3200)
+    );
+    vehicles.add(
+        new Helicopter("Agusta", "AW09", 2025, "White", 8, 260, 800, 2900, 1500)
+    );
+    
+    return vehicles;
   }
   
   //-------------------------------------------------------------------------------------------------------------------

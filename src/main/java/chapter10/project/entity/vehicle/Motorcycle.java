@@ -1,7 +1,5 @@
 package chapter10.project.entity.vehicle;
 
-import java.util.Objects;
-
 public class Motorcycle extends Vehicle {
   
   public Motorcycle(
@@ -9,10 +7,10 @@ public class Motorcycle extends Vehicle {
       String model,
       int productionYear,
       String color,
-      int numberOfWheels,
+      int numberOfPassengers,
       double maxSpeed
   ) {
-    super(make, model, productionYear, color, numberOfWheels, maxSpeed, false);
+    super(VehicleType.MOTORCYCLE ,make, model, productionYear, color, 2, numberOfPassengers, maxSpeed, false);
   }
 
   //-------------------------------------------------------------------------------------------------------------------
@@ -20,22 +18,23 @@ public class Motorcycle extends Vehicle {
   @Override
   public boolean equals(Object o) {
     if (o == null || getClass() != o.getClass()) return false;
-    if (!super.equals(o)) return false;
-    
-    return true;
+   
+    return super.equals(o);
   }
   
   //-------------------------------------------------------------------------------------------------------------------
   
   @Override
   public String toString() {
-    return this.getClass().getSimpleName() + " [" +
+    return this.getVehicleType().getDescription() + " [" +
         "make=" + getMake() +
         ", model=" + getModel() +
         ", productionYear=" + getProductionYear() +
         ", color=" + getColor() +
         ", numberOfWheels=" + getNumberOfWheels() +
+        ", numberOfPassengers=" + getNumberOfPassengers() +
         ", maxSpeed=" + getMaxSpeed() +
+        ", canFly=" + getCanFly() +
         "]";
   }
   

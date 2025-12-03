@@ -1,35 +1,59 @@
 package chapter10.project.entity.vehicle;
 
+import java.time.LocalDate;
 import java.util.Objects;
 
 public abstract class Vehicle {
 
+  public static final String DEFAULT_PARK_VEHICLE_COLOR = "White";
+  public static final int DEFAULT_PARK_VEHICLE_NUMBER_OF_WHEELS = 4;
+  
+  //-------------------------------------------------------------------------------------------------------------------
+  
   private String make;
   private String model;
   private int productionYear;
   private String color;
   private int numberOfWheels;
+  private int numberOfPassengers;
   private double maxSpeed;
   private boolean canFly;
+  private VehicleType vehicleType;
   
   //-------------------------------------------------------------------------------------------------------------------
   
   public Vehicle(
+      VehicleType type,
       String make,
       String model,
       int productionYear,
       String color,
       int numberOfWheels,
+      int numberOfPassengers,
       double maxSpeed,
       boolean canFly
   ) {
+    this.vehicleType = type;
     this.make = make;
     this.model = model;
     this.productionYear = productionYear;
     this.color = color;
     this.numberOfWheels = numberOfWheels;
+    this.numberOfPassengers = numberOfPassengers;
     this.maxSpeed = maxSpeed;
     this.canFly = canFly;
+  }
+  
+  //-------------------------------------------------------------------------------------------------------------------
+  
+  public VehicleType getVehicleType() {
+    return vehicleType;
+  }
+  
+  //-------------------------------------------------------------------------------------------------------------------
+  
+  public void setVehicleType(VehicleType vehicleType) {
+    this.vehicleType = vehicleType;
   }
   
   //-------------------------------------------------------------------------------------------------------------------
@@ -65,7 +89,7 @@ public abstract class Vehicle {
   //-------------------------------------------------------------------------------------------------------------------
   
   public void setProductionYear(int productionYear) {
-    this.productionYear = productionYear;
+    this.productionYear = productionYear  > 0 ? productionYear : LocalDate.now().getYear();
   }
   
   //-------------------------------------------------------------------------------------------------------------------
@@ -77,7 +101,7 @@ public abstract class Vehicle {
   //-------------------------------------------------------------------------------------------------------------------
   
   public void setColor(String color) {
-    this.color = color;
+    this.color = (color == null || color.length() == 0) ? DEFAULT_PARK_VEHICLE_COLOR : color;
   }
   
   //-------------------------------------------------------------------------------------------------------------------
@@ -89,7 +113,19 @@ public abstract class Vehicle {
   //-------------------------------------------------------------------------------------------------------------------
   
   public void setNumberOfWheels(int numberOfWheels) {
-    this.numberOfWheels = numberOfWheels;
+    this.numberOfWheels = numberOfWheels > 0 ? numberOfWheels : DEFAULT_PARK_VEHICLE_NUMBER_OF_WHEELS;
+  }
+  
+  //-------------------------------------------------------------------------------------------------------------------
+  
+  public int getNumberOfPassengers() {
+    return numberOfPassengers;
+  }
+  
+  //-------------------------------------------------------------------------------------------------------------------
+  
+  public void setNumberOfPassengers(int numberOfPassengers) {
+    this.numberOfPassengers = numberOfPassengers > 0 ? numberOfPassengers : 1;
   }
   
   //-------------------------------------------------------------------------------------------------------------------
@@ -101,7 +137,7 @@ public abstract class Vehicle {
   //-------------------------------------------------------------------------------------------------------------------
   
   public void setMaxSpeed(double maxSpeed) {
-    this.maxSpeed = maxSpeed;
+    this.maxSpeed = maxSpeed >= 0 ? maxSpeed : 0;
   }
   
   //-------------------------------------------------------------------------------------------------------------------
@@ -124,12 +160,14 @@ public abstract class Vehicle {
     if (this == o) return true;
     
     Vehicle that = (Vehicle) o;
-    return productionYear == that.productionYear &&
-        numberOfWheels == that.numberOfWheels &&
-        Double.compare(maxSpeed, that.maxSpeed) == 0 &&
+    return vehicleType == that.vehicleType &&
         make.equalsIgnoreCase(that.make) &&
         model.equalsIgnoreCase(that.model) &&
-        model.equalsIgnoreCase(that.color) &&
+        productionYear == that.productionYear &&
+        color.equalsIgnoreCase(that.color) &&
+        numberOfWheels == that.numberOfWheels &&
+        numberOfPassengers == that.numberOfPassengers &&
+        Double.compare(maxSpeed, that.maxSpeed) == 0 &&
         canFly == that.canFly;
   }
   
@@ -137,7 +175,7 @@ public abstract class Vehicle {
   
   @Override
   public int hashCode() {
-    return Objects.hash(make, model, productionYear, color, numberOfWheels, maxSpeed, canFly);
+    return Objects.hash(vehicleType, make, model, productionYear, color, numberOfWheels, numberOfPassengers, maxSpeed, canFly);
   }
   
   //-------------------------------------------------------------------------------------------------------------------
@@ -145,11 +183,13 @@ public abstract class Vehicle {
   @Override
   public String toString() {
     return "Vehicle [" +
-        "make=" + make +
+        "type=" + vehicleType.name() +
+        ", make=" + make +
         ", model=" + model +
         ", productionYear=" + productionYear +
         ", color=" + color +
         ", numberOfWheels=" + numberOfWheels +
+        ", numberOfPassengers=" + numberOfPassengers +
         ", maxSpeed=" + maxSpeed +
         ", canFly=" + canFly +
         "]";

@@ -14,10 +14,11 @@ public class Truck extends Vehicle {
       int productionYear,
       String color,
       int numberOfWheels,
+      int numberOfPassengers,
       double maxSpeed,
       int maxLoadCapacity
   ) {
-    super(make, model, productionYear, color, numberOfWheels, maxSpeed, false);
+    super(VehicleType.TRUCK, make, model, productionYear, color, numberOfWheels, numberOfPassengers, maxSpeed, false);
     setMaxLoadCapacity(maxLoadCapacity);
   }
   
@@ -56,13 +57,15 @@ public class Truck extends Vehicle {
   
   @Override
   public String toString() {
-    return this.getClass().getSimpleName() + " [" +
+    return this.getVehicleType().getDescription() + " [" +
         "make=" + getMake() +
         ", model=" + getModel() +
         ", productionYear=" + getProductionYear() +
         ", color=" + getColor() +
         ", numberOfWheels=" + getNumberOfWheels() +
+        ", numberOfPassengers=" + getNumberOfPassengers() +
         ", maxSpeed=" + getMaxSpeed() +
+        ", canFly=" + getCanFly() +
         ", maxLoadCapacity=" + maxLoadCapacity + "Kg" +
         "]";
   }
