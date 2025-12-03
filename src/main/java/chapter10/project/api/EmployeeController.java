@@ -143,7 +143,7 @@ public class EmployeeController {
           int yearsOfExperience = Util.readEmployeeYearsOfExperience(sc);
           JobTitle jobTitle = Util.readEmployeeJobTitle(sc);
           Employee employee = employeeService.getEmployee(new Employee(name, jobTitle, yearsOfExperience));
-          if (employee == null) System.out.println("Employee not found!");
+          if (employee == null) System.out.println("Employee not found");
           else System.out.printf("Employee found: '%s'\n", employee);
         }
         case 4 -> { }
