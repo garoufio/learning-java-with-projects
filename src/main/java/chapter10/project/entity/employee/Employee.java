@@ -1,8 +1,11 @@
 package chapter10.project.entity.employee;
 
+import java.time.DayOfWeek;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
+import java.time.temporal.Temporal;
+import java.time.temporal.TemporalAdjusters;
 import java.util.Objects;
 import java.util.UUID;
 
@@ -98,23 +101,33 @@ public class Employee implements Worker {
   //-------------------------------------------------------------------------------------------------------------------
   
   @Override
-  public void work(LocalDateTime from, LocalDateTime to) {
-    System.out.printf(
-        "%s '%s' is working from %s to %s\n",
-        jobTitle.getTitle(), name,
-        from.format(DateTimeFormatter.ISO_LOCAL_DATE_TIME), to.format(DateTimeFormatter.ISO_LOCAL_DATE_TIME)
-    );
+  public LocalDate[] workingDays(DayOfWeek from, DayOfWeek to, LocalDate date) {
+    LocalDate[] workingPeriod = new LocalDate[2];
+    workingPeriod[0] = date.with(from); // start of working weekday
+    workingPeriod[1] = date.with(to); // end of working weekday
+    
+    return workingPeriod;
   }
   
   //-------------------------------------------------------------------------------------------------------------------
   
   @Override
-  public void daysOff(LocalDate from, LocalDate to) {
-    System.out.printf(
-        "%s '%s' is taking days off from %s to %s\n",
-        jobTitle.getTitle(), name,
-        from.format(DateTimeFormatter.ISO_LOCAL_DATE), to.format(DateTimeFormatter.ISO_LOCAL_DATE)
-    );
+  public LocalDate[] daysOff(DayOfWeek from, int numberOfDays) {
+    if (numberOfDays > getJobTitle().getWorkingDays().length) {
+      System.out.println("Number of days off exceeds weekly working days");
+      return null;
+    }
+    
+    LocalDate[] daysOffPeriod = new LocalDate[2];
+    
+    daysOffPeriod[0] = LocalDate.now().with(from); // start of days off
+    daysOffPeriod[1] = daysOffPeriod[0].plusDays(numberOfDays - 1); // end of days off
+    LocalDate endDate = LocalDate.now().with(getJobTitle().getWorkingDays()[getJobTitle().getWorkingDays().length - 1]);
+    if (daysOffPeriod[1].isAfter(endDate)) {
+      System.out.println("Days off exceed the working week");
+      return null;
+    }
+    return daysOffPeriod;
   }
   
   //-------------------------------------------------------------------------------------------------------------------

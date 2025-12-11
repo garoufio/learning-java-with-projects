@@ -11,7 +11,7 @@ import java.util.List;
 public class Park {
   
   public static final LocalTime OPENING_HOUR = LocalTime.of(10, 0, 0);
-  public static final LocalTime CLOSING_HOUR = LocalTime.of(19, 30, 0);
+  public static final LocalTime CLOSING_HOUR = LocalTime.of(18, 30, 0);
   
   private boolean isOpen;
   private List<Dinosaur> dinosaurs;

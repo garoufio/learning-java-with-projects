@@ -4,6 +4,8 @@ import chapter10.project.App;
 import chapter10.project.entity.employee.Employee;
 import chapter10.project.entity.employee.JobTitle;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -94,6 +96,39 @@ public class EmployeeService {
       if (e != null && e.equals(employee)) return this.employees.remove(employee);
     }
     return false;
+  }
+  
+  //-------------------------------------------------------------------------------------------------------------------
+  
+  public void printEmployeeWorkingSchedule(Employee employee) {
+    if (employee == null) return;
+    
+    int len = employee.getJobTitle().getWorkingDays().length;
+    LocalDate[] dates = employee.workingDays(
+        employee.getJobTitle().getWorkingDays()[0], employee.getJobTitle().getWorkingDays()[len - 1], LocalDate.now()
+    );
+    System.out.printf(
+        "%s '%s' works from %s to %s, during %s to %s\n",
+        employee.getJobTitle().getTitle(),
+        employee.getName(),
+        dates[0].format(DateTimeFormatter.ISO_DATE),
+        dates[1].format(DateTimeFormatter.ISO_DATE),
+        employee.getJobTitle().getStartTime().format(DateTimeFormatter.ISO_TIME),
+        employee.getJobTitle().getEndTime().format(DateTimeFormatter.ISO_TIME)
+    );
+  }
+  
+  //-------------------------------------------------------------------------------------------------------------------
+  
+  public void printEmployeesWorkingSchedule(List<Employee> employees) {
+    if (employees == null || employees.isEmpty()) {
+      System.out.println("No employees found");
+      return;
+    };
+    
+    for (Employee e : employees) {
+      if (e != null) printEmployeeWorkingSchedule(e);
+    }
   }
   
   //-------------------------------------------------------------------------------------------------------------------

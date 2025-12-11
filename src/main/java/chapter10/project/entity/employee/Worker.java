@@ -1,15 +1,15 @@
 package chapter10.project.entity.employee;
 
+import java.time.DayOfWeek;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 
 public interface Worker {
-
-  void work(LocalDateTime from, LocalDateTime to);
+  
+  LocalDate[] workingDays(DayOfWeek from, DayOfWeek to, LocalDate date);
   
   //-------------------------------------------------------------------------------------------------------------------
   
-  void daysOff(LocalDate from, LocalDate to);
+  LocalDate[] daysOff(DayOfWeek from, int numberOfDays);
   
   //-------------------------------------------------------------------------------------------------------------------
 

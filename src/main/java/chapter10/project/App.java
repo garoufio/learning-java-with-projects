@@ -9,7 +9,9 @@ import chapter10.project.api.*;
 import chapter10.project.entity.vehicle.*;
 import chapter10.project.service.*;
 
+import java.time.DayOfWeek;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -226,23 +228,30 @@ public class App {
     
     employees.add(new Employee("Mike", JobTitle.ZOOLOGIST, 7));
     employees.add(new Employee("Elsa", JobTitle.ZOOLOGIST, 17));
-    employees.add(new Employee("Lisa", JobTitle.EVENTS_MANAGER, 12));
     employees.add(new Employee("Laura", JobTitle.CURATOR, 2));
-    employees.add(new Employee("Philip", JobTitle.GENERAL_DIRECTOR, 11));
-    employees.add(new Employee("Juan", JobTitle.VETERINARIAN, 9));
     employees.add(new Employee("Loren", JobTitle.CURATOR, 2));
-    employees.add(new Employee("Oscar", JobTitle.VETERINARY_TECHNICIAN, 8));
     employees.add(new Employee("Maria", JobTitle.CURATOR, 7));
     employees.add(new Employee("Mathew", JobTitle.CURATOR, 10));
+    employees.add(new Employee("Juan", JobTitle.VETERINARIAN, 9));
+    employees.add(new Employee("Jessie", JobTitle.VETERINARIAN, 12));
+    employees.add(new Employee("Oscar", JobTitle.VETERINARY_TECHNICIAN, 8));
+    employees.add(new Employee("Philip", JobTitle.GENERAL_DIRECTOR, 11));
+    employees.add(new Employee("Lisa", JobTitle.EVENTS_MANAGER, 12));
     employees.add(new Employee("David", JobTitle.HR_MANAGER, 15));
     employees.add(new Employee("Jimmy", JobTitle.HR_ASSISTANT, 3));
     employees.add(new Employee("Angie", JobTitle.PUBLIC_RELATIONS_MANAGER, 14));
+    employees.add(new Employee("Antony", JobTitle.FINANCE_MANAGER, 17));
     employees.add(new Employee("Larry", JobTitle.SECURITY_MANAGER, 24));
     employees.add(new Employee("James", JobTitle.SECURITY_OFFICER, 12));
     employees.add(new Employee("Nina", JobTitle.SECURITY_OFFICER, 9));
+    employees.add(new Employee("Henry", JobTitle.PARK_MANAGER, 7));
     employees.add(new Employee("Sophie", JobTitle.TICKETS_MANAGER, 4));
+    employees.add(new Employee("Sousan", JobTitle.TICKETS_MANAGER, 8));
     employees.add(new Employee("Paula", JobTitle.CLEANING_STAFF, 12));
+    employees.add(new Employee("Laura", JobTitle.CLEANING_STAFF, 10));
+    employees.add(new Employee("Fenia", JobTitle.CLEANING_STAFF, 5));
     employees.add(new Employee("Robert", JobTitle.MAINTENANCE_STAFF, 6));
+    employees.add(new Employee("Howard", JobTitle.MAINTENANCE_STAFF, 17));
     
     return employees;
   }

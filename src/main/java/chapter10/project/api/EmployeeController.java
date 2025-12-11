@@ -54,8 +54,7 @@ public class EmployeeController {
           removeEmployee();
           break;
         case 6:
-          System.out.println("Employees schedule feature is under development.");
-          // TODO
+          manageSchedule();
           break;
         case 7:
           System.out.println("Returning to main menu...");
@@ -289,6 +288,143 @@ public class EmployeeController {
           int yearsOfExperience = Util.readEmployeeYearsOfExperience(sc);
           JobTitle jobTitle = Util.readEmployeeJobTitle(sc);
           removeEmployee(new Employee(name, jobTitle, yearsOfExperience));
+        }
+        case 4 -> { }
+        default -> System.out.println("Invalid choice. Please try again.");
+      }
+      if (choice > 0 && choice < 5) break;
+    }
+  }
+  
+  //-------------------------------------------------------------------------------------------------------------------
+  
+  private void manageSchedule() {
+    for (;;) {
+      System.out.printf("\nEmployees schedule management:\n");
+      System.out.println("1. Show employees schedule");
+      System.out.println("2. Modify employee schedule");
+      System.out.println("3. Set day off");
+      System.out.println("4. Return to employee menu");
+      System.out.print("Enter your choice: ");
+      int choice = sc.nextInt();
+      switch (choice) {
+        case 1 -> printEmployeesSchedule();
+        case 2 -> editEmployeeSchedule();
+        case 3 -> {} // employeeService.setEmployeesDayOff();
+        case 4 -> { }
+        default -> System.out.println("Invalid choice. Please try again.");
+      }
+      if (choice == 4) {
+        System.out.println();
+        break;
+      }
+    }
+  }
+  
+  //-------------------------------------------------------------------------------------------------------------------
+  
+  private void printEmployeesSchedule() {
+      for (;;) {
+        System.out.printf("\nShow weekly schedule by:\n");
+        System.out.println("1. All employees");
+        System.out.println("2. Employee name");
+        System.out.println("3. Employee job title");
+        System.out.println("4. Detailed search");
+        System.out.println("5. Return to employee menu");
+        System.out.print("Enter your choice: ");
+        int choice = sc.nextInt();
+        switch (choice) {
+          case 1 -> employeeService.printEmployeesWorkingSchedule(employeeService.getAllEmployees());
+          case 2 -> {
+            String name = Util.readEmployeeName(sc);
+            List<Employee> employees = employeeService.getEmployee(name);
+            if (employees.isEmpty()) {
+              System.out.printf("Employee with name '%s' not found\n", name);
+            } else {
+              employeeService.printEmployeesWorkingSchedule(employees);
+            }
+          }
+          case 3 -> {
+            JobTitle jobTitle = Util.readEmployeeJobTitle(sc);
+            List<Employee> employees = employeeService.getEmployees(jobTitle);
+            if (employees.isEmpty()) {
+              System.out.printf("No employees(s) found for job title '%s'!\n", jobTitle);
+            } else {
+              employeeService.printEmployeesWorkingSchedule(employees);
+            }
+          }
+          case 4 -> {
+            String name = Util.readEmployeeName(sc);
+            int yearsOfExperience = Util.readEmployeeYearsOfExperience(sc);
+            JobTitle jobTitle = Util.readEmployeeJobTitle(sc);
+            Employee employee = employeeService.getEmployee(new Employee(name, jobTitle, yearsOfExperience));
+            if (employee == null) {
+              System.out.println("Employee not found");
+            } else {
+              employeeService.printEmployeeWorkingSchedule(employee);
+            }
+          }
+          case 5 -> { }
+          default -> System.out.println("Invalid choice. Please try again.");
+        }
+        if (choice > 0 && choice < 6) break;
+      }
+  }
+  
+  //-------------------------------------------------------------------------------------------------------------------
+  
+  private void editEmployeeSchedule(Employee employee) {
+    // TODO
+//    System.out.printf("Current schedule for employee '%s' is %s\n", employee.getName(), employee.getWorkSchedule());
+//    System.out.println("Enter new schedule:");
+//    String newSchedule = sc.nextLine();
+//    employee.setWorkSchedule(newSchedule);
+//    System.out.printf("Schedule updated for employee '%s': %s\n", employee.getName(), employee.getWorkSchedule());
+  }
+  
+  //-------------------------------------------------------------------------------------------------------------------
+  
+  private void editEmployeeSchedule() {
+    for (;;) {
+      System.out.printf("\nEdit by:\n");
+      System.out.println("1. Name");
+      System.out.println("2. Job title");
+      System.out.println("3. Detailed search");
+      System.out.println("4. Return to employee menu");
+      System.out.print("Enter your choice: ");
+      int choice = sc.nextInt();
+      switch (choice) {
+        case 1 -> {
+          String name = Util.readEmployeeName(sc);
+          List<Employee> employees = employeeService.getEmployee(name);
+          if (employees.isEmpty()) {
+            System.out.printf("Employee with name '%s' not found\n", name);
+          } else {
+            System.out.printf("'%d' employees found with name '%s'\n", employees.size(), name);
+            for (Employee e : employees) {
+              if (Util.readEditEmployee(sc, e, "schedule").equals("Y")) editEmployeeSchedule(e);
+            }
+          }
+        }
+        case 2 -> {
+          JobTitle jobTitle = Util.readEmployeeJobTitle(sc);
+          List<Employee> employees = employeeService.getEmployees(jobTitle);
+          if (employees.isEmpty()) {
+            System.out.printf("No employees(s) found for job title '%s'\n",  jobTitle);
+          } else {
+            System.out.printf("'%d' employees found with job title '%s'\n", employees.size(), jobTitle.getTitle());
+            for (Employee e : employees) {
+              if (Util.readEditEmployee(sc, e, "schedule").equals("Y")) editEmployeeSchedule(e);
+            }
+          }
+        }
+        case 3 -> {
+          String name = Util.readEmployeeName(sc);
+          int yearsOfExperience = Util.readEmployeeYearsOfExperience(sc);
+          JobTitle jobTitle = Util.readEmployeeJobTitle(sc);
+          Employee employee = employeeService.getEmployee(new Employee(name, jobTitle, yearsOfExperience));
+          if (employee == null) System.out.println("Employee not found");
+          else editEmployeeSchedule(employee);
         }
         case 4 -> { }
         default -> System.out.println("Invalid choice. Please try again.");
