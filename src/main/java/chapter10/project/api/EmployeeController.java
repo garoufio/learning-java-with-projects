@@ -6,6 +6,8 @@ import chapter10.project.entity.enclosure.Enclosure;
 import chapter10.project.service.EmployeeService;
 import chapter10.project.service.EnclosureService;
 
+import java.time.DayOfWeek;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Scanner;
 
@@ -89,7 +91,7 @@ public class EmployeeController {
     String name = Util.readEmployeeName(sc);
     sc.nextLine();
     // read years of experience
-    int yearsOfExperience = Util.readEmployeeYearsOfExperience(sc);
+    int yearsOfExperience = Util.readEmployeeIntField(sc, "employee years of experience: ");
     // read job title
     JobTitle jobTitle = Util.readEmployeeJobTitle(sc);
     sc.nextLine();
@@ -139,7 +141,7 @@ public class EmployeeController {
         }
         case 3 -> {
           String name = Util.readEmployeeName(sc);
-          int yearsOfExperience = Util.readEmployeeYearsOfExperience(sc);
+          int yearsOfExperience = Util.readEmployeeIntField(sc, "employee years of experience: ");
           JobTitle jobTitle = Util.readEmployeeJobTitle(sc);
           Employee employee = employeeService.getEmployee(new Employee(name, jobTitle, yearsOfExperience));
           if (employee == null) System.out.println("Employee not found");
@@ -167,7 +169,7 @@ public class EmployeeController {
     }
     // change yearsOfExperience
     if (Util.readEditEmployee(sc, null, "years of experience").equals("Y")) {
-      int newYearsOfExperience = Util.readEmployeeYearsOfExperience(sc);
+      int newYearsOfExperience = Util.readEmployeeIntField(sc, "employee years of experience: ");
       employee.setYearsOfExperience(newYearsOfExperience);
     }
   }
@@ -195,7 +197,7 @@ public class EmployeeController {
         }
         case 2 -> {
           String name = Util.readEmployeeName(sc);
-          int yearsOfExperience = Util.readEmployeeYearsOfExperience(sc);
+          int yearsOfExperience = Util.readEmployeeIntField(sc, "employee years of experience: ");
           JobTitle jobTitle = Util.readEmployeeJobTitle(sc);
           Employee employee = employeeService.getEmployee(new Employee(name, jobTitle, yearsOfExperience));
           if (employee != null) {
@@ -285,7 +287,7 @@ public class EmployeeController {
         }
         case 3 -> {
           String name = Util.readEmployeeName(sc);
-          int yearsOfExperience = Util.readEmployeeYearsOfExperience(sc);
+          int yearsOfExperience = Util.readEmployeeIntField(sc, "employee years of experience: ");
           JobTitle jobTitle = Util.readEmployeeJobTitle(sc);
           removeEmployee(new Employee(name, jobTitle, yearsOfExperience));
         }
@@ -302,19 +304,16 @@ public class EmployeeController {
     for (;;) {
       System.out.printf("\nEmployees schedule management:\n");
       System.out.println("1. Show employees schedule");
-      System.out.println("2. Modify employee schedule");
-      System.out.println("3. Set day off");
-      System.out.println("4. Return to employee menu");
+      System.out.println("2. Set day off");
+      System.out.println("3. Return to employee menu");
       System.out.print("Enter your choice: ");
       int choice = sc.nextInt();
       switch (choice) {
         case 1 -> printEmployeesSchedule();
-        case 2 -> editEmployeeSchedule();
-        case 3 -> {} // employeeService.setEmployeesDayOff();
-        case 4 -> { }
+        case 2 -> setEmployeesDaysOff();
         default -> System.out.println("Invalid choice. Please try again.");
       }
-      if (choice == 4) {
+      if (choice == 3) {
         System.out.println();
         break;
       }
@@ -355,7 +354,7 @@ public class EmployeeController {
           }
           case 4 -> {
             String name = Util.readEmployeeName(sc);
-            int yearsOfExperience = Util.readEmployeeYearsOfExperience(sc);
+            int yearsOfExperience = Util.readEmployeeIntField(sc, "employee years of experience: ");
             JobTitle jobTitle = Util.readEmployeeJobTitle(sc);
             Employee employee = employeeService.getEmployee(new Employee(name, jobTitle, yearsOfExperience));
             if (employee == null) {
@@ -373,24 +372,21 @@ public class EmployeeController {
   
   //-------------------------------------------------------------------------------------------------------------------
   
-  private void editEmployeeSchedule(Employee employee) {
-    // TODO
-//    System.out.printf("Current schedule for employee '%s' is %s\n", employee.getName(), employee.getWorkSchedule());
-//    System.out.println("Enter new schedule:");
-//    String newSchedule = sc.nextLine();
-//    employee.setWorkSchedule(newSchedule);
-//    System.out.printf("Schedule updated for employee '%s': %s\n", employee.getName(), employee.getWorkSchedule());
+  private void setEmployeeDaysOff(Employee employee) {
+    DayOfWeek dayOfWeek = Util.readEmployeeDayOfWeek(sc);
+    int numberOfDays = Util.readEmployeeIntField(sc, "number of days off: ");
+    LocalDate[] daysOff = employee.daysOff(dayOfWeek, numberOfDays); // calculate days off (from -> to)
+    employeeService.setDaysOff(employee, daysOff);
   }
   
   //-------------------------------------------------------------------------------------------------------------------
   
-  private void editEmployeeSchedule() {
+  private void setEmployeesDaysOff() {
     for (;;) {
-      System.out.printf("\nEdit by:\n");
+      System.out.printf("\nSet by:\n");
       System.out.println("1. Name");
-      System.out.println("2. Job title");
-      System.out.println("3. Detailed search");
-      System.out.println("4. Return to employee menu");
+      System.out.println("2. Detailed search");
+      System.out.println("3. Return to employee menu");
       System.out.print("Enter your choice: ");
       int choice = sc.nextInt();
       switch (choice) {
@@ -402,34 +398,22 @@ public class EmployeeController {
           } else {
             System.out.printf("'%d' employees found with name '%s'\n", employees.size(), name);
             for (Employee e : employees) {
-              if (Util.readEditEmployee(sc, e, "schedule").equals("Y")) editEmployeeSchedule(e);
+              if (Util.readEditEmployee(sc, e, "schedule").equals("Y")) setEmployeeDaysOff(e);
             }
           }
         }
         case 2 -> {
-          JobTitle jobTitle = Util.readEmployeeJobTitle(sc);
-          List<Employee> employees = employeeService.getEmployees(jobTitle);
-          if (employees.isEmpty()) {
-            System.out.printf("No employees(s) found for job title '%s'\n",  jobTitle);
-          } else {
-            System.out.printf("'%d' employees found with job title '%s'\n", employees.size(), jobTitle.getTitle());
-            for (Employee e : employees) {
-              if (Util.readEditEmployee(sc, e, "schedule").equals("Y")) editEmployeeSchedule(e);
-            }
-          }
-        }
-        case 3 -> {
           String name = Util.readEmployeeName(sc);
-          int yearsOfExperience = Util.readEmployeeYearsOfExperience(sc);
+          int yearsOfExperience = Util.readEmployeeIntField(sc, "employee years of experience: ");
           JobTitle jobTitle = Util.readEmployeeJobTitle(sc);
           Employee employee = employeeService.getEmployee(new Employee(name, jobTitle, yearsOfExperience));
           if (employee == null) System.out.println("Employee not found");
-          else editEmployeeSchedule(employee);
+          else setEmployeeDaysOff(employee);
         }
-        case 4 -> { }
+        case 3 -> { }
         default -> System.out.println("Invalid choice. Please try again.");
       }
-      if (choice > 0 && choice < 5) break;
+      if (choice > 0 && choice < 4) break;
     }
   }
   

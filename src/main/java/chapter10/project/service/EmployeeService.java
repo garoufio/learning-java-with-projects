@@ -100,19 +100,34 @@ public class EmployeeService {
   
   //-------------------------------------------------------------------------------------------------------------------
   
+  private String getPrintableWorkingDays(LocalDate[] dates) {
+    if (dates == null || dates.length == 0) return "[]";
+    
+    StringBuilder sb = new StringBuilder();
+    sb.append("[");
+    for (int i = 0; i < dates.length; i++) {
+      if (dates[i] == null) continue;
+      
+      sb.append(dates[i].format(DateTimeFormatter.ISO_DATE));
+      if (i < dates.length - 1) sb.append(", ");
+    }
+    sb.append("]");
+    
+    return sb.toString();
+  }
+  
+  //-------------------------------------------------------------------------------------------------------------------
+  
   public void printEmployeeWorkingSchedule(Employee employee) {
     if (employee == null) return;
     
     int len = employee.getJobTitle().getWorkingDays().length;
-    LocalDate[] dates = employee.workingDays(
-        employee.getJobTitle().getWorkingDays()[0], employee.getJobTitle().getWorkingDays()[len - 1], LocalDate.now()
-    );
+    LocalDate[] dates = employee.getWeeklyWorkDays();
     System.out.printf(
-        "%s '%s' works from %s to %s, during %s to %s\n",
+        "%s '%s' works on %s, during %s to %s\n",
         employee.getJobTitle().getTitle(),
         employee.getName(),
-        dates[0].format(DateTimeFormatter.ISO_DATE),
-        dates[1].format(DateTimeFormatter.ISO_DATE),
+        getPrintableWorkingDays(dates),
         employee.getJobTitle().getStartTime().format(DateTimeFormatter.ISO_TIME),
         employee.getJobTitle().getEndTime().format(DateTimeFormatter.ISO_TIME)
     );
@@ -128,6 +143,22 @@ public class EmployeeService {
     
     for (Employee e : employees) {
       if (e != null) printEmployeeWorkingSchedule(e);
+    }
+  }
+  
+  //-------------------------------------------------------------------------------------------------------------------
+  
+  public void setDaysOff(Employee employee, LocalDate[] daysOff) {
+    if (employee == null || daysOff == null || daysOff.length == 0) return;
+    
+    LocalDate[] workDays = employee.getWeeklyWorkDays();
+    for  (int i = 0; i < workDays.length; i++) {
+      if (workDays[i] == null) continue;
+      
+      if (
+          (workDays[i].isEqual(daysOff[0]) || workDays[i].isAfter(daysOff[0])) &&
+          (workDays[i].isEqual(daysOff[1]) || workDays[i].isBefore(daysOff[1]))
+          ) workDays[i] = null;
     }
   }
   

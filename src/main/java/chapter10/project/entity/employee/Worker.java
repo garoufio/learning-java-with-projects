@@ -5,7 +5,7 @@ import java.time.LocalDate;
 
 public interface Worker {
   
-  LocalDate[] workingDays(DayOfWeek from, DayOfWeek to, LocalDate date);
+  LocalDate[] workingDays(DayOfWeek[] weekDays, LocalDate date);
   
   //-------------------------------------------------------------------------------------------------------------------
   

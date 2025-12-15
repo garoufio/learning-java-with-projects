@@ -13,6 +13,7 @@ import chapter10.project.entity.ticket.Visitor;
 import chapter10.project.entity.vehicle.Vehicle;
 import chapter10.project.entity.vehicle.VehicleType;
 
+import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.Scanner;
@@ -262,8 +263,9 @@ public class Util {
   
   //-------------------------------------------------------------------------------------------------------------------
   
-  protected static int readEmployeeYearsOfExperience(Scanner sc) {
-    System.out.print("Enter employee years of experience: ");
+  protected static int readEmployeeIntField(Scanner sc, String msg) {
+    System.out.printf("Enter %s\n", msg);
+    //System.out.print("Enter employee years of experience: ");
     return sc.nextInt();
   }
   
@@ -307,6 +309,36 @@ public class Util {
     } while (jobTitle == null);
     
     return jobTitle;
+  }
+  
+  //-------------------------------------------------------------------------------------------------------------------
+  
+  protected static DayOfWeek readEmployeeDayOfWeek(Scanner sc) {
+    DayOfWeek dayOfWeek = null;
+    do {
+      System.out.println("Select the day of the week the day off starts: ");
+      int count = 1;
+      for (DayOfWeek d : DayOfWeek.values()) {
+        System.out.printf("%d. %s\n", count++, d.name());
+      }
+      System.out.print("Enter your choice: ");
+      int choice = sc.nextInt();
+      dayOfWeek = switch (choice) {
+        case 1 -> DayOfWeek.MONDAY;
+        case 2 -> DayOfWeek.TUESDAY;
+        case 3 -> DayOfWeek.WEDNESDAY;
+        case 4 -> DayOfWeek.THURSDAY;
+        case 5 -> DayOfWeek.FRIDAY;
+        case 6 -> DayOfWeek.SATURDAY;
+        case 7 -> DayOfWeek.SUNDAY;
+        default -> {
+          System.out.println("Invalid choice for day of the week. Please try again.");
+          yield null;
+        }
+      };
+    } while (dayOfWeek == null);
+    
+    return dayOfWeek;
   }
   
   //-------------------------------------------------------------------------------------------------------------------

@@ -2,10 +2,7 @@ package chapter10.project.entity.employee;
 
 import java.time.DayOfWeek;
 import java.time.LocalDate;
-import java.time.LocalTime;
-import java.time.format.DateTimeFormatter;
-import java.time.temporal.Temporal;
-import java.time.temporal.TemporalAdjusters;
+import java.util.Arrays;
 import java.util.Objects;
 import java.util.UUID;
 
@@ -15,6 +12,8 @@ public class Employee implements Worker {
   private String name;
   private JobTitle jobTitle;
   private int yearsOfExperience;
+  private LocalDate[] weeklyWorkDays;
+  private LocalDate[] weeklyDaysOff;
   
   //-------------------------------------------------------------------------------------------------------------------
   
@@ -23,6 +22,7 @@ public class Employee implements Worker {
     this.name = name;
     this.jobTitle = jobTitle;
     setYearsOfExperience(yearsOfExperience);
+    setWeeklyWorkDays(null);    // default working days based on job titles
   }
   
   //-------------------------------------------------------------------------------------------------------------------
@@ -69,6 +69,32 @@ public class Employee implements Worker {
   
   //-------------------------------------------------------------------------------------------------------------------
   
+  public LocalDate[] getWeeklyWorkDays() {
+    return weeklyWorkDays;
+  }
+  
+  //-------------------------------------------------------------------------------------------------------------------
+  
+  public void setWeeklyWorkDays(LocalDate[] weeklyWorkDays) {
+    this.weeklyWorkDays = (weeklyWorkDays == null || weeklyWorkDays.length == 0) ?
+      workingDays(getJobTitle().getWorkingDays(), LocalDate.now()) : weeklyWorkDays;
+      
+  }
+  
+  //-------------------------------------------------------------------------------------------------------------------
+  
+  public LocalDate[] getWeeklyDaysOff() {
+    return weeklyDaysOff;
+  }
+  
+  //-------------------------------------------------------------------------------------------------------------------
+  
+  public void setWeeklyDaysOff(LocalDate[] weeklyDaysOff) {
+    this.weeklyDaysOff = weeklyDaysOff;
+  }
+  
+  //-------------------------------------------------------------------------------------------------------------------
+  
   @Override
   public boolean equals(Object o) {
     if (o == null || getClass() != o.getClass()) return false;
@@ -101,12 +127,14 @@ public class Employee implements Worker {
   //-------------------------------------------------------------------------------------------------------------------
   
   @Override
-  public LocalDate[] workingDays(DayOfWeek from, DayOfWeek to, LocalDate date) {
-    LocalDate[] workingPeriod = new LocalDate[2];
-    workingPeriod[0] = date.with(from); // start of working weekday
-    workingPeriod[1] = date.with(to); // end of working weekday
+  public LocalDate[] workingDays(DayOfWeek[] weekDays, LocalDate date) {
+    LocalDate[] dates = new LocalDate[weekDays.length];
     
-    return workingPeriod;
+    // convert DayOfWeek to LocalDate for the current weeks
+    for (int i = 0; i < weekDays.length; i++) {
+      dates[i] = date.with(weekDays[i]);
+    }
+    return dates;
   }
   
   //-------------------------------------------------------------------------------------------------------------------
