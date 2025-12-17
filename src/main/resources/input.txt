@@ -1,0 +1,4 @@
+this is a simple text file used for testing purposes.
+It contains multiple lines of text.
+Each line serves to demonstrate file reading capabilities.
+The end of the file is reached after this line.
