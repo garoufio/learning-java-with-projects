@@ -2,7 +2,7 @@ package chapter10.project.entity.enclosure;
 
 import chapter10.project.entity.dinosaur.Dinosaur;
 import chapter10.project.entity.employee.Employee;
-import chapter9.project.App;
+import chapter10.project.App;
 
 import java.util.ArrayList;
 import java.util.List;

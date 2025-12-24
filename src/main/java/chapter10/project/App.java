@@ -9,9 +9,7 @@ import chapter10.project.api.*;
 import chapter10.project.entity.vehicle.*;
 import chapter10.project.service.*;
 
-import java.time.DayOfWeek;
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
