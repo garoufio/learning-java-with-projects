@@ -1,10 +1,13 @@
 package chapter12.project.api;
 
+import chapter12.project.entity.park.Park;
+import chapter12.project.entity.activity.Activity;
 import chapter12.project.entity.dinosaur.Dinosaur;
 import chapter12.project.entity.enclosure.Enclosure;
 import chapter12.project.exception.DinosaurIllException;
 import chapter12.project.exception.EnclosureBreachException;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class DinosaurCareSystem {
@@ -13,11 +16,20 @@ public class DinosaurCareSystem {
   public static final int ENCLOSURE_SECURITY_THRESHOLD = 70;
   
   private List<Dinosaur> dinosaurs;
+  private List<Enclosure> enclosures;
   private List<Activity> activities;
 
   //-------------------------------------------------------------------------------------------------------------------
   
-  public void handleDinosaurHealth(List<Dinosaur> dinosaurs) throws DinosaurIllException {
+  public DinosaurCareSystem() {
+    this.dinosaurs = new ArrayList<>();
+    this.enclosures = new ArrayList<>();
+    this.activities = new ArrayList<>();
+  }
+  
+  //-------------------------------------------------------------------------------------------------------------------
+  
+  public void checkDinosaursHealth() throws DinosaurIllException {
     if (dinosaurs == null || dinosaurs.isEmpty()) return;
     
     for (Dinosaur dinosaur : dinosaurs) {
@@ -32,7 +44,7 @@ public class DinosaurCareSystem {
   
   //-------------------------------------------------------------------------------------------------------------------
   
-  public void handleEnclosureSecurity(List<Enclosure> enclosures) throws EnclosureBreachException {
+  public void checkEnclosuresSecurity() throws EnclosureBreachException {
     if (enclosures == null || enclosures.isEmpty()) return;
     
     for (Enclosure enclosure : enclosures) {
@@ -51,16 +63,33 @@ public class DinosaurCareSystem {
   //-------------------------------------------------------------------------------------------------------------------
   
   public void addDinosaur(Dinosaur dinosaur) {
-    if (dinosaurs != null && dinosaur != null) {
-      dinosaurs.add(dinosaur);
-    }
+    if (this.dinosaurs == null || dinosaur == null) return;
+    
+    this.dinosaurs.add(dinosaur);
   }
-  
+
   //-------------------------------------------------------------------------------------------------------------------
   
   public boolean removeDinosaur(Dinosaur dinosaur) {
     if (dinosaurs != null && dinosaur != null) {
       return dinosaurs.remove(dinosaur);
+    }
+    return false;
+  }
+  
+  //-------------------------------------------------------------------------------------------------------------------
+  
+  public void addEnclosure(Enclosure enclosure) {
+    if (this.enclosures == null || enclosure == null) return;
+    
+    this.enclosures.add(enclosure);
+  }
+  
+  //-------------------------------------------------------------------------------------------------------------------
+  
+  public boolean removeEnclosure(Enclosure enclosure) {
+    if (enclosures != null && enclosure != null) {
+      return enclosures.remove(enclosure);
     }
     return false;
   }
@@ -83,5 +112,5 @@ public class DinosaurCareSystem {
   }
   
   //-------------------------------------------------------------------------------------------------------------------
-
+  
 }

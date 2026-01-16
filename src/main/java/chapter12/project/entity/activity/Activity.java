@@ -1,5 +1,6 @@
-package chapter12.project.api;
+package chapter12.project.entity.activity;
 
+import chapter12.project.api.Util;
 import chapter12.project.entity.dinosaur.Dinosaur;
 
 import java.time.LocalDateTime;

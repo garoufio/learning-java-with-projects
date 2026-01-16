@@ -32,8 +32,9 @@ public class DinosaurController {
       System.out.println("1. Show all Dinosaurs");
       System.out.println("2. Add Dinosaur");
       System.out.println("3. Find Dinosaur");
-      System.out.println("4. Remove Dinosaur");
-      System.out.println("5. Return to main menu");
+      System.out.println("4. Edit Dinosaur");
+      System.out.println("5. Remove Dinosaur");
+      System.out.println("6. Return to main menu");
       System.out.print("Enter your choice: ");
       int choice = sc.nextInt();
       switch (choice) {
@@ -47,15 +48,18 @@ public class DinosaurController {
           findDinosaur();
           break;
         case 4:
-          removeDinosaur();
+          editDinosaur();
           break;
         case 5:
+          removeDinosaur();
+          break;
+        case 6:
           System.out.println("Returning to main menu...");
           break;
         default:
           System.out.println("Invalid choice. Please try again.");
       }
-      if (choice == 5) {
+      if (choice == 6) {
         System.out.println();
         break;
       }
@@ -240,6 +244,85 @@ public class DinosaurController {
         }
       }
       if (choice > 0 && choice < 7) break;
+    }
+  }
+  
+  //-------------------------------------------------------------------------------------------------------------------
+  
+  private void editDinosaurDetails(Dinosaur dinosaur) {
+    // change name
+    
+    // change birthdate
+    
+    // change species
+    
+    // change type
+    
+    // change size
+    
+    // change health score
+    
+    // change specific attributes based on speciess
+  }
+  
+  //-------------------------------------------------------------------------------------------------------------------
+  
+  private void editDinosaur() {
+    for (;;) {
+      System.out.printf("\nEdit by:\n");
+      System.out.println("1. Name");
+      System.out.println("2. Detailed search");
+      System.out.println("3. Return to dinosaur menu");
+      System.out.print("Enter your choice: ");
+      int choice = sc.nextInt();
+      switch (choice) {
+        case 1 -> {
+          String name = Util.readDinosaurName(sc);
+          Dinosaur foundDinosaur = dinosaurService.getDinosaur(name);
+          if (foundDinosaur == null) {
+            System.out.printf("Dinosaur '%s' not found\n", name);
+          } else {
+            editDinosaurDetails(foundDinosaur);
+          }
+        }
+        case 2 -> {
+          String name = Util.readDinosaurName(sc);
+          LocalDate birthDate = Util.readDinosaurBirthDate(sc);
+          DinosaurType type = Util.readDinosaurType(sc);
+          DinosaurSpecies species = Util.readDinosaurSpecies(sc);
+          DinosaurSize size = Util.readDinosaurSize(sc);
+          Dinosaur dinosaur = switch (species) {
+            case TYRANNOSAURUS, TRICERATOPS, VELOCIRAPTOR, STEGOSAURUS, BRACHIOSAURUS,
+                 SPINOSAURUS, PARASAUROLOPHUS, ANKYLOSAURUS -> {
+              int height = Util.readDinosaurIntField(sc, "height (in centimeters)");
+              int speed = Util.readDinosaurIntField(sc, "max running speed (in Km/h)");
+              yield new TerrestrialDinosaur(name, birthDate, type, species, size, height, speed);
+            }
+            case PLIOSAURS -> {
+              int divingDepth = Util.readDinosaurIntField(sc, "max diving depth (in meters)");
+              int underwaterSpeed = Util.readDinosaurIntField(sc, "max underwater speed (in Km/h)");
+              boolean isAmphibious = Util.readDinosaurAmphibiousCapability(sc);
+              yield new AquaticDinosaur(name, birthDate, type, species, size, divingDepth, underwaterSpeed, isAmphibious);
+            }
+            case PTEROSAUR -> {
+              int wingspan = Util.readDinosaurIntField(sc, "wingspan (in centimeters)");
+              int maxAltitude = Util.readDinosaurIntField(sc, "max altitude (in meters)");
+              int flyingSpeed = Util.readDinosaurIntField(sc, "max flying speed (in Km/h)");
+              yield new FlyingDinosaur(name, birthDate, type, species, size, wingspan, maxAltitude, flyingSpeed);
+            }
+            default -> null;
+          };
+          Dinosaur foundDinosaur = dinosaurService.getDinosaur(dinosaur);
+          if (foundDinosaur == null) {
+            System.out.println("Dinosaur not found");
+          } else {
+            editDinosaurDetails(foundDinosaur);
+          }
+        }
+        case 3 -> { }
+        default -> System.out.println("Invalid choice. Please try again");
+      }
+      if (choice > 0 && choice < 4) break;
     }
   }
   

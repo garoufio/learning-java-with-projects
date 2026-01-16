@@ -9,8 +9,6 @@ import chapter12.project.service.*;
 import chapter12.project.api.*;
 import chapter12.project.entity.park.Park;
 import chapter12.project.api.DinosaurCareSystem;
-import chapter12.project.exception.DinosaurIllException;
-import chapter12.project.exception.EnclosureBreachException;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -58,7 +56,16 @@ public class App {
     
     park = new Park();
     // TODO: create Activities
-    // TODO: add dinosaurs and activities to DinosaurCareSystem
+    // add Dinosaurs to DinosaurCareSystem
+    List<Dinosaur> dinosaurs = dinosaurService.getAllDinosaurs();
+    for (Dinosaur d : dinosaurs) {
+      dinosaurCareSystem.addDinosaur(d);
+    }
+    // add Enclosures to DinosaurCareSystem
+    List<Enclosure> enclosures = enclosureService.getAllEnclosures();
+    for (Enclosure e : enclosures) {
+      dinosaurCareSystem.addEnclosure(e);
+    }
     // TODO: modify enclosure's security level
     // TODO: modify dinosaur's health score
     // TODO: use InputException handling
@@ -91,9 +98,12 @@ public class App {
     System.out.println("3. Manage Tickets");
     System.out.println("4. Manage Enclosures");
     System.out.println("5. Manage Vehicles");
-    System.out.println("6. Check Park Status");
-    System.out.println("7. Handle Special Events");
-    System.out.println("8. Exit");
+    System.out.println("6. Manage Dinosaur Activities");
+    System.out.println("7. Check Park Status");
+    System.out.println("8. Handle Special Events");
+    System.out.println("9. Dinosaurs Health Management");
+    System.out.println("10. Enclosures Security Management");
+    System.out.println("11. Exit");
     System.out.print("Enter your choice: ");
   }
   
@@ -117,12 +127,21 @@ public class App {
         vehicleController.manageVehicles();
         break;
       case 6:
-        checkParkStatus();
+        // TODO: dinosaur activities management
         break;
       case 7:
-        specialEventsController.handleSpecialEvents();
+        checkParkStatus();
         break;
       case 8:
+        specialEventsController.handleSpecialEvents();
+        break;
+      case 9:
+        // TODO: dinosaur health management
+        break;
+      case 10:
+        // TODO: enclosure security management
+        break;
+      case 11:
         System.out.println("Exiting...");
         System.exit(0);
       default:
@@ -375,8 +394,8 @@ public class App {
   //-------------------------------------------------------------------------------------------------------------------
   
   public void checkParkStatus() {
-    if (park.getParkStatus()) System.out.println("The Park is open until " + Park.CLOSING_HOUR);
-    else System.out.println("The Park will welcome its guests tomorrow from " + Park.OPENING_HOUR);
+    if (park.getParkStatus()) System.out.println("The Park is open until " + Park.CLOSING_HOUR.format(Util.TIME_FORMAT));
+    else System.out.println("The Park will welcome its guests tomorrow from " + Park.OPENING_HOUR.format(Util.TIME_FORMAT));
     System.out.println();
   }
   
@@ -403,6 +422,5 @@ public class App {
   }
   
   //-------------------------------------------------------------------------------------------------------------------
-  
   
 }
