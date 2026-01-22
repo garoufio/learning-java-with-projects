@@ -1,6 +1,5 @@
-package chapter12.project.api;
+package chapter12.project.entity.park;
 
-import chapter12.project.entity.park.Park;
 import chapter12.project.entity.activity.Activity;
 import chapter12.project.entity.dinosaur.Dinosaur;
 import chapter12.project.entity.enclosure.Enclosure;
@@ -36,7 +35,11 @@ public class DinosaurCareSystem {
       if (dinosaur == null) continue;
       if (dinosaur.getHealthScore() < DINOSAUR_HEALTH_THRESHOLD) {
         throw new DinosaurIllException(
-            String.format("Dinosaur '%s' is ill with health score: %d", dinosaur, dinosaur.getHealthScore())
+            String.format(
+                "Dinosaur '%s' of species '%s' is ill with health score: %d",
+                dinosaur.getName(),
+                dinosaur.getSpecies().name(),
+                dinosaur.getHealthScore())
         );
       }
     }
@@ -51,7 +54,7 @@ public class DinosaurCareSystem {
       if (enclosure == null) continue;
       if (enclosure.getSecurityLevel() < ENCLOSURE_SECURITY_THRESHOLD) {
         throw new EnclosureBreachException(
-            String.format("Enclosure of type '%s' has breached security level: %d",
+            String.format("Enclosure of type '%s' has reached security level: %d",
                 enclosure.getEnclosureType(),
                 enclosure.getSecurityLevel()
             )

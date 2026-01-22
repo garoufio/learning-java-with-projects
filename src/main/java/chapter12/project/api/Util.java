@@ -1,12 +1,9 @@
 package chapter12.project.api;
 
-import chapter12.project.entity.dinosaur.DinosaurSize;
-import chapter12.project.entity.dinosaur.DinosaurSpecies;
-import chapter12.project.entity.dinosaur.DinosaurType;
+import chapter12.project.entity.dinosaur.*;
 import chapter12.project.entity.employee.Employee;
 import chapter12.project.entity.employee.JobTitle;
-import chapter12.project.entity.enclosure.EnclosureType;
-import chapter12.project.entity.enclosure.SafetyLevel;
+import chapter12.project.entity.enclosure.*;
 import chapter12.project.entity.event.EventType;
 import chapter12.project.entity.ticket.TicketType;
 import chapter12.project.entity.ticket.Visitor;
@@ -28,6 +25,25 @@ public class Util {
   
   //-------------------------------------------------------------------------------------------------------------------
   // Dinosaurs
+  //-------------------------------------------------------------------------------------------------------------------
+  
+  protected static String readEditDinosaur(Scanner sc, Dinosaur dinosaur, String field) {
+    String answer;
+    for (;;) {
+      if (dinosaur == null) System.out.printf("Edit dinosaur's %s? (Y/N) ", field);
+      else System.out.printf("Edit dinosaur '%s'? (Y/N) ", dinosaur);
+      
+      answer = sc.next();
+      if (answer.equalsIgnoreCase("Y") || answer.equalsIgnoreCase("N")) {
+        sc.nextLine();
+        return answer.toUpperCase();
+      } else {
+        sc.nextLine();
+        System.out.println("Invalid choice. Please try again");
+      }
+    }
+  }
+  
   //-------------------------------------------------------------------------------------------------------------------
   
   protected static String readDinosaurName(Scanner sc) {
@@ -366,7 +382,26 @@ public class Util {
   // Enclosures
   //-------------------------------------------------------------------------------------------------------------------
   
-  protected static EnclosureType  readEnclosureType(Scanner sc) {
+  protected static String readEditEnclosure(Scanner sc, Enclosure enclosure, String field) {
+    String answer;
+    for (;;) {
+      if (enclosure == null) System.out.printf("Edit enclosure's %s? (Y/N) ", field);
+      else System.out.printf("Edit enclosure '%s'? (Y/N) ", enclosure);
+      
+      answer = sc.next();
+      if (answer.equalsIgnoreCase("Y") || answer.equalsIgnoreCase("N")) {
+        sc.nextLine();
+        return answer.toUpperCase();
+      } else {
+        sc.nextLine();
+        System.out.println("Invalid choice. Please try again");
+      }
+    }
+  }
+  
+  //-------------------------------------------------------------------------------------------------------------------
+  
+  protected static EnclosureType readEnclosureType(Scanner sc) {
     EnclosureType enclosureType = null;
     do {
       System.out.println("Select the enclosure type: ");
@@ -399,7 +434,7 @@ public class Util {
   
   //-------------------------------------------------------------------------------------------------------------------
   
-  protected static SafetyLevel  readSafetyLevel(Scanner sc) {
+  protected static SafetyLevel readSafetyLevel(Scanner sc) {
     SafetyLevel safetyLevel = null;
     
     do {
@@ -423,6 +458,14 @@ public class Util {
     } while (safetyLevel == null);
     
     return safetyLevel;
+  }
+  
+  //-------------------------------------------------------------------------------------------------------------------
+  
+  protected static int readEnclosureSecurityLevel(Scanner sc) {
+    sc.nextLine();
+    System.out.print("Enter enclosure security level (0-100): ");
+    return sc.nextInt();
   }
   
   //-------------------------------------------------------------------------------------------------------------------

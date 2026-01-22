@@ -34,8 +34,9 @@ public class EnclosureController {
       System.out.println("1. Show all Enclosures");
       System.out.println("2. Add Enclosure");
       System.out.println("3. Find Enclosure");
-      System.out.println("4. Remove Enclosure");
-      System.out.println("5. Return to main menu");
+      System.out.println("4. Edit Enclosure");
+      System.out.println("5. Remove Enclosure");
+      System.out.println("6. Return to main menu");
       System.out.print("Enter your choice: ");
       int choice = sc.nextInt();
       switch (choice) {
@@ -49,15 +50,18 @@ public class EnclosureController {
           findEnclosure();
           break;
         case 4:
-          removeEnclosure();
+          editEnclosure();
           break;
         case 5:
+          removeEnclosure();
+          break;
+        case 6:
           System.out.println("Returning to main menu...");
           break;
         default:
           System.out.println("Invalid choice. Please try again.");
       }
-      if (choice == 5) {
+      if (choice == 6) {
         System.out.println();
         break;
       }
@@ -168,6 +172,48 @@ public class EnclosureController {
         default -> System.out.println("Invalid choice. Please try again.");
       }
       if (choice > 0 && choice < 11) break;
+    }
+  }
+  
+  //-------------------------------------------------------------------------------------------------------------------
+  
+  private void editEnclosureDetails(Enclosure enclosure) {
+    // change safety level
+    if (Util.readEditEnclosure(sc, null, "safety level").equals("Y")) {
+      SafetyLevel safetyLevel = Util.readSafetyLevel(sc);
+      enclosure.setSafetyLevel(safetyLevel);
+    }
+    
+    // change security level
+    if (Util.readEditEnclosure(sc, null, "security level").equals("Y")) {
+      int securityLevel = Util.readEnclosureSecurityLevel(sc);
+      enclosure.setSecurityLevel(securityLevel);
+    }
+  }
+  
+  //-------------------------------------------------------------------------------------------------------------------
+  
+  public void editEnclosure() {
+    for (;;) {
+      System.out.printf("\nEdit by:\n");
+      System.out.println("1. Enclosure Type");
+      System.out.println("2. Return to enclosure menu");
+      System.out.print("Enter your choice: ");
+      int choice = sc.nextInt();
+      switch (choice) {
+        case 1 -> {
+          EnclosureType enclosureType = Util.readEnclosureType(sc);
+          Enclosure enclosure = enclosureService.getEnclosure(enclosureType);
+          if (enclosure == null) {
+            System.out.printf("No enclosure found for type '%s'\n", enclosureType);
+          } else {
+            editEnclosureDetails(enclosure);
+          }
+        }
+        case 2 -> { }
+        default -> System.out.println("Invalid choice. Please try again.");
+      }
+      if (choice > 0 && choice < 3) break;
     }
   }
   

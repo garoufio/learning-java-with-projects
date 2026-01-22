@@ -5,10 +5,11 @@ import chapter12.project.entity.ticket.*;
 import chapter12.project.entity.vehicle.*;
 import chapter12.project.entity.dinosaur.*;
 import chapter12.project.entity.enclosure.*;
+import chapter12.project.exception.DinosaurIllException;
+import chapter12.project.exception.EnclosureBreachException;
 import chapter12.project.service.*;
 import chapter12.project.api.*;
-import chapter12.project.entity.park.Park;
-import chapter12.project.api.DinosaurCareSystem;
+import chapter12.project.entity.park.*;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -24,6 +25,7 @@ public class App {
   public static final int MAX_VEHICLES = 40;
   public static final int MAX_DAILY_SPECIAL_EVENTS = 5;
   
+  private DinosaurCareSystemController dinosaurCareSystemController;
   private DinosaurController dinosaurController;
   private EmployeeController employeeController;
   private TicketController ticketController;
@@ -38,8 +40,9 @@ public class App {
   
   public App() {
     sc = new Scanner(System.in);
-    DinosaurCareSystem dinosaurCareSystem = new DinosaurCareSystem();
+    
     // creation of Services
+    DinosaurCareSystemService dinosaurCareSystemService = new DinosaurCareSystemService();
     DinosaurService dinosaurService = new DinosaurService(createDinosaurs());
     EmployeeService employeeService = new EmployeeService(createEmployees());
     EnclosureService enclosureService = new EnclosureService(createEnclosures(dinosaurService, employeeService));
@@ -47,6 +50,7 @@ public class App {
     SpecialEventsService eventsService = new SpecialEventsService();
     VehicleService vehicleService = new VehicleService(createVehicles());
     // creation of controllers
+    dinosaurCareSystemController = new DinosaurCareSystemController(sc, dinosaurCareSystemService);
     dinosaurController = new DinosaurController(sc, dinosaurService, enclosureService);
     employeeController = new EmployeeController(sc, employeeService, enclosureService);
     ticketController = new TicketController(sc, ticketService);
@@ -56,18 +60,6 @@ public class App {
     
     park = new Park();
     // TODO: create Activities
-    // add Dinosaurs to DinosaurCareSystem
-    List<Dinosaur> dinosaurs = dinosaurService.getAllDinosaurs();
-    for (Dinosaur d : dinosaurs) {
-      dinosaurCareSystem.addDinosaur(d);
-    }
-    // add Enclosures to DinosaurCareSystem
-    List<Enclosure> enclosures = enclosureService.getAllEnclosures();
-    for (Enclosure e : enclosures) {
-      dinosaurCareSystem.addEnclosure(e);
-    }
-    // TODO: modify enclosure's security level
-    // TODO: modify dinosaur's health score
     // TODO: use InputException handling
   }
   
@@ -98,12 +90,9 @@ public class App {
     System.out.println("3. Manage Tickets");
     System.out.println("4. Manage Enclosures");
     System.out.println("5. Manage Vehicles");
-    System.out.println("6. Manage Dinosaur Activities");
-    System.out.println("7. Check Park Status");
-    System.out.println("8. Handle Special Events");
-    System.out.println("9. Dinosaurs Health Management");
-    System.out.println("10. Enclosures Security Management");
-    System.out.println("11. Exit");
+    System.out.println("6. Handle Special Events");
+    System.out.println("7. Park Management");
+    System.out.println("8. Exit");
     System.out.print("Enter your choice: ");
   }
   
@@ -127,21 +116,13 @@ public class App {
         vehicleController.manageVehicles();
         break;
       case 6:
-        // TODO: dinosaur activities management
-        break;
-      case 7:
-        checkParkStatus();
-        break;
-      case 8:
         specialEventsController.handleSpecialEvents();
         break;
-      case 9:
-        // TODO: dinosaur health management
+      case 7:
+        // TODO: park management
+        // TODO: dinosaur activities management
         break;
-      case 10:
-        // TODO: enclosure security management
-        break;
-      case 11:
+      case 8:
         System.out.println("Exiting...");
         System.exit(0);
       default:
@@ -396,6 +377,39 @@ public class App {
   public void checkParkStatus() {
     if (park.getParkStatus()) System.out.println("The Park is open until " + Park.CLOSING_HOUR.format(Util.TIME_FORMAT));
     else System.out.println("The Park will welcome its guests tomorrow from " + Park.OPENING_HOUR.format(Util.TIME_FORMAT));
+    System.out.println();
+  }
+  
+  //-------------------------------------------------------------------------------------------------------------------
+  
+  private void parkManagement() {
+    for (;;) {
+      System.out.println("Park Management Menu:");
+      System.out.println("1. Dinosaur Healthcare Check");
+      System.out.println("2. Enclosure Security Check");
+      System.out.println("3. Back to Main Menu");
+      System.out.print("Enter your choice: ");
+      int choice = sc.nextInt();
+      switch (choice) {
+        case 1 -> {
+//          try {
+//            dinosaurCareSystem.checkDinosaursHealth();
+//          } catch (DinosaurIllException e) {
+//            System.out.println("ATTENTION: " + e.getMessage());
+//          }
+        }
+        case 2 -> {
+//          try {
+//            dinosaurCareSystem.checkEnclosuresSecurity();
+//          } catch (EnclosureBreachException e) {
+//            System.out.println("ATTENTION: " + e.getMessage());
+//          }
+        }
+        case 3 -> { }
+        default -> System.out.println("Invalid choice. Please try again.");
+      }
+      if (choice >= 1 && choice <= 3) break;
+    }
     System.out.println();
   }
   

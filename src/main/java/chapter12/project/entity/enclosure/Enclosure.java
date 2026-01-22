@@ -196,7 +196,9 @@ public class Enclosure {
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("Enclosure [type=").append(enclosureType.name()).append(", safetyLevel=").append(safetyLevel.name());
+    sb.append("Enclosure [type=").append(enclosureType.name())
+        .append(", safetyLevel=").append(safetyLevel.name())
+        .append(", securityLevel=").append(securityLevel);
     if (!(dinosaurs == null || dinosaurs.isEmpty())) {
       sb.append("\n\tDinosaurs:\n");
       for (Dinosaur d : dinosaurs) {
