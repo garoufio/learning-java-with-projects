@@ -27,11 +27,11 @@ public class Util {
   // Dinosaurs
   //-------------------------------------------------------------------------------------------------------------------
   
-  protected static String readEditDinosaur(Scanner sc, Dinosaur dinosaur, String field) {
+  protected static String readEditDinosaur(Scanner sc, Dinosaur dinosaur, String field, String question) {
     String answer;
     for (;;) {
-      if (dinosaur == null) System.out.printf("Edit dinosaur's %s? (Y/N) ", field);
-      else System.out.printf("Edit dinosaur '%s'? (Y/N) ", dinosaur);
+      if (dinosaur == null) System.out.printf("%s dinosaur's %s? (Y/N) ", question, field);
+      else System.out.printf("%s dinosaur '%s'? (Y/N) ", question, dinosaur);
       
       answer = sc.next();
       if (answer.equalsIgnoreCase("Y") || answer.equalsIgnoreCase("N")) {
@@ -382,11 +382,11 @@ public class Util {
   // Enclosures
   //-------------------------------------------------------------------------------------------------------------------
   
-  protected static String readEditEnclosure(Scanner sc, Enclosure enclosure, String field) {
+  protected static String readEditEnclosure(Scanner sc, Enclosure enclosure, String field, String question) {
     String answer;
     for (;;) {
-      if (enclosure == null) System.out.printf("Edit enclosure's %s? (Y/N) ", field);
-      else System.out.printf("Edit enclosure '%s'? (Y/N) ", enclosure);
+      if (enclosure == null) System.out.printf("%s enclosure's %s? (Y/N) ", question, field);
+      else System.out.printf("%s enclosure '%s'? (Y/N) ", question, enclosure);
       
       answer = sc.next();
       if (answer.equalsIgnoreCase("Y") || answer.equalsIgnoreCase("N")) {

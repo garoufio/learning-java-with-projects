@@ -3,6 +3,7 @@ package chapter12.project.api;
 import chapter12.project.entity.dinosaur.*;
 import chapter12.project.entity.enclosure.Enclosure;
 import chapter12.project.entity.enclosure.EnclosureType;
+import chapter12.project.service.DinosaurCareSystemService;
 import chapter12.project.service.DinosaurService;
 import chapter12.project.service.EnclosureService;
 
@@ -14,14 +15,21 @@ public class DinosaurController {
   
   private DinosaurService dinosaurService;
   private EnclosureService enclosureService;
+  private DinosaurCareSystemService dinosaurCareSystemService;
   private Scanner sc;
   
   //-------------------------------------------------------------------------------------------------------------------
   
-  public DinosaurController(Scanner sc, DinosaurService dinosaurService, EnclosureService enclosureService) {
+  public DinosaurController(
+      Scanner sc,
+      DinosaurService dinosaurService,
+      EnclosureService enclosureService,
+      DinosaurCareSystemService dinosaurCareSystemService
+  ) {
     this.sc = sc;
     this.dinosaurService = dinosaurService;
     this.enclosureService = enclosureService;
+    this.dinosaurCareSystemService = dinosaurCareSystemService;
   }
 
   //-------------------------------------------------------------------------------------------------------------------
@@ -92,6 +100,11 @@ public class DinosaurController {
     DinosaurSpecies species = Util.readDinosaurSpecies(sc);
     // read dinosaur size
     DinosaurSize size = Util.readDinosaurSize(sc);
+    // read health score
+    int healthScore = 100;
+    if (Util.readEditDinosaur(sc, null, "health score", "Add").equals("Y")) {
+      healthScore = Util.readDinosaurIntField(sc, "health score (0-100)");
+    }
     
     // create new dinosaur
     Dinosaur dinosaur = switch (species) {
@@ -99,26 +112,26 @@ public class DinosaurController {
            SPINOSAURUS, PARASAUROLOPHUS, ANKYLOSAURUS -> {
         int height = Util.readDinosaurIntField(sc, "height (in centimeters)");
         int speed = Util.readDinosaurIntField(sc, "max running speed (in Km/h)");
-        yield new TerrestrialDinosaur(name, birthDate, type, species, size, height, speed);
+        yield new TerrestrialDinosaur(name, birthDate, type, species, size, healthScore, height, speed);
       }
       case PLIOSAURS -> {
         int divingDepth = Util.readDinosaurIntField(sc, "max diving depth (in meters)");
         int underwaterSpeed = Util.readDinosaurIntField(sc, "max underwater speed (in Km/h)");
         boolean isAmphibious = Util.readDinosaurAmphibiousCapability(sc);
-        yield new AquaticDinosaur(name, birthDate, type, species, size, divingDepth, underwaterSpeed, isAmphibious);
+        yield new AquaticDinosaur(name, birthDate, type, species, size, healthScore, divingDepth, underwaterSpeed, isAmphibious);
       }
       case PTEROSAUR -> {
         int wingspan = Util.readDinosaurIntField(sc, "wingspan (in centimeters)");
         int maxAltitude = Util.readDinosaurIntField(sc, "max altitude (in meters)");
         int flyingSpeed = Util.readDinosaurIntField(sc, "max flying speed (in Km/h)");
-        yield new FlyingDinosaur(name, birthDate, type, species, size, wingspan, maxAltitude, flyingSpeed);
+        yield new FlyingDinosaur(name, birthDate, type, species, size, healthScore, wingspan, maxAltitude, flyingSpeed);
       }
-      default -> null;
+      default -> {
+        System.out.printf("Invalid dinosaur species '%s'. No dinosaur has been added\n", species);
+        yield null;
+      }
     };
-    if (dinosaur == null) {
-      System.out.printf("Invalid dinosaur species '%s'. No dinosaur has been added\n", species);
-      return;
-    }
+    if (dinosaur == null) return;
     
     // add dinosaur into an eclosure
     EnclosureType enclosureType = Util.readEnclosureType(sc);
@@ -130,6 +143,9 @@ public class DinosaurController {
         } else System.out.println("The dinosaur could not be added to this enclosure. Please try again");
       } else System.out.println("The selected enclosure does not exist in the park. Please try again");
     } else System.out.println("Invalid enclosure type. No dinosaur has been added\n");
+    
+    // add dinosaur into the dinosaur care system
+    dinosaurCareSystemService.addDinosaurs(dinosaur);
   }
   
   //-------------------------------------------------------------------------------------------------------------------
@@ -251,37 +267,37 @@ public class DinosaurController {
   
   private void editDinosaurDetails(Dinosaur dinosaur) {
     // change name
-    if (Util.readEditDinosaur(sc, null, "name").equals("Y")) {
+    if (Util.readEditDinosaur(sc, null, "name", "Edit").equals("Y")) {
       String newName = Util.readDinosaurName(sc);
       dinosaur.setName(newName);
     }
     
     // change birthdate
-    if (Util.readEditDinosaur(sc, null, "birth date").equals("Y")) {
+    if (Util.readEditDinosaur(sc, null, "birth date", "Edit").equals("Y")) {
       LocalDate newBirthDate = Util.readDinosaurBirthDate(sc);
       dinosaur.setBirthDate(newBirthDate);
     }
     
     // change species
-    if (Util.readEditDinosaur(sc, null, "species").equals("Y")) {
+    if (Util.readEditDinosaur(sc, null, "species", "Edit").equals("Y")) {
       DinosaurSpecies newSpecies = Util.readDinosaurSpecies(sc);
       dinosaur.setSpecies(newSpecies);
     }
     
     // change type
-    if (Util.readEditDinosaur(sc, null, "type").equals("Y")) {
+    if (Util.readEditDinosaur(sc, null, "type", "Edit").equals("Y")) {
       DinosaurType newType = Util.readDinosaurType(sc);
       dinosaur.setType(newType);
     }
     
     // change size
-    if (Util.readEditDinosaur(sc, null, "size").equals("Y")) {
+    if (Util.readEditDinosaur(sc, null, "size", "Edit").equals("Y")) {
       DinosaurSize newSize = Util.readDinosaurSize(sc);
       dinosaur.setSize(newSize);
     }
     
     // change health score
-    if (Util.readEditDinosaur(sc, null, "health score").equals("Y")) {
+    if (Util.readEditDinosaur(sc, null, "health score", "Edit").equals("Y")) {
       int newHealthScore = Util.readDinosaurIntField(sc, "health score (0-100)");
       dinosaur.setHealthScore(newHealthScore);
     }
@@ -289,49 +305,49 @@ public class DinosaurController {
     // change specific attributes based on dinosaur type
     if (dinosaur instanceof TerrestrialDinosaur) {
       // change height
-      if (Util.readEditDinosaur(sc, null, "height").equals("Y")) {
+      if (Util.readEditDinosaur(sc, null, "height", "Edit").equals("Y")) {
         int newHeight = Util.readDinosaurIntField(sc, "height (in centimeters)");
         ((TerrestrialDinosaur) dinosaur).setHeight(newHeight);
       }
       
       // change speed
-      if (Util.readEditDinosaur(sc, null, "max running speed").equals("Y")) {
+      if (Util.readEditDinosaur(sc, null, "max running speed", "Edit").equals("Y")) {
         int newSpeed = Util.readDinosaurIntField(sc, "max running speed (in Km/h)");
         ((TerrestrialDinosaur) dinosaur).setMaxRunningSpeed(newSpeed);
       }
     } else if (dinosaur instanceof AquaticDinosaur) {
       // change diving depth
-      if (Util.readEditDinosaur(sc, null, "max diving depth").equals("Y")) {
+      if (Util.readEditDinosaur(sc, null, "max diving depth", "Edit").equals("Y")) {
         int newDivingDepth = Util.readDinosaurIntField(sc, "max diving depth (in meters)");
         ((AquaticDinosaur) dinosaur).setMaxDivingDepth(newDivingDepth);
       }
       
       // change underwater speed
-      if (Util.readEditDinosaur(sc, null, "max underwater speed").equals("Y")) {
+      if (Util.readEditDinosaur(sc, null, "max underwater speed", "Edit").equals("Y")) {
         int newUnderwaterSpeed = Util.readDinosaurIntField(sc, "max underwater speed (in Km/h)");
         ((AquaticDinosaur) dinosaur).setMaxUnderwaterSpeed(newUnderwaterSpeed);
       };
       
       // amphibious capability
-      if (Util.readEditDinosaur(sc, null, "amphibious capability").equals("Y")) {
+      if (Util.readEditDinosaur(sc, null, "amphibious capability", "Edit").equals("Y")) {
         boolean isAmphibious = Util.readDinosaurAmphibiousCapability(sc);
         ((AquaticDinosaur) dinosaur).setAmphibious(isAmphibious);
       }
     } else if (dinosaur instanceof FlyingDinosaur) {
       // change wingspan
-      if (Util.readEditDinosaur(sc, null, "wingspan").equals("Y")) {
+      if (Util.readEditDinosaur(sc, null, "wingspan", "Edit").equals("Y")) {
         int newWingspan = Util.readDinosaurIntField(sc, "wingspan (in centimeters)");
         ((FlyingDinosaur) dinosaur).setWingSpan(newWingspan);
       }
       
       // change max altitude
-      if (Util.readEditDinosaur(sc, null, "max flying altitude").equals("Y")) {
+      if (Util.readEditDinosaur(sc, null, "max flying altitude", "Edit").equals("Y")) {
         int newMaxAltitude = Util.readDinosaurIntField(sc, "max flying altitude (in meters)");
         ((FlyingDinosaur) dinosaur).setMaxAltitude(newMaxAltitude);
       }
       
       // change flying speed
-      if (Util.readEditDinosaur(sc, null, "max flying speed").equals("Y")) {
+      if (Util.readEditDinosaur(sc, null, "max flying speed", "Edit").equals("Y")) {
         int newFlyingSpeed = Util.readDinosaurIntField(sc, "max flying speed (in Km/h)");
         ((FlyingDinosaur) dinosaur).setMaxFlightSpeed(newFlyingSpeed);
       }

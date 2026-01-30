@@ -8,6 +8,7 @@ import chapter12.project.entity.employee.JobTitle;
 import chapter12.project.entity.enclosure.Enclosure;
 import chapter12.project.entity.enclosure.EnclosureType;
 import chapter12.project.entity.enclosure.SafetyLevel;
+import chapter12.project.service.DinosaurCareSystemService;
 import chapter12.project.service.EnclosureService;
 
 import java.util.ArrayList;
@@ -17,13 +18,19 @@ import java.util.Scanner;
 public class EnclosureController {
   
   private EnclosureService enclosureService;
+  private DinosaurCareSystemService dinosaurCareSystemService;
   private Scanner sc;
   
   //-------------------------------------------------------------------------------------------------------------------
   
-  public EnclosureController(Scanner sc, EnclosureService enclosureService) {
+  public EnclosureController(
+      Scanner sc,
+      EnclosureService enclosureService,
+      DinosaurCareSystemService dinosaurCareSystemService
+  ) {
     this.sc = sc;
     this.enclosureService = enclosureService;
+    this.dinosaurCareSystemService = dinosaurCareSystemService;
   }
   
   //-------------------------------------------------------------------------------------------------------------------
@@ -86,9 +93,19 @@ public class EnclosureController {
   public void addEnclosure() {
     EnclosureType enclosureType = Util.readEnclosureType(sc);
     SafetyLevel  safetyLevel = Util.readSafetyLevel(sc);
-    enclosureService.addEnclosure(
-      new Enclosure(enclosureType, safetyLevel, new ArrayList<Dinosaur>(), new ArrayList<Employee>())
+    int securityLevel = 100;
+    if (Util.readEditEnclosure(sc, null, "security level", "Add").equals("Y")) {
+      securityLevel = Util.readEnclosureSecurityLevel(sc);
+    }
+    Enclosure enclosure = new Enclosure(
+        enclosureType,
+        safetyLevel,
+        new ArrayList<Dinosaur>(),
+        new ArrayList<Employee>(),
+        securityLevel
     );
+    enclosureService.addEnclosure(enclosure);
+    dinosaurCareSystemService.addEnclosures(enclosure);
   }
   
   //-------------------------------------------------------------------------------------------------------------------
@@ -179,13 +196,13 @@ public class EnclosureController {
   
   private void editEnclosureDetails(Enclosure enclosure) {
     // change safety level
-    if (Util.readEditEnclosure(sc, null, "safety level").equals("Y")) {
+    if (Util.readEditEnclosure(sc, null, "safety level", "Edit").equals("Y")) {
       SafetyLevel safetyLevel = Util.readSafetyLevel(sc);
       enclosure.setSafetyLevel(safetyLevel);
     }
     
     // change security level
-    if (Util.readEditEnclosure(sc, null, "security level").equals("Y")) {
+    if (Util.readEditEnclosure(sc, null, "security level", "Edit").equals("Y")) {
       int securityLevel = Util.readEnclosureSecurityLevel(sc);
       enclosure.setSecurityLevel(securityLevel);
     }
@@ -229,9 +246,11 @@ public class EnclosureController {
       switch (choice) {
         case 1 -> {
           EnclosureType  enclosureType = Util.readEnclosureType(sc);
-          if (enclosureService.removeEnclosure(enclosureType)) {
+          Enclosure enclosure = enclosureService.getEnclosure(enclosureType);
+          if (enclosure != null) {
+            enclosureService.removeEnclosure(enclosure);
+            dinosaurCareSystemService.removeEnclosure(enclosure);
             System.out.println("Enclosure removed");
-            
           }
           else System.out.printf("No enclosure found for type '%s'\n", enclosureType);
         }

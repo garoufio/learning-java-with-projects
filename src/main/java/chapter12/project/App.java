@@ -51,12 +51,20 @@ public class App {
     VehicleService vehicleService = new VehicleService(createVehicles());
     // creation of controllers
     dinosaurCareSystemController = new DinosaurCareSystemController(sc, dinosaurCareSystemService);
-    dinosaurController = new DinosaurController(sc, dinosaurService, enclosureService);
+    dinosaurController = new DinosaurController(sc, dinosaurService, enclosureService, dinosaurCareSystemService);
     employeeController = new EmployeeController(sc, employeeService, enclosureService);
     ticketController = new TicketController(sc, ticketService);
-    enclosureController = new EnclosureController(sc, enclosureService);
+    enclosureController = new EnclosureController(sc, enclosureService, dinosaurCareSystemService);
     specialEventsController = new SpecialEventsController(sc, eventsService, ticketService);
     vehicleController = new VehicleController(sc, vehicleService);
+    
+    // populate Dinosaur Care System
+    for (Dinosaur d : dinosaurService.getAllDinosaurs()) {
+      dinosaurCareSystemService.addDinosaurs(d);
+    }
+    for (Enclosure e : enclosureService.getAllEnclosures()) {
+      dinosaurCareSystemService.addEnclosures(e);
+    }
     
     park = new Park();
     // TODO: create Activities
@@ -119,8 +127,7 @@ public class App {
         specialEventsController.handleSpecialEvents();
         break;
       case 7:
-        // TODO: park management
-        // TODO: dinosaur activities management
+        dinosaurCareSystemController.manageDinosaurCareSystem();
         break;
       case 8:
         System.out.println("Exiting...");
