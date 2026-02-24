@@ -3,22 +3,25 @@ package chapter12.project.entity.activity;
 import chapter12.project.api.Util;
 import chapter12.project.entity.dinosaur.Dinosaur;
 
+import java.time.Duration;
 import java.time.LocalDateTime;
 
 public class Activity {
   
   private String name;
   private String description;
-  private LocalDateTime tms;
   private Dinosaur dinosaur;
+  private LocalDateTime tms;
+  private Duration duration;
   
   //-------------------------------------------------------------------------------------------------------------------
   
-  public Activity(String name, String description, LocalDateTime tms, Dinosaur dinosaur) {
+  public Activity(String name, String description, Dinosaur dinosaur, LocalDateTime tms, Duration duration) {
     this.name = name;
     this.description = description;
-    this.tms = tms;
     this.dinosaur = dinosaur;
+    this.tms = tms;
+    this.duration = duration;
   }
   
   //-------------------------------------------------------------------------------------------------------------------
@@ -71,13 +74,26 @@ public class Activity {
   
   //-------------------------------------------------------------------------------------------------------------------
   
+  public Duration getDuration() {
+    return duration;
+  }
+  
+  //-------------------------------------------------------------------------------------------------------------------
+  
+  public void setDuration(Duration duration) {
+    this.duration = duration;
+  }
+  
+  //-------------------------------------------------------------------------------------------------------------------
+  
   @Override
   public String toString() {
     return "Activity [" +
         "name='" + name + '\'' +
         ", description='" + description + '\'' +
-        ", tms=" + tms.format(Util.DATE_TIME_FORMAT) +
         ", dinosaur=" + dinosaur +
+        ", fromTms=" + tms.format(Util.DATE_TIME_FORMAT) +
+        ", toTms=" + tms.plus(duration).format(Util.DATE_TIME_FORMAT) +
         "]";
   }
   
