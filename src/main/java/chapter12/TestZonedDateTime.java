@@ -17,6 +17,15 @@ public class TestZonedDateTime {
         .plusMinutes(45);
     System.out.println("Flight arrival time: " + flightArrZoned);
     
+    ZonedDateTime flightArrZoned2 = flightDepZoned.plusHours(2).plusMinutes(45)
+        .withZoneSameInstant(ZoneId.of("Europe/Paris"));
+    System.out.println("Flight arrival time (2): " + flightArrZoned2);
+    ZonedDateTime flightArrZoned3 = ZonedDateTime.of(
+        flightDepTime.plusHours(2).plusMinutes(45),
+        ZoneId.of("Europe/Paris")
+    );
+    System.out.println("Flight arrival time (3): " + flightArrZoned3);
+    
   }
   
 }
