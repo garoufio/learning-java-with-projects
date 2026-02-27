@@ -10,18 +10,18 @@ import chapter12.project.entity.ticket.Visitor;
 import chapter12.project.entity.vehicle.Vehicle;
 import chapter12.project.entity.vehicle.VehicleType;
 
-import java.time.DayOfWeek;
-import java.time.LocalDate;
-import java.time.LocalTime;
+import java.time.*;
 import java.time.format.DateTimeFormatter;
 import java.util.Scanner;
 import java.util.UUID;
 
 public class Util {
   
+  // constants
   public static final DateTimeFormatter DATE_TIME_FORMAT = DateTimeFormatter.ofPattern("EEEE dd MMMM yyyy HH:mm");
   public static final DateTimeFormatter DATE_FORMAT = DateTimeFormatter.ofPattern("EEEE dd MMMM yyyy");
   public static final DateTimeFormatter TIME_FORMAT = DateTimeFormatter.ofPattern("HH:mm");
+  public static final DateTimeFormatter PARSING_DATE_TIME_FORMAT = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
   
   //-------------------------------------------------------------------------------------------------------------------
   // Dinosaurs
@@ -590,6 +590,30 @@ public class Util {
         System.out.println("Invalid choice. Please try again");
       }
     }
+  }
+  
+  //-------------------------------------------------------------------------------------------------------------------
+  // Activities
+  //-------------------------------------------------------------------------------------------------------------------
+  
+  protected static String readActivityField(Scanner sc, String field) {
+    sc.nextLine();
+    System.out.printf("Enter activity's %s: ", field);
+    return sc.nextLine();
+  }
+  
+  //-------------------------------------------------------------------------------------------------------------------
+  
+  protected static LocalDateTime readActivityTms(Scanner sc) {
+    System.out.print("Please enter a date and time (yyyy-MM-dd HH:mm): ");
+    return LocalDateTime.parse(sc.nextLine(), PARSING_DATE_TIME_FORMAT);
+  }
+  
+  //-------------------------------------------------------------------------------------------------------------------
+  
+  protected static Duration readActivityDuration(Scanner sc) {
+    System.out.print("Please enter activity duration in minutes: ");
+    return Duration.ofMinutes(sc.nextLong());
   }
   
   //-------------------------------------------------------------------------------------------------------------------

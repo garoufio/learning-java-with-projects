@@ -6,6 +6,7 @@ import chapter12.project.entity.enclosure.Enclosure;
 import chapter12.project.entity.park.DinosaurCareSystem;
 import chapter12.project.exception.DinosaurIllException;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class DinosaurCareSystemService {
@@ -54,11 +55,28 @@ public class DinosaurCareSystemService {
   
   //-------------------------------------------------------------------------------------------------------------------
   
+  public List<Dinosaur> getDinosaurs() {
+    return dinosaurCareSystem.getDinosaurs();
+  }
+  
+  //-------------------------------------------------------------------------------------------------------------------
+  
   public void checkDinosaursHealth() {
     try {
       dinosaurCareSystem.checkDinosaursHealth();
       System.out.println("All dinosaurs are healthy");
     } catch (DinosaurIllException e) {
+      System.out.println("ATTENTION: " + e.getMessage());
+    }
+  }
+  
+  //-------------------------------------------------------------------------------------------------------------------
+  
+  public void checkEnclosuresSecurity() {
+    try {
+      dinosaurCareSystem.checkEnclosuresSecurity();
+      System.out.println("All enclosures are safe");
+    } catch (Exception e) {
       System.out.println("ATTENTION: " + e.getMessage());
     }
   }
@@ -99,16 +117,6 @@ public class DinosaurCareSystemService {
   
   //-------------------------------------------------------------------------------------------------------------------
   
-  public void checkEnclosuresSecurity() {
-    try {
-      dinosaurCareSystem.checkEnclosuresSecurity();
-      System.out.println("All enclosures are safe");
-    } catch (Exception e) {
-      System.out.println("ATTENTION: " + e.getMessage());
-    }
-  }
-  
-  //-------------------------------------------------------------------------------------------------------------------
   
   public void logActivity(Activity activity) {
     if (activity == null) {
@@ -120,12 +128,27 @@ public class DinosaurCareSystemService {
   
   //-------------------------------------------------------------------------------------------------------------------
   
-  public void removeActivity(Activity activity) {
-    if (activity == null) {
-      System.out.println("No activity was removed from the Dinosaur Care System");
-      return;
+  public boolean removeActivity(Activity activity) {
+    return dinosaurCareSystem.removeActivity(activity);
+  }
+  
+  //-------------------------------------------------------------------------------------------------------------------
+  
+  public List<Activity> getActivities() {
+    return dinosaurCareSystem.getActivities();
+  }
+  
+  //-------------------------------------------------------------------------------------------------------------------
+  
+  public boolean activityExists(Activity activity) {
+    List<Activity> activities = dinosaurCareSystem.getActivities();
+    
+    if (activities == null || activities.isEmpty() || activity == null) return false;
+    
+    for (Activity a : activities) {
+      if (a != null && a.equals(activity)) return true;
     }
-    dinosaurCareSystem.removeActivity(activity);
+    return false;
   }
   
   //-------------------------------------------------------------------------------------------------------------------

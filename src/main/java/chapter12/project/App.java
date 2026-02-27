@@ -5,8 +5,6 @@ import chapter12.project.entity.ticket.*;
 import chapter12.project.entity.vehicle.*;
 import chapter12.project.entity.dinosaur.*;
 import chapter12.project.entity.enclosure.*;
-import chapter12.project.exception.DinosaurIllException;
-import chapter12.project.exception.EnclosureBreachException;
 import chapter12.project.service.*;
 import chapter12.project.api.*;
 import chapter12.project.entity.park.*;
@@ -99,7 +97,7 @@ public class App {
     System.out.println("4. Manage Enclosures");
     System.out.println("5. Manage Vehicles");
     System.out.println("6. Handle Special Events");
-    System.out.println("7. Park Management");
+    System.out.println("7. Dinosaur Care System");
     System.out.println("8. Exit");
     System.out.print("Enter your choice: ");
   }

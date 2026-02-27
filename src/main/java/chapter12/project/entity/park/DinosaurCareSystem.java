@@ -82,6 +82,14 @@ public class DinosaurCareSystem {
   
   //-------------------------------------------------------------------------------------------------------------------
   
+  public List<Dinosaur> getDinosaurs() {
+    if (dinosaurs == null || dinosaurs.isEmpty()) return List.of();
+    
+    return List.copyOf(dinosaurs);
+  }
+  
+  //-------------------------------------------------------------------------------------------------------------------
+  
   public void addEnclosure(Enclosure enclosure) {
     if (this.enclosures == null || enclosure == null) return;
     
@@ -112,6 +120,14 @@ public class DinosaurCareSystem {
       return activities.remove(activity);
     }
     return false;
+  }
+  
+  //-------------------------------------------------------------------------------------------------------------------
+  
+  public List<Activity> getActivities() {
+    if (activities == null || activities.isEmpty()) return List.of();
+    
+    return List.copyOf(activities);
   }
   
   //-------------------------------------------------------------------------------------------------------------------

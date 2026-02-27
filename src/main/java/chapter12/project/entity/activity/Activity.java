@@ -5,6 +5,7 @@ import chapter12.project.entity.dinosaur.Dinosaur;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
+import java.util.Objects;
 
 public class Activity {
   
@@ -82,6 +83,27 @@ public class Activity {
   
   public void setDuration(Duration duration) {
     this.duration = duration;
+  }
+  
+  //-------------------------------------------------------------------------------------------------------------------
+  
+  @Override
+  public boolean equals(Object o) {
+    if (o == null || getClass() != o.getClass()) return false;
+    Activity activity = (Activity) o;
+    
+    return Objects.equals(name, activity.name) &&
+        Objects.equals(description, activity.description) &&
+        Objects.equals(dinosaur, activity.dinosaur) &&
+        tms.compareTo(activity.tms) == 0 &&
+        duration.compareTo(activity.duration) == 0;
+  }
+  
+  //-------------------------------------------------------------------------------------------------------------------
+  
+  @Override
+  public int hashCode() {
+    return Objects.hash(name, description, dinosaur, tms, duration);
   }
   
   //-------------------------------------------------------------------------------------------------------------------
