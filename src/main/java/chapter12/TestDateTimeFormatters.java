@@ -40,6 +40,12 @@ public class TestDateTimeFormatters {
         "'Year': yyyy, 'Month': MMMM, 'Day': dd, 'Hour': HH, 'Minutes': mm, 'Zone': z"
     );
     System.out.println("Custom format 4: " + zonedDateTime.format(customDateTimeFormatter4));
+    
+    DateTimeFormatter ddMMyy = DateTimeFormatter.ofPattern("dd/MM/yy");
+    DateTimeFormatter yyyyMMdd = DateTimeFormatter.ofPattern("yyyyMMdd");
+    LocalDate dpgDate = LocalDate.parse("20260309", yyyyMMdd);
+    System.out.println("Original date: " + dpgDate.format(yyyyMMdd));
+    System.out.println("Converted date: " + dpgDate.format(ddMMyy));
   
   }
   
