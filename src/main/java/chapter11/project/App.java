@@ -77,16 +77,16 @@ public class App {
     
     // add Raptors Park enclosure and the related dinosaurs and employees
     enclosures.add(new Enclosure(
-            EnclosureType.RAPTORS_PARK,
-            SafetyLevel.HIGH,
+        EnclosureType.RAPTORS_PARK,
+        SafetyLevel.HIGH,
         null,
         null
         )
     );
     // add Free Park enclosure and the related dinosaurs and employees
     enclosures.add(new Enclosure(
-            EnclosureType.FREE_PARK,
-            SafetyLevel.MEDIUM,
+        EnclosureType.FREE_PARK,
+        SafetyLevel.MEDIUM,
         null,
         null,
         88
@@ -94,8 +94,8 @@ public class App {
     );
     // add Central Building enclosure and the related employees
     enclosures.add(new Enclosure(
-            EnclosureType.CENTRAL_BUILDING,
-            SafetyLevel.LOW,
+        EnclosureType.CENTRAL_BUILDING,
+        SafetyLevel.LOW,
         null,
         null,
         95
