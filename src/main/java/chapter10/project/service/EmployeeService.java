@@ -121,7 +121,6 @@ public class EmployeeService {
   public void printEmployeeWorkingSchedule(Employee employee) {
     if (employee == null) return;
     
-    int len = employee.getJobTitle().getWorkingDays().length;
     LocalDate[] dates = employee.getWeeklyWorkDays();
     System.out.printf(
         "%s '%s' works on %s, during %s to %s\n",

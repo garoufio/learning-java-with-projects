@@ -1,8 +1,5 @@
 package chapter11.project.entity.dinosaur;
 
-import chapter11.project.entity.dinosaur.DinosaurSize;
-import chapter11.project.entity.dinosaur.DinosaurSpecies;
-
 public interface Herbivore {
   
   double AVERAGE_DAILY_GRASS_AMOUNT_SMALL_SIZED = 10; // in kg

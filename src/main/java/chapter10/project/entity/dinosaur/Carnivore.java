@@ -1,8 +1,5 @@
 package chapter10.project.entity.dinosaur;
 
-import chapter10.project.entity.dinosaur.DinosaurSize;
-import chapter10.project.entity.dinosaur.DinosaurSpecies;
-
 public interface Carnivore {
   
   double AVERAGE_DAILY_MEAT_AMOUNT_SMALL_SIZED = 30; // in kg

@@ -1,7 +1,5 @@
 package chapter10.project.entity.vehicle;
 
-import java.util.Objects;
-
 public class Car extends Vehicle {
   
   public Car(String make, String model, int productionYear, String color, int numberOfPassengers, double maxSpeed) {

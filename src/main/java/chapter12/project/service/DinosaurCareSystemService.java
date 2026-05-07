@@ -6,7 +6,6 @@ import chapter12.project.entity.enclosure.Enclosure;
 import chapter12.project.entity.park.DinosaurCareSystem;
 import chapter12.project.exception.DinosaurIllException;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class DinosaurCareSystemService {

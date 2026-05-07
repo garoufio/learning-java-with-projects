@@ -1,6 +1,5 @@
 package chapter11.project.entity.dinosaur;
 
-import javax.print.attribute.standard.SheetCollate;
 import java.util.Objects;
 
 public non-sealed class TerrestrialDinosaur extends Dinosaur implements Carnivore, Herbivore, Omnivore {

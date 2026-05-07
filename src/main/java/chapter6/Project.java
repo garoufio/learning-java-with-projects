@@ -7,8 +7,6 @@ public class Project {
     int[] dinoAges = new int[10];
     String[] dinoSpecies = new String[10];
     int[] dinoEnclosures = new int[10];
-    double avgAge;
-    double avgWeight;
     
     for (int i = 0; i < 10; i++) {
       dinoNames[i] = "Dino" + i;

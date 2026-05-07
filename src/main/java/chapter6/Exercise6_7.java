@@ -1,7 +1,5 @@
 package chapter6;
 
-import java.util.Arrays;
-
 public class Exercise6_7 {
   
   public static void main(String[] args) {

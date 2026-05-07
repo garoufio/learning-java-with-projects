@@ -1,7 +1,5 @@
 package chapter10.project.api;
 
-import chapter10.project.entity.employee.Employee;
-import chapter10.project.entity.employee.JobTitle;
 import chapter10.project.entity.vehicle.*;
 import chapter10.project.service.VehicleService;
 
@@ -183,14 +181,14 @@ public class VehicleController {
       vehicle.setMaxSpeed(newMaxSpeed);
     }
     switch (vehicle.getVehicleType()) {
-      case TRUCK -> {
+      case VehicleType.TRUCK -> {
         // change load capacity
         if (Util.readEditVehicle(sc, null, "load capacity").equals("Y")) {
           int newLoadCapacity = Util.readVehicleIntField(sc, "load capacity");
           ((Truck) vehicle).setMaxLoadCapacity(newLoadCapacity);
         }
       }
-      case HELICOPTER -> {
+      case VehicleType.HELICOPTER -> {
         // change flight range
         if (Util.readEditVehicle(sc, null, "flight range").equals("Y")) {
           int newFlightRange = Util.readVehicleIntField(sc, "flight range");

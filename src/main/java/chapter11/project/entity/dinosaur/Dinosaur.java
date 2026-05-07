@@ -1,9 +1,5 @@
 package chapter11.project.entity.dinosaur;
 
-import chapter11.project.entity.dinosaur.AquaticDinosaur;
-import chapter11.project.entity.dinosaur.FlyingDinosaur;
-import chapter11.project.entity.dinosaur.TerrestrialDinosaur;
-
 import java.util.Objects;
 
 public sealed abstract class Dinosaur implements Actionable, Comparable<Dinosaur>

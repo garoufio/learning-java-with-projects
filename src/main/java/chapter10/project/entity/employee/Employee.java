@@ -2,7 +2,6 @@ package chapter10.project.entity.employee;
 
 import java.time.DayOfWeek;
 import java.time.LocalDate;
-import java.util.Arrays;
 import java.util.Objects;
 import java.util.UUID;
 

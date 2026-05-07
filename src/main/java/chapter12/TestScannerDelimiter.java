@@ -17,6 +17,7 @@ public class TestScannerDelimiter {
     System.out.print("Enter your name: ");
     name = sc.next();
     System.out.println("Name: " + name);
+    sc.close();
     
   }
   

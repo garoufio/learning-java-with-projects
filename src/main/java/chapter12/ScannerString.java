@@ -14,6 +14,7 @@ public class ScannerString {
     System.out.println(sc.next());
     System.out.println(sc.next());
     System.out.println(sc.nextInt());
+    sc.close();
   }
   
 }

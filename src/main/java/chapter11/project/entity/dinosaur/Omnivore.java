@@ -1,8 +1,5 @@
 package chapter11.project.entity.dinosaur;
 
-import chapter11.project.entity.dinosaur.DinosaurSize;
-import chapter11.project.entity.dinosaur.DinosaurSpecies;
-
 public interface Omnivore {
   
   double AVERAGE_DAILY_FOOD_AMOUNT_SMALL_SIZED = 40; // in kg

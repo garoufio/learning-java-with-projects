@@ -15,6 +15,10 @@ public class InitializationBlocks {
     new ChildBlock();
     System.out.println("----> Creating second Child object ");
     new ChildBlock();
+
+    System.out.println("----> Creating Parent object ");
+    new ParentBlock();
+
   }
   
 }

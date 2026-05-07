@@ -4,11 +4,8 @@ import chapter12.project.entity.activity.Activity;
 import chapter12.project.entity.dinosaur.Dinosaur;
 import chapter12.project.service.DinosaurCareSystemService;
 
-import javax.swing.event.MouseInputListener;
 import java.time.Duration;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
 
