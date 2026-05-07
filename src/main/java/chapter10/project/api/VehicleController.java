@@ -22,7 +22,7 @@ public class VehicleController {
   
   public void manageVehicles() {
     for (;;) {
-      System.out.printf("\nVehicles service:\n");
+      System.out.println("\nVehicles service:\n");
       System.out.println("1. Show all vehicles");
       System.out.println("2. Add Vehicle");
       System.out.println("3. Find Vehicle");
@@ -37,7 +37,7 @@ public class VehicleController {
         case 3 -> findVehicle();
         case 4 -> editVehicle();
         case 5 -> removeVehicle();
-        case 6 -> { System.out.printf("Returning to main menu...\n\n"); }
+        case 6 -> System.out.printf("Returning to main menu...\n\n");
         default -> System.out.println("Invalid choice. Please try again.");
       }
       if (choice == 6) {
@@ -71,13 +71,13 @@ public class VehicleController {
     double maxSpeed = Util.readVehicleDoubleField(sc, "max speed");
     
     return switch (vehicleType) {
-      case CAR -> new Car(make, model, productionYear, color, numberOfPassengers, maxSpeed);
-      case MOTORCYCLE -> new Motorcycle(make, model, productionYear, color, numberOfPassengers, maxSpeed);
-      case TRUCK -> {
+      case VehicleType.CAR -> new Car(make, model, productionYear, color, numberOfPassengers, maxSpeed);
+      case VehicleType.MOTORCYCLE -> new Motorcycle(make, model, productionYear, color, numberOfPassengers, maxSpeed);
+      case VehicleType.TRUCK -> {
         int loadCapacity = Util.readVehicleIntField(sc, "load capacity");
         yield new Truck(make, model, productionYear, color, numberOfWheels, numberOfPassengers, maxSpeed, loadCapacity);
       }
-      case HELICOPTER -> {
+      case VehicleType.HELICOPTER -> {
         int flightRange = Util.readVehicleIntField(sc, "flight range");
         int maxAltitude = Util.readVehicleIntField(sc, "max altitude");
         int loadCapacity = Util.readVehicleIntField(sc, "load capacity");
@@ -109,7 +109,7 @@ public class VehicleController {
   
   public void findVehicle() {
     for(;;) {
-      System.out.printf("\nSearch by:\n");
+      System.out.println("\nSearch by:\n");
       System.out.println("1. Make");
       System.out.println("2. Vehicle type");
       System.out.println("3. Detailed search");
