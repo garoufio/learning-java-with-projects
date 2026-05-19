@@ -210,7 +210,6 @@ public class VehicleController {
   
   //-------------------------------------------------------------------------------------------------------------------
   
-  
   public void editVehicle() {
     for (;;) {
       System.out.printf("\nEdit by:\n");
@@ -320,8 +319,7 @@ public class VehicleController {
           if (vehicle == null) System.out.println("Vehicle not found");
           else removeVehicle(vehicle);
         }
-        case 4 -> {
-        }
+        case 4 -> { }
         default -> System.out.println("Invalid choice. Please try again.");
       }
       if (choice >= 1 && choice <= 4) break;
