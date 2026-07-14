@@ -5,7 +5,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
-public class TestSorting {
+public class TestListSorting {
   
   public static void main(String[] args) {
     List<Person> people = new ArrayList<>();
