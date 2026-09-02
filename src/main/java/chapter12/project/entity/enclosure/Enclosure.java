@@ -1,6 +1,6 @@
 package chapter12.project.entity.enclosure;
 
-import chapter11.project.App;
+import chapter12.project.App;
 import chapter12.project.entity.dinosaur.Dinosaur;
 import chapter12.project.entity.employee.Employee;
 
