@@ -1,5 +1,6 @@
 package chapter13.project.api;
 
+import chapter13.project.collections.EmployeeComparator;
 import chapter13.project.entity.employee.Employee;
 import chapter13.project.entity.employee.JobTitle;
 import chapter13.project.entity.enclosure.Enclosure;
@@ -8,8 +9,7 @@ import chapter13.project.service.EnclosureService;
 
 import java.time.DayOfWeek;
 import java.time.LocalDate;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
 
 public class EmployeeController {
   
@@ -41,7 +41,7 @@ public class EmployeeController {
       int choice = sc.nextInt();
       switch (choice) {
         case 1:
-          printEmployees(employeeService.getAllEmployees());
+          printEmployees(sortEmployees(employeeService.getAllEmployees(), null));
           break;
         case 2:
           addEmployee();
@@ -422,6 +422,16 @@ public class EmployeeController {
       }
       if (choice > 0 && choice < 4) break;
     }
+  }
+  
+  //-------------------------------------------------------------------------------------------------------------------
+  
+  public List<Employee> sortEmployees(List<Employee> employees, Comparator<Employee> comparator) {
+    if (employees == null || employees.isEmpty()) return List.of();
+    
+    List<Employee> sortedEmployees = new ArrayList<>(employees);
+    Collections.sort(sortedEmployees, comparator == null ? EmployeeComparator.getDefaultComparator() : comparator);
+    return sortedEmployees;
   }
   
   //-------------------------------------------------------------------------------------------------------------------

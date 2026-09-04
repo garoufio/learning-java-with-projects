@@ -10,7 +10,6 @@ import chapter13.project.service.TicketService;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 

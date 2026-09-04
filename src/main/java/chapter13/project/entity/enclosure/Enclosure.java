@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-public class Enclosure {
+public class Enclosure implements Comparable<Enclosure> {
   
   private EnclosureType enclosureType;
   private SafetyLevel safetyLevel;
@@ -213,6 +213,17 @@ public class Enclosure {
     }
     sb.append("]");
     return sb.toString();
+  }
+  
+  //-------------------------------------------------------------------------------------------------------------------
+  
+  @Override
+  public int compareTo(Enclosure other) {
+    if (this == null & other == null) return 0;
+    if (this == null) return -1;
+    if (other == null) return 1;
+    
+    return this.enclosureType.compareTo(other.getEnclosureType());
   }
   
   //-------------------------------------------------------------------------------------------------------------------

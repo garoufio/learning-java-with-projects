@@ -3,7 +3,7 @@ package chapter13.project.entity.vehicle;
 import java.time.LocalDate;
 import java.util.Objects;
 
-public abstract class Vehicle {
+public abstract class Vehicle implements Comparable<Vehicle> {
 
   public static final String DEFAULT_PARK_VEHICLE_COLOR = "White";
   public static final int DEFAULT_PARK_VEHICLE_NUMBER_OF_WHEELS = 4;
@@ -23,6 +23,7 @@ public abstract class Vehicle {
   //-------------------------------------------------------------------------------------------------------------------
   
   public Vehicle(
+      
       VehicleType type,
       String make,
       String model,
@@ -195,6 +196,17 @@ public abstract class Vehicle {
         "]";
   }
   
+  
+  //-------------------------------------------------------------------------------------------------------------------
+  
+  @Override
+  public int compareTo(Vehicle other) {
+    if (this == null && other == null) return 0;
+    if (this == null) return -1;
+    if  (other == null) return 1;
+    
+    return this.make.compareToIgnoreCase(other.make);
+  }
   
   //-------------------------------------------------------------------------------------------------------------------
   

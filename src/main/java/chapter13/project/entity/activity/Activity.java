@@ -5,9 +5,10 @@ import chapter13.project.entity.dinosaur.Dinosaur;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
+import java.util.Comparator;
 import java.util.Objects;
 
-public class Activity {
+public class Activity implements Comparable<Activity> {
   
   private String name;
   private String description;
@@ -117,6 +118,17 @@ public class Activity {
         ", fromTms=" + tms.format(Util.DATE_TIME_FORMAT) +
         ", toTms=" + tms.plus(duration).format(Util.DATE_TIME_FORMAT) +
         "]";
+  }
+  
+  //-------------------------------------------------------------------------------------------------------------------
+  
+  @Override
+  public int compareTo(Activity other) {
+    if (this == null && other == null) return 0;
+    if (this == null) return -1;
+    if (other == null) return 1;
+    
+    return this.name.compareTo(other.name);
   }
   
   //-------------------------------------------------------------------------------------------------------------------

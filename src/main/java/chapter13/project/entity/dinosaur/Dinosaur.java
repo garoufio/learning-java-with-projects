@@ -177,8 +177,12 @@ public sealed abstract class Dinosaur implements Actionable, Comparable<Dinosaur
   //-------------------------------------------------------------------------------------------------------------------
   
   @Override
-  public int compareTo(Dinosaur o) {
-    return this.birthDate.compareTo(o.birthDate);
+  public int compareTo(Dinosaur other) {
+    if (this == null && other == null) return 0;
+    if (this == null) return -1;
+    if  (other == null) return 1;
+    
+    return this.name.compareTo(other.name);
   }
   
   //-------------------------------------------------------------------------------------------------------------------

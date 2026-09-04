@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
 
-public class SpecialEvent {
+public class SpecialEvent implements Comparable<SpecialEvent> {
 
   private final UUID uuid;
   private String name;
@@ -212,6 +212,17 @@ public class SpecialEvent {
     }
     sb.append("\n]");
     return sb.toString();
+  }
+  
+  //-------------------------------------------------------------------------------------------------------------------
+  
+  @Override
+  public int compareTo(SpecialEvent other) {
+    if (this == null && other == null) return 0;
+    if (this == null) return -1;
+    if (other == null) return 1;
+    
+    return this.name.compareTo(other.name);
   }
   
   //-------------------------------------------------------------------------------------------------------------------

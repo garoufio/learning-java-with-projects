@@ -7,7 +7,7 @@ import java.time.LocalDate;
 import java.util.Objects;
 import java.util.UUID;
 
-public class Employee implements Worker {
+public class Employee implements Worker, Comparable<Employee> {
   
   private UUID uuid;
   private String name;
@@ -174,6 +174,17 @@ public class Employee implements Worker {
       return null;
     }
     return daysOffPeriod;
+  }
+  
+  //-------------------------------------------------------------------------------------------------------------------
+  
+  @Override
+  public int compareTo(Employee other) {
+    if (this == null && other == null) return 0;
+    if (this == null) return -1;
+    if (other == null) return 1;
+    
+    return this.name.compareTo(other.name);
   }
   
   //-------------------------------------------------------------------------------------------------------------------

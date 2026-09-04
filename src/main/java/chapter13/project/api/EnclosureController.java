@@ -11,7 +11,6 @@ import chapter13.project.entity.enclosure.SafetyLevel;
 import chapter13.project.service.DinosaurCareSystemService;
 import chapter13.project.service.EnclosureService;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 

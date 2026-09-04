@@ -1,10 +1,10 @@
 package chapter13.project.api;
 
+import chapter13.project.collections.VehicleComparator;
 import chapter13.project.entity.vehicle.*;
 import chapter13.project.service.VehicleService;
 
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
 
 public class VehicleController {
   
@@ -32,7 +32,7 @@ public class VehicleController {
       System.out.print("Enter your choice: ");
       int choice = sc.nextInt();
       switch (choice) {
-        case 1 -> printVehicles(vehicleService.getAllVehicles());
+        case 1 -> printVehicles(sortVehicles(vehicleService.getAllVehicles(), null));
         case 2 -> addVehicle();
         case 3 -> findVehicle();
         case 4 -> editVehicle();
@@ -326,6 +326,16 @@ public class VehicleController {
       }
       if (choice >= 1 && choice <= 4) break;
     }
+  }
+  
+  //-------------------------------------------------------------------------------------------------------------------
+  
+  public List<Vehicle> sortVehicles(List<Vehicle> vehicles, Comparator<Vehicle> comparator) {
+    if (vehicles == null || vehicles.isEmpty()) return List.of();
+    
+    List<Vehicle> sortedVehicles = new ArrayList<>(vehicles);
+    Collections.sort(sortedVehicles, comparator == null ? VehicleComparator.getDefaultComparator() : comparator);
+    return sortedVehicles;
   }
   
   //-------------------------------------------------------------------------------------------------------------------

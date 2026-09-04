@@ -1,5 +1,6 @@
 package chapter13.project.api;
 
+import chapter13.project.collections.DinosaurComparator;
 import chapter13.project.entity.dinosaur.*;
 import chapter13.project.entity.enclosure.Enclosure;
 import chapter13.project.entity.enclosure.EnclosureType;
@@ -8,8 +9,7 @@ import chapter13.project.service.DinosaurService;
 import chapter13.project.service.EnclosureService;
 
 import java.time.LocalDate;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
 
 public class DinosaurController {
   
@@ -47,7 +47,7 @@ public class DinosaurController {
       int choice = sc.nextInt();
       switch (choice) {
         case 1:
-          printDinosaurs(dinosaurService.getAllDinosaurs());
+          printDinosaurs(sortDinosaurs(dinosaurService.getAllDinosaurs(), null));
           break;
         case 2:
           addDinosaur();
@@ -77,7 +77,7 @@ public class DinosaurController {
   //-------------------------------------------------------------------------------------------------------------------
   
   public void printDinosaurs(List<Dinosaur> dinosaurs) {
-    if (dinosaurs == null) {
+    if (dinosaurs == null || dinosaurs.isEmpty()) {
       System.out.println("No dinosaurs were added");
       return;
     }
@@ -547,6 +547,16 @@ public class DinosaurController {
       }
       if (choice > 0 && choice < 7) break;
     }
+  }
+  
+  //-------------------------------------------------------------------------------------------------------------------
+  
+  public List<Dinosaur> sortDinosaurs(List<Dinosaur> dinosaurs, Comparator<Dinosaur> comparator) {
+    if (dinosaurs == null || dinosaurs.isEmpty()) return List.of();
+    
+    List<Dinosaur> sortedDinosaurs = new ArrayList<>(dinosaurs);
+    Collections.sort(sortedDinosaurs, comparator == null ? DinosaurComparator.getDefaultComparator() : comparator);
+    return sortedDinosaurs;
   }
   
   //-------------------------------------------------------------------------------------------------------------------
