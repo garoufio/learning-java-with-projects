@@ -1,5 +1,6 @@
 package chapter13.project.api;
 
+import chapter13.project.collections.EventComparator;
 import chapter13.project.entity.event.EventType;
 import chapter13.project.entity.event.SpecialEvent;
 import chapter13.project.entity.ticket.Ticket;
@@ -10,14 +11,13 @@ import chapter13.project.service.TicketService;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
 
 public class SpecialEventsController {
   
-  SpecialEventsService specialEventsService;
-  TicketService ticketsService;
-  Scanner sc;
+  private SpecialEventsService specialEventsService;
+  private TicketService ticketsService;
+  private Scanner sc;
   
   //-------------------------------------------------------------------------------------------------------------------
   
@@ -41,7 +41,7 @@ public class SpecialEventsController {
       int choice = sc.nextInt();
       switch (choice) {
         case 1:
-          printSpecialEvents(specialEventsService.getAllSpecialEvents());
+          printSpecialEvents(sortSpecialEvents(specialEventsService.getAllSpecialEvents(), null));
           break;
         case 2:
           addSpecialEvent();
@@ -346,6 +346,26 @@ public class SpecialEventsController {
       }
       if (choice > 0 && choice < 8) break;
     }
+  }
+  
+  //-------------------------------------------------------------------------------------------------------------------
+  
+  private void printSpecialEvent(SpecialEvent event) {
+    if (event == null) {
+      System.out.println("No event found");
+      return;
+    }
+    System.out.println(event);
+  }
+  
+  //-------------------------------------------------------------------------------------------------------------------
+  
+  public List<SpecialEvent> sortSpecialEvents(List<SpecialEvent> events, Comparator<SpecialEvent> comparator) {
+    if (events == null || events.isEmpty()) return List.of();
+    
+    List<SpecialEvent> sortedEvents = new ArrayList<>(events);
+    Collections.sort(sortedEvents, comparator == null ? EventComparator.getDefaultComparator() : comparator);
+    return sortedEvents;
   }
   
   //-------------------------------------------------------------------------------------------------------------------

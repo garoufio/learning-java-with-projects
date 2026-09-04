@@ -1,5 +1,6 @@
 package chapter13.project.api;
 
+import chapter13.project.collections.EnclosureComparator;
 import chapter13.project.entity.dinosaur.Dinosaur;
 import chapter13.project.entity.dinosaur.DinosaurSpecies;
 import chapter13.project.entity.dinosaur.DinosaurType;
@@ -11,8 +12,7 @@ import chapter13.project.entity.enclosure.SafetyLevel;
 import chapter13.project.service.DinosaurCareSystemService;
 import chapter13.project.service.EnclosureService;
 
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
 
 public class EnclosureController {
   
@@ -47,7 +47,7 @@ public class EnclosureController {
       int choice = sc.nextInt();
       switch (choice) {
         case 1:
-          printEnclosures(enclosureService.getAllEnclosures());
+          printEnclosures(sortEnclosures(enclosureService.getAllEnclosures(), null));
           break;
         case 2:
           addEnclosure();
@@ -258,6 +258,16 @@ public class EnclosureController {
       }
       if (choice > 0 && choice < 3) break;
     }
+  }
+  
+  //-------------------------------------------------------------------------------------------------------------------
+  
+  public List<Enclosure> sortEnclosures(List<Enclosure> enclosures, Comparator<Enclosure> comparator) {
+    if (enclosures == null || enclosures.isEmpty()) return List.of();
+    
+    List<Enclosure> sortedEnclosures = new ArrayList<>(enclosures);
+    Collections.sort(sortedEnclosures, comparator == null ? EnclosureComparator.getDefaultComparator() : comparator);
+    return sortedEnclosures;
   }
   
   //-------------------------------------------------------------------------------------------------------------------
