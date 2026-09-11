@@ -6,17 +6,17 @@ import chapter13.project.entity.dinosaur.DinosaurSize;
 import chapter13.project.entity.dinosaur.DinosaurSpecies;
 import chapter13.project.entity.dinosaur.DinosaurType;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 public class DinosaurService {
   
-  private List<Dinosaur> dinosaurs;
+  private Set<Dinosaur> dinosaurs;
   
   //-------------------------------------------------------------------------------------------------------------------
   
-  public DinosaurService(List<Dinosaur> dinosaurs) {
-    this.dinosaurs = (dinosaurs  == null ? new ArrayList<>() : dinosaurs);
+  public DinosaurService(Set<Dinosaur> dinosaurs) {
+    this.dinosaurs = (dinosaurs  == null ? new HashSet<>() : dinosaurs);
   }
   
   //-------------------------------------------------------------------------------------------------------------------
@@ -48,8 +48,8 @@ public class DinosaurService {
   
   //-------------------------------------------------------------------------------------------------------------------
   
-  public List<Dinosaur> getAllDinosaurs() {
-    return this.dinosaurs == null ? List.of() : List.copyOf(this.dinosaurs);
+  public Set<Dinosaur> getAllDinosaurs() {
+    return this.dinosaurs == null ? Set.of() : Set.copyOf(this.dinosaurs);
   }
   
   //-------------------------------------------------------------------------------------------------------------------
@@ -68,18 +68,15 @@ public class DinosaurService {
   public Dinosaur getDinosaur(Dinosaur dinosaur) {
     if  (this.dinosaurs == null || dinosaur == null) return null;
     
-    for (Dinosaur d : this.dinosaurs) {
-      if (d != null && d.equals(dinosaur)) return d;
-    }
-    return null;
+    return this.dinosaurs.contains(dinosaur) ? dinosaur : null;
   }
   
   //-------------------------------------------------------------------------------------------------------------------
   
-  public List<Dinosaur> getDinosaurs(DinosaurType dinosaurType) {
-    if (this.dinosaurs == null || this.dinosaurs.isEmpty() || dinosaurType == null) return List.of();
+  public Set<Dinosaur> getDinosaurs(DinosaurType dinosaurType) {
+    if (this.dinosaurs == null || this.dinosaurs.isEmpty() || dinosaurType == null) return Set.of();
     
-    List<Dinosaur> dinosaurs = new ArrayList<>();
+    Set<Dinosaur> dinosaurs = new HashSet<>();
     for (Dinosaur d : this.dinosaurs) {
       if (d != null && d.getType().equals(dinosaurType)) dinosaurs.add(d);
     }
@@ -88,10 +85,10 @@ public class DinosaurService {
   
   //-------------------------------------------------------------------------------------------------------------------
   
-  public List<Dinosaur> getDinosaurs(DinosaurSpecies dinosaurSpecies) {
-    if (this.dinosaurs == null || this.dinosaurs.isEmpty() || dinosaurSpecies == null) return List.of();
+  public Set<Dinosaur> getDinosaurs(DinosaurSpecies dinosaurSpecies) {
+    if (this.dinosaurs == null || this.dinosaurs.isEmpty() || dinosaurSpecies == null) return Set.of();
     
-    List<Dinosaur> dinosaurs = new ArrayList<>();
+    Set<Dinosaur> dinosaurs = new HashSet<>();
     for (Dinosaur d : this.dinosaurs) {
       if (d != null && d.getSpecies().equals(dinosaurSpecies)) dinosaurs.add(d);
     }
@@ -100,10 +97,10 @@ public class DinosaurService {
   
   //-------------------------------------------------------------------------------------------------------------------
   
-  public List<Dinosaur> getDinosaurs(DinosaurSize dinosaurSize) {
-    if (this.dinosaurs == null || this.dinosaurs.isEmpty() || dinosaurSize == null) return List.of();
+  public Set<Dinosaur> getDinosaurs(DinosaurSize dinosaurSize) {
+    if (this.dinosaurs == null || this.dinosaurs.isEmpty() || dinosaurSize == null) return Set.of();
     
-    List<Dinosaur> dinosaurs = new ArrayList<>();
+    Set<Dinosaur> dinosaurs = new HashSet<>();
     for (Dinosaur d : this.dinosaurs) {
       if (d != null && d.getSize() == dinosaurSize) dinosaurs.add(d);
     }
@@ -115,12 +112,7 @@ public class DinosaurService {
   public boolean removeDinosaur(Dinosaur dinosaur) {
     if (this.dinosaurs == null || dinosaur == null) return false;
     
-    for (Dinosaur d : this.dinosaurs) {
-      if (d != null && d.equals(dinosaur)) {
-        return this.dinosaurs.remove(dinosaur);
-      }
-    }
-    return false;
+    return this.dinosaurs.remove(dinosaur);
   }
   
   //-------------------------------------------------------------------------------------------------------------------
