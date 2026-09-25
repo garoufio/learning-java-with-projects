@@ -12,6 +12,8 @@ import chapter13.project.entity.park.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
+import java.util.HashSet;
 import java.util.Scanner;
 
 public class App {
@@ -140,8 +142,8 @@ public class App {
   // Objects initialization
   //-------------------------------------------------------------------------------------------------------------------
   
-  private static List<Dinosaur> createDinosaurs() {
-    List<Dinosaur> dinosaurs = new ArrayList<>();
+  private static Set<Dinosaur> createDinosaurs() {
+    Set<Dinosaur> dinosaurs = new HashSet<>();
     
     dinosaurs.add(
         new TerrestrialDinosaur(
@@ -433,8 +435,8 @@ public class App {
   
   //-------------------------------------------------------------------------------------------------------------------
   
-  private List<Dinosaur> getDinosaursByEnclosure(DinosaurService dinosaurService, EnclosureType enclosureType) {
-    List<Dinosaur> dinosaurs = new ArrayList<>();
+  private Set<Dinosaur> getDinosaursByEnclosure(DinosaurService dinosaurService, EnclosureType enclosureType) {
+    Set<Dinosaur> dinosaurs = new HashSet<>();
     for (DinosaurSpecies dinosaurSpecies : enclosureType.getDinosaurSpecies()) {
       dinosaurs.addAll(dinosaurService.getDinosaurs(dinosaurSpecies));
     }
