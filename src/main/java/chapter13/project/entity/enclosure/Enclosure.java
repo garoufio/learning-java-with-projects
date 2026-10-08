@@ -4,16 +4,16 @@ import chapter13.project.App;
 import chapter13.project.entity.dinosaur.Dinosaur;
 import chapter13.project.entity.employee.Employee;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Set;
+import java.util.HashSet;
 import java.util.Objects;
 
 public class Enclosure implements Comparable<Enclosure> {
   
   private EnclosureType enclosureType;
   private SafetyLevel safetyLevel;
-  private List<Dinosaur> dinosaurs;
-  private List<Employee> employees;
+  private Set<Dinosaur> dinosaurs;
+  private Set<Employee> employees;
   private int securityLevel;
   
   //-------------------------------------------------------------------------------------------------------------------
@@ -21,8 +21,8 @@ public class Enclosure implements Comparable<Enclosure> {
   public Enclosure(
       EnclosureType enclosureType,
       SafetyLevel safetyLevel,
-      List<Dinosaur> dinosaurs,
-      List<Employee> employees,
+      Set<Dinosaur> dinosaurs,
+      Set<Employee> employees,
       int securityLevel
   ) {
     this.enclosureType = enclosureType;
@@ -37,8 +37,8 @@ public class Enclosure implements Comparable<Enclosure> {
   public Enclosure(
       EnclosureType enclosureType,
       SafetyLevel safetyLevel,
-      List<Dinosaur> dinosaurs,
-      List<Employee> employees
+      Set<Dinosaur> dinosaurs,
+      Set<Employee> employees
   ) {
     this(enclosureType, safetyLevel, dinosaurs, employees, 100);
   }
@@ -57,14 +57,14 @@ public class Enclosure implements Comparable<Enclosure> {
   
   //-------------------------------------------------------------------------------------------------------------------
   
-  public List<Dinosaur> getDinosaurs() {
+  public Set<Dinosaur> getDinosaurs() {
     return dinosaurs;
   }
   
   //-------------------------------------------------------------------------------------------------------------------
   
-  public void setDinosaurs(List<Dinosaur> dinosaurs) {
-    this.dinosaurs = (dinosaurs == null ? new ArrayList<>() : dinosaurs);
+  public void setDinosaurs(Set<Dinosaur> dinosaurs) {
+    this.dinosaurs = (dinosaurs == null ? new HashSet<>() : dinosaurs);
   }
   
   //-------------------------------------------------------------------------------------------------------------------
@@ -91,14 +91,14 @@ public class Enclosure implements Comparable<Enclosure> {
   
   //-------------------------------------------------------------------------------------------------------------------
   
-  public List<Employee> getEmployees() {
+  public Set<Employee> getEmployees() {
     return this.employees;
   }
   
   //-------------------------------------------------------------------------------------------------------------------
   
-  public void setEmployees(List<Employee> employees) {
-    this.employees = (employees == null ? new ArrayList<>() : employees);
+  public void setEmployees(Set<Employee> employees) {
+    this.employees = (employees == null ? new HashSet<>() : employees);
   }
   
   //-------------------------------------------------------------------------------------------------------------------
@@ -109,7 +109,7 @@ public class Enclosure implements Comparable<Enclosure> {
       System.out.printf("Employee '%s' already exists in this enclosure\n", employee);
       return false;
     }
-    if (this.employees.size() == App.MAX_EMPLOYEES) {
+    if (this.employees.size() >= App.MAX_EMPLOYEES) {
       System.out.println("The park cannot accept any more employees");
       return false;
     }
@@ -137,7 +137,7 @@ public class Enclosure implements Comparable<Enclosure> {
   
   //-------------------------------------------------------------------------------------------------------------------
   
-  private boolean compareDinosaurLists(List<Dinosaur> dinosaurs) {
+  private boolean compareDinosaurLists(Set<Dinosaur> dinosaurs) {
     if (this.dinosaurs == null || dinosaurs == null) return false;
     if (this.dinosaurs.size() != dinosaurs.size()) return false;
     
@@ -149,7 +149,7 @@ public class Enclosure implements Comparable<Enclosure> {
   
   //-------------------------------------------------------------------------------------------------------------------
   
-  private boolean compareEmployeeLists(List<Employee> employees) {
+  private boolean compareEmployeeLists(Set<Employee> employees) {
     if (this.employees == null || employees == null) return false;
     if (this.employees.size() != employees.size()) return false;
     
@@ -219,8 +219,6 @@ public class Enclosure implements Comparable<Enclosure> {
   
   @Override
   public int compareTo(Enclosure other) {
-    if (this == null & other == null) return 0;
-    if (this == null) return -1;
     if (other == null) return 1;
     
     return this.enclosureType.compareTo(other.getEnclosureType());
