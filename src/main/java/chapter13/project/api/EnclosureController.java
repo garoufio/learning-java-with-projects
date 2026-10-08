@@ -1,10 +1,8 @@
 package chapter13.project.api;
 
 import chapter13.project.collections.EnclosureComparator;
-import chapter13.project.entity.dinosaur.Dinosaur;
 import chapter13.project.entity.dinosaur.DinosaurSpecies;
 import chapter13.project.entity.dinosaur.DinosaurType;
-import chapter13.project.entity.employee.Employee;
 import chapter13.project.entity.employee.JobTitle;
 import chapter13.project.entity.enclosure.Enclosure;
 import chapter13.project.entity.enclosure.EnclosureType;
@@ -14,6 +12,11 @@ import chapter13.project.service.EnclosureService;
 
 import java.util.*;
 
+/**
+ * The EnclosureController class is responsible for managing the enclosures in the dinosaur park. It provides methods to
+ * add, find, edit, and remove enclosures, as well as to display all enclosures. It interacts with the EnclosureService
+ * and DinosaurCareSystemService to perform these operations.
+ */
 public class EnclosureController {
   
   private EnclosureService enclosureService;
@@ -22,6 +25,12 @@ public class EnclosureController {
   
   //-------------------------------------------------------------------------------------------------------------------
   
+  /**
+   * Constructor for EnclosureController
+   * @param sc Scanner object for user input.
+   * @param enclosureService EnclosureService object for managing enclosures.
+   * @param dinosaurCareSystemService DinosaurCareSystemService object for managing dinosaur care system.
+   */
   public EnclosureController(
       Scanner sc,
       EnclosureService enclosureService,
@@ -34,6 +43,11 @@ public class EnclosureController {
   
   //-------------------------------------------------------------------------------------------------------------------
   
+  /**
+   * Manages the enclosures by providing a menu for the user to choose from various options such as showing all
+   * enclosures, adding an enclosure, finding an enclosure, editing an enclosure, removing an enclosure and returning
+   * to the main menu.
+   */
   public void manageEnclosures() {
     for (;;) {
       System.out.printf("\nEnclosures service:\n");
@@ -76,7 +90,11 @@ public class EnclosureController {
   
   //-------------------------------------------------------------------------------------------------------------------
   
-  public void printEnclosures(List<Enclosure> enclosures) {
+  /**
+   * Prints the Enclosure(s) to the console.
+   * @param enclosures Collection of Enclosure objects to be printed.
+   */
+  public void printEnclosures(Collection<Enclosure> enclosures) {
     if (enclosures == null) {
       System.out.println("No Enclosures were added!");
       return;
@@ -89,6 +107,10 @@ public class EnclosureController {
   
   //-------------------------------------------------------------------------------------------------------------------
   
+  /**
+   * Adds a new Enclosure to the system by reading the EnclosureType, SafetyLevel and SecurityLevel from user input.
+   * The new Enclosure is then added to the EnclosureService and DinosaurCareSystemService.
+   */
   public void addEnclosure() {
     EnclosureType enclosureType = Util.readEnclosureType(sc);
     SafetyLevel  safetyLevel = Util.readSafetyLevel(sc);
@@ -99,8 +121,8 @@ public class EnclosureController {
     Enclosure enclosure = new Enclosure(
         enclosureType,
         safetyLevel,
-        new ArrayList<Dinosaur>(),
-        new ArrayList<Employee>(),
+        new HashSet<>(),
+        new HashSet<>(),
         securityLevel
     );
     enclosureService.addEnclosure(enclosure);
@@ -109,6 +131,12 @@ public class EnclosureController {
   
   //-------------------------------------------------------------------------------------------------------------------
   
+  /**
+   * Finds an Enclosure based on various search criteria such as EnclosureType, SafetyLevel, Dinosaur name,
+   * Dinosaur type, Dinosaur species, Employee name, Employee job title, Dinosaur detail search, and Employee detail
+   * search. The user is prompted to choose a search option, and the corresponding Enclosure(s) are retrieved from the
+   * EnclosureService and printed to the console.
+   */
   public void findEnclosure() {
     for (;;) {
       System.out.printf("\nSearch by:\n");
@@ -133,37 +161,37 @@ public class EnclosureController {
         }
         case 2 -> { // by safety level
           SafetyLevel safetyLevel = Util.readSafetyLevel(sc);
-          List<Enclosure> enclosures = enclosureService.getEnclosure(safetyLevel);
+          Set<Enclosure> enclosures = enclosureService.getEnclosure(safetyLevel);
           if (enclosures.isEmpty()) System.out.printf("No enclosures found with safety level '%s'\n", safetyLevel);
           else printEnclosures(enclosures);
         }
         case 3 -> { // by dinosaur name
           String dinosaurName = Util.readDinosaurName(sc);
-          List<Enclosure> enclosures = enclosureService.getEnclosure(dinosaurName, true);
+          Set<Enclosure> enclosures = enclosureService.getEnclosure(dinosaurName, true);
           if (enclosures.isEmpty()) System.out.printf("No enclosure found for dinosaur '%s'\n", dinosaurName);
           else printEnclosures(enclosures);
         }
         case 4 -> { // by dinosaur type
           DinosaurType dinosaurType = Util.readDinosaurType(sc);
-          List<Enclosure> enclosures = enclosureService.getEnclosure(dinosaurType);
+          Set<Enclosure> enclosures = enclosureService.getEnclosure(dinosaurType);
           if (enclosures.isEmpty()) System.out.printf("No enclosure found for dinosaur type '%s'\n", dinosaurType.name());
           else printEnclosures(enclosures);
         }
         case 5 -> { // by dinosaur species
           DinosaurSpecies dinosaurSpecies = Util.readDinosaurSpecies(sc);
-          List<Enclosure> enclosures = enclosureService.getEnclosure(dinosaurSpecies);
+          Set<Enclosure> enclosures = enclosureService.getEnclosure(dinosaurSpecies);
           if (enclosures == null) System.out.printf("No enclosure found for dinosaur species '%s'\n", dinosaurSpecies.name());
           else printEnclosures(enclosures);
         }
         case 6 -> { // by employee name
           String employeeName = Util.readEmployeeName(sc);
-          List<Enclosure> enclosures = enclosureService.getEnclosure(employeeName, false);
+          Set<Enclosure> enclosures = enclosureService.getEnclosure(employeeName, false);
           if (enclosures.isEmpty()) System.out.printf("No enclosure found for employee '%s'\n", employeeName);
           else printEnclosures(enclosures);
         }
         case 7 -> { // by employee's job title
           JobTitle jobTitle = Util.readEmployeeJobTitle(sc);
-          List<Enclosure> enclosures = enclosureService.getEnclosure(jobTitle);
+          Set<Enclosure> enclosures = enclosureService.getEnclosure(jobTitle);
           if (enclosures.isEmpty()) System.out.printf("No enclosures found for job title '%s'\n", jobTitle);
           else printEnclosures(enclosures);
         }
@@ -180,7 +208,7 @@ public class EnclosureController {
           EnclosureType enclosureType = Util.readEnclosureType(sc);
           String employeeName = Util.readEmployeeName(sc);
           JobTitle jobTitle = Util.readEmployeeJobTitle(sc);
-          List<Enclosure> enclosures = enclosureService.getEnclosure(enclosureType, jobTitle, employeeName);
+          Set<Enclosure> enclosures = enclosureService.getEnclosure(enclosureType, jobTitle, employeeName);
           if (enclosures.isEmpty()) System.out.println("No enclosure found");
           else printEnclosures(enclosures);
         }
@@ -193,6 +221,12 @@ public class EnclosureController {
   
   //-------------------------------------------------------------------------------------------------------------------
   
+  /**
+   * Edits the details of an existing Enclosure. The user is prompted to choose whether to edit the safety level and/or
+   * security level of the enclosure. If the user chooses to edit, the new values are read from user input and updated
+   * in the Enclosure object.
+   * @param enclosure The Enclosure object to be edited.
+   */
   private void editEnclosureDetails(Enclosure enclosure) {
     // change safety level
     if (Util.readEditEnclosure(sc, null, "safety level", "Edit").equals("Y")) {
@@ -209,6 +243,11 @@ public class EnclosureController {
   
   //-------------------------------------------------------------------------------------------------------------------
   
+  /**
+   * Edits an existing Enclosure by prompting the user to choose an EnclosureType or return to the enclosure menu.
+   * If an EnclosureType is chosen, the corresponding Enclosure is retrieved from the EnclosureService and the user
+   * is prompted to edit its details.
+   */
   public void editEnclosure() {
     for (;;) {
       System.out.printf("\nEdit by:\n");
@@ -235,6 +274,11 @@ public class EnclosureController {
   
   //-------------------------------------------------------------------------------------------------------------------
   
+  /**
+   * Removes an existing Enclosure by prompting the user to choose an EnclosureType or return to the enclosure menu.
+   * If an EnclosureType is chosen, the corresponding Enclosure is retrieved from the EnclosureService and removed from
+   * both the EnclosureService and DinosaurCareSystemService.
+   */
   public void removeEnclosure() {
     for (;;) {
       System.out.printf("\nRemove by:\n");
@@ -262,7 +306,13 @@ public class EnclosureController {
   
   //-------------------------------------------------------------------------------------------------------------------
   
-  public List<Enclosure> sortEnclosures(List<Enclosure> enclosures, Comparator<Enclosure> comparator) {
+  /**
+   * Sorts a set of Enclosures based on a provided Comparator. If the Comparator is null, a default Comparator is used.
+   * @param enclosures Set of Enclosure objects to be sorted.
+   * @param comparator Comparator to define the sorting order. If null, a default Comparator is used.
+   * @return A List of sorted Enclosure objects.
+   */
+  public List<Enclosure> sortEnclosures(Set<Enclosure> enclosures, Comparator<Enclosure> comparator) {
     if (enclosures == null || enclosures.isEmpty()) return List.of();
     
     List<Enclosure> sortedEnclosures = new ArrayList<>(enclosures);
