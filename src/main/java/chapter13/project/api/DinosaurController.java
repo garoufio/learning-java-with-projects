@@ -316,64 +316,56 @@ public class DinosaurController {
     }
     
     // change specific attributes based on dinosaur type
-    if (dinosaur instanceof TerrestrialDinosaur terrestrialDinosaur) {
-      // change height
-      if (Util.readEditDinosaur(sc, null, "height", "Edit").equals("Y")) {
-        int newHeight = Util.readDinosaurIntField(sc, "height (in centimeters)");
-        //((TerrestrialDinosaur) dinosaur).setHeight(newHeight);
-        terrestrialDinosaur.setHeight(newHeight);
+    switch (dinosaur) {
+      case TerrestrialDinosaur terrestrialDinosaur -> {
+        // change height
+        if (Util.readEditDinosaur(sc, null, "height", "Edit").equals("Y")) {
+          int newHeight = Util.readDinosaurIntField(sc, "height (in centimeters)");
+          terrestrialDinosaur.setHeight(newHeight);
+        }
+        // change speed
+        if (Util.readEditDinosaur(sc, null, "max running speed", "Edit").equals("Y")) {
+          int newSpeed = Util.readDinosaurIntField(sc, "max running speed (in Km/h)");
+          terrestrialDinosaur.setMaxRunningSpeed(newSpeed);
+        }
       }
-      
-      // change speed
-      if (Util.readEditDinosaur(sc, null, "max running speed", "Edit").equals("Y")) {
-        int newSpeed = Util.readDinosaurIntField(sc, "max running speed (in Km/h)");
-        //((TerrestrialDinosaur) dinosaur).setMaxRunningSpeed(newSpeed);
-        terrestrialDinosaur.setMaxRunningSpeed(newSpeed);
+      case AquaticDinosaur aquaticDinosaur -> {
+        // change diving depth
+        if (Util.readEditDinosaur(sc, null, "max diving depth", "Edit").equals("Y")) {
+          int newDivingDepth = Util.readDinosaurIntField(sc, "max diving depth (in meters)");
+          aquaticDinosaur.setMaxDivingDepth(newDivingDepth);
+        }
+        // change underwater speed
+        if (Util.readEditDinosaur(sc, null, "max underwater speed", "Edit").equals("Y")) {
+          int newUnderwaterSpeed = Util.readDinosaurIntField(sc, "max underwater speed (in Km/h)");
+          aquaticDinosaur.setMaxUnderwaterSpeed(newUnderwaterSpeed);
+        }
+        // amphibious capability
+        if (Util.readEditDinosaur(sc, null, "amphibious capability", "Edit").equals("Y")) {
+          boolean isAmphibious = Util.readDinosaurAmphibiousCapability(sc);
+          aquaticDinosaur.setAmphibious(isAmphibious);
+        }
       }
-    } else if (dinosaur instanceof AquaticDinosaur aquaticDinosaur) {
-      // change diving depth
-      if (Util.readEditDinosaur(sc, null, "max diving depth", "Edit").equals("Y")) {
-        int newDivingDepth = Util.readDinosaurIntField(sc, "max diving depth (in meters)");
-        //((AquaticDinosaur) dinosaur).setMaxDivingDepth(newDivingDepth);
-        aquaticDinosaur.setMaxDivingDepth(newDivingDepth);
+      case FlyingDinosaur flyingDinosaur -> {
+        // change wingspan
+        if (Util.readEditDinosaur(sc, null, "wingspan", "Edit").equals("Y")) {
+          int newWingspan = Util.readDinosaurIntField(sc, "wingspan (in centimeters)");
+          flyingDinosaur.setWingSpan(newWingspan);
+        }
+        
+        // change max altitude
+        if (Util.readEditDinosaur(sc, null, "max flying altitude", "Edit").equals("Y")) {
+          int newMaxAltitude = Util.readDinosaurIntField(sc, "max flying altitude (in meters)");
+          flyingDinosaur.setMaxAltitude(newMaxAltitude);
+        }
+        
+        // change flying speed
+        if (Util.readEditDinosaur(sc, null, "max flying speed", "Edit").equals("Y")) {
+          int newFlyingSpeed = Util.readDinosaurIntField(sc, "max flying speed (in Km/h)");
+          flyingDinosaur.setMaxFlightSpeed(newFlyingSpeed);
+        }
       }
-      
-      // change underwater speed
-      if (Util.readEditDinosaur(sc, null, "max underwater speed", "Edit").equals("Y")) {
-        int newUnderwaterSpeed = Util.readDinosaurIntField(sc, "max underwater speed (in Km/h)");
-        //((AquaticDinosaur) dinosaur).setMaxUnderwaterSpeed(newUnderwaterSpeed);
-        aquaticDinosaur.setMaxUnderwaterSpeed(newUnderwaterSpeed);
-      }
-      
-      // amphibious capability
-      if (Util.readEditDinosaur(sc, null, "amphibious capability", "Edit").equals("Y")) {
-        boolean isAmphibious = Util.readDinosaurAmphibiousCapability(sc);
-        //((AquaticDinosaur) dinosaur).setAmphibious(isAmphibious);
-        aquaticDinosaur.setAmphibious(isAmphibious);
-      }
-    } else if (dinosaur instanceof FlyingDinosaur flyingDinosaur) {
-      // change wingspan
-      if (Util.readEditDinosaur(sc, null, "wingspan", "Edit").equals("Y")) {
-        int newWingspan = Util.readDinosaurIntField(sc, "wingspan (in centimeters)");
-        //((FlyingDinosaur) dinosaur).setWingSpan(newWingspan);
-        flyingDinosaur.setWingSpan(newWingspan);
-      }
-      
-      // change max altitude
-      if (Util.readEditDinosaur(sc, null, "max flying altitude", "Edit").equals("Y")) {
-        int newMaxAltitude = Util.readDinosaurIntField(sc, "max flying altitude (in meters)");
-        //((FlyingDinosaur) dinosaur).setMaxAltitude(newMaxAltitude);
-        flyingDinosaur.setMaxAltitude(newMaxAltitude);
-      }
-      
-      // change flying speed
-      if (Util.readEditDinosaur(sc, null, "max flying speed", "Edit").equals("Y")) {
-        int newFlyingSpeed = Util.readDinosaurIntField(sc, "max flying speed (in Km/h)");
-        //((FlyingDinosaur) dinosaur).setMaxFlightSpeed(newFlyingSpeed);
-        flyingDinosaur.setMaxFlightSpeed(newFlyingSpeed);
-      }
-    } else {
-      System.out.println("Unknown dinosaur type. No specific attributes to edit");
+      default -> System.out.println("Unknown dinosaur type. No specific attributes to edit");
     }
   }
   

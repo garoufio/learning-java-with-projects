@@ -7,6 +7,7 @@ import chapter13.project.entity.dinosaur.DinosaurSpecies;
 import chapter13.project.entity.dinosaur.DinosaurType;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 public class DinosaurService {
@@ -34,8 +35,11 @@ public class DinosaurService {
     for (int i = 0; i < dinosaurs.length; i++) {
       if (dinosaurs[i] != null) {
         if (this.dinosaurs.size() < App.MAX_DINOSAURS) {
-          this.dinosaurs.add(dinosaurs[i]);
-          System.out.printf("Dinosaur added '%s'\n", dinosaurs[i]);
+          if (this.dinosaurs.add(dinosaurs[i])) {
+            System.out.printf("Dinosaur added '%s'\n", dinosaurs[i]);
+          } else {
+            System.out.printf("Dinosaur already exists '%s'\n", dinosaurs[i]);
+          }
         } else {
           System.out.printf("Maximum number of dinosaurs has been reached. '%d' dinosaurs were added\n", i);
           break;

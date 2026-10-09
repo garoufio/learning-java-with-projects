@@ -170,8 +170,8 @@ public class App {
   
   //-------------------------------------------------------------------------------------------------------------------
   
-  private List<Enclosure> createEnclosures(DinosaurService dinosaurService, EmployeeService employeeService) {
-    List<Enclosure> enclosures = new ArrayList<>();
+  private Set<Enclosure> createEnclosures(DinosaurService dinosaurService, EmployeeService employeeService) {
+    Set<Enclosure> enclosures = new Hashet<>();
     
     // add Raptors Park enclosure and the related dinosaurs and employees
     enclosures.add(new Enclosure(

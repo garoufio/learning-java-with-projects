@@ -3,6 +3,7 @@ package chapter13.project.entity.dinosaur;
 import java.time.LocalDate;
 import java.time.Period;
 import java.time.format.DateTimeFormatter;
+import java.util.Objects;
 
 public sealed abstract class Dinosaur implements Actionable, Comparable<Dinosaur>
     permits FlyingDinosaur, AquaticDinosaur, TerrestrialDinosaur {
