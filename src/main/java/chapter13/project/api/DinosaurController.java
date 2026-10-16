@@ -11,6 +11,11 @@ import chapter13.project.service.EnclosureService;
 import java.time.LocalDate;
 import java.util.*;
 
+/**
+ * DinosaurController class is responsible for managing the dinosaurs in the park. It provides methods to add, find,
+ * edit, and remove dinosaurs, as well as to display the list of dinosaurs. It interacts with the DinosaurService,
+ * EnclosureService, and DinosaurCareSystemService to perform these operations.
+ */
 public class DinosaurController {
   
   private DinosaurService dinosaurService;
@@ -20,6 +25,14 @@ public class DinosaurController {
   
   //-------------------------------------------------------------------------------------------------------------------
   
+  /**
+   * Constructs a DinosaurController object. It initializes the controller with the DinosaurService, EnclosureService, 
+   * DinosaurCareSystemService services and a Scanner object for user input.
+   * @param sc Scanner for user input.
+   * @param dinosaurService DinosaurService for managing dinosaurs.
+   * @param enclosureService EnclosureService for managing enclosures.
+   * @param dinosaurCareSystemService DinosaurCareSystemService for managing the dinosaur care system.
+   */
   public DinosaurController(
       Scanner sc,
       DinosaurService dinosaurService,
@@ -34,6 +47,12 @@ public class DinosaurController {
 
   //-------------------------------------------------------------------------------------------------------------------
   
+  /**
+   * Manages the dinosaur service menu. It provides options to show all dinosaurs, add a new dinosaur, find a dinosaur,
+   * edit a dinosaur, remove a dinosaur, or return to the main menu. It continuously prompts the user for input until
+   * they choose to return to the main menu. It handles the user's choice and calls the appropriate methods to perform
+   * the selected operation.
+   */
   public void manageDinosaurs() {
     for (;;) {
       System.out.printf("\nDinosaurs service:\n");
@@ -76,7 +95,11 @@ public class DinosaurController {
   
   //-------------------------------------------------------------------------------------------------------------------
   
-  public void printDinosaurs(List<Dinosaur> dinosaurs) {
+  /**
+   * Prints the Dinosaur(s) to the console.
+   * @param dinosaurs Collection of Dinosaur objects to be printed.
+   */
+  public void printDinosaurs(Collection<Dinosaur> dinosaurs) {
     if (dinosaurs == null || dinosaurs.isEmpty()) {
       System.out.println("No dinosaurs were added");
       return;
@@ -89,19 +112,13 @@ public class DinosaurController {
   
   //-------------------------------------------------------------------------------------------------------------------
   
-  public void printDinosaurs(Set<Dinosaur> dinosaurs) {
-    if (dinosaurs == null || dinosaurs.isEmpty()) {
-      System.out.println("No dinosaurs were added");
-      return;
-    }
-    
-    for (Dinosaur d : dinosaurs) {
-      if (d != null) System.out.println(d);
-    }
-  }
-  
-  //-------------------------------------------------------------------------------------------------------------------
-  
+  /**
+   * Adds a new dinosaur to the park. It prompts the user for the dinosaur's name, birthdate, type, species, size, and
+   * health score. Based on the species, it collects additional attributes specific to that species. It then creates a
+   * new Dinosaur object and adds it to the appropriate enclosure and the dinosaur care system. If the dinosaur cannot
+   * be added to the enclosure, it informs the user and does not add the dinosaur to the park. It also handles invalid
+   * inputs and informs the user accordingly.
+   */
   public void addDinosaur() {
     // read name
     String name = Util.readDinosaurName(sc);
@@ -163,6 +180,10 @@ public class DinosaurController {
   
   //-------------------------------------------------------------------------------------------------------------------
   
+  /**
+   * Prints the submenu options for finding, editing, or removing dinosaurs based on the specified action.
+   * @param action The action to be performed (e.g. "Find", "Edit", "Remove").
+   */
   private void printDinosaurSubmenuOptions(String action) {
     System.out.printf("\n%s by:\n", action);
     System.out.println("1. Dinosaur name");
@@ -176,6 +197,9 @@ public class DinosaurController {
   
   //-------------------------------------------------------------------------------------------------------------------
   
+  /**
+   * Finds dinosaurs based on various criteria specified by the user.
+   */
   public void findDinosaur() {
     for (;;) {
       printDinosaurSubmenuOptions("Find");
@@ -278,6 +302,11 @@ public class DinosaurController {
   
   //-------------------------------------------------------------------------------------------------------------------
   
+  /**
+   * Edits the details of the given dinosaur by prompting the user for changes to its name, birth date, species, type, 
+   * size, health score, and specific attributes based on its type.
+   * @param dinosaur the dinosaur whose details are to be edited.
+   */
   private void editDinosaurDetails(Dinosaur dinosaur) {
     // change name
     if (Util.readEditDinosaur(sc, null, "name", "Edit").equals("Y")) {
@@ -371,6 +400,12 @@ public class DinosaurController {
   
   //-------------------------------------------------------------------------------------------------------------------
   
+  /**
+   * Edits a dinosaur based on user input. The user can choose to edit a dinosaur by name or perform a detailed search
+   * to find the dinosaur. Once the dinosaur is found, the user can edit its details using the editDinosaurDetails
+   * method. If the dinosaur is not found, an appropriate message is displayed. The method continues to prompt the user
+   * until they choose to return to the dinosaur menu.
+   */
   private void editDinosaur() {
     for (;;) {
       System.out.printf("\nEdit by:\n");
@@ -432,6 +467,11 @@ public class DinosaurController {
   
   //-------------------------------------------------------------------------------------------------------------------
   
+  /**
+   * Removes a dinosaur from a specific enclosure.
+   * @param enclosure the enclosure from which the dinosaur will be removed.
+   * @param dinosaur the dinosaur to be removed.
+   */
   private void removeDinosaurFromEnclosure(Enclosure enclosure, Dinosaur dinosaur) {
     if (enclosure == null) {
       System.out.printf("The enclosure for dinosaur '%s' does not exist in the park\n", dinosaur);
@@ -446,7 +486,13 @@ public class DinosaurController {
   
   //-------------------------------------------------------------------------------------------------------------------
   
-  public void removeDinosaurFromEnclosure(List<Enclosure> enclosures, Dinosaur dinosaur) {
+  /**
+   * Removes a dinosaur from a set of enclosures. It iterates through the set of enclosures and calls the
+   * removeDinosaurFromEnclosure method for each enclosure to remove the specified dinosaur.
+   * @param enclosures the set of enclosures from which the dinosaur will be removed.
+   * @param dinosaur the dinosaur to be removed.
+   */
+  public void removeDinosaurFromEnclosure(Set<Enclosure> enclosures, Dinosaur dinosaur) {
     if (enclosures == null || enclosures.isEmpty()) {
       System.out.println("The enclosure(s) do not exist in the park\n");
     } else {
@@ -458,23 +504,34 @@ public class DinosaurController {
   
   //-------------------------------------------------------------------------------------------------------------------
   
+  /**
+   * Removes a dinosaur from the park. It first removes the dinosaur from the set of dinosaurs and then removes it from
+   * any related enclosures. If the dinosaur does not exist, it informs the user that the dinosaur was not found.
+   * @param dinosaur the dinosaur to be removed.
+   */
   private void removeDinosaur(Dinosaur dinosaur) {
     if (dinosaur == null) {
       System.out.println("Dinosaur not found");
       return;
     }
     
-    // remove dinosaur from the list
+    // remove dinosaur from the set of dinosaurs
     if (dinosaurService.removeDinosaur(dinosaur)) {
       System.out.println("Dinosaur removed");
       // remove dinosaur from the related enclosure
-      List<Enclosure> enclosures = enclosureService.getEnclosure(dinosaur);
+      Set<Enclosure> enclosures = enclosureService.getEnclosure(dinosaur);
       removeDinosaurFromEnclosure(enclosures, dinosaur);
     } else System.out.printf("Dinosaur '%s' could not be removed\n", dinosaur);
   }
   
   //-------------------------------------------------------------------------------------------------------------------
   
+  /**
+   * Removes dinosaurs based on various criteria specified by the user. The user can choose to remove dinosaurs by name,
+   * type, species, size, or perform a detailed search. Once the dinosaurs are found, they are removed from the park and
+   * any related enclosures. If no dinosaurs are found for the specified criteria, an appropriate message is displayed.
+   * The method continues to prompt the user until they choose to return to the dinosaur menu.
+   */
   public void removeDinosaur() {
     for (;;) {
       printDinosaurSubmenuOptions("Remove");
@@ -556,7 +613,14 @@ public class DinosaurController {
   
   //-------------------------------------------------------------------------------------------------------------------
   
-  public List<Dinosaur> sortDinosaurs(Set<Dinosaur> dinosaurs, Comparator<Dinosaur> comparator) {
+  /**
+   * Sorts a collection of dinosaurs based on the provided comparator. If the comparator is null, it uses the default
+   *  comparator defined in the DinosaurComparator class. The method returns a sorted list of dinosaurs.
+   * @param dinosaurs the collection of dinosaurs to be sorted.
+   * @param comparator the comparator to determine the order of the dinosaurs. If null, the default comparator is used.
+   * @return a sorted list of dinosaurs. If the input collection is null or empty, an empty list is returned.
+   */
+  public List<Dinosaur> sortDinosaurs(Collection<Dinosaur> dinosaurs, Comparator<Dinosaur> comparator) {
     if (dinosaurs == null || dinosaurs.isEmpty()) return List.of();
     
     List<Dinosaur> sortedDinosaurs = new ArrayList<>(dinosaurs);

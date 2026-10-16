@@ -4,8 +4,19 @@ import chapter13.project.entity.dinosaur.Dinosaur;
 
 import java.util.Comparator;
 
+/**
+ * Comparator for Dinosaur objects based on name, birthdate, type, species, and size. DinosaurComparator implements the
+ * Comparator interface for Dinosaur objects.
+ */
 public class DinosaurComparator implements Comparator<Dinosaur> {
   
+  /**
+   * Compares two Dinosaur objects based on name, birthdate, type, species, and size.
+   * @param d1 the first Dinosaur to be compared.
+   * @param d2 the second Dinosaur to be compared.
+   * @return a negative integer, zero, or a positive integer as the first argument is less than, 
+   * equal to, or greater than the second.
+   */
   @Override
   public int compare(Dinosaur d1, Dinosaur d2) {
     if (d1 == null && d2 == null) return 0;
@@ -42,6 +53,10 @@ public class DinosaurComparator implements Comparator<Dinosaur> {
   
   //-------------------------------------------------------------------------------------------------------------------
   
+  /**
+   * Returns the default DinosaurComparator instance.
+   * @return the default DinosaurComparator instance.
+   */
   public static Comparator<Dinosaur> getDefaultComparator() {
     return new DinosaurComparator();
   }

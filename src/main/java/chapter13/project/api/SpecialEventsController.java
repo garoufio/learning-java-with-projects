@@ -13,6 +13,11 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.*;
 
+/**
+ * Controller class for managing special events in the DinosaurCareSystem. Provides methods to add, find, remove, and 
+ * list special events, as well as manage tickets for these events. This controller interacts with the SpecialEventsService
+ * and TicketService to perform operations related to special events.
+ */
 public class SpecialEventsController {
   
   private SpecialEventsService specialEventsService;
@@ -21,6 +26,13 @@ public class SpecialEventsController {
   
   //-------------------------------------------------------------------------------------------------------------------
   
+  /**
+   * Constructs a SpecialEventsController object. It initializes the controller with the specified Scanner, 
+   * SpecialEventsService, and TicketService.
+   * @param sc the Scanner for reading user input.
+   * @param specialEventsService the service for managing special events.
+   * @param ticketsService the service for managing tickets.
+   */
   public SpecialEventsController(Scanner sc, SpecialEventsService specialEventsService,  TicketService ticketsService) {
     this.sc = sc;
     this.specialEventsService = specialEventsService;
@@ -29,6 +41,11 @@ public class SpecialEventsController {
   
   //-------------------------------------------------------------------------------------------------------------------
   
+  /**
+   * Handles the special events menu, providing options to show all special events, add a new event, find an event,
+   * remove an event, or return to the main menu. It continuously prompts the user for input until they choose to
+   * return to the main menu and calls the appropriate methods based on the user's choice.
+   */
   public void handleSpecialEvents() {
     for (;;) {
       System.out.printf("\nSpecial events service:\n");
@@ -67,7 +84,12 @@ public class SpecialEventsController {
   
   //-------------------------------------------------------------------------------------------------------------------
   
-  public void printSpecialEvents(List<SpecialEvent> specialEvents) {
+  /**
+   * Prints the list of special events to the console. If the collection is null or empty, it informs the user that no 
+   * special events were added.
+   * @param specialEvents Collection of SpecialEvents to be printed.
+   */
+  public void printSpecialEvents(Collection<SpecialEvent> specialEvents) {
     if (specialEvents == null) {
       System.out.println("No special events were added");
       return;
@@ -80,6 +102,13 @@ public class SpecialEventsController {
   
   //-------------------------------------------------------------------------------------------------------------------
   
+  /**
+   * Creates a new Ticket object for a visitor attending a special event on the specified date. It prompts the user for 
+   * the visitor's information and ticket type.
+   * @param sc Scanner for user input.
+   * @param date Date of the special event.
+   * @return A new Ticket for the visitor attending the special event.
+   */
   private Ticket createTicket(Scanner sc, LocalDate date) {
     // read visitor's firstname, lastname and phone number
     Visitor visitor = Util.readVisitor(sc);
@@ -92,10 +121,17 @@ public class SpecialEventsController {
   
   //-------------------------------------------------------------------------------------------------------------------
   
-  private List<Ticket> addSpecialEventTickets(Scanner sc, SpecialEvent event) {
+  /**
+   * Adds tickets for a special event by prompting the user for ticket information. It continues to prompt until the 
+   * maximum number of visitors for the event is reached or the user chooses to stop.
+   * @param sc Scanner for user input.
+   * @param event SpecialEvent for which tickets are being added.
+   * @return A set of tickets added for the special event.
+   */
+  private Set<Ticket> addSpecialEventTickets(Scanner sc, SpecialEvent event) {
     if (event == null) return null;
     
-    List<Ticket> tickets = new ArrayList<>();
+    Set<Ticket> tickets = new HashSet<>();
     for (int i = 0; i < event.getEventType().getNumberOfVisitors(); i++) {
       System.out.print("Add new ticket (Y/N)? ");
       char choice = Character.toUpperCase(sc.next().charAt(0));
@@ -110,6 +146,10 @@ public class SpecialEventsController {
   
   //-------------------------------------------------------------------------------------------------------------------
   
+  /**
+   * Adds a new special event to the system by prompting the user for event details, including name, description,
+   * contact information, date, time, and event type. It also allows adding tickets for the event.
+   */
   public void addSpecialEvent() {
     // read name
     String name = Util.readSpecialEventField(sc, "name");
@@ -146,6 +186,10 @@ public class SpecialEventsController {
   
   //-------------------------------------------------------------------------------------------------------------------
   
+  /**
+   * Prints the submenu options for finding special events based on the specified action.
+   * @param action the action for which the submenu options are being printed (e.g., "Find", "Delete").
+   */
   private void printSpecialEventSubmenuOptions(String action) {
     System.out.printf("\n%s by:\n", action);
     System.out.println("1. Event id");
@@ -160,6 +204,9 @@ public class SpecialEventsController {
   
   //-------------------------------------------------------------------------------------------------------------------
   
+  /**
+   * Finds special events based on various criteria specified by the user through a submenu.
+   */
   public void findSpecialEvent() {
     for (;;) {
       printSpecialEventSubmenuOptions("Find");
@@ -236,10 +283,15 @@ public class SpecialEventsController {
   
   //-------------------------------------------------------------------------------------------------------------------
   
+  /**
+   * Removes the specified special event along with its associated tickets.
+   * @param event the special event to be removed.
+   * @return true if the event and its tickets were successfully removed, false otherwise.
+   */
   private boolean removeEvent(SpecialEvent event) {
     if (event == null) return false;
     
-    List<Ticket> tickets = event.getTickets();
+    Set<Ticket> tickets = event.getTickets();
     if (specialEventsService.removeSpecialEvent(event)) {
       return ticketsService.removeTicket(tickets);
     }
@@ -248,7 +300,12 @@ public class SpecialEventsController {
   
   //-------------------------------------------------------------------------------------------------------------------
   
-  public void removeEvents(List<SpecialEvent> events) {
+  /**
+   * Removes the specified set of special events along with their associated tickets. If any of the events do not exist
+   * or the set is null, they are ignored.
+   * @param events the set of special events to be removed.
+   */
+  public void removeEvents(Set<SpecialEvent> events) {
     if (events == null || events.isEmpty()) {
       System.out.println("No events were removed");
       return;
@@ -268,6 +325,9 @@ public class SpecialEventsController {
   
   //-------------------------------------------------------------------------------------------------------------------
   
+  /**
+   * Removes a special event based on user input through a submenu.
+   */
   public void removeSpecialEvent() {
     for (;;) {
       printSpecialEventSubmenuOptions("Remove");
@@ -347,20 +407,17 @@ public class SpecialEventsController {
       if (choice > 0 && choice < 8) break;
     }
   }
-  
+    
   //-------------------------------------------------------------------------------------------------------------------
   
-  private void printSpecialEvent(SpecialEvent event) {
-    if (event == null) {
-      System.out.println("No event found");
-      return;
-    }
-    System.out.println(event);
-  }
-  
-  //-------------------------------------------------------------------------------------------------------------------
-  
-  public List<SpecialEvent> sortSpecialEvents(List<SpecialEvent> events, Comparator<SpecialEvent> comparator) {
+  /**
+   * Sorts the given collection of special events using the specified comparator. If the comparator is null, a default
+   * comparator defined in the EventComparator class is used.
+   * @param events the collection of special events to be sorted.
+   * @param comparator the comparator to determine the order of the events. If null, a default comparator is used.
+   * @return a list of sorted special events, or an empty list if the input collection is null or empty.
+   */
+  public List<SpecialEvent> sortSpecialEvents(Collection<SpecialEvent> events, Comparator<SpecialEvent> comparator) {
     if (events == null || events.isEmpty()) return List.of();
     
     List<SpecialEvent> sortedEvents = new ArrayList<>(events);

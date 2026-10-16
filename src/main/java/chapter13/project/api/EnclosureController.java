@@ -26,7 +26,8 @@ public class EnclosureController {
   //-------------------------------------------------------------------------------------------------------------------
   
   /**
-   * Constructor for EnclosureController
+   * Constructor for EnclosureController class. Initializes the Scanner, EnclosureService, and
+   * DinosaurCareSystemService objects.
    * @param sc Scanner object for user input.
    * @param enclosureService EnclosureService object for managing enclosures.
    * @param dinosaurCareSystemService DinosaurCareSystemService object for managing dinosaur care system.
@@ -109,7 +110,8 @@ public class EnclosureController {
   
   /**
    * Adds a new Enclosure to the system by reading the EnclosureType, SafetyLevel and SecurityLevel from user input.
-   * The new Enclosure is then added to the EnclosureService and DinosaurCareSystemService.
+   * The new Enclosure is then added to the EnclosureService and DinosaurCareSystemService. It also checks if the user
+   * wants to edit the security level before adding the enclosure.
    */
   public void addEnclosure() {
     EnclosureType enclosureType = Util.readEnclosureType(sc);
@@ -307,12 +309,13 @@ public class EnclosureController {
   //-------------------------------------------------------------------------------------------------------------------
   
   /**
-   * Sorts a set of Enclosures based on a provided Comparator. If the Comparator is null, a default Comparator is used.
-   * @param enclosures Set of Enclosure objects to be sorted.
+   * Sorts a collection of Enclosures based on a provided Comparator. If the Comparator is null, the default Comparator 
+   * defined in the EnclosureComparator class is used. The method returns a sorted list of Enclosures.
+   * @param enclosures Collection of Enclosure objects to be sorted.
    * @param comparator Comparator to define the sorting order. If null, a default Comparator is used.
-   * @return A List of sorted Enclosure objects.
+   * @return A List of sorted Enclosure objects. If the input collection is null or empty, an empty list is returned.
    */
-  public List<Enclosure> sortEnclosures(Set<Enclosure> enclosures, Comparator<Enclosure> comparator) {
+  public List<Enclosure> sortEnclosures(Collection<Enclosure> enclosures, Comparator<Enclosure> comparator) {
     if (enclosures == null || enclosures.isEmpty()) return List.of();
     
     List<Enclosure> sortedEnclosures = new ArrayList<>(enclosures);

@@ -16,6 +16,11 @@ public class DinosaurCareSystemController {
   
   //-------------------------------------------------------------------------------------------------------------------
   
+  /**
+   * Constructs a new DinosaurCareSystemController with the specified Scanner and DinosaurCareSystemService.
+   * @param sc the Scanner to read user input.
+   * @param dinosaurCareSystemService the service to manage dinosaur care system operations.
+   */
   public DinosaurCareSystemController(
       Scanner sc,
       DinosaurCareSystemService dinosaurCareSystemService
@@ -26,9 +31,13 @@ public class DinosaurCareSystemController {
   
   //-------------------------------------------------------------------------------------------------------------------
   
+  /**
+   * Manages the Dinosaur Care System by providing a menu for various operations such as checking dinosaurs' health, 
+   * checking enclosures' security score, and managing activities schedule.
+   */
   public void manageDinosaurCareSystem() {
     for (;;) {
-      System.out.printf("\nDinosaurs Care System service:\n");
+      System.out.println("\nDinosaurs Care System service:");
       System.out.println("1. Check Dinosaurs Health");
       System.out.println("2. Check Enclosures Security Score");
       System.out.println("3. Activities Schedule");
@@ -57,6 +66,9 @@ public class DinosaurCareSystemController {
   
   //-------------------------------------------------------------------------------------------------------------------
   
+  /**
+   * Manages the activities schedule by providing a menu for viewing, adding, and removing activities.
+   */
   private void manageActivitiesSchedule() {
     for (;;) {
       System.out.println("\nActivities Schedule:");
@@ -87,6 +99,9 @@ public class DinosaurCareSystemController {
   
   //-------------------------------------------------------------------------------------------------------------------
   
+  /**
+   * Prints the list of all scheduled activities in the Dinosaur Care System.
+   */
   private void printActivities() {
     if (dinosaurCareSystemService.getActivities().isEmpty()) {
       System.out.println("No activities are scheduled in the Dinosaur Care System.");
@@ -101,6 +116,9 @@ public class DinosaurCareSystemController {
   
   //-------------------------------------------------------------------------------------------------------------------
   
+  /**
+   * Adds a new activity to the Dinosaur Care System after collecting necessary details from the user.
+   */
   private void addActivity() {
     if (dinosaurCareSystemService.getDinosaurs().isEmpty()) {
       System.out.println("No dinosaurs are available in the Dinosaur Care System.");
@@ -128,6 +146,9 @@ public class DinosaurCareSystemController {
   
   //-------------------------------------------------------------------------------------------------------------------
   
+  /**
+   * Removes an existing activity from the Dinosaur Care System based on the activity name provided by the user.
+   */
   private void removeActivity() {
     String name = Util.readActivityField(sc, "name");
     List<Activity> allActivities = dinosaurCareSystemService.getActivities();
@@ -145,6 +166,10 @@ public class DinosaurCareSystemController {
   
   //-------------------------------------------------------------------------------------------------------------------
   
+  /**
+   * Prompts the user to select a dinosaur from the list of available dinosaurs.
+   * @return The selected Dinosaur object, or null if no dinosaurs are available.
+   */
   private Dinosaur selectDinosaur() {
     if (dinosaurCareSystemService.getDinosaurs().isEmpty()) return null;
     

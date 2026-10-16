@@ -4,6 +4,7 @@ import chapter13.project.entity.ticket.*;
 import chapter13.project.service.TicketService;
 
 import java.time.LocalDate;
+import java.util.Collection;
 import java.util.List;
 import java.util.Scanner;
 import java.util.UUID;
@@ -60,7 +61,7 @@ public class TicketController {
   
   //-------------------------------------------------------------------------------------------------------------------
   
-  private void printTickets(List<Ticket> tickets) {
+  private void printTickets(Collection<Ticket> tickets) {
     if (tickets == null || tickets.isEmpty()) {
       System.out.println("No Tickets were added!");
       return;

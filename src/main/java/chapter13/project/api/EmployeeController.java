@@ -11,6 +11,10 @@ import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.util.*;
 
+/**
+ * The EmployeeController class is responsible for managing employees in the DinosaurCase system. It provides methods 
+ * to add, edit, remove, and view employees, as well as manage their schedules.
+ */
 public class EmployeeController {
   
   private EmployeeService employeeService;
@@ -19,6 +23,13 @@ public class EmployeeController {
   
   //-------------------------------------------------------------------------------------------------------------------
   
+  /**
+   * Constructs an EmployeeController object. It initializes the controller with the Employee and Enclosure services and 
+   * a Scanner object for user input.
+   * @param sc Scanner for user input.
+   * @param employeeService EmployeeService for managing employees.
+   * @param enclosureService EnclosureService for managing enclosures.
+   */
   public EmployeeController(Scanner sc, EmployeeService employeeService, EnclosureService enclosureService) {
     this.sc = sc;
     this.employeeService = employeeService;
@@ -27,6 +38,10 @@ public class EmployeeController {
   
   //-------------------------------------------------------------------------------------------------------------------
   
+  /**
+   * Manages the main menu for employee-related operations, allowing the user to view, add, find, edit, and remove 
+   * employees, as well as manage their schedules.
+   */
   public void manageEmployees() {
     for (;;) {
       System.out.printf("\nEmployees service:\n");
@@ -73,7 +88,12 @@ public class EmployeeController {
   
   //-------------------------------------------------------------------------------------------------------------------
   
-  private void printEmployees(List<Employee> employees) {
+  /**
+   * Prints the list of employees to the console. If the list is empty or null, it displays a message indicating that 
+   * no employees were added.
+   * @param employees Collection of Employee objects to be printed.
+   */
+  private void printEmployees(Collection<Employee> employees) {
     if (employees == null || employees.isEmpty()) {
       System.out.println("No employees were added");
       return;
@@ -86,6 +106,10 @@ public class EmployeeController {
  
   //-------------------------------------------------------------------------------------------------------------------
   
+  /**
+   * Adds a new employee by reading the necessary details from the user and assigning the employee to the appropriate 
+   * enclosure(s).
+   */
   private void addEmployee() {
     // read name
     String name = Util.readEmployeeName(sc);
@@ -99,7 +123,7 @@ public class EmployeeController {
     Employee employee = new Employee(name, jobTitle, yearsOfExperience, birthDate);
     
     // add employee to all the related enclosures
-    List<Enclosure> enclosures = enclosureService.getAllEnclosures();
+    Set<Enclosure> enclosures = enclosureService.getAllEnclosures();
     if (enclosures.isEmpty()) {
       System.out.printf("No enclosures found for employee job title '%s'. Employee cannot be added\n", jobTitle);
       return;
@@ -118,6 +142,10 @@ public class EmployeeController {
   
   //-------------------------------------------------------------------------------------------------------------------
   
+  /**
+   * Finds an employee based on user input, allowing searches by name, job title, or detailed criteria.
+   * The method interacts with the user through the console and prints the search results.
+   */
   private void findEmployee() {
     for (;;) {
       System.out.printf("\nSearch by:\n");
@@ -157,6 +185,11 @@ public class EmployeeController {
   
   //-------------------------------------------------------------------------------------------------------------------
   
+  /**
+   * Edits the details of the given employee by prompting the user for changes to the name, job title, and years of 
+   * experience.
+   * @param employee the employee whose details are to be edited.
+   */
   private void editEmployeeDetails(Employee employee) {
     // change name
     if (Util.readEditEmployee(sc, null, "name").equals("Y")) {
@@ -177,6 +210,10 @@ public class EmployeeController {
   
   //-------------------------------------------------------------------------------------------------------------------
   
+  /**
+   * Allows the user to edit an employee's details by choosing to search by name or using a detailed search.
+   * The method interacts with the user through the console and updates the employee's information accordingly.
+   */
   private void editEmployee() {
     for (;;) {
       System.out.printf("\nEdit by:\n");
@@ -214,6 +251,12 @@ public class EmployeeController {
   
   //-------------------------------------------------------------------------------------------------------------------
   
+  /**
+   * Removes the specified employee from the given enclosure. If the enclosure does not exist or the removal fails, 
+   * appropriate messages are displayed.
+   * @param enclosure the enclosure from which the employee is to be removed.
+   * @param employee the employee to be removed from the enclosure.
+   */
   private void removeEmployeeFromEnclosure(Enclosure enclosure, Employee employee) {
     if (enclosure == null) {
       System.out.printf("The enclosure for employee '%s' does not exist in the park\n", employee.getName());
@@ -228,7 +271,13 @@ public class EmployeeController {
   
   //-------------------------------------------------------------------------------------------------------------------
   
-  public void removeEmployeeFromEnclosure(List<Enclosure> enclosure, Employee employee) {
+  /**
+   * Removes the specified employee from the given list of enclosures. If the list is empty or the removal fails, 
+   * appropriate messages are displayed.
+   * @param enclosure the set of enclosures from which the employee is to be removed.
+   * @param employee the employee to be removed from the list of enclosures.
+   */
+  public void removeEmployeeFromEnclosure(Set<Enclosure> enclosure, Employee employee) {
     if (enclosure == null || enclosure.isEmpty()) {
       System.out.printf("The enclosure for employee '%s' does not exist in the park\n", employee.getName());
     } else {
@@ -240,12 +289,24 @@ public class EmployeeController {
   
   //-------------------------------------------------------------------------------------------------------------------
   
+  /**
+   * Removes the employee matching the specified name, job title, and years of experience. If no such employee is found, 
+   * an appropriate message is displayed.
+   * @param name the name of the employee to be removed.
+   * @param jobTitle the job title of the employee to be removed.
+   * @param yearsOfExperience the years of experience of the employee to be removed.
+   */
   private void removeEmployee(String name, JobTitle jobTitle, int yearsOfExperience) {
     removeEmployee(employeeService.getEmployee(name, jobTitle, yearsOfExperience));
   }
   
   //-------------------------------------------------------------------------------------------------------------------
   
+  /**
+   * Removes the specified employee from the DinosaurCare system. If the employee is not found or the removal fails, 
+   * appropriate messages are displayed.
+   * @param employee the employee to be removed from the system.
+   */
   private void removeEmployee(Employee employee) {
     if (employee == null) {
       System.out.println("Employee not found");
@@ -256,7 +317,7 @@ public class EmployeeController {
     if (employeeService.removeEmployee(employee)) {
       System.out.println("Employee removed");
       // remove employee from the related enclosure
-      List<Enclosure> enclosures = enclosureService.getEnclosure(employee);
+      Set<Enclosure> enclosures = enclosureService.getEnclosure(employee);
       removeEmployeeFromEnclosure(enclosures, employee);
     }
     else System.out.printf("Employee '%s' could not be removed\n", employee);
@@ -264,6 +325,9 @@ public class EmployeeController {
   
   //-------------------------------------------------------------------------------------------------------------------
   
+  /**
+   * Prompts the user to remove an employee by various criteria such as name, job title, or detailed search.
+   */
   private void removeEmployee() {
     for (;;) {
       System.out.printf("\nRemove by:\n");
@@ -307,6 +371,9 @@ public class EmployeeController {
   
   //-------------------------------------------------------------------------------------------------------------------
   
+  /**
+   * Manages the schedule of employees, allowing the user to view the weekly schedule and set days off for employees.
+   */
   private void manageSchedule() {
     for (;;) {
       System.out.printf("\nEmployees schedule management:\n");
@@ -329,6 +396,10 @@ public class EmployeeController {
   
   //-------------------------------------------------------------------------------------------------------------------
   
+  /**
+   * Displays the weekly schedule of employees based on various criteria such as all employees, employee name, job title, 
+   * or detailed search.
+   */
   private void printEmployeesSchedule() {
       for (;;) {
         System.out.printf("\nShow weekly schedule by:\n");
@@ -379,6 +450,11 @@ public class EmployeeController {
   
   //-------------------------------------------------------------------------------------------------------------------
   
+  /**
+   * Sets the days off for the specified employee by prompting the user for the day of the week and the number of days off.
+   * The calculated days off are then applied to the employee's schedule.
+   * @param employee the employee for whom to set the days off.
+   */
   private void setEmployeeDaysOff(Employee employee) {
     DayOfWeek dayOfWeek = Util.readEmployeeDayOfWeek(sc);
     int numberOfDays = Util.readEmployeeIntField(sc, "number of days off: ");
@@ -388,6 +464,10 @@ public class EmployeeController {
   
   //-------------------------------------------------------------------------------------------------------------------
   
+  /**
+   * Sets the days off for multiple employees based on user input, either by name or detailed search.
+   * The user is prompted to select the method of search and then specify the days off for each employee found.
+   */
   private void setEmployeesDaysOff() {
     for (;;) {
       System.out.printf("\nSet by:\n");
@@ -426,7 +506,16 @@ public class EmployeeController {
   
   //-------------------------------------------------------------------------------------------------------------------
   
-  public List<Employee> sortEmployees(List<Employee> employees, Comparator<Employee> comparator) {
+  /**
+   * Sorts a collection of employees based on the provided comparator. If the comparator is null, the default comparator 
+   * defined in the EmployeeComparator class is used. The method returns a sorted list of employees.
+   * @param employees the collection of employees to be sorted.
+   * @param comparator the comparator used to determine the order of the employees. If null, the default comparator 
+   * is used.
+   * @return a list of employees sorted according to the specified comparator. If the input collection is null or empty, 
+   * an empty list is returned.
+   */
+  public List<Employee> sortEmployees(Collection<Employee> employees, Comparator<Employee> comparator) {
     if (employees == null || employees.isEmpty()) return List.of();
     
     List<Employee> sortedEmployees = new ArrayList<>(employees);

@@ -5,7 +5,8 @@ import chapter13.project.entity.enclosure.Enclosure;
 import java.util.Comparator;
 
 /**
- * Comparator for Enclosure objects based on their type and safety level.
+ * Comparator for Enclosure objects based on their type and safety level. EnclosureComparator implements the
+ * Comparator interface for Enclosure objects.
  */
 public class EnclosureComparator implements Comparator<Enclosure> {
   

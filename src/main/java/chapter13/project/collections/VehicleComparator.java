@@ -4,6 +4,10 @@ import chapter13.project.entity.vehicle.Vehicle;
 
 import java.util.Comparator;
 
+/**
+ * Comparator for Vehicle objects based on make, model, production year, color, and vehicle type. VehicleComparator
+ * implements the Comparator interface for Vehicle objects.
+ */
 public class VehicleComparator implements Comparator<Vehicle> {
   
   @Override
@@ -41,8 +45,12 @@ public class VehicleComparator implements Comparator<Vehicle> {
     }
 
     //-------------------------------------------------------------------------------------------------------------------
-
-    public static Comparator<Vehicle> getDefaultComparator() {
+  
+  /**
+   * Returns a default comparator for Vehicle objects.
+   * @return a Comparator that compares Vehicle objects by make, model, production year, color, and vehicle type.
+   */
+  public static Comparator<Vehicle> getDefaultComparator() {
         return new VehicleComparator();
     }
 
