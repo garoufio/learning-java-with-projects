@@ -1,5 +1,9 @@
 package chapter13.project.entity.ticket;
 
+/**
+ * Represents different types of tickets with their associated prices. The available ticket types include INFANT, 
+ * CHILD, ADULT, ELDER, DISABLED_PERSON, SCHOOL, FORBIDDEN, VIP, ALL_DAY, SEASON_3, SEASON_6, SEASON_8, and SEASON_12.
+ */
 public enum TicketType {
   INFANT(0),
   CHILD(5),
@@ -21,12 +25,20 @@ public enum TicketType {
   
   //-------------------------------------------------------------------------------------------------------------------
   
+  /**
+   * Constructs a new TicketType with the specified price.
+   * @param price the price associated with this ticket type.
+   */
   TicketType(double price) {
     this.price = price;
   }
   
   //-------------------------------------------------------------------------------------------------------------------
   
+  /**
+   * Returns the price associated with this ticket type.
+   * @return the price of this ticket type.
+   */
   public double getPrice() {
     return price;
   }

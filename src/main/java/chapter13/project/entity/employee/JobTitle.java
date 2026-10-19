@@ -3,6 +3,10 @@ package chapter13.project.entity.employee;
 import java.time.DayOfWeek;
 import java.time.LocalTime;
 
+/**
+ * Represents the different job titles within the zoo, including their responsibilities, working days, and working hours.
+ * JobTitle
+ */
 public enum JobTitle {
   CURATOR(
       "Curator",
@@ -164,6 +168,14 @@ public enum JobTitle {
 
   //-------------------------------------------------------------------------------------------------------------------
 
+  /**
+   * Constructs a new JobTitle with the specified title, description, working days, start time, and end time.
+   * @param title the title of the job.
+   * @param description the description of the job.
+   * @param workingDays the days of the week the job requires work.
+   * @param startTime the start time of the job.
+   * @param endTime the end time of the job.
+   */
   JobTitle(String title, String description, DayOfWeek[] workingDays, LocalTime startTime, LocalTime endTime) {
     this.title = title;
     this.description = description;
@@ -174,30 +186,50 @@ public enum JobTitle {
 
   //-------------------------------------------------------------------------------------------------------------------
   
+  /**
+   * Returns the title of the job.
+   * @return the title of the job.
+   */
   public String getTitle() {
     return title;
   }
   
   //-------------------------------------------------------------------------------------------------------------------
 
+  /**
+   * Returns the description of the job.
+   * @return the description of the job.
+   */
   public String getDescription() {
     return description;
   }
 
   //-------------------------------------------------------------------------------------------------------------------
   
+  /**
+   * Returns the working days of the job.
+   * @return an array of DayOfWeek representing the working days of the job.
+   */
   public DayOfWeek[] getWorkingDays() {
     return workingDays;
   }
   
   //-------------------------------------------------------------------------------------------------------------------
   
+  /**
+   * Returns the start time of the job.
+   * @return the start time of the job.
+   */
   public LocalTime getStartTime() {
     return startTime;
   }
   
   //-------------------------------------------------------------------------------------------------------------------
   
+  /**
+   * Returns the end time of the job.
+   * @return the end time of the job.
+   */
   public LocalTime getEndTime() {
     return endTime;
   }

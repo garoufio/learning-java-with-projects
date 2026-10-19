@@ -3,12 +3,11 @@ package chapter13.project.entity.enclosure;
 import chapter13.project.entity.dinosaur.DinosaurSpecies;
 import chapter13.project.entity.employee.JobTitle;
 
-import java.util.List;
 import java.util.Set;
 
 /**
- * The `EnclosureType` enum represents different types of enclosures in a dinosaur park. Each enclosure type has a
- * set of dinosaur species that can be housed in it and a set of job titles for employees who can work in that
+ * Represents different types of enclosures in a dinosaur park. Each enclosure type has a set of 
+ * dinosaur species that can be housed in it and a set of job titles for employees who can work in that
  * enclosure.
  */
 public enum EnclosureType {
@@ -101,8 +100,9 @@ public enum EnclosureType {
   //-------------------------------------------------------------------------------------------------------------------
   
   /**
-   * Constructor for EnclosureType enum with only a set of employees.
-   * @param employees Set of JobTitle representing the employees who can work in this enclosure type.
+   * Constructor for EnclosureType enum with only a set of JobTitles.
+   * @param employees Set of JobTitle, see {@link JobTitle} for possible values, representing the employees who can 
+   * work in this enclosure type.
    */
   EnclosureType(Set<JobTitle> employees) {
     this(Set.of(), employees);
@@ -111,9 +111,11 @@ public enum EnclosureType {
   //-------------------------------------------------------------------------------------------------------------------
   
   /**
-   * Constructor for EnclosureType enum with both dinosaur species and employees set.
-   * @param dinosaurSpecies Set of DinosaurSpecies representing the dinosaur species in this enclosure type.
-   * @param employees Set of JobTitle representing the employees who can work in this enclosure type.
+   * Constructor for EnclosureType enum with both dinosaur species and job titles set.
+   * @param dinosaurSpecies Set of DinosaurSpecies, see {@link DinosaurSpecies} for possible values, representing the 
+   * dinosaur species in this enclosure type.
+   * @param employees Set of JobTitle, see {@link JobTitle} for possible values, representing the employees who can 
+   * work in this enclosure type.
    */
   EnclosureType(Set<DinosaurSpecies> dinosaurSpecies, Set<JobTitle> employees) {
     this.dinosaurSpecies = dinosaurSpecies;
@@ -124,7 +126,8 @@ public enum EnclosureType {
   
   /**
    * Getter for the set of dinosaur species associated with this enclosure type.
-   * @return Set of DinosaurSpecies representing the dinosaur species in this enclosure type.
+   * @return Set of DinosaurSpecies, see {@link DinosaurSpecies} for possible values, representing the dinosaur species 
+   * in this enclosure type.
    */
   public Set<DinosaurSpecies> getDinosaurSpecies() {
     return dinosaurSpecies;
@@ -134,7 +137,7 @@ public enum EnclosureType {
   
   /**
    * Getter for the set of job titles associated with this enclosure type.
-   * @return Set of JobTitle representing the employees who can work in this enclosure type.
+   * @return Set of JobTitle, see {@link JobTitle} for possible values, representing the employees who can work in this enclosure type.
    */
   public Set<JobTitle> getEmployeeJobTitles() {
     return employees;
