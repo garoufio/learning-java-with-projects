@@ -6,7 +6,7 @@ import chapter13.project.service.DinosaurCareSystemService;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
-import java.util.List;
+import java.util.Set;
 import java.util.Scanner;
 
 public class DinosaurCareSystemController {
@@ -151,7 +151,7 @@ public class DinosaurCareSystemController {
    */
   private void removeActivity() {
     String name = Util.readActivityField(sc, "name");
-    List<Activity> allActivities = dinosaurCareSystemService.getActivities();
+    Set<Activity> allActivities = dinosaurCareSystemService.getActivities();
     
     for  (Activity a : allActivities) {
       if (a != null && a.getName().equals(name)) {
@@ -182,7 +182,7 @@ public class DinosaurCareSystemController {
       System.out.print("Enter your choice: ");
       int choice = sc.nextInt();
       if (choice > 0 && choice <= dinosaurCareSystemService.getDinosaurs().size()) {
-        return dinosaurCareSystemService.getDinosaurs().get(choice - 1);
+        return (Dinosaur) dinosaurCareSystemService.getDinosaurs().toArray()[choice - 1];
       } else {
         System.out.println("Invalid choice. Please try again.");
       }
