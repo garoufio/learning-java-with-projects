@@ -171,7 +171,7 @@ public class App {
   //-------------------------------------------------------------------------------------------------------------------
   
   private Set<Enclosure> createEnclosures(DinosaurService dinosaurService, EmployeeService employeeService) {
-    Set<Enclosure> enclosures = new Hashet<>();
+    Set<Enclosure> enclosures = new HashSet<>();
     
     // add Raptors Park enclosure and the related dinosaurs and employees
     enclosures.add(new Enclosure(
@@ -245,8 +245,8 @@ public class App {
   
   //-------------------------------------------------------------------------------------------------------------------
   
-  private List<Employee> createEmployees() {
-    List<Employee>  employees = new ArrayList<>();
+  private Set<Employee> createEmployees() {
+    Set<Employee>  employees = new HashSet<>();
     
     employees.add(new Employee("Mike", JobTitle.ZOOLOGIST, 7, LocalDate.of(1986, 1, 10)));
     employees.add(new Employee("Elsa", JobTitle.ZOOLOGIST, 17, LocalDate.of(1979, 10, 17)));
@@ -280,8 +280,8 @@ public class App {
   
   //-------------------------------------------------------------------------------------------------------------------
   
-  private List<Ticket> createTickets() {
-    List<Ticket> tickets = new ArrayList<>();
+  private Set<Ticket> createTickets() {
+    Set<Ticket> tickets = new HashSet<>();
     
     tickets.add(
         new RegularTicket(
@@ -329,8 +329,8 @@ public class App {
   
   //-------------------------------------------------------------------------------------------------------------------
   
-  private List<Vehicle> createVehicles() {
-    List<Vehicle> vehicles = new ArrayList<>();
+  private Set<Vehicle> createVehicles() {
+    Set<Vehicle> vehicles = new HashSet<>();
     
     vehicles.add(
         new Car("Toyota", "RAV4", 2020, "White", 4, 180)
@@ -399,14 +399,14 @@ public class App {
       System.out.print("Enter your choice: ");
       int choice = sc.nextInt();
       switch (choice) {
-        case 1 -> {
+        case 1 -> { // TODO
 //          try {
 //            dinosaurCareSystem.checkDinosaursHealth();
 //          } catch (DinosaurIllException e) {
 //            System.out.println("ATTENTION: " + e.getMessage());
 //          }
         }
-        case 2 -> {
+        case 2 -> { // TODO
 //          try {
 //            dinosaurCareSystem.checkEnclosuresSecurity();
 //          } catch (EnclosureBreachException e) {
@@ -425,8 +425,8 @@ public class App {
   // Utility methods
   //-------------------------------------------------------------------------------------------------------------------
   
-  private List<Employee> getEmployeesByEnclosure(EmployeeService employeeService, EnclosureType enclosureType) {
-    List<Employee> employees = new ArrayList<>();
+  private Set<Employee> getEmployeesByEnclosure(EmployeeService employeeService, EnclosureType enclosureType) {
+    Set<Employee> employees = new HashSet<>();
     for (JobTitle jobTitle : enclosureType.getEmployeeJobTitles()) {
       employees.addAll(employeeService.getEmployees(jobTitle));
     }

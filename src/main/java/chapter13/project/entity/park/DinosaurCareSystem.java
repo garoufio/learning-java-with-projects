@@ -6,28 +6,45 @@ import chapter13.project.entity.enclosure.Enclosure;
 import chapter13.project.exception.DinosaurIllException;
 import chapter13.project.exception.EnclosureBreachException;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
+/**
+ * Manages the health and security of dinosaurs and enclosures within a park. Provides methods to check dinosaur health, 
+ * enclosure security, and log activities.
+ * @see Dinosaur
+ * @see Enclosure
+ * @see Activity
+ */
 public class DinosaurCareSystem {
   
   public static final int DINOSAUR_HEALTH_THRESHOLD = 50;
   public static final int ENCLOSURE_SECURITY_THRESHOLD = 70;
   
-  private List<Dinosaur> dinosaurs;
-  private List<Enclosure> enclosures;
-  private List<Activity> activities;
+  private Set<Dinosaur> dinosaurs;
+  private Set<Enclosure> enclosures;
+  private Set<Activity> activities;
 
   //-------------------------------------------------------------------------------------------------------------------
   
+  /**
+   * Constructs a new DinosaurCareSystem with empty sets of dinosaurs, enclosures, and activities.
+   * @see Dinosaur
+   * @see Enclosure
+   * @see Activity
+   */
   public DinosaurCareSystem() {
-    this.dinosaurs = new ArrayList<>();
-    this.enclosures = new ArrayList<>();
-    this.activities = new ArrayList<>();
+    this.dinosaurs = new HashSet<>();
+    this.enclosures = new HashSet<>();
+    this.activities = new HashSet<>();
   }
   
   //-------------------------------------------------------------------------------------------------------------------
   
+  /**
+   * Checks the health of all dinosaurs in the system and throws an exception if any dinosaur is ill.
+   * @throws DinosaurIllException
+   */
   public void checkDinosaursHealth() throws DinosaurIllException {
     if (dinosaurs == null || dinosaurs.isEmpty()) return;
     
@@ -47,6 +64,10 @@ public class DinosaurCareSystem {
   
   //-------------------------------------------------------------------------------------------------------------------
   
+  /**
+   * Checks the security of all enclosures in the system and throws an exception if any enclosure is breached.
+   * @throws EnclosureBreachException
+   */
   public void checkEnclosuresSecurity() throws EnclosureBreachException {
     if (enclosures == null || enclosures.isEmpty()) return;
     
@@ -65,6 +86,10 @@ public class DinosaurCareSystem {
   
   //-------------------------------------------------------------------------------------------------------------------
   
+  /**
+   * Adds a new dinosaur to the system.
+   * @param dinosaur the dinosaur, see {@link Dinosaur}, to be added.
+   */
   public void addDinosaur(Dinosaur dinosaur) {
     if (this.dinosaurs == null || dinosaur == null) return;
     
@@ -73,6 +98,11 @@ public class DinosaurCareSystem {
 
   //-------------------------------------------------------------------------------------------------------------------
   
+  /**
+   * Removes a dinosaur from the system if it exists.
+   * @param dinosaur the dinosaur, see {@link Dinosaur}, to be removed.
+   * @return true if the dinosaur was successfully removed, false otherwise.
+   */
   public boolean removeDinosaur(Dinosaur dinosaur) {
     if (dinosaurs != null && dinosaur != null) {
       return dinosaurs.remove(dinosaur);
@@ -82,14 +112,22 @@ public class DinosaurCareSystem {
   
   //-------------------------------------------------------------------------------------------------------------------
   
-  public List<Dinosaur> getDinosaurs() {
-    if (dinosaurs == null || dinosaurs.isEmpty()) return List.of();
+  /**
+   * Returns a list of all dinosaurs currently in the system.
+   * @return an unmodifiable Set of dinosaurs.
+   */
+  public Set<Dinosaur> getDinosaurs() {
+    if (dinosaurs == null || dinosaurs.isEmpty()) return Set.of();
     
-    return List.copyOf(dinosaurs);
+    return Set.copyOf(dinosaurs);
   }
   
   //-------------------------------------------------------------------------------------------------------------------
   
+  /**
+   * Adds a new enclosure to the system.
+   * @param enclosure the enclosure, see {@link Enclosure}, to be added.
+   */
   public void addEnclosure(Enclosure enclosure) {
     if (this.enclosures == null || enclosure == null) return;
     
@@ -98,6 +136,11 @@ public class DinosaurCareSystem {
   
   //-------------------------------------------------------------------------------------------------------------------
   
+  /**
+   * Removes an enclosure from the system if it exists.
+   * @param enclosure the enclosure, see {@link Enclosure}, to be removed.
+   * @return true if the enclosure was successfully removed, false otherwise.
+   */ 
   public boolean removeEnclosure(Enclosure enclosure) {
     if (enclosures != null && enclosure != null) {
       return enclosures.remove(enclosure);
@@ -107,6 +150,10 @@ public class DinosaurCareSystem {
   
   //-------------------------------------------------------------------------------------------------------------------
   
+  /**
+   * Logs a new activity in the system.
+   * @param activity the activity, see {@link Activity}, to be logged.
+   */
   public void logActivity(Activity activity) {
     if (activities != null && activity != null) {
       activities.add(activity);
@@ -115,6 +162,11 @@ public class DinosaurCareSystem {
   
   //-------------------------------------------------------------------------------------------------------------------
   
+  /**
+   * Removes an activity from the system if it exists.
+   * @param activity the activity, see {@link Activity}, to be removed.
+   * @return true if the activity was successfully removed, false otherwise.
+   */
   public boolean removeActivity(Activity activity) {
     if (activities != null && activity != null) {
       return activities.remove(activity);
@@ -124,10 +176,14 @@ public class DinosaurCareSystem {
   
   //-------------------------------------------------------------------------------------------------------------------
   
-  public List<Activity> getActivities() {
-    if (activities == null || activities.isEmpty()) return List.of();
+  /**
+   * Retrieves all activities currently logged in the system.
+   * @return a set of activities, see {@link Activity}, currently logged in the system.
+   */
+  public Set<Activity> getActivities() {
+    if (activities == null || activities.isEmpty()) return Set.of();
     
-    return List.copyOf(activities);
+    return Set.copyOf(activities);
   }
   
   //-------------------------------------------------------------------------------------------------------------------

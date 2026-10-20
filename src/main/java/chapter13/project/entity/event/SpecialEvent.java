@@ -4,8 +4,8 @@ import chapter13.project.entity.ticket.Ticket;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.Objects;
 import java.util.UUID;
 
@@ -23,7 +23,7 @@ public class SpecialEvent implements Comparable<SpecialEvent> {
   private String contactEmail;
   private LocalDate date;
   private LocalTime time;
-  private List<Ticket> tickets;
+  private Set<Ticket> tickets;
   private EventType eventType;
 
   //-------------------------------------------------------------------------------------------------------------------
@@ -212,21 +212,21 @@ public class SpecialEvent implements Comparable<SpecialEvent> {
   //-------------------------------------------------------------------------------------------------------------------
 
   /**
-   * Returns the list of tickets for the special event.
-   * @return the list of tickets for the special event.
+   * Returns the set of tickets for the special event.
+   * @return the set of tickets for the special event.
    */  
-  public List<Ticket> getTickets() {
+  public Set<Ticket> getTickets() {
     return tickets;
   }
   
   //-------------------------------------------------------------------------------------------------------------------
   
   /**
-   * Sets the list of tickets for the special event.
-   * @param tickets the new list of tickets for the special event.
+   * Sets the set of tickets for the special event.
+   * @param tickets the new set of tickets for the special event.
    */
-  public void setTickets(List<Ticket> tickets) {
-    this.tickets = tickets == null ? new ArrayList<>() : tickets;
+  public void setTickets(Set<Ticket> tickets) {
+    this.tickets = tickets == null ? new HashSet<>() : tickets;
   }
   
   //-------------------------------------------------------------------------------------------------------------------

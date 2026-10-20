@@ -10,6 +10,9 @@ import java.util.Objects;
  * Implements Actionable and Comparable interfaces. Provides getters and setters for its attributes, as well as methods 
  * to calculate age and manage health score. This class is sealed and can only be extended by specific dinosaur types.
  * These specific dinosaur types are FlyingDinosaur, AquaticDinosaur, and TerrestrialDinosaur.
+ * @see FlyingDinosaur
+ * @see AquaticDinosaur
+ * @see TerrestrialDinosaur
  */
 public sealed abstract class Dinosaur implements Actionable, Comparable<Dinosaur>
     permits FlyingDinosaur, AquaticDinosaur, TerrestrialDinosaur {

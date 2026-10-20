@@ -158,13 +158,13 @@ public class EmployeeController {
       switch (choice) {
         case 1 -> {
           String name = Util.readEmployeeName(sc);
-          List<Employee> employees = employeeService.getEmployee(name);
+          Set<Employee> employees = employeeService.getEmployee(name);
           if (employees.isEmpty()) System.out.printf("Employee '%s' not found!\n", name);
           else printEmployees(employees);
         }
         case 2 -> {
           JobTitle jobTitle = Util.readEmployeeJobTitle(sc);
-          List<Employee> employees = employeeService.getEmployees(jobTitle);
+          Set<Employee> employees = employeeService.getEmployees(jobTitle);
           if (employees.isEmpty()) System.out.printf("No employees(s) found for job title '%s'!\n", jobTitle);
           else printEmployees(employees);
         }
@@ -225,7 +225,7 @@ public class EmployeeController {
       switch (choice) {
         case 1 -> {
           String name = Util.readEmployeeName(sc);
-          List<Employee> employees = employeeService.getEmployee(name);
+          Set<Employee> employees = employeeService.getEmployee(name);
           if (!employees.isEmpty()) {
             System.out.printf("'%d' employees found with name '%s'\n", employees.size(), name);
             for (Employee e : employees) {
@@ -340,14 +340,14 @@ public class EmployeeController {
       switch (choice) {
         case 1 -> {
           String name = Util.readEmployeeName(sc);
-          List<Employee> employees = employeeService.getEmployee(name);
+          Set<Employee> employees = employeeService.getEmployee(name);
           for (Employee e : employees) {
             removeEmployee(e);
           }
         }
         case 2 -> {
           JobTitle jobTitle = Util.readEmployeeJobTitle(sc);
-          List<Employee> employees = employeeService.getEmployees(jobTitle);
+          Set<Employee> employees = employeeService.getEmployees(jobTitle);
           if (employees.isEmpty()) {
             System.out.printf("No employees(s) found for job title '%s'\n",  jobTitle);
           } else {
@@ -414,7 +414,7 @@ public class EmployeeController {
           case 1 -> employeeService.printEmployeesWorkingSchedule(employeeService.getAllEmployees());
           case 2 -> {
             String name = Util.readEmployeeName(sc);
-            List<Employee> employees = employeeService.getEmployee(name);
+            Set<Employee> employees = employeeService.getEmployee(name);
             if (employees.isEmpty()) {
               System.out.printf("Employee with name '%s' not found\n", name);
             } else {
@@ -423,7 +423,7 @@ public class EmployeeController {
           }
           case 3 -> {
             JobTitle jobTitle = Util.readEmployeeJobTitle(sc);
-            List<Employee> employees = employeeService.getEmployees(jobTitle);
+            Set<Employee> employees = employeeService.getEmployees(jobTitle);
             if (employees.isEmpty()) {
               System.out.printf("No employees(s) found for job title '%s'!\n", jobTitle);
             } else {
@@ -479,7 +479,7 @@ public class EmployeeController {
       switch (choice) {
         case 1 -> {
           String name = Util.readEmployeeName(sc);
-          List<Employee> employees = employeeService.getEmployee(name);
+          Set<Employee> employees = employeeService.getEmployee(name);
           if (employees.isEmpty()) {
             System.out.printf("Employee with name '%s' not found\n", name);
           } else {

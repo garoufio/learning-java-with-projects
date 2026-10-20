@@ -15,6 +15,19 @@ import java.time.format.DateTimeFormatter;
 import java.util.Scanner;
 import java.util.UUID;
 
+/**
+ * Utility class for common operations and input handling related to dinosaurs, employees, enclosures, events, tickets, 
+ * and vehicles. Provides methods for reading and validating user input for various entity fields. This class is 
+ * intended to centralize common utility functions to reduce code duplication and improve maintainability.
+ * @see Dinosaur
+ * @see Employee
+ * @see Enclosure
+ * @see EventType
+ * @see TicketType
+ * @see Visitor
+ * @see Vehicle
+ * @see VehicleType
+ */
 public class Util {
   
   // constants
@@ -27,6 +40,16 @@ public class Util {
   // Dinosaurs
   //-------------------------------------------------------------------------------------------------------------------
   
+  /**
+   * Prompts the user to confirm editing a specific field of a dinosaur. Displays a question asking if the user wants 
+   * to edit the specified field of the given dinosaur. Accepts "Y" or "N" as valid input and returns the uppercase 
+   * version of the answer. If the input is invalid, it will prompt the user again until a valid response is provided.
+   * @param sc the Scanner object used for reading user input.
+   * @param dinosaur the Dinosaur object whose field is being edited, see {@link Dinosaur}.
+   * @param field the name of the field being edited.
+   * @param question the question to display to the user.
+   * @return "Y" if the user confirms editing, "N" otherwise.
+   */
   protected static String readEditDinosaur(Scanner sc, Dinosaur dinosaur, String field, String question) {
     String answer;
     for (;;) {
@@ -46,6 +69,11 @@ public class Util {
   
   //-------------------------------------------------------------------------------------------------------------------
   
+  /**
+   * Prompts the user to enter the name of a dinosaur.
+   * @param sc the Scanner object used for reading user input.
+   * @return the name of the dinosaur entered by the user.
+   */
   protected static String readDinosaurName(Scanner sc) {
     sc.nextLine();
     System.out.print("Enter dinosaur name: ");
@@ -54,6 +82,11 @@ public class Util {
   
   //-------------------------------------------------------------------------------------------------------------------
   
+  /**
+   * Prompts the user to enter the birth date of a dinosaur.
+   * @param sc the Scanner object used for reading user input.
+   * @return the birth date of the dinosaur entered by the user.
+   */
   protected static LocalDate readDinosaurBirthDate(Scanner sc) {
     sc.nextLine();
     System.out.print("Enter dinosaur birth date (YYYY-MM-DD): ");
@@ -62,6 +95,12 @@ public class Util {
   
   //-------------------------------------------------------------------------------------------------------------------
   
+  /**
+   * Prompts the user to enter an integer field of a dinosaur.
+   * @param sc the Scanner object used for reading user input.
+   * @param field the name of the field being entered.
+   * @return the integer value entered by the user for the specified field.
+   */
   protected static int readDinosaurIntField(Scanner sc, String field) {
     sc.nextLine();
     System.out.printf("Enter dinosaur's %s: ", field);
@@ -70,6 +109,11 @@ public class Util {
   
   //-------------------------------------------------------------------------------------------------------------------
   
+  /**
+   * Prompts the user to enter whether the dinosaur is amphibious.
+   * @param sc the Scanner object used for reading user input.
+   * @return true if the dinosaur is amphibious, false otherwise.
+   */
   protected static boolean readDinosaurAmphibiousCapability(Scanner sc) {
     sc.nextLine();
     System.out.printf("Is the dinosaur amphibious? (true/false):");
@@ -77,6 +121,12 @@ public class Util {
   }
   
   //-------------------------------------------------------------------------------------------------------------------
+
+  /**
+   * Prompts the user to select the type of a dinosaur from the available options.
+   * @param sc the Scanner object used for reading user input.
+   * @return the selected DinosaurType, see {@link DinosaurType} for available options.
+   */
   
   protected static DinosaurType readDinosaurType(Scanner sc) {
     sc.nextLine();
@@ -105,6 +155,11 @@ public class Util {
   
   //-------------------------------------------------------------------------------------------------------------------
   
+  /**
+   * Prompts the user to select the species of a dinosaur from the available options.
+   * @param sc the Scanner object used for reading user input.
+   * @return the selected DinosaurSpecies, see {@link DinosaurSpecies} for available options.
+   */
   protected static DinosaurSpecies readDinosaurSpecies(Scanner sc) {
     sc.nextLine();
     DinosaurSpecies species = null;
@@ -139,6 +194,11 @@ public class Util {
   
   //-------------------------------------------------------------------------------------------------------------------
   
+  /**
+   * Prompts the user to select the size of a dinosaur from the available options.
+   * @param sc the Scanner object used for reading user input.
+   * @return the selected DinosaurSize, see {@link DinosaurSize} for available options.
+   */
   protected static DinosaurSize readDinosaurSize(Scanner sc) {
     sc.nextLine();
     DinosaurSize size = null;
@@ -168,6 +228,12 @@ public class Util {
   // Tickets
   //-------------------------------------------------------------------------------------------------------------------
   
+  /**
+   * Prompts the user to enter a specific field for a visitor.
+   * @param sc the Scanner object used for reading user input.
+   * @param field the name of the field to be entered (e.g., "firstname", "lastname", "phoneNumber").
+   * @return the value entered by the user for the specified field.                                                                                                                                                                                                                               
+   */
   protected static String readVisitorField(Scanner sc, String field) {
     System.out.printf("Enter visitor's %s: ", field);
     return sc.nextLine();
@@ -175,6 +241,11 @@ public class Util {
   
   //-------------------------------------------------------------------------------------------------------------------
   
+  /**
+   * Prompts the user to enter the details of a visitor, including firstname, lastname, and phone number.
+   * @param sc the Scanner object used for reading user input.
+   * @return a Visitor object containing the entered details, see {@link Visitor}.
+   */
   protected static Visitor readVisitor(Scanner sc) {
     sc.nextLine();
     String firstname = readVisitorField(sc, "firstname");
@@ -188,6 +259,11 @@ public class Util {
   
   //-------------------------------------------------------------------------------------------------------------------
   
+  /**
+   * Prompts the user to select a ticket type from the available options.
+   * @param sc the Scanner object used for reading user input.
+   * @return the selected TicketType, see {@link TicketType}.
+   */
   protected static TicketType readTicketType(Scanner sc) {
     TicketType ticketType;
     do {
@@ -224,6 +300,11 @@ public class Util {
   
   //-------------------------------------------------------------------------------------------------------------------
   
+  /**
+   * Prompts the user to enter the date for the ticket, either for today or a specific date.
+   * @param sc the Scanner object used for reading user input.
+   * @return the selected date as a LocalDate object.
+   */
   protected static LocalDate readTicketDate(Scanner sc) {
     for (;;) {
       System.out.print("Ticket for today (Y/N)? ");
@@ -240,6 +321,11 @@ public class Util {
   
   //-------------------------------------------------------------------------------------------------------------------
   
+  /**
+   * Prompts the user to enter the ticket ID.
+   * @param sc the Scanner object used for reading user input.
+   * @return the entered ticket ID as a UUID object.
+   */
   protected static UUID readTicketUUID(Scanner sc) {
     System.out.print("Enter ticket ID: ");
     String ticketID = sc.next();
@@ -248,6 +334,11 @@ public class Util {
   
   //-------------------------------------------------------------------------------------------------------------------
   
+  /**
+   * Prompts the user to decide whether to reserve a parking spot.
+   * @param sc the Scanner object used for reading user input.
+   * @return true if the user wants to reserve a parking spot, false otherwise.
+   */
   protected static boolean reserveParkingSpot(Scanner sc) {
     for (;;) {
       System.out.print("Do you want to reserve a parking spot (Y/N)? ");
@@ -265,6 +356,13 @@ public class Util {
   // Employees
   //-------------------------------------------------------------------------------------------------------------------
   
+  /**
+   * Prompts the user to decide whether to edit a specific field of an employee.
+   * @param sc the Scanner object used for reading user input.
+   * @param employee the Employee object being edited, can be null if creating a new employee.
+   * @param field the name of the field being edited.
+   * @return "Y" if the user wants to edit the field, "N" otherwise.
+   */
   protected static String readEditEmployee(Scanner sc, Employee employee, String field) {
     String answer;
     for (;;) {
@@ -284,6 +382,11 @@ public class Util {
   
   //-------------------------------------------------------------------------------------------------------------------
   
+  /**
+   * Prompts the user to enter the employee's name.
+   * @param sc the Scanner object used for reading user input.
+   * @return the entered employee name as a String.
+   */
   protected static String readEmployeeName(Scanner sc) {
     sc.nextLine();
     System.out.print("Enter employee name: ");
@@ -292,6 +395,12 @@ public class Util {
   
   //-------------------------------------------------------------------------------------------------------------------
   
+  /**
+   * Prompts the user to enter an integer value for a specific employee field.
+   * @param sc the Scanner object used for reading user input.
+   * @param msg the message indicating which field the user is entering.
+   * @return the entered integer value.
+   */
   protected static int readEmployeeIntField(Scanner sc, String msg) {
     System.out.printf("Enter %s\n", msg);
     //System.out.print("Enter employee years of experience: ");
@@ -300,6 +409,11 @@ public class Util {
   
   //-------------------------------------------------------------------------------------------------------------------
   
+  /**
+   * Prompts the user to select the employee's job title from a list of available job titles.
+   * @param sc the Scanner object used for reading user input.
+   * @return the selected JobTitle enum value, see {@link JobTitle} for available job titles.
+   */
   protected static JobTitle readEmployeeJobTitle(Scanner sc) {
     JobTitle jobTitle;
     do {
@@ -342,6 +456,11 @@ public class Util {
   
   //-------------------------------------------------------------------------------------------------------------------
   
+  /**
+   * Prompts the user to select the day of week the day of starts.
+   * @param sc the Scanner object used for reading user input.
+   * @return the selected DayOfWeek enum value.
+   */
   protected static DayOfWeek readEmployeeDayOfWeek(Scanner sc) {
     DayOfWeek dayOfWeek = null;
     do {
@@ -372,6 +491,11 @@ public class Util {
   
   //-------------------------------------------------------------------------------------------------------------------
   
+  /**
+   * Prompts the user to enter the employee's birth date in the format YYYY-MM-DD.
+   * @param sc the Scanner object used for reading user input.
+   * @return the entered birth date as a LocalDate object.
+   */
   protected static LocalDate readEmployeeBirthDate(Scanner sc) {
     sc.nextLine();
     System.out.print("Enter employee birth date (YYYY-MM-DD): ");
@@ -382,6 +506,14 @@ public class Util {
   // Enclosures
   //-------------------------------------------------------------------------------------------------------------------
   
+  /**
+   * Prompts the user to edit a specific field of an enclosure with a yes/no question.
+   * @param sc the Scanner object used for reading user input.
+   * @param enclosure the Enclosure object being edited, can be null.
+   * @param field the specific field of the enclosure to be edited.
+   * @param question the question to ask the user.
+   * @return the user's answer as a string ("Y" or "N").
+   */
   protected static String readEditEnclosure(Scanner sc, Enclosure enclosure, String field, String question) {
     String answer;
     for (;;) {
@@ -401,6 +533,11 @@ public class Util {
   
   //-------------------------------------------------------------------------------------------------------------------
   
+  /**
+   * Prompts the user to select the type of an enclosure.
+   * @param sc the Scanner object used for reading user input.
+   * @return the selected EnclosureType enum value, see {@link EnclosureType} for available enclosure types.
+   */
   protected static EnclosureType readEnclosureType(Scanner sc) {
     EnclosureType enclosureType = null;
     do {
@@ -434,6 +571,11 @@ public class Util {
   
   //-------------------------------------------------------------------------------------------------------------------
   
+  /**
+   * Prompts the user to select the safety level of an enclosure.
+   * @param sc the Scanner object used for reading user input.
+   * @return the selected SafetyLevel enum value, see {@link SafetyLevel} for available safety levels.
+   */
   protected static SafetyLevel readSafetyLevel(Scanner sc) {
     SafetyLevel safetyLevel = null;
     
@@ -462,6 +604,11 @@ public class Util {
   
   //-------------------------------------------------------------------------------------------------------------------
   
+  /**
+   * Prompts the user to enter the security level of an enclosure.
+   * @param sc the Scanner object used for reading user input.
+   * @return the entered security level as an integer (0-100).
+   */
   protected static int readEnclosureSecurityLevel(Scanner sc) {
     sc.nextLine();
     System.out.print("Enter enclosure security level (0-100): ");
@@ -472,6 +619,11 @@ public class Util {
   // Special events
   //-------------------------------------------------------------------------------------------------------------------
   
+  /**
+   * Prompts the user to enter the time of a special event.
+   * @param sc the Scanner object used for reading user input.
+   * @return the entered time as a LocalTime object.
+   */
   protected static LocalTime readSpecialEventTime(Scanner sc) {
     System.out.print("Please enter a time (HH:mm (24h format)): ");
     return LocalTime.parse(sc.next());
@@ -479,6 +631,11 @@ public class Util {
   
   //-------------------------------------------------------------------------------------------------------------------
   
+  /**
+   * Prompts the user to enter the date of a special event.
+   * @param sc the Scanner object used for reading user input.
+   * @return the entered date as a LocalDate object.
+   */
   protected static LocalDate readSpecialEventDate(Scanner sc) {
     System.out.print("Please enter a date (YYYY-MM-DD): ");
     return LocalDate.parse(sc.next());
@@ -486,6 +643,12 @@ public class Util {
   
   //-------------------------------------------------------------------------------------------------------------------
   
+  /**
+   * Prompts the user to enter a specific field of a special event.
+   * @param sc the Scanner object used for reading user input.
+   * @param field the name of the field to be entered.
+   * @return the entered value as a String.
+   */
   protected static String readSpecialEventField(Scanner sc, String field) {
     sc.nextLine();
     System.out.printf("Enter event's %s: ", field);
@@ -494,6 +657,11 @@ public class Util {
   
   //-------------------------------------------------------------------------------------------------------------------
   
+  /**
+   * Prompts the user to select the type of a special event.
+   * @param sc the Scanner object used for reading user input.
+   * @return the selected EventType enum value, see {@link EventType} for available event types.
+   */
   protected static EventType readSpecialEventType(Scanner sc) {
     EventType eventType;
     do {
@@ -524,6 +692,11 @@ public class Util {
   // Vehicles
   //-------------------------------------------------------------------------------------------------------------------
   
+  /**
+   * Prompts the user to select the vehivle type.
+   * @param sc the Scanner object used for reading user input.
+   * @return the select vehicle type enum value, see {@link VehicleType} for available vehicle types.
+   */
   public static VehicleType readVehicleType(Scanner sc) {
     VehicleType vehicleType;
     do {
@@ -551,6 +724,12 @@ public class Util {
   
   //-------------------------------------------------------------------------------------------------------------------
   
+  /**
+   * Prompts the user to enter a specific field of a vehicle.
+   * @param sc the Scanner object used for reading user input.
+   * @param field the name of the field to be entered.
+   * @return the entered value as a String.
+   */
   public static String readVehicleField(Scanner sc, String field) {
     sc.nextLine();
     System.out.printf("Enter vehicle's %s: ", field);
@@ -559,6 +738,12 @@ public class Util {
   
   //-------------------------------------------------------------------------------------------------------------------
   
+  /**
+   * Prompts the user to enter a specific integer field of a vehicle.
+   * @param sc the Scanner object used for reading user input.
+   * @param field the name of the field to be entered.
+   * @return the entered value as an int.
+   */
   public static int readVehicleIntField(Scanner sc, String field) {
     sc.nextLine();
     System.out.printf("Enter vehicle's %s: ", field);
@@ -567,6 +752,12 @@ public class Util {
   
   //-------------------------------------------------------------------------------------------------------------------
   
+  /**
+   * Prompts the user to enter a specific double field of a vehicle.
+   * @param sc the Scanner object used for reading user input.
+   * @param field the name of the field to be entered.
+   * @return the entered value as a double.
+   */
   public static double readVehicleDoubleField(Scanner sc, String field) {
     sc.nextLine();
     System.out.printf("Enter vehicle's %s: ", field);
@@ -575,6 +766,13 @@ public class Util {
   
   //-------------------------------------------------------------------------------------------------------------------
   
+  /**
+   * Prompts the user to decide whether to edit a specific field of a vehicle.
+   * @param sc the Scanner object used for reading user input.
+   * @param vehicle the vehicle object to be edited.
+   * @param field the name of the field to be edited.
+   * @return the user's choice as a String ("Y" or "N").
+   */
   protected static String readEditVehicle(Scanner sc, Vehicle vehicle, String field) {
     String answer;
     for (;;) {
@@ -596,6 +794,12 @@ public class Util {
   // Activities
   //-------------------------------------------------------------------------------------------------------------------
   
+  /**
+   * Prompts the user to enter a specific field of an activity.
+   * @param sc the Scanner object used for reading user input.
+   * @param field the name of the field to be entered.
+   * @return the entered value as a String.
+   */
   protected static String readActivityField(Scanner sc, String field) {
     sc.nextLine();
     System.out.printf("Enter activity's %s: ", field);
@@ -604,6 +808,11 @@ public class Util {
   
   //-------------------------------------------------------------------------------------------------------------------
   
+  /**
+   * Prompts the user to enter the date and time of an activity.
+   * @param sc the Scanner object used for reading user input.
+   * @return the entered date and time as a LocalDateTime object.
+   */
   protected static LocalDateTime readActivityTms(Scanner sc) {
     System.out.print("Please enter a date and time (yyyy-MM-dd HH:mm): ");
     return LocalDateTime.parse(sc.nextLine(), PARSING_DATE_TIME_FORMAT);
@@ -611,6 +820,11 @@ public class Util {
   
   //-------------------------------------------------------------------------------------------------------------------
   
+  /**
+   * Prompts the user to enter the duration of an activity in minutes.
+   * @param sc the Scanner object used for reading user input.
+   * @return the entered duration as a Duration object.
+   */
   protected static Duration readActivityDuration(Scanner sc) {
     System.out.print("Please enter activity duration in minutes: ");
     return Duration.ofMinutes(sc.nextLong());

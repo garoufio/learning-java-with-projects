@@ -5,7 +5,7 @@ import chapter13.project.service.TicketService;
 
 import java.time.LocalDate;
 import java.util.Collection;
-import java.util.List;
+import java.util.Set;
 import java.util.Scanner;
 import java.util.UUID;
 
@@ -125,7 +125,7 @@ public class TicketController {
         case 2 -> {
           String firstname = Util.readVisitorField(sc, "firstname");
           String lastname = Util.readVisitorField(sc, "lastname");
-          List<Ticket> tickets = ticketService.getTickets(firstname, lastname);
+          Set<Ticket> tickets = ticketService.getTickets(firstname, lastname);
           if (tickets.isEmpty()) System.out.printf(
               "No ticket(s) found for visitor '%s'\n",
               firstname + " " + lastname
@@ -134,19 +134,19 @@ public class TicketController {
         }
         case 3 -> {
           String phone = Util.readVisitorField(sc, "phone number");
-          List<Ticket> tickets = ticketService.getTickets(phone);
+          Set<Ticket> tickets = ticketService.getTickets(phone);
           if (tickets.isEmpty()) System.out.printf("No ticket(s) found for phone number '%s'\n", phone);
           else printTickets(tickets);
         }
         case 4 -> {
           LocalDate date = Util.readTicketDate(sc);
-          List<Ticket> tickets = ticketService.getTickets(date);
+          Set<Ticket> tickets = ticketService.getTickets(date);
           if (tickets.isEmpty()) System.out.printf("No ticket(s) found on '%s'\n", date.toString());
           else printTickets(tickets);
         }
         case 5 -> {
           TicketType ticketType = Util.readTicketType(sc);
-          List<Ticket> tickets = ticketService.getTickets(ticketType);
+          Set<Ticket> tickets = ticketService.getTickets(ticketType);
           if (tickets.isEmpty()) System.out.printf("No ticket(s) found for ticket type '%s'\n", ticketType.name());
           else printTickets(tickets);
         }
@@ -189,19 +189,19 @@ public class TicketController {
         }
         case 3 -> {
           String phone = Util.readVisitorField(sc, "phone number");
-          List<Ticket> tickets = ticketService.getTickets(phone);
+          Set<Ticket> tickets = ticketService.getTickets(phone);
           if (ticketService.removeTicket(tickets)) System.out.println("Ticket(s) removed");
           else System.out.printf("No ticket(s) found for phone number '%s'\n", phone);
         }
         case 4 -> {
           LocalDate date = Util.readTicketDate(sc);
-          List<Ticket> tickets = ticketService.getTickets(date);
+          Set<Ticket> tickets = ticketService.getTickets(date);
           if (ticketService.removeTicket(tickets)) System.out.println("Ticket(s) removed");
           else System.out.printf("No ticket(s) found on '%s'\n", date.toString());
         }
         case 5 -> {
           TicketType ticketType = Util.readTicketType(sc);
-          List<Ticket> tickets = ticketService.getTickets(ticketType);
+          Set<Ticket> tickets = ticketService.getTickets(ticketType);
           if (ticketService.removeTicket(tickets)) System.out.println("Ticket(s) removed");
           else System.out.printf("No ticket(s) found for ticket type '%s'\n", ticketType.name());
         }

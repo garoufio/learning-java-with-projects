@@ -220,25 +220,25 @@ public class SpecialEventsController {
         }
         case 2 -> { // Name
           String name = Util.readSpecialEventField(sc, "name");
-          List<SpecialEvent> events = specialEventsService.getSpecialEvents(name, false);
+          Set<SpecialEvent> events = specialEventsService.getSpecialEvents(name, false);
           if (events.isEmpty()) System.out.printf("No event(s) found with name '%s'\n", name);
           else printSpecialEvents(events);
         }
         case 3 -> { // Contact number
           String contactNumber = Util.readSpecialEventField(sc, "contact number");
-          List<SpecialEvent> events = specialEventsService.getSpecialEvents(contactNumber, true);
+          Set<SpecialEvent> events = specialEventsService.getSpecialEvents(contactNumber, true);
           if (events.isEmpty()) System.out.printf("No event(s) found for contact number '%s'\n", contactNumber);
           else printSpecialEvents(events);
         }
         case 4 -> { // Date
           LocalDate date = Util.readSpecialEventDate(sc);
-          List<SpecialEvent> events = specialEventsService.getSpecialEvents(date);
+          Set<SpecialEvent> events = specialEventsService.getSpecialEvents(date);
           if (events.isEmpty()) System.out.printf("No event(s) found for event date '%s'\n", date);
           else printSpecialEvents(events);
         }
         case 5 -> { // Event type
           EventType eventType = Util.readSpecialEventType(sc);
-          List<SpecialEvent> events = specialEventsService.getSpecialEvents(eventType);
+          Set<SpecialEvent> events = specialEventsService.getSpecialEvents(eventType);
           if (events.isEmpty()) System.out.printf("No event(s) found for event type '%s'\n", eventType.name());
           else printSpecialEvents(events);
         }
@@ -344,25 +344,25 @@ public class SpecialEventsController {
         }
         case 2 -> { // Name
           String name = Util.readSpecialEventField(sc, "name");
-          List<SpecialEvent> events = specialEventsService.getSpecialEvents(name, false);
+          Set<SpecialEvent> events = specialEventsService.getSpecialEvents(name, false);
           if (events.isEmpty()) System.out.printf("No event(s) found with name '%s'\n", name);
           else removeEvents(events);
         }
         case 3 -> { // Contact number
           String contactNumber = Util.readSpecialEventField(sc, "contact number");
-          List<SpecialEvent> events = specialEventsService.getSpecialEvents(contactNumber, true);
+          Set<SpecialEvent> events = specialEventsService.getSpecialEvents(contactNumber, true);
           if (events .isEmpty()) System.out.printf("No event(s) found for contact number '%s'\n", contactNumber);
           else removeEvents(events);
         }
         case 4 -> { // Date
           LocalDate date = Util.readSpecialEventDate(sc);
-          List<SpecialEvent> events = specialEventsService.getSpecialEvents(date);
+          Set<SpecialEvent> events = specialEventsService.getSpecialEvents(date);
           if (events.isEmpty()) System.out.printf("No event(s) found for event date '%s'\n", date);
           else removeEvents(events);
         }
         case 5 -> { // Event type
           EventType eventType = Util.readSpecialEventType(sc);
-          List<SpecialEvent> events = specialEventsService.getSpecialEvents(eventType);
+          Set<SpecialEvent> events = specialEventsService.getSpecialEvents(eventType);
           if (events.isEmpty()) System.out.printf("No event(s) found for event type '%s'\n", eventType.name());
           else removeEvents(events);
         }

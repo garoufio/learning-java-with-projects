@@ -6,6 +6,9 @@ import chapter13.project.service.VehicleService;
 
 import java.util.*;
 
+/**
+ * Controller class for managing vehicle-related operations.
+ */
 public class VehicleController {
   
   private VehicleService vehicleService;
@@ -13,6 +16,11 @@ public class VehicleController {
   
   //-------------------------------------------------------------------------------------------------------------------
   
+  /**
+   * Constructs a new VehicleController with the specified Scanner and VehicleService.
+   * @param sc the Scanner object for reading user input.
+   * @param vehicleService the VehicleService instance for managing vehicles.
+   */
   public VehicleController(Scanner sc, VehicleService vehicleService) {
     this.sc = sc;
     this.vehicleService = vehicleService;
@@ -20,6 +28,10 @@ public class VehicleController {
   
   //-------------------------------------------------------------------------------------------------------------------
   
+  /**
+   * Manages the vehicle-related operations by displaying a menu and handling user input. This method will continue to 
+   * display the menu until the user chooses to return to the main menu.
+   */
   public void manageVehicles() {
     for (;;) {
       System.out.printf("\nVehicles service:\n");
@@ -48,7 +60,12 @@ public class VehicleController {
   
   //-------------------------------------------------------------------------------------------------------------------
   
-  public void printVehicles(List<Vehicle> vehicles) {
+  /**
+   * Prints the details of the given list of vehicles.
+   * @param vehicles the collection of vehicles to print. If the collection is null or empty, a message indicating no 
+   * vehicles were added will be displayed.
+   */
+  public void printVehicles(Collection<Vehicle> vehicles) {
     if (vehicles == null || vehicles.isEmpty()) {
       System.out.println("No vehicles were added");
       return;
@@ -61,6 +78,12 @@ public class VehicleController {
   
   //-------------------------------------------------------------------------------------------------------------------
   
+  /**
+   * Creates a new vehicle of the specified type by prompting the user for the necessary details, such as make, model, 
+   * production year, color, and other relevant attributes depending on the vehicle type.
+   * @param vehicleType the type of vehicle to create, see {@link VehicleType} for available vehicle types.
+   * @return the newly created vehicle, or null if the creation failed.
+   */
   private Vehicle createVehicle(VehicleType vehicleType) {
     String make = Util.readVehicleField(sc, "make");
     String model = Util.readVehicleField(sc, "model");
@@ -95,6 +118,10 @@ public class VehicleController {
   
   //-------------------------------------------------------------------------------------------------------------------
   
+  /**
+   * Adds a new vehicle to the collection managed by the vehicle service by prompting the user for the necessary 
+   * details. If the vehicle creation fails, an appropriate message will be displayed.
+   */
   public void addVehicle() {
     VehicleType vehicleType = Util.readVehicleType(sc);
     Vehicle vehicle = createVehicle(vehicleType);
@@ -107,6 +134,9 @@ public class VehicleController {
   
   //-------------------------------------------------------------------------------------------------------------------
   
+  /**
+   * Finds a vehicle based on user-specified criteria, such as make, vehicle type, or detailed search parameters.
+   */
   public void findVehicle() {
     for(;;) {
       System.out.printf("\nSearch by:\n");
@@ -119,13 +149,13 @@ public class VehicleController {
       switch (choice) {
         case 1 -> {
           String make = Util.readVehicleField(sc, "make");
-          List<Vehicle> vehicles = vehicleService.getVehicle(make);
+          Set<Vehicle> vehicles = vehicleService.getVehicle(make);
           if (vehicles.isEmpty()) System.out.printf("No vehicles found with make '%s'\n", make);
           else printVehicles(vehicles);
         }
         case 2 -> {
           VehicleType vehicleType = Util.readVehicleType(sc);
-          List<Vehicle> vehicles = vehicleService.getVehicle(vehicleType);
+          Set<Vehicle> vehicles = vehicleService.getVehicle(vehicleType);
           if (vehicles.isEmpty()) System.out.printf("No vehicles found of type '%s'\n", vehicleType.name());
           else printVehicles(vehicles);
         }
@@ -144,6 +174,10 @@ public class VehicleController {
   
   //-------------------------------------------------------------------------------------------------------------------
   
+  /**
+   * Edits the details of the specified vehicle by prompting the user for new values for each editable field.
+   * @param vehicle
+   */
   private void editVehicleDetails(Vehicle vehicle) {
     // change make
     if (Util.readEditVehicle(sc, null, "make").equals("Y")) {
@@ -188,6 +222,12 @@ public class VehicleController {
           ((Truck) vehicle).setMaxLoadCapacity(newLoadCapacity);
         }
       }
+      case VehicleType.CAR -> {
+        //TODO
+      }
+      case VehicleType.MOTORCYCLE -> {
+        //TODO
+      }
       case VehicleType.HELICOPTER -> {
         // change flight range
         if (Util.readEditVehicle(sc, null, "flight range").equals("Y")) {
@@ -210,7 +250,10 @@ public class VehicleController {
   
   //-------------------------------------------------------------------------------------------------------------------
   
-  
+  /**
+   * Allows the user to edit vehicles based on different criteria such as make, vehicle type, or detailed search.
+   * Prompts the user for the specific vehicle to edit and updates its details accordingly.
+   */
   public void editVehicle() {
     for (;;) {
       System.out.printf("\nEdit by:\n");
@@ -223,7 +266,7 @@ public class VehicleController {
       switch (choice) {
         case 1 -> {
           String make = Util.readVehicleField(sc, "make");
-          List<Vehicle> vehicles = vehicleService.getVehicle(make);
+          Set<Vehicle> vehicles = vehicleService.getVehicle(make);
           if (vehicles.isEmpty()) System.out.printf("No vehicles found with make '%s'\n", make);
           else {
             System.out.printf("'%d' vehicles found with make '%s'\n", vehicles.size(), make);
@@ -237,7 +280,7 @@ public class VehicleController {
         }
         case 2 -> {
           VehicleType vehicleType = Util.readVehicleType(sc);
-          List<Vehicle> vehicles = vehicleService.getVehicle(vehicleType);
+          Set<Vehicle> vehicles = vehicleService.getVehicle(vehicleType);
           if (vehicles.isEmpty()) System.out.printf("No vehicles found of type '%s'\n", vehicleType.name());
           else {
             System.out.printf("'%d' vehicles found with type '%s'\n", vehicles.size(), vehicleType.name());
@@ -269,6 +312,11 @@ public class VehicleController {
   
   //-------------------------------------------------------------------------------------------------------------------
   
+  /**
+   * Removes the specified vehicle from the system if it exists.  Prints a message indicating whether the removal was 
+   * successful or not.
+   * @param vehicle the vehicle to be removed
+   */
   private void removeVehicle(Vehicle vehicle) {
     if (vehicle == null) {
       System.out.println("Vehicle not found");
@@ -284,6 +332,9 @@ public class VehicleController {
   
   //-------------------------------------------------------------------------------------------------------------------
   
+  /**
+   * 
+   */
   public void removeVehicle() {
     for (;;) {
       System.out.println("\nRemove by:");
@@ -296,7 +347,7 @@ public class VehicleController {
       switch (choice) {
         case 1 -> {
           String make = Util.readVehicleField(sc, "make");
-          List<Vehicle> vehicles = vehicleService.getVehicle(make);
+          Set<Vehicle> vehicles = vehicleService.getVehicle(make);
           if (vehicles.isEmpty()) System.out.printf("No vehicles found with make '%s'\n", make);
           else {
             for (Vehicle v : vehicles) {
@@ -306,7 +357,7 @@ public class VehicleController {
         }
         case 2 -> {
           VehicleType vehicleType = Util.readVehicleType(sc);
-          List<Vehicle> vehicles = vehicleService.getVehicle(vehicleType);
+          Set<Vehicle> vehicles = vehicleService.getVehicle(vehicleType);
           if (vehicles.isEmpty()) System.out.printf("No vehicles found of type '%s'\n", vehicleType.name());
           else {
             for (Vehicle v : vehicles) {
@@ -330,7 +381,13 @@ public class VehicleController {
   
   //-------------------------------------------------------------------------------------------------------------------
   
-  public List<Vehicle> sortVehicles(List<Vehicle> vehicles, Comparator<Vehicle> comparator) {
+  /**
+   * Sorts the given list of vehicles using the specified comparator. If the comparator is null, the default comparator is used.
+   * @param vehicles the list of vehicles to be sorted
+   * @param comparator the comparator to use for sorting, or null to use the default comparator
+   * @return a new list containing the sorted vehicles
+   */
+  public List<Vehicle> sortVehicles(Collection<Vehicle> vehicles, Comparator<Vehicle> comparator) {
     if (vehicles == null || vehicles.isEmpty()) return List.of();
     
     List<Vehicle> sortedVehicles = new ArrayList<>(vehicles);

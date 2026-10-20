@@ -6,7 +6,7 @@ import chapter13.project.entity.enclosure.Enclosure;
 import chapter13.project.entity.park.DinosaurCareSystem;
 import chapter13.project.exception.DinosaurIllException;
 
-import java.util.List;
+import java.util.Set;
 
 public class DinosaurCareSystemService {
   
@@ -32,7 +32,7 @@ public class DinosaurCareSystemService {
   
   //-------------------------------------------------------------------------------------------------------------------
   
-  public void addDinosaurs(List<Dinosaur> dinosaurs) {
+  public void addDinosaurs(Set<Dinosaur> dinosaurs) {
     if (dinosaurs == null || dinosaurs.isEmpty()) {
       System.out.println("No dinosaurs were added into the Dinosaur Care System");
       return;
@@ -54,7 +54,7 @@ public class DinosaurCareSystemService {
   
   //-------------------------------------------------------------------------------------------------------------------
   
-  public List<Dinosaur> getDinosaurs() {
+  public Set<Dinosaur> getDinosaurs() {
     return dinosaurCareSystem.getDinosaurs();
   }
   
@@ -94,7 +94,7 @@ public class DinosaurCareSystemService {
   
   //-------------------------------------------------------------------------------------------------------------------
   
-  public void addEnclosures(List<Enclosure> enclosures) {
+  public void addEnclosures(Set<Enclosure> enclosures) {
     if (enclosures == null || enclosures.isEmpty()) {
       System.out.println("No enclosures were added into the Dinosaur Care System");
       return;
@@ -133,14 +133,14 @@ public class DinosaurCareSystemService {
   
   //-------------------------------------------------------------------------------------------------------------------
   
-  public List<Activity> getActivities() {
+  public Set<Activity> getActivities() {
     return dinosaurCareSystem.getActivities();
   }
   
   //-------------------------------------------------------------------------------------------------------------------
   
   public boolean activityExists(Activity activity) {
-    List<Activity> activities = dinosaurCareSystem.getActivities();
+    Set<Activity> activities = dinosaurCareSystem.getActivities();
     
     if (activities == null || activities.isEmpty() || activity == null) return false;
     

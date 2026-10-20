@@ -5,35 +5,62 @@ import chapter13.project.entity.event.EventType;
 import chapter13.project.entity.event.SpecialEvent;
 
 import java.time.LocalDate;
-import java.util.*;
+import java.util.Map;
+import java.util.Set;
+import java.util.UUID;
+import java.util.HashSet;
+import java.util.List;
+import java.util.ArrayList;
+import java.util.HashMap;
 
+/**
+ * Service class for managing special events. Provides methods to add, retrieve, and manage special events.
+ */
 public class SpecialEventsService {
   
-  private List<SpecialEvent> specialEvents;
+  private Set<SpecialEvent> specialEvents;
   private Map<LocalDate, Integer> specialEventsPerDate;
   
   //-------------------------------------------------------------------------------------------------------------------
   
+  /**
+   * Constructs a new SpecialEventsService instance for managing special events, initializing the specialEvents set as 
+   * an empty HashSet and the specialEventsPerDate map as an empty HashMap.
+   */
   public SpecialEventsService() {
-    specialEvents = new ArrayList<>();
+    specialEvents = new HashSet<>();
     specialEventsPerDate = new HashMap<>();
   }
   
   //-------------------------------------------------------------------------------------------------------------------
   
-  public SpecialEventsService(List<SpecialEvent> specialEvents) {
-    this.specialEvents = specialEvents == null ? new ArrayList<>() : specialEvents;
+  /**
+   * Constructs a new SpecialEventsService instance with the provided list of special events. Initializes the 
+   * specialEvents set with the given list and the specialEventsPerDate map as an empty HashMap.
+   * @param specialEvents the list of special events to initialize the service with. If null, an empty list is used.
+   */
+  public SpecialEventsService(Set<SpecialEvent> specialEvents) {
+    this.specialEvents = specialEvents == null ? new HashSet<>() : specialEvents;
     specialEventsPerDate = new HashMap<>();
   }
   
   //-------------------------------------------------------------------------------------------------------------------
   
-  public List<SpecialEvent> getAllSpecialEvents() {
-    return (this.specialEvents == null) ? List.of() : List.copyOf(this.specialEvents);
+  /**
+   * Retrieves all special events managed by this service.
+   * @return a set of all special events. If there are no special events, an empty set is returned.
+   */
+  public Set<SpecialEvent> getAllSpecialEvents() {
+    return (this.specialEvents == null) ? Set.of() : Set.copyOf(this.specialEvents);
   }
   
   //-------------------------------------------------------------------------------------------------------------------
   
+  /**
+   * Retrieves a special event by its unique identifier (UUID).
+   * @param id the UUID of the special event to retrieve. If null, the method returns null.
+   * @return the special event with the specified UUID, or null if not found.
+   */
   public SpecialEvent getSpecialEvent(String id) {
     if  (this.specialEvents == null || id == null) return null;
     
@@ -45,6 +72,11 @@ public class SpecialEventsService {
   
   //-------------------------------------------------------------------------------------------------------------------
   
+  /**
+   * Retrieves a special event that matches the provided event object.
+   * @param event the special event to search for. If null, the method returns null.
+   * @return the special event that matches the provided event object, or null if not found.
+   */
   public SpecialEvent getSpecialEvent(SpecialEvent event) {
     if  (this.specialEvents == null || event == null) return null;
     
@@ -56,10 +88,19 @@ public class SpecialEventsService {
   
   //-------------------------------------------------------------------------------------------------------------------
   
-  public List<SpecialEvent> getSpecialEvents(String str, boolean getByContactNumber) {
-    if (this.specialEvents == null || this.specialEvents.isEmpty() || str == null) return List.of();
+  /**
+   * Retrieves a set of special events based on the provided search criteria.
+   * @param str the search string, either a contact number or an event name depending on the value of getByContactNumber. 
+   * If null, an empty list is returned.
+   * @param getByContactNumber if true, the search is performed by contact number; if false, the search is performed by 
+   * event name.
+   * @return a set of special events that match the search criteria. If no matching events are found, an empty list is 
+   * returned.
+   */
+  public Set<SpecialEvent> getSpecialEvents(String str, boolean getByContactNumber) {
+    if (this.specialEvents == null || this.specialEvents.isEmpty() || str == null) return Set.of();
     
-    List<SpecialEvent> specialEvents = new ArrayList<>();
+    Set<SpecialEvent> specialEvents = new HashSet<>();
     if (getByContactNumber) { // search by contact number
       for (SpecialEvent se : this.specialEvents) {
         if (se != null && se.getContactNumber().equals(str)) specialEvents.add(se);
@@ -73,11 +114,17 @@ public class SpecialEventsService {
   }
   
   //-------------------------------------------------------------------------------------------------------------------
-  
-  public List<SpecialEvent> getSpecialEvents(EventType eventType) {
-    if (this.specialEvents == null || this.specialEvents.isEmpty() || eventType == null) return List.of();
+  /**
+   * Retrieves a set of special events that match the specified event type.
+   * @param eventType the event type to search for. If null, an empty set is returned. See {@link EventType)} for 
+   * available event types.
+   * @return a set of special events that match the specified event type. If no matching events are found, an empty 
+   * set is returned.
+   */
+  public Set<SpecialEvent> getSpecialEvents(EventType eventType) {
+    if (this.specialEvents == null || this.specialEvents.isEmpty() || eventType == null) return Set.of();
     
-    List<SpecialEvent> specialEvents = new ArrayList<>();
+    Set<SpecialEvent> specialEvents = new HashSet<>();
     for (SpecialEvent se : this.specialEvents) {
       if (se != null && se.getEventType() == eventType) specialEvents.add(se);
     }
@@ -86,10 +133,16 @@ public class SpecialEventsService {
   
   //-------------------------------------------------------------------------------------------------------------------
   
-  public List<SpecialEvent> getSpecialEvents(LocalDate date) {
-    if (this.specialEvents == null || this.specialEvents.isEmpty() || date == null) return List.of();
+  /**
+   * Retrieves a set of special events that match the specified date.
+   * @param date the date to search for. If null, an empty set is returned.
+   * @return a set of special events that match the specified date. If no matching events are found, an empty set is 
+   * returned.
+   */
+  public Set<SpecialEvent> getSpecialEvents(LocalDate date) {
+    if (this.specialEvents == null || this.specialEvents.isEmpty() || date == null) return Set.of();
     
-    List<SpecialEvent> specialEvents = new ArrayList<>();
+    Set<SpecialEvent> specialEvents = new HashSet<>();
     for (SpecialEvent se : this.specialEvents) {
       if (se != null && se.getDate().isEqual(date)) specialEvents.add(se);
     }
@@ -98,6 +151,10 @@ public class SpecialEventsService {
   
   //-------------------------------------------------------------------------------------------------------------------
   
+  /**
+   * Adds one or more special events to the service.
+   * @param events the special events to add. If null or empty, no events are added.
+   */
   public void addSpecialEvent(SpecialEvent... events) {
     if (this.specialEvents == null || events == null || events.length == 0) {
       System.out.println("No events were added");
@@ -126,13 +183,15 @@ public class SpecialEventsService {
   
   //-------------------------------------------------------------------------------------------------------------------
   
+  /**
+   * Removes a special event from the service.
+   * @param event the special event to remove. If null or not found, no event is removed.
+   * @return true if the event was successfully removed, false otherwise.
+   */
   public boolean removeSpecialEvent(SpecialEvent event) {
     if (this.specialEvents == null || this.specialEvents.isEmpty() || event == null) return false;
     
-    for (SpecialEvent se : this.specialEvents) {
-      if (se != null && se.equals(event)) return this.specialEvents.remove(event);
-    }
-    return false;
+    return this.specialEvents.remove(event);
   }
   
   //-------------------------------------------------------------------------------------------------------------------
