@@ -60,6 +60,7 @@ public class EnclosureController {
       System.out.println("6. Return to main menu");
       System.out.print("Enter your choice: ");
       int choice = sc.nextInt();
+      sc.nextLine(); // Consume the newline character after nextInt()
       switch (choice) {
         case 1:
           printEnclosures(sortEnclosures(enclosureService.getAllEnclosures(), null));
@@ -154,6 +155,7 @@ public class EnclosureController {
       System.out.println("10. Return to enclosure menu");
       System.out.print("Enter your choice: ");
       int choice = sc.nextInt();
+      sc.nextLine(); // Consume the newline character after nextInt()
       switch (choice) {
         case 1 -> { // by enclosure type
           EnclosureType enclosureType = Util.readEnclosureType(sc);
@@ -257,6 +259,7 @@ public class EnclosureController {
       System.out.println("2. Return to enclosure menu");
       System.out.print("Enter your choice: ");
       int choice = sc.nextInt();
+      sc.nextLine(); // Consume the newline character after nextInt()
       switch (choice) {
         case 1 -> {
           EnclosureType enclosureType = Util.readEnclosureType(sc);
@@ -288,6 +291,7 @@ public class EnclosureController {
       System.out.println("2. Return to enclosure menu");
       System.out.println("Enter  your choice: ");
       int choice = sc.nextInt();
+      sc.nextLine(); // Consume the newline character after nextInt()
       switch (choice) {
         case 1 -> {
           EnclosureType  enclosureType = Util.readEnclosureType(sc);

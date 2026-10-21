@@ -6,6 +6,7 @@ import chapter13.project.service.DinosaurCareSystemService;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
+import java.util.HashSet;
 import java.util.Set;
 import java.util.Scanner;
 
@@ -44,6 +45,7 @@ public class DinosaurCareSystemController {
       System.out.println("4. Return to Main Menu");
       System.out.print("Enter your choice: ");
       int choice = sc.nextInt();
+      sc.nextLine(); // Consume the newline character after nextInt()
       switch (choice) {
         case 1:
           dinosaurCareSystemService.checkDinosaursHealth();
@@ -78,21 +80,16 @@ public class DinosaurCareSystemController {
       System.out.println("4. Return to Dinosaur Care System Menu");
       System.out.print("Enter your choice: ");
       int choice = sc.nextInt();
+      sc.nextLine(); // Consume the newline character after nextInt()
       switch (choice) {
-        case 1:
-          printActivities();
-          break;
-        case 2:
-          addActivity();
-          break;
-        case 3:
-          removeActivity();
-          break;
-        case 4:
+        case 1 -> printActivities();
+        case 2 -> addActivity();
+        case 3 -> removeActivity();
+        case 4 -> {
           System.out.println();
           return;
-        default:
-          System.out.println("Invalid choice. Please try again.");
+        }
+        default -> System.out.println("Invalid choice. Please try again.");
       }
     }
   }
@@ -103,13 +100,14 @@ public class DinosaurCareSystemController {
    * Prints the list of all scheduled activities in the Dinosaur Care System.
    */
   private void printActivities() {
-    if (dinosaurCareSystemService.getActivities().isEmpty()) {
+    Set<Activity> activities = dinosaurCareSystemService.getActivities();
+    if (activities.isEmpty()) {
       System.out.println("No activities are scheduled in the Dinosaur Care System.");
       return;
     }
     
     System.out.println("Activities Schedule:");
-    for (Activity a : dinosaurCareSystemService.getActivities()) {
+    for (Activity a : activities) {
       System.out.println(a);
     }
   }
@@ -121,7 +119,7 @@ public class DinosaurCareSystemController {
    */
   private void addActivity() {
     if (dinosaurCareSystemService.getDinosaurs().isEmpty()) {
-      System.out.println("No dinosaurs are available in the Dinosaur Care System.");
+      System.out.println("No dinosaurs are available in the Dinosaur Care System and no activities can be added.");
       return;
     }
     
@@ -134,7 +132,7 @@ public class DinosaurCareSystemController {
     // duration
     Duration duration = Util.readActivityDuration(sc);
     // select dinosaur from list of dinosaurs
-    Dinosaur dinosaur = selectDinosaur();
+    Set<Dinosaur> dinosaur = selectDinosaur();
     
     Activity activity = new Activity(name, description, dinosaur, tms, duration);
     if (dinosaurCareSystemService.activityExists(activity)) {
@@ -167,26 +165,34 @@ public class DinosaurCareSystemController {
   //-------------------------------------------------------------------------------------------------------------------
   
   /**
-   * Prompts the user to select a dinosaur from the list of available dinosaurs.
-   * @return The selected Dinosaur object, or null if no dinosaurs are available.
+   * Prompts the user to select a dinosaur from the list of available dinosaurs. The user can choose a specific
+   * dinosaur or select all dinosaurs. If no dinosaurs are available, an empty set is returned.
+   * @return The selected Dinosaur object(s), as a set or an empty set.
    */
-  private Dinosaur selectDinosaur() {
-    if (dinosaurCareSystemService.getDinosaurs().isEmpty()) return null;
+  private Set<Dinosaur> selectDinosaur() {
+    if (dinosaurCareSystemService.getDinosaurs().isEmpty()) return Set.of();
     
+    Set<Dinosaur> selectedDinosaurs = new HashSet<>();
     for (;;) {
       System.out.println("Select a dinosaur from the list:");
       int i = 1;
       for (Dinosaur d : dinosaurCareSystemService.getDinosaurs()) {
         System.out.printf("%d. %s\n", i++, d);
       }
+      System.out.printf("%d. All\n", i);
       System.out.print("Enter your choice: ");
       int choice = sc.nextInt();
-      if (choice > 0 && choice <= dinosaurCareSystemService.getDinosaurs().size()) {
-        return (Dinosaur) dinosaurCareSystemService.getDinosaurs().toArray()[choice - 1];
+      sc.nextLine(); // Consume the newline character after nextInt()
+      if (choice > 0 && choice < i) {
+        selectedDinosaurs.add((Dinosaur) dinosaurCareSystemService.getDinosaurs().toArray()[choice - 1]);
+      } else if (choice == i) {
+        selectedDinosaurs.addAll(dinosaurCareSystemService.getDinosaurs());
+        break;
       } else {
         System.out.println("Invalid choice. Please try again.");
       }
     }
+    return selectedDinosaurs;
   }
   
   //-------------------------------------------------------------------------------------------------------------------

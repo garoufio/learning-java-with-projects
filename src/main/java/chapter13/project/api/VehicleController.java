@@ -43,6 +43,7 @@ public class VehicleController {
       System.out.println("6. Return to main menu");
       System.out.print("Enter your choice: ");
       int choice = sc.nextInt();
+      sc.nextLine(); // Consume the newline character after nextInt()
       switch (choice) {
         case 1 -> printVehicles(sortVehicles(vehicleService.getAllVehicles(), null));
         case 2 -> addVehicle();
@@ -146,6 +147,7 @@ public class VehicleController {
       System.out.println("4. Return to vehicles menu");
       System.out.print("Enter your choice: ");
       int choice = sc.nextInt();
+      sc.nextLine(); // Consume the newline character after nextInt()
       switch (choice) {
         case 1 -> {
           String make = Util.readVehicleField(sc, "make");
@@ -215,20 +217,14 @@ public class VehicleController {
       vehicle.setMaxSpeed(newMaxSpeed);
     }
     switch (vehicle.getVehicleType()) {
-      case VehicleType.TRUCK -> {
+      case TRUCK -> {
         // change load capacity
         if (Util.readEditVehicle(sc, null, "load capacity").equals("Y")) {
           int newLoadCapacity = Util.readVehicleIntField(sc, "load capacity");
           ((Truck) vehicle).setMaxLoadCapacity(newLoadCapacity);
         }
       }
-      case VehicleType.CAR -> {
-        //TODO
-      }
-      case VehicleType.MOTORCYCLE -> {
-        //TODO
-      }
-      case VehicleType.HELICOPTER -> {
+      case HELICOPTER -> {
         // change flight range
         if (Util.readEditVehicle(sc, null, "flight range").equals("Y")) {
           int newFlightRange = Util.readVehicleIntField(sc, "flight range");
@@ -244,6 +240,9 @@ public class VehicleController {
           int newLoadCapacity = Util.readVehicleIntField(sc, "load capacity");
           ((Helicopter) vehicle).setMaxLoadCapacity(newLoadCapacity);
         }
+      }
+      default -> {
+        // No additional fields to edit for other vehicle types
       }
     }
   }
@@ -263,6 +262,7 @@ public class VehicleController {
       System.out.println("4. Return to vehicles menu");
       System.out.print("Enter your choice: ");
       int choice = sc.nextInt();
+      sc.nextLine(); // Consume the newline character after nextInt()
       switch (choice) {
         case 1 -> {
           String make = Util.readVehicleField(sc, "make");
@@ -333,7 +333,8 @@ public class VehicleController {
   //-------------------------------------------------------------------------------------------------------------------
   
   /**
-   * 
+   * Removes vehicles based on different criteria such as make, vehicle type, or detailed search. Prompts the user for
+   * the specific vehicle to remove and updates the collection accordingly.
    */
   public void removeVehicle() {
     for (;;) {
@@ -344,6 +345,7 @@ public class VehicleController {
       System.out.println("4. Return to vehicles menu");
       System.out.print("Enter your choice: ");
       int choice = sc.nextInt();
+      sc.nextLine(); // Consume the newline character after nextInt()
       switch (choice) {
         case 1 -> {
           String make = Util.readVehicleField(sc, "make");
@@ -371,8 +373,7 @@ public class VehicleController {
           if (vehicle == null) System.out.println("Vehicle not found");
           else removeVehicle(vehicle);
         }
-        case 4 -> {
-        }
+        case 4 -> { }
         default -> System.out.println("Invalid choice. Please try again.");
       }
       if (choice >= 1 && choice <= 4) break;

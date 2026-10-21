@@ -23,13 +23,23 @@ public class InputException extends RuntimeException {
   }
   
   //-------------------------------------------------------------------------------------------------------------------
-  
   /**
    * Constructs a new InputException with the specified cause.
    * @param e the cause of the exception.
    */
   public InputException(Exception e) {
     super(e);
+  }
+  
+  //-------------------------------------------------------------------------------------------------------------------
+  
+  /**
+   * Constructs a new InputException with the specified detail message and cause.
+   * @param message the detail message.
+   * @param e the cause of the exception.
+   */
+  public InputException(String message, Exception e) {
+    super(message, e);
   }
   
   //-------------------------------------------------------------------------------------------------------------------

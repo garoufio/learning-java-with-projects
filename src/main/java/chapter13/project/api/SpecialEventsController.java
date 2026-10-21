@@ -56,24 +56,14 @@ public class SpecialEventsController {
       System.out.println("5. Return to main menu");
       System.out.print("Enter your choice: ");
       int choice = sc.nextInt();
+      sc.nextLine(); // Consume the newline character after nextInt()
       switch (choice) {
-        case 1:
-          printSpecialEvents(sortSpecialEvents(specialEventsService.getAllSpecialEvents(), null));
-          break;
-        case 2:
-          addSpecialEvent();
-          break;
-        case 3:
-          findSpecialEvent();
-          break;
-        case 4:
-          removeSpecialEvent();
-          break;
-        case 5:
-          System.out.println("Returning to main menu...");
-          break;
-        default:
-          System.out.println("Invalid choice. Please try again.");
+        case 1 -> printSpecialEvents(sortSpecialEvents(specialEventsService.getAllSpecialEvents(), null));
+        case 2 -> addSpecialEvent();
+        case 3 -> findSpecialEvent();
+        case 4 -> removeSpecialEvent();
+        case 5 -> System.out.println("Returning to main menu...");
+        default -> System.out.println("Invalid choice. Please try again.");
       }
       if (choice == 5) {
         System.out.println();
@@ -90,8 +80,8 @@ public class SpecialEventsController {
    * @param specialEvents Collection of SpecialEvents to be printed.
    */
   public void printSpecialEvents(Collection<SpecialEvent> specialEvents) {
-    if (specialEvents == null) {
-      System.out.println("No special events were added");
+    if (specialEvents == null || specialEvents.isEmpty()) {
+      System.out.println("No special events found.");
       return;
     }
     
@@ -112,10 +102,8 @@ public class SpecialEventsController {
   private Ticket createTicket(Scanner sc, LocalDate date) {
     // read visitor's firstname, lastname and phone number
     Visitor visitor = Util.readVisitor(sc);
-    sc.nextLine();
     // read ticket type
     TicketType ticketType = Util.readTicketType(sc);
-    sc.nextLine();
     return new Ticket(ticketType, visitor, date);
   }
   
@@ -135,6 +123,7 @@ public class SpecialEventsController {
     for (int i = 0; i < event.getEventType().getNumberOfVisitors(); i++) {
       System.out.print("Add new ticket (Y/N)? ");
       char choice = Character.toUpperCase(sc.next().charAt(0));
+      sc.nextLine(); // Consume the newline character after next()
       if (choice == 'N') break;
       
       tickets.add(createTicket(sc, event.getDate()));
@@ -153,28 +142,20 @@ public class SpecialEventsController {
   public void addSpecialEvent() {
     // read name
     String name = Util.readSpecialEventField(sc, "name");
-    sc.nextLine();
     // read description
     String description = Util.readSpecialEventField(sc, "description");
-    sc.nextLine();
     // contact number
     String contactNumber = Util.readSpecialEventField(sc, "contactNumber");
-    sc.nextLine();
     // contact name
     String contactName = Util.readSpecialEventField(sc, "contactName");
-    sc.nextLine();
     // contact email
     String contactEmail = Util.readSpecialEventField(sc, "contactEmail");
-    sc.nextLine();
     // date
     LocalDate date = Util.readSpecialEventDate(sc);
-    sc.nextLine();
     // time
     LocalTime time = Util.readSpecialEventTime(sc);
-    sc.nextLine();
     // event type
     EventType eventType = Util.readSpecialEventType(sc);
-    sc.nextLine();
     SpecialEvent event = new SpecialEvent(
         name, description, contactNumber, contactName, contactEmail, eventType, date, time
     );
@@ -211,6 +192,7 @@ public class SpecialEventsController {
     for (;;) {
       printSpecialEventSubmenuOptions("Find");
       int choice = sc.nextInt();
+      sc.nextLine(); // Consume the newline character after nextInt()
       switch (choice) {
         case 1 -> { // UUID
           String id =  Util.readSpecialEventField(sc, "id");
@@ -245,28 +227,20 @@ public class SpecialEventsController {
         case 6 -> {
           // read name
           String name = Util.readSpecialEventField(sc, "name");
-          sc.nextLine();
           // read description
           String description = Util.readSpecialEventField(sc, "description");
-          sc.nextLine();
           // contact number
           String contactNumber = Util.readSpecialEventField(sc, "contactNumber");
-          sc.nextLine();
           // contact name
           String contactName = Util.readSpecialEventField(sc, "contactName");
-          sc.nextLine();
           // contact email
           String contactEmail = Util.readSpecialEventField(sc, "contactEmail");
-          sc.nextLine();
           // date
           LocalDate date = Util.readSpecialEventDate(sc);
-          sc.nextLine();
           // time
           LocalTime time = Util.readSpecialEventTime(sc);
-          sc.nextLine();
           // event type
           EventType eventType = Util.readSpecialEventType(sc);
-          sc.nextLine();
           SpecialEvent event = new SpecialEvent(
               name, description, contactNumber, contactName, contactEmail, eventType, date, time
           );
@@ -332,6 +306,7 @@ public class SpecialEventsController {
     for (;;) {
       printSpecialEventSubmenuOptions("Remove");
       int choice = sc.nextInt();
+      sc.nextLine(); // Consume the newline character after nextInt()
       switch (choice) {
         case 1 -> { // UUID
           String id =  Util.readSpecialEventField(sc, "id");
@@ -369,28 +344,20 @@ public class SpecialEventsController {
         case 6 -> {
           // read name
           String name = Util.readSpecialEventField(sc, "name");
-          sc.nextLine();
           // read description
           String description = Util.readSpecialEventField(sc, "description");
-          sc.nextLine();
           // contact number
           String contactNumber = Util.readSpecialEventField(sc, "contactNumber");
-          sc.nextLine();
           // contact name
           String contactName = Util.readSpecialEventField(sc, "contactName");
-          sc.nextLine();
           // contact email
           String contactEmail = Util.readSpecialEventField(sc, "contactEmail");
-          sc.nextLine();
           // date
           LocalDate date = Util.readSpecialEventDate(sc);
-          sc.nextLine();
           // time
           LocalTime time = Util.readSpecialEventTime(sc);
-          sc.nextLine();
           // event type
           EventType eventType = Util.readSpecialEventType(sc);
-          sc.nextLine();
           SpecialEvent event = new SpecialEvent(
               name, description, contactNumber, contactName, contactEmail, eventType, date, time
           );

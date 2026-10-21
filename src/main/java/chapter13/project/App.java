@@ -10,12 +10,16 @@ import chapter13.project.api.*;
 import chapter13.project.entity.park.*;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Set;
 import java.util.HashSet;
 import java.util.Scanner;
 
+/**
+ * Main application class for managing Mesozoic Eden Park. It handles the initialization of services, 
+ * controllers, and the main application loop.  It provides the main menu and handles user interactions.
+ * It also manages the park's activities, special events, and visitor interactions, coordinates between 
+ * different controllers and services to ensure smooth park operations.
+ */
 public class App {
   
   public static final int MAX_DAILY_VISITORS = 300;
@@ -25,19 +29,23 @@ public class App {
   public static final int MAX_VEHICLES = 40;
   public static final int MAX_DAILY_SPECIAL_EVENTS = 5;
   
-  private DinosaurCareSystemController dinosaurCareSystemController;
-  private DinosaurController dinosaurController;
-  private EmployeeController employeeController;
-  private TicketController ticketController;
-  private EnclosureController enclosureController;
-  private SpecialEventsController specialEventsController;
-  private VehicleController vehicleController;
-  private Park park;
+  private final DinosaurCareSystemController dinosaurCareSystemController;
+  private final DinosaurController dinosaurController;
+  private final EmployeeController employeeController;
+  private final TicketController ticketController;
+  private final EnclosureController enclosureController;
+  private final SpecialEventsController specialEventsController;
+  private final VehicleController vehicleController;
+  private final Park park;
   // Use scanner for reading input from the user
-  private Scanner sc;
+  private final Scanner sc;
   
   //-------------------------------------------------------------------------------------------------------------------
   
+  /**
+   * Constructs the main application, initializing services, controllers, and the park. It sets up the necessary 
+   * components for managing Mesozoic Eden Park.
+   */
   public App() {
     sc = new Scanner(System.in);
     
@@ -67,12 +75,14 @@ public class App {
     }
     
     park = new Park();
-    // TODO: create Activities
-    // TODO: use InputException handling
   }
   
   //-------------------------------------------------------------------------------------------------------------------
   
+  /**
+   * The main entry point of the application. It creates an instance of the App class and starts the application.
+   * @param args command-line arguments passed to the application
+   */
   public static void main(String[] args) {
     App app = new App();
     app.start();
@@ -80,18 +90,26 @@ public class App {
   
   //-------------------------------------------------------------------------------------------------------------------
   
+  /**
+   * Starts the main loop of the application, displaying the menu and handling user input. This loop continues until 
+   * the user chooses to exit the application.
+   */
   public void start() {
-    /* this is the main loop of the application. It will keep running until the user decides to exit */
+    // this is the main loop of the application. It will keep running until the user decides to exit
     while (true) {
       displayMenu();
       int choice = sc.nextInt();
+      sc.nextLine(); // consume the newline character after the integer input
       handleMenuChoice(choice);
     }
-    
   }
   
   //-------------------------------------------------------------------------------------------------------------------
   
+  /**
+   * Displays the main menu of the application, showing the available options to the user. The user can then make a 
+   * selection by entering the corresponding number.
+   */
   public void displayMenu() {
     System.out.println("Welcome to Mesozoic Eden Park Manager!");
     System.out.println("1. Manage Dinosaurs");
@@ -107,6 +125,10 @@ public class App {
   
   //-------------------------------------------------------------------------------------------------------------------
   
+  /**
+   * Handles the user's menu choice by invoking the appropriate controller method based on the selected option.
+   * @param choice the menu option selected by the user
+   */
   public void handleMenuChoice(int choice) {
     switch (choice) {
       case 1:
@@ -142,12 +164,16 @@ public class App {
   // Objects initialization
   //-------------------------------------------------------------------------------------------------------------------
   
+  /**
+   * Creates and returns a set of sample dinosaurs for the application.
+   * @return a set of sample dinosaurs.
+   */
   private static Set<Dinosaur> createDinosaurs() {
     Set<Dinosaur> dinosaurs = new HashSet<>();
     
     dinosaurs.add(
         new TerrestrialDinosaur(
-            "Claire", LocalDate.of(2020, 5, 15), DinosaurType.CARNIVORE, DinosaurSpecies.VELOCIRAPTOR, DinosaurSize.MEDIUM, 48,217, 65
+            "Claire", LocalDate.of(2020, 5, 15), DinosaurType.CARNIVORE, DinosaurSpecies.VELOCIRAPTOR, DinosaurSize.MEDIUM, 68,217, 65
         )
     );
     dinosaurs.add(
@@ -170,6 +196,12 @@ public class App {
   
   //-------------------------------------------------------------------------------------------------------------------
   
+  /**
+   * Creates and returns a set of sample enclosures for the application.
+   * @param dinosaurService the service used to retrieve dinosaurs for the enclosures.
+   * @param employeeService the service used to retrieve employees for the enclosures.
+   * @return a set of sample enclosures.
+   */
   private Set<Enclosure> createEnclosures(DinosaurService dinosaurService, EmployeeService employeeService) {
     Set<Enclosure> enclosures = new HashSet<>();
     
@@ -219,7 +251,7 @@ public class App {
     // add Food Store enclosure and the related employees
     enclosures.add(new Enclosure(
         EnclosureType.FOOD_STORE,
-        SafetyLevel.LOW,
+        SafetyLevel.MEDIUM,
         getDinosaursByEnclosure(dinosaurService, EnclosureType.FOOD_STORE),
         getEmployeesByEnclosure(employeeService, EnclosureType.FOOD_STORE),
         85
@@ -245,6 +277,10 @@ public class App {
   
   //-------------------------------------------------------------------------------------------------------------------
   
+  /**
+   * Creates and returns a set of sample employees for the application.
+   * @return a set of sample employees.
+   */
   private Set<Employee> createEmployees() {
     Set<Employee>  employees = new HashSet<>();
     
@@ -280,6 +316,10 @@ public class App {
   
   //-------------------------------------------------------------------------------------------------------------------
   
+  /**
+   * Creates and returns a set of sample tickets for the application.
+   * @return a set of sample tickets.
+   */
   private Set<Ticket> createTickets() {
     Set<Ticket> tickets = new HashSet<>();
     
@@ -329,6 +369,10 @@ public class App {
   
   //-------------------------------------------------------------------------------------------------------------------
   
+  /**
+   * Creates and returns a set of sample vehicles for the application.
+   * @return a set of sample vehicles.
+   */
   private Set<Vehicle> createVehicles() {
     Set<Vehicle> vehicles = new HashSet<>();
     
@@ -382,6 +426,10 @@ public class App {
   // Park management
   //-------------------------------------------------------------------------------------------------------------------
   
+  /**
+   * Checks and prints the current status of the park. It prints whether the park is open or closed and the 
+   * corresponding opening or closing hours.
+   */
   public void checkParkStatus() {
     if (park.getParkStatus()) System.out.println("The Park is open until " + Park.CLOSING_HOUR.format(Util.TIME_FORMAT));
     else System.out.println("The Park will welcome its guests tomorrow from " + Park.OPENING_HOUR.format(Util.TIME_FORMAT));
@@ -389,42 +437,15 @@ public class App {
   }
   
   //-------------------------------------------------------------------------------------------------------------------
-  
-  private void parkManagement() {
-    for (;;) {
-      System.out.println("Park Management Menu:");
-      System.out.println("1. Dinosaur Healthcare Check");
-      System.out.println("2. Enclosure Security Check");
-      System.out.println("3. Back to Main Menu");
-      System.out.print("Enter your choice: ");
-      int choice = sc.nextInt();
-      switch (choice) {
-        case 1 -> { // TODO
-//          try {
-//            dinosaurCareSystem.checkDinosaursHealth();
-//          } catch (DinosaurIllException e) {
-//            System.out.println("ATTENTION: " + e.getMessage());
-//          }
-        }
-        case 2 -> { // TODO
-//          try {
-//            dinosaurCareSystem.checkEnclosuresSecurity();
-//          } catch (EnclosureBreachException e) {
-//            System.out.println("ATTENTION: " + e.getMessage());
-//          }
-        }
-        case 3 -> { }
-        default -> System.out.println("Invalid choice. Please try again.");
-      }
-      if (choice >= 1 && choice <= 3) break;
-    }
-    System.out.println();
-  }
-  
-  //-------------------------------------------------------------------------------------------------------------------
   // Utility methods
   //-------------------------------------------------------------------------------------------------------------------
   
+  /**
+   * Retrieves a set of employees assigned to a specific enclosure type.
+   * @param employeeService the service used to retrieve employees.
+   * @param enclosureType the type of enclosure for which to retrieve employees.
+   * @return a set of employees assigned to the specified enclosure type.
+   */
   private Set<Employee> getEmployeesByEnclosure(EmployeeService employeeService, EnclosureType enclosureType) {
     Set<Employee> employees = new HashSet<>();
     for (JobTitle jobTitle : enclosureType.getEmployeeJobTitles()) {
@@ -435,6 +456,12 @@ public class App {
   
   //-------------------------------------------------------------------------------------------------------------------
   
+  /**
+   * Retrieves a set of dinosaurs assigned to a specific enclosure type.
+   * @param dinosaurService the service used to retrieve dinosaurs.
+   * @param enclosureType the type of enclosure for which to retrieve dinosaurs.
+   * @return a set of dinosaurs assigned to the specified enclosure type.
+   */
   private Set<Dinosaur> getDinosaursByEnclosure(DinosaurService dinosaurService, EnclosureType enclosureType) {
     Set<Dinosaur> dinosaurs = new HashSet<>();
     for (DinosaurSpecies dinosaurSpecies : enclosureType.getDinosaurSpecies()) {

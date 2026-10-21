@@ -33,24 +33,14 @@ public class TicketController {
       System.out.println("5. Return to main menu");
       System.out.print("Enter your choice: ");
       int choice = sc.nextInt();
+      sc.nextLine(); // Consume the newline character after nextInt()
       switch (choice) {
-        case 1:
-          printTickets(ticketService.getAllTickets());
-          break;
-        case 2:
-          addTicket();
-          break;
-        case 3:
-          findTicket();
-          break;
-        case 4:
-          removeTicket();
-          break;
-        case 5:
-          System.out.println("Returning to main menu...");
-          break;
-        default:
-          System.out.println("Invalid choice. Please try again.");
+        case 1 -> printTickets(ticketService.getAllTickets());
+        case 2 -> addTicket();
+        case 3 -> findTicket();
+        case 4 -> removeTicket();
+        case 5 -> System.out.println("Returning to main menu...");
+        default -> System.out.println("Invalid choice. Please try again.");
       }
       if (choice == 5) {
         System.out.println();
@@ -77,16 +67,13 @@ public class TicketController {
   private void addTicket() {
     // read visitor's firstname, lastname and phone number
     Visitor visitor = Util.readVisitor(sc);
-    sc.nextLine();
     // read ticket type
     TicketType ticketType = Util.readTicketType(sc);
     // read date
     LocalDate date = Util.readTicketDate(sc);
-    sc.nextLine();
     switch (ticketType) {
-      case SEASON_3, SEASON_6, SEASON_8, SEASON_12 -> {
-        ticketService.addTickets(new SeasonTicket(ticketType, visitor, date));
-      }
+      case SEASON_3, SEASON_6, SEASON_8, SEASON_12 ->
+          ticketService.addTickets(new SeasonTicket(ticketType, visitor, date));
       default -> {
         boolean reserveParkingSpot = Util.reserveParkingSpot(sc);
         ticketService.addTickets(new RegularTicket(ticketType, visitor, date, reserveParkingSpot));
@@ -114,6 +101,7 @@ public class TicketController {
     for (;;) {
       printTicketSubMenuOptions("Find");
       int choice = sc.nextInt();
+      sc.nextLine(); // Consume the newline character after nextInt()
       switch (choice) {
         case 1 -> {
           UUID id = Util.readTicketUUID(sc);
@@ -153,7 +141,6 @@ public class TicketController {
         case 6 -> {
           Visitor visitor = Util.readVisitor(sc);
           TicketType ticketType = Util.readTicketType(sc);
-          sc.nextLine();
           LocalDate date = Util.readTicketDate(sc);
           Ticket ticket = ticketService.getTicket(new Ticket(ticketType, visitor, date));
           if (ticket == null) System.out.println("No ticket found");
@@ -172,10 +159,10 @@ public class TicketController {
     for (;;) {
       printTicketSubMenuOptions("Remove");
       int choice = sc.nextInt();
+      sc.nextLine(); // Consume the newline character after nextInt()
       switch (choice) {
         case 1 -> {
           UUID id = Util.readTicketUUID(sc);
-          sc.nextLine();
           Ticket ticket = ticketService.getTicket(id);
           if (ticketService.removeTicket(ticket)) System.out.println("Ticket removed");
           else System.out.println("Ticket not found");
@@ -207,11 +194,8 @@ public class TicketController {
         }
         case 6 -> {
           Visitor visitor = Util.readVisitor(sc);
-          sc.nextLine();
           TicketType ticketType = Util.readTicketType(sc);
-          sc.nextLine();
           LocalDate date = Util.readTicketDate(sc);
-          sc.nextLine();
           Ticket ticket = ticketService.getTicket(new Ticket(ticketType, visitor, date));
           if (ticketService.removeTicket(ticket)) System.out.println("Ticket removed");
           else System.out.println("No ticket found\n");

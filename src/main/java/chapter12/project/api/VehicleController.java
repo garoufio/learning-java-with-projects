@@ -205,6 +205,7 @@ public class VehicleController {
           ((Helicopter) vehicle).setMaxLoadCapacity(newLoadCapacity);
         }
       }
+      default -> { }
     }
   }
   

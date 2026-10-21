@@ -5,25 +5,32 @@ import chapter13.project.entity.dinosaur.Dinosaur;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
-import java.util.Comparator;
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 
 public class Activity implements Comparable<Activity> {
   
   private String name;
   private String description;
-  private Dinosaur dinosaur;
+  private Set<Dinosaur> dinosaurs;
   private LocalDateTime tms;
   private Duration duration;
   
   //-------------------------------------------------------------------------------------------------------------------
   
-  public Activity(String name, String description, Dinosaur dinosaur, LocalDateTime tms, Duration duration) {
+  public Activity(String name, String description, Set<Dinosaur> dinosaurs, LocalDateTime tms, Duration duration) {
     this.name = name;
     this.description = description;
-    this.dinosaur = dinosaur;
+    this.dinosaurs = dinosaurs;
     this.tms = tms;
     this.duration = duration;
+  }
+  
+  //-------------------------------------------------------------------------------------------------------------------
+  
+  public Activity(String name, String description, Dinosaur dinosaur, LocalDateTime tms, Duration duration) {
+    this(name, description, Set.of(dinosaur), tms, duration);
   }
   
   //-------------------------------------------------------------------------------------------------------------------
@@ -64,14 +71,14 @@ public class Activity implements Comparable<Activity> {
   
   //-------------------------------------------------------------------------------------------------------------------
   
-  public Dinosaur getDinosaur() {
-    return dinosaur;
+  public Set<Dinosaur> getDinosaurs() {
+    return dinosaurs;
   }
   
   //-------------------------------------------------------------------------------------------------------------------
   
-  public void setDinosaur(Dinosaur dinosaur) {
-    this.dinosaur = dinosaur;
+  public void setDinosaur(Set<Dinosaur> dinosaurs) {
+    this.dinosaurs = dinosaurs;
   }
   
   //-------------------------------------------------------------------------------------------------------------------
@@ -88,6 +95,19 @@ public class Activity implements Comparable<Activity> {
   
   //-------------------------------------------------------------------------------------------------------------------
   
+  private boolean compareDinosaurs(Set<Dinosaur> otherDinosaurs) {
+    if (this.dinosaurs == null && otherDinosaurs == null) return true;
+    if (this.dinosaurs == null || otherDinosaurs == null) return false;
+    if (this.dinosaurs.size() != otherDinosaurs.size()) return false;
+    
+    for (Dinosaur dinosaur : this.dinosaurs) {
+      if (!otherDinosaurs.contains(dinosaur)) return false;
+    }
+    return true;
+  }
+  
+  //-------------------------------------------------------------------------------------------------------------------
+  
   @Override
   public boolean equals(Object o) {
     if (o == null || getClass() != o.getClass()) return false;
@@ -95,7 +115,7 @@ public class Activity implements Comparable<Activity> {
     
     return Objects.equals(name, activity.name) &&
         Objects.equals(description, activity.description) &&
-        Objects.equals(dinosaur, activity.dinosaur) &&
+        compareDinosaurs(activity.dinosaurs) &&
         tms.compareTo(activity.tms) == 0 &&
         duration.compareTo(activity.duration) == 0;
   }
@@ -104,7 +124,23 @@ public class Activity implements Comparable<Activity> {
   
   @Override
   public int hashCode() {
-    return Objects.hash(name, description, dinosaur, tms, duration);
+    return Objects.hash(name, description, dinosaurs, tms, duration);
+  }
+  
+  //-------------------------------------------------------------------------------------------------------------------
+  
+  private String formatDinosaurs() {
+    if (dinosaurs == null || dinosaurs.isEmpty()) return "[]";
+    
+    StringBuilder sb = new StringBuilder("[");
+    for (Dinosaur d : dinosaurs) {
+      sb.append(d.toString()).append(", ");
+    }
+    // Remove the last comma and space
+    sb.setLength(sb.length() - 2);
+    sb.append("]");
+    
+    return sb.toString();
   }
   
   //-------------------------------------------------------------------------------------------------------------------
@@ -114,7 +150,7 @@ public class Activity implements Comparable<Activity> {
     return "Activity [" +
         "name='" + name + '\'' +
         ", description='" + description + '\'' +
-        ", dinosaur=" + dinosaur +
+        ", dinosaur(s)=" + formatDinosaurs() +
         ", fromTms=" + tms.format(Util.DATE_TIME_FORMAT) +
         ", toTms=" + tms.plus(duration).format(Util.DATE_TIME_FORMAT) +
         "]";
@@ -124,8 +160,6 @@ public class Activity implements Comparable<Activity> {
   
   @Override
   public int compareTo(Activity other) {
-    if (this == null && other == null) return 0;
-    if (this == null) return -1;
     if (other == null) return 1;
     
     return this.name.compareTo(other.name);

@@ -64,6 +64,7 @@ public class DinosaurController {
       System.out.println("6. Return to main menu");
       System.out.print("Enter your choice: ");
       int choice = sc.nextInt();
+      sc.nextLine(); // Consume the newline character after nextInt()
       switch (choice) {
         case 1:
           printDinosaurs(sortDinosaurs(dinosaurService.getAllDinosaurs(), null));
@@ -204,6 +205,7 @@ public class DinosaurController {
     for (;;) {
       printDinosaurSubmenuOptions("Find");
       int choice = sc.nextInt();
+      sc.nextLine(); // Consume the newline character after nextInt()
       Set<Dinosaur> foundDinosaurs = switch (choice) {
         case 1 -> {
           String name = Util.readDinosaurName(sc);
@@ -283,6 +285,7 @@ public class DinosaurController {
         for (;;) {
           System.out.print("Do you want to see more info about the found dinosaur(s)? (Y/N): ");
           String moreInfoChoice = sc.next();
+          sc.nextLine(); // Consume the newline character after next()
           if (moreInfoChoice.equalsIgnoreCase("Y")) {
             for (Dinosaur d : foundDinosaurs) {
               d.info();
@@ -414,6 +417,7 @@ public class DinosaurController {
       System.out.println("3. Return to dinosaur menu");
       System.out.print("Enter your choice: ");
       int choice = sc.nextInt();
+      sc.nextLine(); // Consume the newline character after nextInt()
       switch (choice) {
         case 1 -> {
           String name = Util.readDinosaurName(sc);
@@ -536,6 +540,7 @@ public class DinosaurController {
     for (;;) {
       printDinosaurSubmenuOptions("Remove");
       int choice = sc.nextInt();
+      sc.nextLine(); // Consume the newline character after nextInt()
       switch (choice) {
         case 1 -> {
           String name = Util.readDinosaurName(sc);

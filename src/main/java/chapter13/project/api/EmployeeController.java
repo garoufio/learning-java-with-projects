@@ -54,30 +54,16 @@ public class EmployeeController {
       System.out.println("7. Return to main menu");
       System.out.print("Enter your choice: ");
       int choice = sc.nextInt();
+      sc.nextLine(); // Consume the newline character after nextInt()
       switch (choice) {
-        case 1:
-          printEmployees(sortEmployees(employeeService.getAllEmployees(), null));
-          break;
-        case 2:
-          addEmployee();
-          break;
-        case 3:
-          findEmployee();
-          break;
-        case 4:
-          editEmployee();
-          break;
-        case 5:
-          removeEmployee();
-          break;
-        case 6:
-          manageSchedule();
-          break;
-        case 7:
-          System.out.println("Returning to main menu...");
-          break;
-        default:
-          System.out.println("Invalid choice. Please try again.");
+        case 1 -> printEmployees(sortEmployees(employeeService.getAllEmployees(), null));
+        case 2 -> addEmployee();
+        case 3 -> findEmployee();
+        case 4 -> editEmployee();
+        case 5 -> removeEmployee();
+        case 6 -> manageSchedule();
+        case 7 -> System.out.println("Returning to main menu...");
+        default -> System.out.println("Invalid choice. Please try again.");
       }
       if (choice == 7) {
         System.out.println();
@@ -113,13 +99,11 @@ public class EmployeeController {
   private void addEmployee() {
     // read name
     String name = Util.readEmployeeName(sc);
-    sc.nextLine();
     LocalDate birthDate = Util.readEmployeeBirthDate(sc);
     // read years of experience
     int yearsOfExperience = Util.readEmployeeIntField(sc, "employee years of experience: ");
     // read job title
     JobTitle jobTitle = Util.readEmployeeJobTitle(sc);
-    sc.nextLine();
     Employee employee = new Employee(name, jobTitle, yearsOfExperience, birthDate);
     
     // add employee to all the related enclosures
@@ -155,6 +139,7 @@ public class EmployeeController {
       System.out.println("4. Return to employee menu");
       System.out.print("Enter your choice: ");
       int choice = sc.nextInt();
+      sc.nextLine(); // Consume the newline character after nextInt()
       switch (choice) {
         case 1 -> {
           String name = Util.readEmployeeName(sc);
@@ -222,6 +207,7 @@ public class EmployeeController {
       System.out.println("3. Return to employee menu");
       System.out.print("Enter your choice: ");
       int choice = sc.nextInt();
+      sc.nextLine(); // Consume the newline character after nextInt()
       switch (choice) {
         case 1 -> {
           String name = Util.readEmployeeName(sc);
@@ -337,6 +323,7 @@ public class EmployeeController {
       System.out.println("5. Return to employee menu");
       System.out.print("Enter your choice: ");
       int choice = sc.nextInt();
+      sc.nextLine(); // Consume the newline character after nextInt()
       switch (choice) {
         case 1 -> {
           String name = Util.readEmployeeName(sc);
@@ -382,6 +369,7 @@ public class EmployeeController {
       System.out.println("3. Return to employee menu");
       System.out.print("Enter your choice: ");
       int choice = sc.nextInt();
+      sc.nextLine(); // Consume the newline character after nextInt()
       switch (choice) {
         case 1 -> printEmployeesSchedule();
         case 2 -> setEmployeesDaysOff();
@@ -410,6 +398,7 @@ public class EmployeeController {
         System.out.println("5. Return to employee menu");
         System.out.print("Enter your choice: ");
         int choice = sc.nextInt();
+        sc.nextLine(); // Consume the newline character after nextInt()
         switch (choice) {
           case 1 -> employeeService.printEmployeesWorkingSchedule(employeeService.getAllEmployees());
           case 2 -> {
@@ -476,6 +465,7 @@ public class EmployeeController {
       System.out.println("3. Return to employee menu");
       System.out.print("Enter your choice: ");
       int choice = sc.nextInt();
+      sc.nextLine(); // Consume the newline character after nextInt()
       switch (choice) {
         case 1 -> {
           String name = Util.readEmployeeName(sc);
