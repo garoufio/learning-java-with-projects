@@ -48,13 +48,16 @@ public class SpecialEventsController {
    */
   public void handleSpecialEvents() {
     for (;;) {
-      System.out.printf("\nSpecial events service:\n");
-      System.out.println("1. Show all Special Events");
-      System.out.println("2. Add Event");
-      System.out.println("3. Find Event");
-      System.out.println("4. Remove Event");
-      System.out.println("5. Return to main menu");
-      System.out.print("Enter your choice: ");
+      System.out.print("""
+       
+       Special events service:
+       1. Show all Special Events
+       2. Add Event
+       3. Find Event
+       4. Remove Event
+       5. Return to main menu
+       Enter your choice:\t"""
+      );
       int choice = sc.nextInt();
       sc.nextLine(); // Consume the newline character after nextInt()
       switch (choice) {
@@ -172,15 +175,19 @@ public class SpecialEventsController {
    * @param action the action for which the submenu options are being printed (e.g., "Find", "Delete").
    */
   private void printSpecialEventSubmenuOptions(String action) {
-    System.out.printf("\n%s by:\n", action);
-    System.out.println("1. Event id");
-    System.out.println("2. Event name");
-    System.out.println("3. Event contact phone");
-    System.out.println("4. Event date");
-    System.out.println("5. Event type");
-    System.out.println("6. Detailed search");
-    System.out.println("7. Return to event menu");
-    System.out.print("Enter your choice: ");
+    System.out.printf("""
+    
+    %s by:
+    1. Event id
+    2. Event name
+    3. Event contact phone
+    4. Event date
+    5. Event type
+    6. Detailed search
+    7. Return to event menu
+    Enter your choice:\t""",
+        action
+    );
   }
   
   //-------------------------------------------------------------------------------------------------------------------

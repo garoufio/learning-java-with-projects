@@ -44,15 +44,18 @@ public class EmployeeController {
    */
   public void manageEmployees() {
     for (;;) {
-      System.out.printf("\nEmployees service:\n");
-      System.out.println("1. Show all Employees");
-      System.out.println("2. Add Employee");
-      System.out.println("3. Find Employee");
-      System.out.println("4. Edit Employee");
-      System.out.println("5. Remove Employee");
-      System.out.println("6. Employees schedule");
-      System.out.println("7. Return to main menu");
-      System.out.print("Enter your choice: ");
+      System.out.print("""
+      
+      Employees service:
+      1. Show all Employees
+      2. Add Employee
+      3. Find Employee
+      4. Edit Employee
+      5. Remove Employee
+      6. Employees schedule
+      7. Return to main menu
+      Enter your choice:\t"""
+      );
       int choice = sc.nextInt();
       sc.nextLine(); // Consume the newline character after nextInt()
       switch (choice) {
@@ -132,12 +135,15 @@ public class EmployeeController {
    */
   private void findEmployee() {
     for (;;) {
-      System.out.printf("\nSearch by:\n");
-      System.out.println("1. Employee name");
-      System.out.println("2. Employee job title");
-      System.out.println("3. Detailed search");
-      System.out.println("4. Return to employee menu");
-      System.out.print("Enter your choice: ");
+      System.out.printf("""
+      
+      Search by:
+      1. Employee name
+      2. Employee job title
+      3. Detailed search
+      4. Return to employee menu
+      System.out.print("Enter your choice:\t"""
+      );
       int choice = sc.nextInt();
       sc.nextLine(); // Consume the newline character after nextInt()
       switch (choice) {
@@ -201,11 +207,14 @@ public class EmployeeController {
    */
   private void editEmployee() {
     for (;;) {
-      System.out.printf("\nEdit by:\n");
-      System.out.println("1. Name");
-      System.out.println("2. Detailed search");
-      System.out.println("3. Return to employee menu");
-      System.out.print("Enter your choice: ");
+      System.out.print("""
+      
+      Edit by:
+      1. Name
+      2. Detailed search
+      3. Return to employee menu
+      System.out.print("Enter your choice:\t"""
+      );
       int choice = sc.nextInt();
       sc.nextLine(); // Consume the newline character after nextInt()
       switch (choice) {
@@ -316,12 +325,15 @@ public class EmployeeController {
    */
   private void removeEmployee() {
     for (;;) {
-      System.out.printf("\nRemove by:\n");
-      System.out.println("1. Employee name");
-      System.out.println("2. Employee job title");
-      System.out.println("3. Detailed search");
-      System.out.println("5. Return to employee menu");
-      System.out.print("Enter your choice: ");
+      System.out.print("""
+      
+      Remove by:
+      1. Employee name
+      2. Employee job title
+      3. Detailed search
+      4. Return to employee menu
+      Enter your choice:\t"""
+      );
       int choice = sc.nextInt();
       sc.nextLine(); // Consume the newline character after nextInt()
       switch (choice) {
@@ -363,11 +375,14 @@ public class EmployeeController {
    */
   private void manageSchedule() {
     for (;;) {
-      System.out.printf("\nEmployees schedule management:\n");
-      System.out.println("1. Show employees schedule");
-      System.out.println("2. Set day off");
-      System.out.println("3. Return to employee menu");
-      System.out.print("Enter your choice: ");
+      System.out.print("""
+      
+      Employees schedule management:
+      1. Show employees schedule
+      2. Set day off
+      3. Return to employee menu
+      Enter your choice:\t"""
+      );
       int choice = sc.nextInt();
       sc.nextLine(); // Consume the newline character after nextInt()
       switch (choice) {
@@ -390,13 +405,16 @@ public class EmployeeController {
    */
   private void printEmployeesSchedule() {
       for (;;) {
-        System.out.printf("\nShow weekly schedule by:\n");
-        System.out.println("1. All employees");
-        System.out.println("2. Employee name");
-        System.out.println("3. Employee job title");
-        System.out.println("4. Detailed search");
-        System.out.println("5. Return to employee menu");
-        System.out.print("Enter your choice: ");
+        System.out.print("""
+        
+        Show weekly schedule by:
+        1. All employees
+        2. Employee name
+        3. Employee job title
+        4. Detailed search
+        5. Return to employee menu
+        Enter your choice:\t"""
+        );
         int choice = sc.nextInt();
         sc.nextLine(); // Consume the newline character after nextInt()
         switch (choice) {
@@ -459,11 +477,14 @@ public class EmployeeController {
    */
   private void setEmployeesDaysOff() {
     for (;;) {
-      System.out.printf("\nSet by:\n");
-      System.out.println("1. Name");
-      System.out.println("2. Detailed search");
-      System.out.println("3. Return to employee menu");
-      System.out.print("Enter your choice: ");
+      System.out.print("""
+      
+      Set by:
+      1. Name
+      2. Detailed search
+      3. Return to employee menu
+      Enter your choice: \t"""
+      );
       int choice = sc.nextInt();
       sc.nextLine(); // Consume the newline character after nextInt()
       switch (choice) {

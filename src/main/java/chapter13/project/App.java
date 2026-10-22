@@ -111,16 +111,18 @@ public class App {
    * selection by entering the corresponding number.
    */
   public void displayMenu() {
-    System.out.println("Welcome to Mesozoic Eden Park Manager!");
-    System.out.println("1. Manage Dinosaurs");
-    System.out.println("2. Manage Park Employees");
-    System.out.println("3. Manage Tickets");
-    System.out.println("4. Manage Enclosures");
-    System.out.println("5. Manage Vehicles");
-    System.out.println("6. Handle Special Events");
-    System.out.println("7. Dinosaur Care System");
-    System.out.println("8. Exit");
-    System.out.print("Enter your choice: ");
+    System.out.print("""
+    Welcome to Mesozoic Eden Park Manager
+    1. Manage Dinosaurs
+    2. Manage Park Employees
+    3. Manage Tickets
+    4. Manage Enclosures
+    5. Manage Vehicles
+    6. Handle Special Events
+    7. Dinosaur Care System
+    8. Exit
+    Enter your choice:\t"""
+    );
   }
   
   //-------------------------------------------------------------------------------------------------------------------
@@ -131,32 +133,18 @@ public class App {
    */
   public void handleMenuChoice(int choice) {
     switch (choice) {
-      case 1:
-        dinosaurController.manageDinosaurs();
-        break;
-      case 2:
-        employeeController.manageEmployees();
-        break;
-      case 3:
-        ticketController.manageTickets();
-        break;
-      case 4:
-        enclosureController.manageEnclosures();
-        break;
-      case 5:
-        vehicleController.manageVehicles();
-        break;
-      case 6:
-        specialEventsController.handleSpecialEvents();
-        break;
-      case 7:
-        dinosaurCareSystemController.manageDinosaurCareSystem();
-        break;
-      case 8:
+      case 1 -> dinosaurController.manageDinosaurs();
+      case 2 -> employeeController.manageEmployees();
+      case 3 -> ticketController.manageTickets();
+      case 4 -> enclosureController.manageEnclosures();
+      case 5 -> vehicleController.manageVehicles();
+      case 6 -> specialEventsController.handleSpecialEvents();
+      case 7 -> dinosaurCareSystemController.manageDinosaurCareSystem();
+      case 8 -> {
         System.out.println("Exiting...");
         System.exit(0);
-      default:
-        System.out.println("Invalid choice. Please try again.");
+      }
+      default -> System.out.println("Invalid choice. Please try again.");
     }
   }
   
@@ -173,22 +161,50 @@ public class App {
     
     dinosaurs.add(
         new TerrestrialDinosaur(
-            "Claire", LocalDate.of(2020, 5, 15), DinosaurType.CARNIVORE, DinosaurSpecies.VELOCIRAPTOR, DinosaurSize.MEDIUM, 68,217, 65
+            "Claire",
+            LocalDate.of(2020, 5, 15),
+            DinosaurType.CARNIVORE,
+            DinosaurSpecies.VELOCIRAPTOR,
+            DinosaurSize.MEDIUM,
+            68,
+            217,
+            65
         )
     );
     dinosaurs.add(
         new TerrestrialDinosaur(
-            "Jago", LocalDate.of(1996, 10, 9), DinosaurType.CARNIVORE, DinosaurSpecies.TYRANNOSAURUS, DinosaurSize.BIG, 77,412, 48
+            "Jago",
+            LocalDate.of(1996, 10, 9),
+            DinosaurType.CARNIVORE,
+            DinosaurSpecies.TYRANNOSAURUS,
+            DinosaurSize.BIG,
+            77,
+            412,
+            48
         )
     );
     dinosaurs.add(
         new TerrestrialDinosaur(
-            "Margot", LocalDate.of(1999, 4, 23), DinosaurType.HERBIVORE, DinosaurSpecies.BRACHIOSAURUS, DinosaurSize.BIG, 67,408, 35
+            "Margot",
+            LocalDate.of(1999, 4, 23),
+            DinosaurType.HERBIVORE,
+            DinosaurSpecies.BRACHIOSAURUS,
+            DinosaurSize.BIG,
+            67,
+            408,
+            35
         )
     );
     dinosaurs.add(
         new TerrestrialDinosaur(
-            "Hermes", LocalDate.of(2021, 3, 30), DinosaurType.HERBIVORE, DinosaurSpecies.STEGOSAURUS, DinosaurSize.BIG, 51, 334, 27
+            "Hermes",
+            LocalDate.of(2021, 3, 30),
+            DinosaurType.HERBIVORE,
+            DinosaurSpecies.STEGOSAURUS,
+            DinosaurSize.BIG,
+            51,
+            334,
+            27
         )
     );
     return dinosaurs;
@@ -284,32 +300,212 @@ public class App {
   private Set<Employee> createEmployees() {
     Set<Employee>  employees = new HashSet<>();
     
-    employees.add(new Employee("Mike", JobTitle.ZOOLOGIST, 7, LocalDate.of(1986, 1, 10)));
-    employees.add(new Employee("Elsa", JobTitle.ZOOLOGIST, 17, LocalDate.of(1979, 10, 17)));
-    employees.add(new Employee("Laura", JobTitle.CURATOR, 2, LocalDate.of(1999, 5, 19)));
-    employees.add(new Employee("Loren", JobTitle.CURATOR, 2, LocalDate.of(2001, 5, 3)));
-    employees.add(new Employee("Maria", JobTitle.CURATOR, 7, LocalDate.of(1998, 2, 25)));
-    employees.add(new Employee("Mathew", JobTitle.CURATOR, 10, LocalDate.of(1992, 8, 31)));
-    employees.add(new Employee("Juan", JobTitle.VETERINARIAN, 9, LocalDate.of(1990, 11, 12)));
-    employees.add(new Employee("Jessie", JobTitle.VETERINARIAN, 12, LocalDate.of(1990, 4, 21)));
-    employees.add(new Employee("Oscar", JobTitle.VETERINARY_TECHNICIAN, 8, LocalDate.of(1992, 12, 1)));
-    employees.add(new Employee("Philip", JobTitle.GENERAL_DIRECTOR, 11, LocalDate.of(1986, 7, 10)));
-    employees.add(new Employee("Lisa", JobTitle.EVENTS_MANAGER, 12, LocalDate.of(1995, 11, 11)));
-    employees.add(new Employee("David", JobTitle.HR_MANAGER, 15, LocalDate.of(1986, 9, 29)));
-    employees.add(new Employee("Jimmy", JobTitle.HR_ASSISTANT, 3, LocalDate.of(1997, 7, 6)));
-    employees.add(new Employee("Angie", JobTitle.PUBLIC_RELATIONS_MANAGER, 14, LocalDate.of(1996, 1, 14)));
-    employees.add(new Employee("Antony", JobTitle.FINANCE_MANAGER, 17, LocalDate.of(1988, 9, 20)));
-    employees.add(new Employee("Larry", JobTitle.SECURITY_MANAGER, 24, LocalDate.of(1980, 2, 11)));
-    employees.add(new Employee("James", JobTitle.SECURITY_OFFICER, 12, LocalDate.of(1991, 1, 1)));
-    employees.add(new Employee("Nina", JobTitle.SECURITY_OFFICER, 9, LocalDate.of(1994, 8, 25)));
-    employees.add(new Employee("Henry", JobTitle.PARK_MANAGER, 7, LocalDate.of(1999, 12, 5)));
-    employees.add(new Employee("Sophie", JobTitle.TICKETS_MANAGER, 4, LocalDate.of(2002, 6, 7)));
-    employees.add(new Employee("Sousan", JobTitle.TICKETS_MANAGER, 8, LocalDate.of(2000, 3, 3)));
-    employees.add(new Employee("Paula", JobTitle.CLEANING_STAFF, 12, LocalDate.of(1989, 6, 16)));
-    employees.add(new Employee("Laura", JobTitle.CLEANING_STAFF, 10, LocalDate.of(1992, 4, 22)));
-    employees.add(new Employee("Fenia", JobTitle.CLEANING_STAFF, 5, LocalDate.of(1998, 10, 30)));
-    employees.add(new Employee("Robert", JobTitle.MAINTENANCE_STAFF, 6, LocalDate.of(1995, 5, 9)));
-    employees.add(new Employee("Howard", JobTitle.MAINTENANCE_STAFF, 17, LocalDate.of(1983, 11, 19)));
+    employees.add(
+        new Employee(
+          "Mike",
+          JobTitle.ZOOLOGIST,
+          7,
+          LocalDate.of(1986, 1, 10)
+        )
+    );
+    employees.add(
+        new Employee("Elsa",
+            JobTitle.ZOOLOGIST,
+            17,
+            LocalDate.of(1979, 10, 17)
+        )
+    );
+    employees.add(
+        new Employee("Laura",
+            JobTitle.CURATOR,
+            2,
+            LocalDate.of(1999, 5, 19)
+        )
+    );
+    employees.add(
+        new Employee(
+            "Loren",
+            JobTitle.CURATOR,
+            2,
+            LocalDate.of(2001, 5, 3)
+        )
+    );
+    employees.add(
+        new Employee(
+            "Maria",
+            JobTitle.CURATOR,
+            7,
+            LocalDate.of(1998, 2, 25)
+        )
+    );
+    employees.add(
+        new Employee(
+            "Mathew",
+            JobTitle.CURATOR,
+            10,
+            LocalDate.of(1992, 8, 31)
+        )
+    );
+    employees.add(
+        new Employee(
+            "Juan",
+            JobTitle.VETERINARIAN,
+            9,
+            LocalDate.of(1990, 11, 12)
+        )
+    );
+    employees.add(
+        new Employee(
+            "Jessie",
+            JobTitle.VETERINARIAN,
+            12,
+            LocalDate.of(1990, 4, 21)
+        )
+    );
+    employees.add(
+        new Employee(
+            "Oscar",
+            JobTitle.VETERINARY_TECHNICIAN,
+            8,
+            LocalDate.of(1992, 12, 1)
+        )
+    );
+    employees.add(
+        new Employee(
+            "Philip",
+            JobTitle.GENERAL_DIRECTOR,
+            11,
+            LocalDate.of(1986, 7, 10)
+        )
+    );
+    employees.add(
+        new Employee(
+            "Lisa",
+            JobTitle.EVENTS_MANAGER,
+            12,
+            LocalDate.of(1995, 11, 11)
+        )
+    );
+    employees.add(
+        new Employee(
+            "David",
+            JobTitle.HR_MANAGER,
+            15,
+            LocalDate.of(1986, 9, 29)
+        )
+    );
+    employees.add(
+        new Employee(
+            "Jimmy",
+            JobTitle.HR_ASSISTANT,
+            3,
+            LocalDate.of(1997, 7, 6)
+        )
+    );
+    employees.add(
+        new Employee(
+            "Angie",
+            JobTitle.PUBLIC_RELATIONS_MANAGER,
+            14,
+            LocalDate.of(1996, 1, 14)
+        )
+    );
+    employees.add(
+        new Employee(
+            "Antony",
+            JobTitle.FINANCE_MANAGER,
+            17,
+            LocalDate.of(1988, 9, 20)
+        )
+    );
+    employees.add(
+        new Employee(
+            "Larry",
+            JobTitle.SECURITY_MANAGER,
+            24,
+            LocalDate.of(1980, 2, 11)
+        )
+    );
+    employees.add(
+        new Employee(
+            "James",
+            JobTitle.SECURITY_OFFICER,
+            12,
+            LocalDate.of(1991, 1, 1)
+        )
+    );
+    employees.add(
+        new Employee(
+            "Nina",
+            JobTitle.SECURITY_OFFICER,
+            9,
+            LocalDate.of(1994, 8, 25)
+        )
+    );
+    employees.add(
+        new Employee(
+            "Henry",
+            JobTitle.PARK_MANAGER,
+            7,
+            LocalDate.of(1999, 12, 5)
+        )
+    );
+    employees.add(
+        new Employee(
+            "Sophie",
+            JobTitle.TICKETS_MANAGER,
+            4,
+            LocalDate.of(2002, 6, 7)
+        )
+    );
+    employees.add(
+        new Employee(
+            "Sousan",
+            JobTitle.TICKETS_MANAGER,
+            8,
+            LocalDate.of(2000, 3, 3)
+        )
+    );
+    employees.add(
+        new Employee(
+            "Paula",
+            JobTitle.CLEANING_STAFF,
+            12,
+            LocalDate.of(1989, 6, 16)
+        )
+    );
+    employees.add(
+        new Employee(
+            "Laura",
+            JobTitle.CLEANING_STAFF,
+            10,
+            LocalDate.of(1992, 4, 22)
+        )
+    );
+    employees.add(
+        new Employee(
+            "Fenia",
+            JobTitle.CLEANING_STAFF,
+            5,
+            LocalDate.of(1998, 10, 30)
+        )
+    );
+    employees.add(
+        new Employee(
+            "Robert",
+            JobTitle.MAINTENANCE_STAFF,
+            6,
+            LocalDate.of(1995, 5, 9)
+        )
+    );
+    employees.add(
+        new Employee(
+            "Howard",
+            JobTitle.MAINTENANCE_STAFF,
+            17,
+            LocalDate.of(1983, 11, 19)
+        )
+    );
     
     return employees;
   }
@@ -377,46 +573,157 @@ public class App {
     Set<Vehicle> vehicles = new HashSet<>();
     
     vehicles.add(
-        new Car("Toyota", "RAV4", 2020, "White", 4, 180)
+        new Car(
+            "Toyota",
+            "RAV4",
+            2020,
+            "White",
+            4,
+            180
+        )
     );
     vehicles.add(
-        new Car("Toyota", "RAV4", 2022, "White", 4, 200)
+        new Car(
+            "Toyota",
+            "RAV4",
+            2022,
+            "White",
+            4, 200
+        )
     );
     vehicles.add(
-        new Car("Ford", "Raptor", 2024, "White", 4, 200)
+        new Car(
+            "Ford",
+            "Raptor",
+            2024,
+            "White",
+            4,
+            200
+        )
     );
     vehicles.add(
-        new Car("Ford", "Raptor", 2025, "White", 4, 200)
+        new Car(
+            "Ford",
+            "Raptor",
+            2025,
+            "White",
+            4,
+            200
+        )
     );
     vehicles.add(
-        new Car("Jeep", "Wrangler", 2021, "White", 4, 190)
+        new Car(
+            "Jeep",
+            "Wrangler",
+            2021,
+            "White",
+            4,
+            190
+        )
     );
     vehicles.add(
-        new Car("Jeep", "Wrangler", 2021, "White", 4, 190)
+        new Car(
+            "Jeep",
+            "Wrangler",
+            2021,
+            "White",
+            4,
+            190
+        )
     );
     vehicles.add(
-        new Truck("Volvo", "FMX", 2021, "White", 6, 5, 130, 15000)
+        new Truck(
+            "Volvo",
+            "FMX",
+            2021,
+            "White",
+            6,
+            5,
+            130,
+            15000
+        )
     );
     vehicles.add(
-        new Truck("Volvo", "FMX", 2024, "White", 6, 5, 130, 15000)
+        new Truck(
+            "Volvo",
+            "FMX",
+            2024,
+            "White",
+            6,
+            5,
+            130,
+            15000
+        )
     );
     vehicles.add(
-        new Truck("Volvo", "FH 16", 2023, "White", 6, 5, 130, 20000)
+        new Truck(
+            "Volvo",
+            "FH 16",
+            2023,
+            "White",
+            6,
+            5,
+            130,
+            20000
+        )
     );
     vehicles.add(
-        new Truck("Volvo", "FH 16", 2025, "White", 6, 5, 130, 20000)
+        new Truck(
+            "Volvo",
+            "FH 16",
+            2025,
+            "White",
+            6,
+            5,
+            130,
+            20000
+        )
     );
     vehicles.add(
-        new Motorcycle("Suzuki", "V-Strom 600", 2022, "White", 2, 180)
+        new Motorcycle(
+            "Suzuki",
+            "V-Strom 600",
+            2022,
+            "White",
+            2,
+            180
+        )
     );
     vehicles.add(
-        new Motorcycle("Suzuki", "V-Strom 600", 2022, "White", 2, 180)
+        new Motorcycle(
+            "Suzuki",
+            "V-Strom 600",
+            2022,
+            "White",
+            2,
+            180
+        )
     );
     vehicles.add(
-        new Helicopter("Agusta", "AW109 GrandNew", 2025, "White", 8, 283, 681, 3050, 3200)
+        new Helicopter(
+            "Agusta",
+            "AW109 GrandNew",
+            2025,
+            "White",
+            8,
+            283,
+            681,
+            3050,
+            3200
+        )
     );
     vehicles.add(
-        new Helicopter("Agusta", "AW09", 2025, "White", 8, 260, 800, 2900, 1500)
+        new Helicopter(
+            "Agusta",
+            "AW09",
+            2025,
+            "White",
+            8,
+            260,
+            800,
+            2900,
+            1500
+        )
     );
     
     return vehicles;

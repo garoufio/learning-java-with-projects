@@ -34,14 +34,17 @@ public class VehicleController {
    */
   public void manageVehicles() {
     for (;;) {
-      System.out.printf("\nVehicles service:\n");
-      System.out.println("1. Show all vehicles");
-      System.out.println("2. Add Vehicle");
-      System.out.println("3. Find Vehicle");
-      System.out.println("4. Edit Vehicle");
-      System.out.println("5. Remove Vehicle");
-      System.out.println("6. Return to main menu");
-      System.out.print("Enter your choice: ");
+      System.out.print("""
+      
+      Vehicles service:
+      1. Show all vehicles
+      2. Add Vehicle
+      3. Find Vehicle
+      4. Edit Vehicle
+      5. Remove Vehicle
+      6. Return to main menu
+      System.out.print("Enter your choice:\t"""
+      );
       int choice = sc.nextInt();
       sc.nextLine(); // Consume the newline character after nextInt()
       switch (choice) {
@@ -140,12 +143,15 @@ public class VehicleController {
    */
   public void findVehicle() {
     for(;;) {
-      System.out.printf("\nSearch by:\n");
-      System.out.println("1. Make");
-      System.out.println("2. Vehicle type");
-      System.out.println("3. Detailed search");
-      System.out.println("4. Return to vehicles menu");
-      System.out.print("Enter your choice: ");
+      System.out.print("""
+      
+      Search by:
+      1. Make
+      2. Vehicle type
+      3. Detailed search
+      4. Return to vehicles menu
+      Enter your choice:\t"""
+      );
       int choice = sc.nextInt();
       sc.nextLine(); // Consume the newline character after nextInt()
       switch (choice) {
@@ -255,12 +261,15 @@ public class VehicleController {
    */
   public void editVehicle() {
     for (;;) {
-      System.out.printf("\nEdit by:\n");
-      System.out.println("1. Make");
-      System.out.println("2. Vehicle type");
-      System.out.println("3. Detailed search");
-      System.out.println("4. Return to vehicles menu");
-      System.out.print("Enter your choice: ");
+      System.out.print("""
+      
+      Edit by:
+      1. Make
+      2. Vehicle type
+      3. Detailed search
+      4. Return to vehicles menu
+      Enter your choice:\t"""
+      );
       int choice = sc.nextInt();
       sc.nextLine(); // Consume the newline character after nextInt()
       switch (choice) {
@@ -338,12 +347,15 @@ public class VehicleController {
    */
   public void removeVehicle() {
     for (;;) {
-      System.out.println("\nRemove by:");
-      System.out.println("1. Make");
-      System.out.println("2. Vehicle type");
-      System.out.println("3. Detailed search");
-      System.out.println("4. Return to vehicles menu");
-      System.out.print("Enter your choice: ");
+      System.out.print("""
+      
+      Remove by:
+      1. Make
+      2. Vehicle type
+      3. Detailed search
+      4. Return to vehicles menu
+      Enter your choice:\t"""
+      );
       int choice = sc.nextInt();
       sc.nextLine(); // Consume the newline character after nextInt()
       switch (choice) {

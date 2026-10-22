@@ -25,13 +25,16 @@ public class TicketController {
   
   public void manageTickets() {
     for (;;) {
-      System.out.printf("\nTickets service:\n");
-      System.out.println("1. Show all Tickets");
-      System.out.println("2. Add Ticket");
-      System.out.println("3. Find Ticket");
-      System.out.println("4. Remove Ticket");
-      System.out.println("5. Return to main menu");
-      System.out.print("Enter your choice: ");
+      System.out.print("""
+      
+      Tickets service:
+      1. Show all Tickets
+      2. Add Ticket
+      3. Find Ticket
+      4. Remove Ticket
+      5. Return to main menu
+      Enter your choice:\t"""
+      );
       int choice = sc.nextInt();
       sc.nextLine(); // Consume the newline character after nextInt()
       switch (choice) {
@@ -84,15 +87,19 @@ public class TicketController {
   //-------------------------------------------------------------------------------------------------------------------
   
   private void printTicketSubMenuOptions(String action) {
-    System.out.printf("\n%s by:\n", action);
-    System.out.println("1. Ticket ID");
-    System.out.println("2. Ticket Name");
-    System.out.println("3. Ticket Phone");
-    System.out.println("4. Ticket Date");
-    System.out.println("5. Ticket Type");
-    System.out.println("6. Detail search");
-    System.out.println("7. Return to ticket menu");
-    System.out.print("Enter your choice: ");
+    System.out.printf("""
+    
+    %s by:
+    1. Ticket ID
+    2. Ticket Name
+    3. Ticket Phone
+    4. Ticket Date
+    5. Ticket Type
+    6. Detail search
+    7. Return to ticket menu
+    Enter your choice:\t""",
+        action
+    );
   }
   
   //-------------------------------------------------------------------------------------------------------------------

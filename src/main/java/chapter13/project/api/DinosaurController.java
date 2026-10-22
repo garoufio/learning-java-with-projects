@@ -55,37 +55,28 @@ public class DinosaurController {
    */
   public void manageDinosaurs() {
     for (;;) {
-      System.out.printf("\nDinosaurs service:\n");
-      System.out.println("1. Show all Dinosaurs");
-      System.out.println("2. Add Dinosaur");
-      System.out.println("3. Find Dinosaur");
-      System.out.println("4. Edit Dinosaur");
-      System.out.println("5. Remove Dinosaur");
-      System.out.println("6. Return to main menu");
-      System.out.print("Enter your choice: ");
+      System.out.printf("""
+      
+      Dinosaurs service:
+      1. Show all Dinosaurs
+      2. Add Dinosaur
+      3. Find Dinosaur
+      4. Edit Dinosaur
+      5. Remove Dinosaur
+      6. Return to main menu
+      Enter your choice:\t"""
+      );
+      
       int choice = sc.nextInt();
       sc.nextLine(); // Consume the newline character after nextInt()
       switch (choice) {
-        case 1:
-          printDinosaurs(sortDinosaurs(dinosaurService.getAllDinosaurs(), null));
-          break;
-        case 2:
-          addDinosaur();
-          break;
-        case 3:
-          findDinosaur();
-          break;
-        case 4:
-          editDinosaur();
-          break;
-        case 5:
-          removeDinosaur();
-          break;
-        case 6:
-          System.out.println("Returning to main menu...");
-          break;
-        default:
-          System.out.println("Invalid choice. Please try again.");
+        case 1 -> printDinosaurs(sortDinosaurs(dinosaurService.getAllDinosaurs(), null));
+        case 2 -> addDinosaur();
+        case 3 -> findDinosaur();
+        case 4 -> editDinosaur();
+        case 5 -> removeDinosaur();
+        case 6 -> System.out.println("Returning to main menu...");
+        default -> System.out.println("Invalid choice. Please try again.");
       }
       if (choice == 6) {
         System.out.println();
@@ -186,14 +177,18 @@ public class DinosaurController {
    * @param action The action to be performed (e.g. "Find", "Edit", "Remove").
    */
   private void printDinosaurSubmenuOptions(String action) {
-    System.out.printf("\n%s by:\n", action);
-    System.out.println("1. Dinosaur name");
-    System.out.println("2. Dinosaur type");
-    System.out.println("3. Dinosaur species");
-    System.out.println("4. Dinosaur size");
-    System.out.println("5. Detailed search");
-    System.out.println("6. Return to dinosaur menu");
-    System.out.print("Enter your choice: ");
+    System.out.printf("""
+    
+    %s by:
+    1. Dinosaur name
+    2. Dinosaur type
+    3. Dinosaur species
+    4. Dinosaur size
+    5. Detailed search
+    6. Return to dinosaur menu
+    Enter your choice:\t""",
+        action
+    );
   }
   
   //-------------------------------------------------------------------------------------------------------------------
@@ -306,7 +301,7 @@ public class DinosaurController {
   //-------------------------------------------------------------------------------------------------------------------
   
   /**
-   * Edits the details of the given dinosaur by prompting the user for changes to its name, birth date, species, type, 
+   * Edits the details of the given dinosaur by prompting the user for changes to its name, birthdate, species, type,
    * size, health score, and specific attributes based on its type.
    * @param dinosaur the dinosaur whose details are to be edited.
    */
@@ -316,37 +311,31 @@ public class DinosaurController {
       String newName = Util.readDinosaurName(sc);
       dinosaur.setName(newName);
     }
-    
     // change birthdate
     if (Util.readEditDinosaur(sc, null, "birth date", "Edit").equals("Y")) {
       LocalDate newBirthDate = Util.readDinosaurBirthDate(sc);
       dinosaur.setBirthDate(newBirthDate);
     }
-    
     // change species
     if (Util.readEditDinosaur(sc, null, "species", "Edit").equals("Y")) {
       DinosaurSpecies newSpecies = Util.readDinosaurSpecies(sc);
       dinosaur.setSpecies(newSpecies);
     }
-    
     // change type
     if (Util.readEditDinosaur(sc, null, "type", "Edit").equals("Y")) {
       DinosaurType newType = Util.readDinosaurType(sc);
       dinosaur.setType(newType);
     }
-    
     // change size
     if (Util.readEditDinosaur(sc, null, "size", "Edit").equals("Y")) {
       DinosaurSize newSize = Util.readDinosaurSize(sc);
       dinosaur.setSize(newSize);
     }
-    
     // change health score
     if (Util.readEditDinosaur(sc, null, "health score", "Edit").equals("Y")) {
       int newHealthScore = Util.readDinosaurIntField(sc, "health score (0-100)");
       dinosaur.setHealthScore(newHealthScore);
     }
-    
     // change specific attributes based on dinosaur type
     switch (dinosaur) {
       case TerrestrialDinosaur terrestrialDinosaur -> {
@@ -411,11 +400,14 @@ public class DinosaurController {
    */
   private void editDinosaur() {
     for (;;) {
-      System.out.printf("\nEdit by:\n");
-      System.out.println("1. Name");
-      System.out.println("2. Detailed search");
-      System.out.println("3. Return to dinosaur menu");
-      System.out.print("Enter your choice: ");
+      System.out.print("""
+      
+      Edit by:
+      1. Name
+      2. Detailed search
+      3. Return to dinosaur menu
+      Enter your choice:\t"""
+      );
       int choice = sc.nextInt();
       sc.nextLine(); // Consume the newline character after nextInt()
       switch (choice) {
@@ -518,7 +510,6 @@ public class DinosaurController {
       System.out.println("Dinosaur not found");
       return;
     }
-    
     // remove dinosaur from the set of dinosaurs
     if (dinosaurService.removeDinosaur(dinosaur)) {
       System.out.println("Dinosaur removed");
