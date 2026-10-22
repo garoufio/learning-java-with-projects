@@ -1,4 +1,4 @@
-package chapter13;
+package chapter13.exercises;
 
 import java.time.LocalDate;
 import java.util.ArrayList;

@@ -1,13 +1,12 @@
-package chapter13;
+package chapter13.exercises;
 
-
-public class Bag<T> {
+public class MeasurableBag<T extends Measurable> {
   
   private T content;
   
   //-------------------------------------------------------------------------------------------------------------------
   
-  public Bag(T content) {
+  public MeasurableBag(T content) {
     this.content = content;
   }
   
@@ -20,8 +19,13 @@ public class Bag<T> {
   //-------------------------------------------------------------------------------------------------------------------
   
   public void setContent(T content) {
-    
     this.content = content;
+  }
+  
+  //-------------------------------------------------------------------------------------------------------------------
+  
+  public double getContentMeasurement() {
+    return content.measure();
   }
   
   //-------------------------------------------------------------------------------------------------------------------
@@ -31,7 +35,7 @@ public class Bag<T> {
     return "Bag contains " + content + ".";
   }
   
-  
   //-------------------------------------------------------------------------------------------------------------------
   
 }
+

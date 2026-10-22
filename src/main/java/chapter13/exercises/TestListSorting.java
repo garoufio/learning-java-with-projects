@@ -1,4 +1,4 @@
-package chapter13;
+package chapter13.exercises;
 
 import java.util.ArrayList;
 import java.util.Collections;

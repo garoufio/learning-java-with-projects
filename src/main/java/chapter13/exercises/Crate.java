@@ -1,21 +1,25 @@
-package chapter13;
+package chapter13.exercises;
 
-public record Book(String title, String author) {
-  
-  private static final String UNKN = "Unknown";
+public class Crate<T> {
+
+  private T item;
   
   //-------------------------------------------------------------------------------------------------------------------
   
-  public Book {
-    title = title == null ? UNKN : title;
-    author = author == null ? UNKN : author;
+  public Crate(T content) {
+    this.item = content;
   }
   
   //-------------------------------------------------------------------------------------------------------------------
   
-  @Override
-  public String toString() {
-    return "Book { Title: " + title + ", Author: " + author + " }";
+  public T getItem() {
+    return item;
+  }
+  
+  //-------------------------------------------------------------------------------------------------------------------
+  
+  public void setItem(T item) {
+    this.item = item;
   }
   
   //-------------------------------------------------------------------------------------------------------------------

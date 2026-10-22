@@ -1,26 +1,36 @@
-package chapter13;
+package chapter13.exercises;
 
-public class Crate<T> {
 
-  private T item;
+public class Bag<T> {
+  
+  private T content;
   
   //-------------------------------------------------------------------------------------------------------------------
   
-  public Crate(T content) {
-    this.item = content;
+  public Bag(T content) {
+    this.content = content;
   }
   
   //-------------------------------------------------------------------------------------------------------------------
   
-  public T getItem() {
-    return item;
+  public T getContent() {
+    return content;
   }
   
   //-------------------------------------------------------------------------------------------------------------------
   
-  public void setItem(T item) {
-    this.item = item;
+  public void setContent(T content) {
+    
+    this.content = content;
   }
+  
+  //-------------------------------------------------------------------------------------------------------------------
+  
+  @Override
+  public String toString() {
+    return "Bag contains " + content + ".";
+  }
+  
   
   //-------------------------------------------------------------------------------------------------------------------
   

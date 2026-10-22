@@ -1,10 +1,8 @@
-package chapter13;
+package chapter13.exercises;
 
-import java.time.LocalTime;
-import java.time.format.DateTimeFormatter;
 import java.util.*;
 
-public class Exercise13_7 {
+public class Exercise13_6 {
   
   public static void main(String[] args) {
     Scanner sc = new Scanner(System.in);
@@ -25,11 +23,6 @@ public class Exercise13_7 {
       order.put(flavor, numberOfScoops);
       iceCreamOrders.add(order);
     }
-    System.out.println("\nTotal ice cream orders:");
-    printIceCreamOrders(iceCreamOrders);
-    LocalTime readyTime = LocalTime.now().plusMinutes(10);
-    System.out.println("\nYour ice cream will be ready at: " + readyTime.format(DateTimeFormatter.ofPattern("HH:mm")));
-    
     sc.close();
   }
   
@@ -39,20 +32,6 @@ public class Exercise13_7 {
     Flavor[] flavors = Flavor.values();
     for (Flavor flavor : flavors) {
       System.out.printf("%d. %s (%s)\n", flavor.ordinal() + 1, flavor.getDinoTheme(), flavor.name());
-    }
-  }
-  
-  //-------------------------------------------------------------------------------------------------------------------
-  
-  private static void printIceCreamOrders(List<Map<Flavor, Integer>> list) {
-    int orderNumber = 1;
-    for (Map<Flavor, Integer> m : list) {
-      for (Map.Entry<Flavor, Integer> entry : m.entrySet()) {
-        System.out.printf(
-            "Ice Cream order #%d: %d scoops of %s (%s)\n",
-            orderNumber++, entry.getValue(), entry.getKey().getDinoTheme(), entry.getKey().name()
-        );
-      }
     }
   }
   

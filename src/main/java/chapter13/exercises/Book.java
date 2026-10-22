@@ -1,21 +1,21 @@
-package chapter13;
+package chapter13.exercises;
 
-public record Laptop(String brand, String model) {
+public record Book(String title, String author) {
   
   private static final String UNKN = "Unknown";
   
   //-------------------------------------------------------------------------------------------------------------------
   
-  public Laptop {
-    brand = brand == null ? UNKN : brand;
-    model = model == null ? UNKN : model;
+  public Book {
+    title = title == null ? UNKN : title;
+    author = author == null ? UNKN : author;
   }
   
   //-------------------------------------------------------------------------------------------------------------------
   
   @Override
   public String toString() {
-    return "Laptop { Brand: " + brand + ", Model: " + model + " }";
+    return "Book { Title: " + title + ", Author: " + author + " }";
   }
   
   //-------------------------------------------------------------------------------------------------------------------
