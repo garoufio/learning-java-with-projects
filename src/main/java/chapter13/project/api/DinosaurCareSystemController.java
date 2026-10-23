@@ -2,11 +2,13 @@ package chapter13.project.api;
 
 import chapter13.project.entity.activity.Activity;
 import chapter13.project.entity.dinosaur.Dinosaur;
+import chapter13.project.exception.InputException;
 import chapter13.project.service.DinosaurCareSystemService;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.HashSet;
+import java.util.InputMismatchException;
 import java.util.Set;
 import java.util.Scanner;
 
@@ -38,30 +40,30 @@ public class DinosaurCareSystemController {
    */
   public void manageDinosaurCareSystem() {
     for (;;) {
-      System.out.println("\nDinosaurs Care System service:");
-      System.out.println("1. Check Dinosaurs Health");
-      System.out.println("2. Check Enclosures Security Score");
-      System.out.println("3. Activities Schedule");
-      System.out.println("4. Return to Main Menu");
-      System.out.print("Enter your choice: ");
-      int choice = sc.nextInt();
-      sc.nextLine(); // Consume the newline character after nextInt()
-      switch (choice) {
-        case 1:
-          dinosaurCareSystemService.checkDinosaursHealth();
-          break;
-        case 2:
-          dinosaurCareSystemService.checkEnclosuresSecurity();
-          break;
-        case 3:
-          manageActivitiesSchedule();
-          break;
-        case 4:
-          System.out.println();
-          return;
-        default:
-          System.out.println("Invalid choice. Please try again.");
-          break;
+      try {
+        System.out.print("""
+            
+            Dinosaurs Care System service:
+            1. Check Dinosaurs Health
+            2. Check Enclosures Security Score
+            3. Activities Schedule
+            4. Return to Main Menu
+            Enter your choice:\t""");
+        int choice = sc.nextInt();
+        sc.nextLine(); // Consume the newline character after nextInt()
+        switch (choice) {
+          case 1 -> dinosaurCareSystemService.checkDinosaursHealth();
+          case 2 -> dinosaurCareSystemService.checkEnclosuresSecurity();
+          case 3 -> manageActivitiesSchedule();
+          case 4 -> {
+            System.out.println();
+            return;
+          }
+          default -> System.out.println("Invalid choice. Please try again.");
+        }
+      } catch (InputMismatchException e) {
+        System.out.println("Invalid input. Please enter a number between 1 and 4.");
+        sc.nextLine(); // Consume the invalid input
       }
     }
   }
@@ -73,23 +75,32 @@ public class DinosaurCareSystemController {
    */
   private void manageActivitiesSchedule() {
     for (;;) {
-      System.out.println("\nActivities Schedule:");
-      System.out.println("1. View Activities Schedule");
-      System.out.println("2. Add Activity");
-      System.out.println("3. Remove Activity");
-      System.out.println("4. Return to Dinosaur Care System Menu");
-      System.out.print("Enter your choice: ");
-      int choice = sc.nextInt();
-      sc.nextLine(); // Consume the newline character after nextInt()
-      switch (choice) {
-        case 1 -> printActivities();
-        case 2 -> addActivity();
-        case 3 -> removeActivity();
-        case 4 -> {
-          System.out.println();
-          return;
+      try {
+        System.out.print("""
+            
+            Activities Schedule:
+            1. View Activities Schedule
+            2. Add Activity
+            3. Remove Activity
+            4. Return to Dinosaur Care System Menu
+            Enter your choice:\t""");
+        int choice = sc.nextInt();
+        sc.nextLine(); // Consume the newline character after nextInt()
+        switch (choice) {
+          case 1 -> printActivities();
+          case 2 -> addActivity();
+          case 3 -> removeActivity();
+          case 4 -> {
+            System.out.println();
+            return;
+          }
+          default -> System.out.println("Invalid choice. Please try again.");
         }
-        default -> System.out.println("Invalid choice. Please try again.");
+      } catch (InputMismatchException e) {
+        System.out.println("Invalid input. Please enter a number between 1 and 4.");
+        sc.nextLine(); // Consume the invalid input
+      } catch (InputException e) {
+        System.out.println("Error: " + e.getMessage());
       }
     }
   }
@@ -105,7 +116,6 @@ public class DinosaurCareSystemController {
       System.out.println("No activities are scheduled in the Dinosaur Care System.");
       return;
     }
-    
     System.out.println("Activities Schedule:");
     for (Activity a : activities) {
       System.out.println(a);
@@ -116,13 +126,13 @@ public class DinosaurCareSystemController {
   
   /**
    * Adds a new activity to the Dinosaur Care System after collecting necessary details from the user.
+   * @throws InputException if there is an error in user input while adding the activity.
    */
-  private void addActivity() {
+  private void addActivity() throws InputException {
     if (dinosaurCareSystemService.getDinosaurs().isEmpty()) {
       System.out.println("No dinosaurs are available in the Dinosaur Care System and no activities can be added.");
       return;
     }
-    
     // name
     String name = Util.readActivityField(sc, "name");
     // description
@@ -146,8 +156,9 @@ public class DinosaurCareSystemController {
   
   /**
    * Removes an existing activity from the Dinosaur Care System based on the activity name provided by the user.
+   * @throws InputException if there is an error in user input while removing the activity.
    */
-  private void removeActivity() {
+  private void removeActivity() throws InputException {
     String name = Util.readActivityField(sc, "name");
     Set<Activity> allActivities = dinosaurCareSystemService.getActivities();
     
@@ -172,6 +183,7 @@ public class DinosaurCareSystemController {
   private Set<Dinosaur> selectDinosaur() {
     if (dinosaurCareSystemService.getDinosaurs().isEmpty()) return Set.of();
     
+    int choice;
     Set<Dinosaur> selectedDinosaurs = new HashSet<>();
     for (;;) {
       System.out.println("Select a dinosaur from the list:");
@@ -179,10 +191,19 @@ public class DinosaurCareSystemController {
       for (Dinosaur d : dinosaurCareSystemService.getDinosaurs()) {
         System.out.printf("%d. %s\n", i++, d);
       }
-      System.out.printf("%d. All\n", i);
-      System.out.print("Enter your choice: ");
-      int choice = sc.nextInt();
-      sc.nextLine(); // Consume the newline character after nextInt()
+      System.out.printf("""
+      %d. All
+      Enter your choice:\t""",
+          i
+      );
+      
+      try {
+        choice = sc.nextInt();
+        sc.nextLine(); // Consume the newline character after nextInt()
+      } catch (InputMismatchException e) {
+        sc.nextLine(); // Consume the invalid input
+        throw new InputException("Invalid number while selection dinosaur(s). Please try again.");
+      }
       if (choice > 0 && choice < i) {
         selectedDinosaurs.add((Dinosaur) dinosaurCareSystemService.getDinosaurs().toArray()[choice - 1]);
       } else if (choice == i) {
