@@ -51,8 +51,9 @@ public class Util {
    * @param field the name of the field being edited.
    * @param question the question to display to the user.
    * @return "Y" if the user confirms editing, "N" otherwise.
+   * @throws InputException if an error occurs while reading user input.
    */
-  protected static String readEditDinosaur(Scanner sc, Dinosaur dinosaur, String field, String question) {
+  protected static String readEditDinosaur(Scanner sc, Dinosaur dinosaur, String field, String question) throws InputException {
     String answer;
     for (;;) {
       if (dinosaur == null) System.out.printf("%s dinosaur's %s? (Y/N) ", question, field);
@@ -78,8 +79,9 @@ public class Util {
    * Prompts the user to enter the name of a dinosaur. In case of an input error, an InputException will be thrown.
    * @param sc the Scanner object used for reading user input.
    * @return the name of the dinosaur entered by the user.
+   * @throws InputException if an error occurs while reading user input.
    */
-  protected static String readDinosaurName(Scanner sc) {
+  protected static String readDinosaurName(Scanner sc) throws InputException {
     try {
       System.out.print("Enter dinosaur name: ");
       return sc.nextLine();
@@ -91,13 +93,14 @@ public class Util {
   //-------------------------------------------------------------------------------------------------------------------
   
   /**
-   * Prompts the user to enter the birth date of a dinosaur. In case of an input error, an InputException will be thrown.
+   * Prompts the user to enter the birthdate of a dinosaur. In case of an input error, an InputException will be thrown.
    * @param sc the Scanner object used for reading user input.
-   * @return the birth date of the dinosaur entered by the user.
+   * @return the birthdate of the dinosaur entered by the user.
+   * @throws InputException if an error occurs while reading or parsing user input.
    */
-  protected static LocalDate readDinosaurBirthDate(Scanner sc) {
+  protected static LocalDate readDinosaurBirthDate(Scanner sc) throws InputException {
     try {
-      System.out.print("Enter dinosaur birth date (YYYY-MM-DD): ");
+      System.out.print("Enter dinosaur birthdate (YYYY-MM-DD): ");
       LocalDate birthDate = LocalDate.parse(sc.next());
       sc.nextLine();
       return birthDate;
@@ -114,8 +117,9 @@ public class Util {
    * @param sc the Scanner object used for reading user input.
    * @param field the name of the field being entered.
    * @return the integer value entered by the user for the specified field.
+   * @throws InputException if an error occurs while reading user input.
    */
-  protected static int readDinosaurIntField(Scanner sc, String field) {
+  protected static int readDinosaurIntField(Scanner sc, String field) throws InputException {
     try {
       System.out.printf("Enter dinosaur's %s: ", field);
       int value = sc.nextInt();
@@ -133,8 +137,9 @@ public class Util {
    * thrown.
    * @param sc the Scanner object used for reading user input.
    * @return true if the dinosaur is amphibious, false otherwise.
+   * @throws InputException if an error occurs while reading user input.
    */
-  protected static boolean readDinosaurAmphibiousCapability(Scanner sc) {
+  protected static boolean readDinosaurAmphibiousCapability(Scanner sc) throws InputException {
     try {
       System.out.print("Is the dinosaur amphibious? (true/false):");
       boolean amphibious = sc.nextBoolean();
@@ -152,8 +157,9 @@ public class Util {
    * InputException will be thrown. 
    * @param sc the Scanner object used for reading user input.
    * @return the selected DinosaurType, see {@link DinosaurType} for available options.
-   */  
-  protected static DinosaurType readDinosaurType(Scanner sc) {
+   * @throws InputException if an error occurs while reading user input.
+   */
+  protected static DinosaurType readDinosaurType(Scanner sc) throws InputException {
     DinosaurType type;
     do {
       System.out.println("Select the dinosaur type: ");
@@ -190,8 +196,9 @@ public class Util {
    * InputException will be thrown. 
    * @param sc the Scanner object used for reading user input.
    * @return the selected DinosaurSpecies, see {@link DinosaurSpecies} for available options.
+   * @throws InputException if an error occurs while reading user input.
    */
-  protected static DinosaurSpecies readDinosaurSpecies(Scanner sc) {
+  protected static DinosaurSpecies readDinosaurSpecies(Scanner sc) throws InputException {
     DinosaurSpecies species;
     do {
       System.out.println("Select the dinosaur species: ");
@@ -235,8 +242,9 @@ public class Util {
    * InputException will be thrown. 
    * @param sc the Scanner object used for reading user input.
    * @return the selected DinosaurSize, see {@link DinosaurSize} for available options.
+   * @throws InputException if an error occurs while reading user input.
    */
-  protected static DinosaurSize readDinosaurSize(Scanner sc) {
+  protected static DinosaurSize readDinosaurSize(Scanner sc) throws InputException {
     DinosaurSize size;
     do {
       System.out.println("Select the dinosaur size: ");
@@ -276,8 +284,9 @@ public class Util {
    * @param sc the Scanner object used for reading user input.
    * @param field the name of the field to be entered (e.g., "firstname", "lastname", "phoneNumber").
    * @return the value entered by the user for the specified field.                                                                                                                                                                                                                               
+   * @throws InputException if an error occurs while reading user input.
    */
-  protected static String readVisitorField(Scanner sc, String field) {
+  protected static String readVisitorField(Scanner sc, String field) throws InputException {
     try {
       System.out.printf("Enter visitor's %s: ", field);
       return sc.nextLine();
@@ -293,8 +302,9 @@ public class Util {
    * input error, an InputException will be thrown.
    * @param sc the Scanner object used for reading user input.
    * @return a Visitor object containing the entered details, see {@link Visitor}.
+   * @throws InputException if an error occurs while reading visitor details.
    */
-  protected static Visitor readVisitor(Scanner sc) {    
+  protected static Visitor readVisitor(Scanner sc) throws InputException {
     try {
       String firstname = readVisitorField(sc, "firstname");
       String lastname = readVisitorField(sc, "lastname");
@@ -313,8 +323,9 @@ public class Util {
    * will be thrown.
    * @param sc the Scanner object used for reading user input.
    * @return the selected TicketType, see {@link TicketType}.
+   * @throws InputException if an error occurs while reading user input.
    */
-  protected static TicketType readTicketType(Scanner sc) {
+  protected static TicketType readTicketType(Scanner sc) throws InputException {
     TicketType ticketType;
     do {
       System.out.println("Select the ticket type: ");
@@ -361,8 +372,9 @@ public class Util {
    * an InputException will be thrown. 
    * @param sc the Scanner object used for reading user input.
    * @return the selected date as a LocalDate object.
+   * @throws InputException if an error occurs while reading or parsing user input.
    */
-  protected static LocalDate readTicketDate(Scanner sc) {
+  protected static LocalDate readTicketDate(Scanner sc) throws InputException {
     for (;;) {
       try {
         System.out.print("Ticket for today (Y/N)? ");
@@ -389,8 +401,9 @@ public class Util {
    * Prompts the user to enter the ticket ID. In case of an input error, an InputException will be thrown.
    * @param sc the Scanner object used for reading user input.
    * @return the entered ticket ID as a UUID object.
+   * @throws InputException if an error occurs while reading or parsing user input.
    */
-  protected static UUID readTicketUUID(Scanner sc) {
+  protected static UUID readTicketUUID(Scanner sc) throws InputException {
     try {
       System.out.print("Enter ticket ID: ");
       String ticketID = sc.next();
@@ -408,8 +421,9 @@ public class Util {
    * thrown.
    * @param sc the Scanner object used for reading user input.
    * @return true if the user wants to reserve a parking spot, false otherwise.
+   * @throws InputException if an error occurs while reading user input.
    */
-  protected static boolean reserveParkingSpot(Scanner sc) {
+  protected static boolean reserveParkingSpot(Scanner sc) throws InputException {
     String answer;
 
     for (;;) {
@@ -441,8 +455,9 @@ public class Util {
    * @param employee the Employee object being edited, can be null if creating a new employee.
    * @param field the name of the field being edited.
    * @return "Y" if the user wants to edit the field, "N" otherwise.
+   * @throws InputException if an error occurs while reading user input.
    */
-  protected static String readEditEmployee(Scanner sc, Employee employee, String field) {
+  protected static String readEditEmployee(Scanner sc, Employee employee, String field) throws InputException {
     String answer;
     for (;;) {
       if (employee == null) System.out.printf("Edit employee's %s? (Y/N) ", field);
@@ -469,8 +484,9 @@ public class Util {
    * Prompts the user to enter the employee's name. In case of an input error, an InputException will be thrown.
    * @param sc the Scanner object used for reading user input.
    * @return the entered employee name as a String.
+   * @throws InputException if an error occurs while reading user input.
    */
-  protected static String readEmployeeName(Scanner sc) {
+  protected static String readEmployeeName(Scanner sc) throws InputException {
     try {
       System.out.print("Enter employee name: ");
       return sc.nextLine();
@@ -487,8 +503,9 @@ public class Util {
    * @param sc the Scanner object used for reading user input.
    * @param msg the message indicating which field the user is entering.
    * @return the entered integer value.
+   * @throws InputException if an error occurs while reading user input.
    */
-  protected static int readEmployeeIntField(Scanner sc, String msg) {
+  protected static int readEmployeeIntField(Scanner sc, String msg) throws InputException {
     try {
       System.out.printf("Enter %s\n", msg);
       int value = sc.nextInt();
@@ -506,8 +523,9 @@ public class Util {
    * error, an InputException will be thrown.
    * @param sc the Scanner object used for reading user input.
    * @return the selected JobTitle enum value, see {@link JobTitle} for available job titles.
+   * @throws InputException if an error occurs while reading user input.
    */
-  protected static JobTitle readEmployeeJobTitle(Scanner sc) {
+  protected static JobTitle readEmployeeJobTitle(Scanner sc) throws InputException {
     JobTitle jobTitle;
     do {
       System.out.println("Select the employee's job title: ");
@@ -560,8 +578,9 @@ public class Util {
    * thrown.
    * @param sc the Scanner object used for reading user input.
    * @return the selected DayOfWeek enum value.
+   * @throws InputException if an error occurs while reading user input.
    */
-  protected static DayOfWeek readEmployeeDayOfWeek(Scanner sc) {
+  protected static DayOfWeek readEmployeeDayOfWeek(Scanner sc) throws InputException {
     DayOfWeek dayOfWeek;
     do {
       System.out.println("Select the day of the week the day off starts: ");
@@ -602,8 +621,9 @@ public class Util {
    * InputException will be thrown.
    * @param sc the Scanner object used for reading user input.
    * @return the entered birth date as a LocalDate object.
+   * @throws InputException if an error occurs while reading or parsing user input.
    */
-  protected static LocalDate readEmployeeBirthDate(Scanner sc) {
+  protected static LocalDate readEmployeeBirthDate(Scanner sc) throws InputException {
     try {
       System.out.print("Enter employee birth date (YYYY-MM-DD): ");
       LocalDate birthDate = LocalDate.parse(sc.next());
@@ -626,8 +646,9 @@ public class Util {
    * @param field the specific field of the enclosure to be edited.
    * @param question the question to ask the user.
    * @return the user's answer as a string ("Y" or "N").
+   * @throws InputException if an error occurs while reading user input.
    */
-  protected static String readEditEnclosure(Scanner sc, Enclosure enclosure, String field, String question) {
+  protected static String readEditEnclosure(Scanner sc, Enclosure enclosure, String field, String question) throws InputException {
     String answer;
     for (;;) {
       if (enclosure == null) System.out.printf("%s enclosure's %s? (Y/N) ", question, field);
@@ -654,8 +675,9 @@ public class Util {
    * Prompts the user to select the type of an enclosure. In case of an input error, an InputException will be thrown.
    * @param sc the Scanner object used for reading user input.
    * @return the selected EnclosureType enum value, see {@link EnclosureType} for available enclosure types.
+   * @throws InputException if an error occurs while reading user input.
    */
-  protected static EnclosureType readEnclosureType(Scanner sc) {
+  protected static EnclosureType readEnclosureType(Scanner sc) throws InputException {
     EnclosureType enclosureType;
     do {
       System.out.println("Select the enclosure type: ");
@@ -699,8 +721,9 @@ public class Util {
    * thrown.
    * @param sc the Scanner object used for reading user input.
    * @return the selected SafetyLevel enum value, see {@link SafetyLevel} for available safety levels.
+   * @throws InputException if an error occurs while reading user input.
    */
-  protected static SafetyLevel readSafetyLevel(Scanner sc) {
+  protected static SafetyLevel readSafetyLevel(Scanner sc) throws InputException {
     SafetyLevel safetyLevel;
     
     do {
@@ -739,8 +762,9 @@ public class Util {
    * thrown.
    * @param sc the Scanner object used for reading user input.
    * @return the entered security level as an integer (0-100).
+   * @throws InputException if an error occurs while reading user input.
    */
-  protected static int readEnclosureSecurityLevel(Scanner sc) {
+  protected static int readEnclosureSecurityLevel(Scanner sc) throws InputException {
     try {
       System.out.print("Enter enclosure security level (0-100): ");
       int securityLevel = sc.nextInt();
@@ -759,8 +783,9 @@ public class Util {
    * Prompts the user to enter the time of a special event. In case of an input error, an InputException will be thrown.
    * @param sc the Scanner object used for reading user input.
    * @return the entered time as a LocalTime object.
+   * @throws InputException if an error occurs while reading or parsing user input.
    */
-  protected static LocalTime readSpecialEventTime(Scanner sc) {
+  protected static LocalTime readSpecialEventTime(Scanner sc) throws InputException {
     try {
       System.out.print("Please enter a time (HH:mm (24h format)): ");
       LocalTime time = LocalTime.parse(sc.next());
@@ -777,8 +802,9 @@ public class Util {
    * Prompts the user to enter the date of a special event. In case of an input error, an InputException will be thrown.
    * @param sc the Scanner object used for reading user input.
    * @return the entered date as a LocalDate object.
+   * @throws InputException if an error occurs while reading or parsing user input.
    */
-  protected static LocalDate readSpecialEventDate(Scanner sc) {
+  protected static LocalDate readSpecialEventDate(Scanner sc) throws InputException {
     try {
       System.out.print("Please enter a date (YYYY-MM-DD): ");
       LocalDate date = LocalDate.parse(sc.next());
@@ -797,8 +823,9 @@ public class Util {
    * @param sc the Scanner object used for reading user input.
    * @param field the name of the field to be entered.
    * @return the entered value as a String.
+   * @throws InputException if an error occurs while reading user input.
    */
-  protected static String readSpecialEventField(Scanner sc, String field) {
+  protected static String readSpecialEventField(Scanner sc, String field) throws InputException {
     try {
       System.out.printf("Enter event's %s: ", field);
       return sc.nextLine();
@@ -813,8 +840,9 @@ public class Util {
    * Prompts the user to select the type of a special event. In case of an input error, an InputException will be thrown.
    * @param sc the Scanner object used for reading user input.
    * @return the selected EventType enum value, see {@link EventType} for available event types.
+   * @throws InputException if an error occurs while reading user input.
    */
-  protected static EventType readSpecialEventType(Scanner sc) {
+  protected static EventType readSpecialEventType(Scanner sc) throws InputException {
     EventType eventType;
     do {
       System.out.println("Select the event's type: ");
@@ -854,8 +882,9 @@ public class Util {
    * Prompts the user to select the vehivle type. In case of an input error, an InputException will be thrown.
    * @param sc the Scanner object used for reading user input.
    * @return the select vehicle type enum value, see {@link VehicleType} for available vehicle types.
+   * @throws InputException if an error occurs while reading user input.
    */
-  public static VehicleType readVehicleType(Scanner sc) {
+  public static VehicleType readVehicleType(Scanner sc) throws InputException {
     VehicleType vehicleType;
     do {
       System.out.println("Select the vehicle type: ");
@@ -894,8 +923,9 @@ public class Util {
    * @param sc the Scanner object used for reading user input.
    * @param field the name of the field to be entered.
    * @return the entered value as a String.
+   * @throws InputException if an error occurs while reading user input.
    */
-  public static String readVehicleField(Scanner sc, String field) {
+  public static String readVehicleField(Scanner sc, String field) throws InputException {
     try {
       System.out.printf("Enter vehicle's %s: ", field);
       return sc.nextLine();
@@ -912,8 +942,9 @@ public class Util {
    * @param sc the Scanner object used for reading user input.
    * @param field the name of the field to be entered.
    * @return the entered value as an int.
+   * @throws InputException if an error occurs while reading user input.
    */
-  public static int readVehicleIntField(Scanner sc, String field) {
+  public static int readVehicleIntField(Scanner sc, String field) throws InputException {
     try {
       System.out.printf("Enter vehicle's %s: ", field);
       int value = sc.nextInt();
@@ -931,8 +962,9 @@ public class Util {
    * @param sc the Scanner object used for reading user input.
    * @param field the name of the field to be entered.
    * @return the entered value as a double.
+   * @throws InputException if an error occurs while reading user input.
    */
-  public static double readVehicleDoubleField(Scanner sc, String field) {
+  public static double readVehicleDoubleField(Scanner sc, String field) throws InputException {
     try {
       System.out.printf("Enter vehicle's %s: ", field);
       double value = sc.nextDouble();
@@ -952,8 +984,9 @@ public class Util {
    * @param vehicle the vehicle object to be edited.
    * @param field the name of the field to be edited.
    * @return the user's choice as a String ("Y" or "N").
+   * @throws InputException if an error occurs while reading user input.
    */
-  protected static String readEditVehicle(Scanner sc, Vehicle vehicle, String field) {
+  protected static String readEditVehicle(Scanner sc, Vehicle vehicle, String field) throws InputException {
     String answer;
     for (;;) {
       if (vehicle == null) System.out.printf("Edit vehicle's %s? (Y/N) ", field);
@@ -984,8 +1017,9 @@ public class Util {
    * @param sc the Scanner object used for reading user input.
    * @param field the name of the field to be entered.
    * @return the entered value as a String.
+   * @throws InputException if an error occurs while reading user input.
    */
-  protected static String readActivityField(Scanner sc, String field) {
+  protected static String readActivityField(Scanner sc, String field) throws InputException {
     try {
       System.out.printf("Enter activity's %s: ", field);
       return sc.nextLine();
@@ -1001,8 +1035,9 @@ public class Util {
    * thrown.
    * @param sc the Scanner object used for reading user input.
    * @return the entered date and time as a LocalDateTime object.
+   * @throws InputException if an error occurs while reading or parsing user input.
    */
-  protected static LocalDateTime readActivityTms(Scanner sc) {
+  protected static LocalDateTime readActivityTms(Scanner sc) throws InputException {
     try {
       System.out.print("Please enter a date and time (yyyy-MM-dd HH:mm): ");
       return LocalDateTime.parse(sc.nextLine(), PARSING_DATE_TIME_FORMAT);
@@ -1018,8 +1053,9 @@ public class Util {
    * will be thrown.
    * @param sc the Scanner object used for reading user input.
    * @return the entered duration as a Duration object.
+   * @throws InputException if an error occurs while reading or converting user input.
    */
-  protected static Duration readActivityDuration(Scanner sc) {
+  protected static Duration readActivityDuration(Scanner sc) throws InputException {
     try {
       System.out.print("Please enter activity duration in minutes: ");
       Duration duration = Duration.ofMinutes(sc.nextLong());
