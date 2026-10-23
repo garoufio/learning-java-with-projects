@@ -1,5 +1,6 @@
 package chapter13.project.api;
 
+import chapter13.project.App;
 import chapter13.project.entity.dinosaur.*;
 import chapter13.project.entity.employee.Employee;
 import chapter13.project.entity.employee.JobTitle;
@@ -9,10 +10,14 @@ import chapter13.project.entity.ticket.TicketType;
 import chapter13.project.entity.ticket.Visitor;
 import chapter13.project.entity.vehicle.Vehicle;
 import chapter13.project.entity.vehicle.VehicleType;
+import chapter13.project.exception.AppException;
 import chapter13.project.exception.InputException;
 
 import java.time.*;
 import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
+import java.util.InputMismatchException;
+import java.util.NoSuchElementException;
 import java.util.Scanner;
 import java.util.UUID;
 
@@ -45,15 +50,15 @@ public class Util {
    * Prompts the user to confirm editing a specific field of a dinosaur. Displays a question asking if the user wants 
    * to edit the specified field of the given dinosaur. Accepts "Y" or "N" as valid input and returns the uppercase 
    * version of the answer. If the input is invalid, it will prompt the user again until a valid response is provided. 
-   * In case of an input error, an InputException will be thrown.
+   * In case of an input error, an AppException will be thrown.
    * @param sc the Scanner object used for reading user input.
    * @param dinosaur the Dinosaur object whose field is being edited, see {@link Dinosaur}.
    * @param field the name of the field being edited.
    * @param question the question to display to the user.
    * @return "Y" if the user confirms editing, "N" otherwise.
-   * @throws InputException if an error occurs while reading user input.
+   * @throws AppException if a critical and unrecoverable error occurs while reading user input.
    */
-  protected static String readEditDinosaur(Scanner sc, Dinosaur dinosaur, String field, String question) throws InputException {
+  protected static String readEditDinosaur(Scanner sc, Dinosaur dinosaur, String field, String question) throws AppException {
     String answer;
     for (;;) {
       if (dinosaur == null) System.out.printf("%s dinosaur's %s? (Y/N) ", question, field);
@@ -62,10 +67,10 @@ public class Util {
       try {
         answer = sc.next();
         sc.nextLine();
-      } catch (RuntimeException e) {
-        throw new InputException("Error in reading input: " + e.getMessage());
+      } catch (NoSuchElementException | IllegalStateException e) {
+        throw new AppException("Critical error occurred in 'readEditDinosaur':" + e.getMessage());
       }
-    
+      
       if (answer.equalsIgnoreCase("Y") || answer.equalsIgnoreCase("N")) {
         return answer.toUpperCase();
       }
@@ -76,17 +81,17 @@ public class Util {
   //-------------------------------------------------------------------------------------------------------------------
   
   /**
-   * Prompts the user to enter the name of a dinosaur. In case of an input error, an InputException will be thrown.
+   * Prompts the user to enter the name of a dinosaur. In case of an input error, an AppException will be thrown.
    * @param sc the Scanner object used for reading user input.
    * @return the name of the dinosaur entered by the user.
-   * @throws InputException if an error occurs while reading user input.
+   * @throws AppException if a critical and unrecoverable error occurs while reading user input.
    */
-  protected static String readDinosaurName(Scanner sc) throws InputException {
+  protected static String readDinosaurName(Scanner sc) throws AppException {
     try {
       System.out.print("Enter dinosaur name: ");
       return sc.nextLine();
-    } catch (RuntimeException e) {
-      throw new InputException("Error in reading input: " + e.getMessage());
+    } catch (NoSuchElementException | IllegalStateException e) {
+      throw new AppException("Critical error occurred in 'readDinosaurName':" + e.getMessage());
     }
   }
   
@@ -97,15 +102,18 @@ public class Util {
    * @param sc the Scanner object used for reading user input.
    * @return the birthdate of the dinosaur entered by the user.
    * @throws InputException if an error occurs while reading or parsing user input.
+   * @throws AppException if a critical and unrecoverable error occurs while reading user input.
    */
-  protected static LocalDate readDinosaurBirthDate(Scanner sc) throws InputException {
+  protected static LocalDate readDinosaurBirthDate(Scanner sc) throws InputException, AppException {
     try {
       System.out.print("Enter dinosaur birthdate (YYYY-MM-DD): ");
       LocalDate birthDate = LocalDate.parse(sc.next());
       sc.nextLine();
       return birthDate;
-    } catch (RuntimeException e) {
-      throw new InputException("Error in reading input: " + e.getMessage());
+    } catch (DateTimeParseException e) {
+      throw new InputException("Error in reading 'birthdate': " + e.getMessage());
+    } catch (NoSuchElementException | IllegalArgumentException e) {
+      throw new AppException("Critical error occurred in 'readDinosaurBirthDate':" + e.getMessage());
     }
   }
   
@@ -118,15 +126,18 @@ public class Util {
    * @param field the name of the field being entered.
    * @return the integer value entered by the user for the specified field.
    * @throws InputException if an error occurs while reading user input.
+   * @throws AppException if a critical and unrecoverable error occurs while reading user input.
    */
-  protected static int readDinosaurIntField(Scanner sc, String field) throws InputException {
+  protected static int readDinosaurIntField(Scanner sc, String field) throws InputException, AppException {
     try {
       System.out.printf("Enter dinosaur's %s: ", field);
       int value = sc.nextInt();
       sc.nextLine();
       return value;
-    } catch (RuntimeException e) {
-      throw new InputException("Error in reading input: " + e.getMessage());
+    } catch (InputMismatchException e) {
+      throw new InputException("Error in reading '" + field + "': " + e.getMessage());
+    }  catch (NoSuchElementException | IllegalStateException e) {
+      throw new AppException("Critical error occurred in 'readDinosaurIntField':" + e.getMessage());
     }
   }
   
@@ -138,15 +149,18 @@ public class Util {
    * @param sc the Scanner object used for reading user input.
    * @return true if the dinosaur is amphibious, false otherwise.
    * @throws InputException if an error occurs while reading user input.
+   * @throws AppException if a critical and unrecoverable error occurs while reading user input.
    */
-  protected static boolean readDinosaurAmphibiousCapability(Scanner sc) throws InputException {
+  protected static boolean readDinosaurAmphibiousCapability(Scanner sc) throws InputException, AppException {
     try {
       System.out.print("Is the dinosaur amphibious? (true/false):");
       boolean amphibious = sc.nextBoolean();
       sc.nextLine();
       return amphibious;
-    } catch (RuntimeException e) {
-      throw new InputException("Error in reading input: " + e.getMessage());
+    } catch (InputMismatchException e) {
+      throw new AppException("Error in reading 'amphibious capability': " + e.getMessage());
+    } catch (NoSuchElementException | IllegalStateException e) {
+      throw new AppException("Critical error occurred in 'readDinosaurAmphibiousCapability':" + e.getMessage());
     }
   }
   
@@ -158,8 +172,9 @@ public class Util {
    * @param sc the Scanner object used for reading user input.
    * @return the selected DinosaurType, see {@link DinosaurType} for available options.
    * @throws InputException if an error occurs while reading user input.
+   * @throws AppException if a critical and unrecoverable error occurs while reading user input.
    */
-  protected static DinosaurType readDinosaurType(Scanner sc) throws InputException {
+  protected static DinosaurType readDinosaurType(Scanner sc) throws InputException, AppException {
     DinosaurType type;
     do {
       System.out.println("Select the dinosaur type: ");
@@ -172,8 +187,10 @@ public class Util {
       try {
         choice = sc.nextInt();
         sc.nextLine();
-      } catch (RuntimeException e) {
-        throw new InputException("Error in reading input: " + e.getMessage());
+      } catch (InputMismatchException e) {
+        throw new InputException("Error in reading 'dinosaur type': " + e.getMessage());
+      } catch (NoSuchElementException | IllegalStateException e) {
+        throw new AppException("Critical error occurred in 'readDinosaurType':" + e.getMessage());
       }
       type = switch (choice) {
         case 1 -> DinosaurType.CARNIVORE;
@@ -197,8 +214,9 @@ public class Util {
    * @param sc the Scanner object used for reading user input.
    * @return the selected DinosaurSpecies, see {@link DinosaurSpecies} for available options.
    * @throws InputException if an error occurs while reading user input.
+   * @throws AppException if a critical and unrecoverable error occurs while reading user input.
    */
-  protected static DinosaurSpecies readDinosaurSpecies(Scanner sc) throws InputException {
+  protected static DinosaurSpecies readDinosaurSpecies(Scanner sc) throws InputException, AppException {
     DinosaurSpecies species;
     do {
       System.out.println("Select the dinosaur species: ");
@@ -211,8 +229,10 @@ public class Util {
       try {
         choice = sc.nextInt();
         sc.nextLine();
-      } catch (RuntimeException e) {
-        throw new InputException("Error in reading input: " + e.getMessage());
+      } catch (InputMismatchException e) {
+        throw new InputException("Error in reading 'dinosaur species': " + e.getMessage());
+      } catch (NoSuchElementException | IllegalStateException e) {
+        throw new AppException("Critical error occurred in 'readDinosaurSpecies':" + e.getMessage());
       }
       species = switch (choice) {
         case 1 -> DinosaurSpecies.TYRANNOSAURUS;
@@ -243,8 +263,9 @@ public class Util {
    * @param sc the Scanner object used for reading user input.
    * @return the selected DinosaurSize, see {@link DinosaurSize} for available options.
    * @throws InputException if an error occurs while reading user input.
+   * @throws AppException if a critical and unrecoverable error occurs while reading user input.
    */
-  protected static DinosaurSize readDinosaurSize(Scanner sc) throws InputException {
+  protected static DinosaurSize readDinosaurSize(Scanner sc) throws InputException, AppException {
     DinosaurSize size;
     do {
       System.out.println("Select the dinosaur size: ");
@@ -257,8 +278,10 @@ public class Util {
       try {
         choice = sc.nextInt();
         sc.nextLine();
-      } catch (RuntimeException e) {
-        throw new InputException("Error in reading input: " + e.getMessage());
+      } catch (InputMismatchException e) {
+        throw new InputException("Error in reading 'dinosaur size': " + e.getMessage());
+      } catch (NoSuchElementException | IllegalStateException e) {
+        throw new AppException("Critical error occurred in 'readDinosaurSize':" + e.getMessage());
       }
       size = switch (choice) {
         case 1 -> DinosaurSize.SMALL;
@@ -284,14 +307,14 @@ public class Util {
    * @param sc the Scanner object used for reading user input.
    * @param field the name of the field to be entered (e.g., "firstname", "lastname", "phoneNumber").
    * @return the value entered by the user for the specified field.                                                                                                                                                                                                                               
-   * @throws InputException if an error occurs while reading user input.
+   * @throws AppException if a critical and unrecoverable error occurs while reading user input.
    */
-  protected static String readVisitorField(Scanner sc, String field) throws InputException {
+  protected static String readVisitorField(Scanner sc, String field) throws AppException {
     try {
       System.out.printf("Enter visitor's %s: ", field);
       return sc.nextLine();
-    } catch (RuntimeException e) {
-      throw new InputException("Error in reading input: " + e.getMessage());
+    } catch (NoSuchElementException | IllegalStateException e) {
+      throw new AppException("Critical error occurred in 'readVisitorField':" + e.getMessage());
     }
   }
   
@@ -302,18 +325,14 @@ public class Util {
    * input error, an InputException will be thrown.
    * @param sc the Scanner object used for reading user input.
    * @return a Visitor object containing the entered details, see {@link Visitor}.
-   * @throws InputException if an error occurs while reading visitor details.
+   * @throws AppException if a critical and unrecoverable error occurs while reading visitor details.
    */
-  protected static Visitor readVisitor(Scanner sc) throws InputException {
-    try {
-      String firstname = readVisitorField(sc, "firstname");
-      String lastname = readVisitorField(sc, "lastname");
-      String phoneNumber = readVisitorField(sc, "phoneNumber");
+  protected static Visitor readVisitor(Scanner sc) throws AppException {
+    String firstname = readVisitorField(sc, "firstname");
+    String lastname = readVisitorField(sc, "lastname");
+    String phoneNumber = readVisitorField(sc, "phoneNumber");
 
-      return new Visitor(firstname, lastname, phoneNumber);
-    } catch (InputException e) {
-      throw e;
-    }
+    return new Visitor(firstname, lastname, phoneNumber);
   }
   
   //-------------------------------------------------------------------------------------------------------------------
@@ -324,8 +343,9 @@ public class Util {
    * @param sc the Scanner object used for reading user input.
    * @return the selected TicketType, see {@link TicketType}.
    * @throws InputException if an error occurs while reading user input.
+   * @throws AppException if a critical and unrecoverable error occurs while reading user input.
    */
-  protected static TicketType readTicketType(Scanner sc) throws InputException {
+  protected static TicketType readTicketType(Scanner sc) throws InputException, AppException {
     TicketType ticketType;
     do {
       System.out.println("Select the ticket type: ");
@@ -338,8 +358,10 @@ public class Util {
       try {
         choice = sc.nextInt();
         sc.nextLine();
-      } catch (RuntimeException e) {
-        throw new InputException("Error in reading input: " + e.getMessage());
+      } catch (InputMismatchException e) {
+        throw new InputException("Error in reading 'ticket type': " + e.getMessage());
+      } catch (NoSuchElementException | IllegalStateException e) {
+        throw new InputException("Critical error occurred in 'readTicketType':" + e.getMessage());
       }
       ticketType = switch (choice) {
         case 1 -> TicketType.INFANT;
@@ -373,25 +395,31 @@ public class Util {
    * @param sc the Scanner object used for reading user input.
    * @return the selected date as a LocalDate object.
    * @throws InputException if an error occurs while reading or parsing user input.
+   * @throws AppException if a critical and unrecoverable error occurs while reading user input.
    */
-  protected static LocalDate readTicketDate(Scanner sc) throws InputException {
+  protected static LocalDate readTicketDate(Scanner sc) throws InputException, AppException {
+    String answer;
+    
     for (;;) {
       try {
         System.out.print("Ticket for today (Y/N)? ");
-        String answer = sc.next();
+        answer = sc.next();
         sc.nextLine();
-        if (answer.equalsIgnoreCase("Y")) {
-          return LocalDate.now();
-        } else if (answer.equalsIgnoreCase("N")) {
-          System.out.print("Please enter a date: ");
-          LocalDate date = LocalDate.parse(sc.next());
-          sc.nextLine();
-          return date;
-        }
-        System.out.println("Invalid choice. Please try again.");
-      } catch (RuntimeException e) {
-        throw new InputException("Error in reading input: " + e.getMessage());
+      } catch (DateTimeParseException e) {
+        throw new InputException("Error in parsing 'ticket date': " + e.getMessage());
+      } catch (NoSuchElementException | IllegalStateException e) {
+        throw new AppException("Critical error occurred in 'readTicketDate':" + e.getMessage());
       }
+      
+      if (answer.equalsIgnoreCase("Y")) {
+        return LocalDate.now();
+      } else if (answer.equalsIgnoreCase("N")) {
+        System.out.print("Please enter a date: ");
+        LocalDate date = LocalDate.parse(sc.next());
+        sc.nextLine();
+        return date;
+      }
+      System.out.println("Invalid choice. Please try again.");
     }
   }
   
@@ -402,28 +430,30 @@ public class Util {
    * @param sc the Scanner object used for reading user input.
    * @return the entered ticket ID as a UUID object.
    * @throws InputException if an error occurs while reading or parsing user input.
+   * @throws AppException if a critical and unrecoverable error occurs while reading user input.
    */
-  protected static UUID readTicketUUID(Scanner sc) throws InputException {
+  protected static UUID readTicketUUID(Scanner sc) throws InputException, AppException {
     try {
       System.out.print("Enter ticket ID: ");
       String ticketID = sc.next();
       sc.nextLine();
       return UUID.fromString(ticketID);
-    } catch (RuntimeException e) {
-      throw new InputException("Error in reading input: " + e.getMessage());
+    } catch (IllegalArgumentException e) {
+      throw new InputException("Error in parsing 'ticketID': " + e.getMessage());
+    } catch (NoSuchElementException | IllegalStateException e) {
+      throw new AppException("Critical error in 'readTicketUUID': " + e.getMessage());
     }
   }
   
   //-------------------------------------------------------------------------------------------------------------------
   
   /**
-   * Prompts the user to decide whether to reserve a parking spot. In case of an input error, an InputException will be 
-   * thrown.
+   * Prompts the user to decide whether to reserve a parking spot.
    * @param sc the Scanner object used for reading user input.
    * @return true if the user wants to reserve a parking spot, false otherwise.
-   * @throws InputException if an error occurs while reading user input.
+   * @throws AppException if a critical and unrecoverable error occurs while reading user input.
    */
-  protected static boolean reserveParkingSpot(Scanner sc) throws InputException {
+  protected static boolean reserveParkingSpot(Scanner sc) throws AppException {
     String answer;
 
     for (;;) {
@@ -431,16 +461,16 @@ public class Util {
         System.out.print("Do you want to reserve a parking spot (Y/N)? ");
         answer = sc.next();
         sc.nextLine();
-      } catch (RuntimeException e) {
-        throw new InputException("Error in reading input: " + e.getMessage());
-      }
 
-      if (answer.equalsIgnoreCase("Y")) {
-        return true;
-      } else if (answer.equalsIgnoreCase("N")) {
-        return false;
+        if (answer.equalsIgnoreCase("Y")) {
+          return true;
+        } else if (answer.equalsIgnoreCase("N")) {
+          return false;
+        }
+        System.out.println("Invalid choice. Please try again.");
+      } catch (NoSuchElementException | IllegalStateException e) {
+        throw new AppException("Critical error in 'reserveParkingSpot': " + e.getMessage());
       }
-      System.out.println("Invalid choice. Please try again.");
     }
   }
   
@@ -455,9 +485,9 @@ public class Util {
    * @param employee the Employee object being edited, can be null if creating a new employee.
    * @param field the name of the field being edited.
    * @return "Y" if the user wants to edit the field, "N" otherwise.
-   * @throws InputException if an error occurs while reading user input.
+   * @throws AppException if a critical and unrecoverable error occurs while reading user input.
    */
-  protected static String readEditEmployee(Scanner sc, Employee employee, String field) throws InputException {
+  protected static String readEditEmployee(Scanner sc, Employee employee, String field) throws AppException {
     String answer;
     for (;;) {
       if (employee == null) System.out.printf("Edit employee's %s? (Y/N) ", field);
@@ -466,14 +496,14 @@ public class Util {
       try {
         answer = sc.next();
         sc.nextLine();
-      } catch (RuntimeException e) {
-        throw new InputException("Error in reading input: " + e.getMessage());
-      }
-
-      if (answer.equalsIgnoreCase("Y") || answer.equalsIgnoreCase("N")) {
-        return answer.toUpperCase();
-      } else {
-        System.out.println("Invalid choice. Please try again");
+        
+        if (answer.equalsIgnoreCase("Y") || answer.equalsIgnoreCase("N")) {
+          return answer.toUpperCase();
+        } else {
+          System.out.println("Invalid choice. Please try again");
+        }
+      } catch (NoSuchElementException | IllegalStateException e) {
+        throw new AppException("Critical error in 'readEditEmployee': " + e.getMessage());
       }
     }
   }
@@ -484,14 +514,14 @@ public class Util {
    * Prompts the user to enter the employee's name. In case of an input error, an InputException will be thrown.
    * @param sc the Scanner object used for reading user input.
    * @return the entered employee name as a String.
-   * @throws InputException if an error occurs while reading user input.
+   * @throws AppException if a critical and unrecoverable error occurs while reading user input.
    */
-  protected static String readEmployeeName(Scanner sc) throws InputException {
+  protected static String readEmployeeName(Scanner sc) throws AppException {
     try {
       System.out.print("Enter employee name: ");
       return sc.nextLine();
-    } catch (RuntimeException e) {
-      throw new InputException("Error in reading input: " + e.getMessage());
+    } catch (NoSuchElementException | IllegalStateException e) {
+      throw new AppException("Critical error in 'readEmployeeName': " + e.getMessage());
     }
   }
   
@@ -499,20 +529,24 @@ public class Util {
   
   /**
    * Prompts the user to enter an integer value for a specific employee field. In case of an input error, an 
-   * InputException will be thrown.
+   * InputException will be thrown and an AppException will be thrown if a critical and unrecoverable error occurs
+   * while reading user input.
    * @param sc the Scanner object used for reading user input.
    * @param msg the message indicating which field the user is entering.
    * @return the entered integer value.
    * @throws InputException if an error occurs while reading user input.
+   * @throws AppException if a critical and unrecoverable error occurs while reading user input.
    */
-  protected static int readEmployeeIntField(Scanner sc, String msg) throws InputException {
+  protected static int readEmployeeIntField(Scanner sc, String msg) throws InputException, AppException {
     try {
       System.out.printf("Enter %s\n", msg);
       int value = sc.nextInt();
       sc.nextLine();
       return value;
-    } catch (RuntimeException e) {
-      throw new InputException("Error in reading input: " + e.getMessage());
+    } catch (InputMismatchException e) {
+      throw new InputException("Error in reading 'employee's " + msg + "': " + e.getMessage());
+    } catch (NoSuchElementException | IllegalStateException e) {
+      throw new AppException("Critical error in 'readEmployeeIntField': " + e.getMessage());
     }
   }
   
@@ -520,12 +554,14 @@ public class Util {
   
   /**
    * Prompts the user to select the employee's job title from a list of available job titles. In case of an input 
-   * error, an InputException will be thrown.
+   * error, an InputException will be thrown and an AppException will be thrown if a critical and unrecoverable error
+   * occurs while reading user input.
    * @param sc the Scanner object used for reading user input.
    * @return the selected JobTitle enum value, see {@link JobTitle} for available job titles.
    * @throws InputException if an error occurs while reading user input.
+   * @throws AppException if a critical and unrecoverable error occurs while reading user input.
    */
-  protected static JobTitle readEmployeeJobTitle(Scanner sc) throws InputException {
+  protected static JobTitle readEmployeeJobTitle(Scanner sc) throws InputException, AppException {
     JobTitle jobTitle;
     do {
       System.out.println("Select the employee's job title: ");
@@ -538,8 +574,10 @@ public class Util {
       try {
         choice = sc.nextInt();
         sc.nextLine();
-      } catch (RuntimeException e) {
-        throw new InputException("Error in reading input: " + e.getMessage());
+      } catch (InputMismatchException e) {
+        throw new InputException("Error in reading 'employee's job title': " + e.getMessage());
+      } catch (NoSuchElementException | IllegalStateException e) {
+        throw new AppException("Critical error in 'readEmployeeJobTitle': " + e.getMessage());
       }
       jobTitle = switch (choice) {
         case 1 -> JobTitle.CURATOR;
@@ -575,12 +613,13 @@ public class Util {
   
   /**
    * Prompts the user to select the day of week the day of starts. In case of an input error, an InputException will be 
-   * thrown.
+   * thrown and an AppException will be thrown if a critical and unrecoverable error occurs while reading user input.
    * @param sc the Scanner object used for reading user input.
    * @return the selected DayOfWeek enum value.
    * @throws InputException if an error occurs while reading user input.
+   * @throws AppException if a critical and unrecoverable error occurs while reading user input.
    */
-  protected static DayOfWeek readEmployeeDayOfWeek(Scanner sc) throws InputException {
+  protected static DayOfWeek readEmployeeDayOfWeek(Scanner sc) throws InputException, AppException {
     DayOfWeek dayOfWeek;
     do {
       System.out.println("Select the day of the week the day off starts: ");
@@ -593,8 +632,10 @@ public class Util {
       try {
         choice = sc.nextInt();
         sc.nextLine();
-      } catch (RuntimeException e) {
-        throw new InputException("Error in reading input: " + e.getMessage());
+      } catch (InputMismatchException e) {
+        throw new InputException("Error in reading 'employee's day of the week': " + e.getMessage());
+      } catch (NoSuchElementException | IllegalStateException e) {
+        throw new AppException("Critical error in 'readEmployeeDayOfWeek': " + e.getMessage());
       }
       dayOfWeek = switch (choice) {
         case 1 -> DayOfWeek.MONDAY;
@@ -617,20 +658,24 @@ public class Util {
   //-------------------------------------------------------------------------------------------------------------------
   
   /**
-   * Prompts the user to enter the employee's birth date in the format YYYY-MM-DD. In case of an input error, an 
-   * InputException will be thrown.
+   * Prompts the user to enter the employee's birthdate in the format YYYY-MM-DD. In case of an input error, an
+   * InputException will be thrown and an AppException will be thrown if a critical and unrecoverable error occurs
+   * while reading user input.
    * @param sc the Scanner object used for reading user input.
-   * @return the entered birth date as a LocalDate object.
+   * @return the entered birthdate as a LocalDate object.
    * @throws InputException if an error occurs while reading or parsing user input.
+   * @throws AppException if a critical and unrecoverable error occurs.
    */
-  protected static LocalDate readEmployeeBirthDate(Scanner sc) throws InputException {
+  protected static LocalDate readEmployeeBirthDate(Scanner sc) throws InputException, AppException {
     try {
-      System.out.print("Enter employee birth date (YYYY-MM-DD): ");
+      System.out.print("Enter employee birthdate (YYYY-MM-DD): ");
       LocalDate birthDate = LocalDate.parse(sc.next());
       sc.nextLine();
       return birthDate;
-    } catch (RuntimeException e) {
-      throw new InputException("Error in reading input: " + e.getMessage());
+    } catch (DateTimeParseException e) {
+      throw new InputException("Error in reading 'employee birthdate': " + e.getMessage());
+    } catch (NoSuchElementException | IllegalStateException e) {
+      throw new AppException("Critical error occurred in 'readEmployeeBirthDate':" + e.getMessage());
     }
   }
   
@@ -639,16 +684,16 @@ public class Util {
   //-------------------------------------------------------------------------------------------------------------------
   
   /**
-   * Prompts the user to edit a specific field of an enclosure with a yes/no question. In case of an input error, an 
-   * InputException will be thrown.
+   * Prompts the user to edit a specific field of an enclosure with a yes/no question. An AppException will be thrown
+   * if a critical and unrecoverable error occurs while reading user input.
    * @param sc the Scanner object used for reading user input.
    * @param enclosure the Enclosure object being edited, can be null.
    * @param field the specific field of the enclosure to be edited.
    * @param question the question to ask the user.
    * @return the user's answer as a string ("Y" or "N").
-   * @throws InputException if an error occurs while reading user input.
+   * @throws AppException if a critical and unrecoverable error occurs.
    */
-  protected static String readEditEnclosure(Scanner sc, Enclosure enclosure, String field, String question) throws InputException {
+  protected static String readEditEnclosure(Scanner sc, Enclosure enclosure, String field, String question) throws AppException {
     String answer;
     for (;;) {
       if (enclosure == null) System.out.printf("%s enclosure's %s? (Y/N) ", question, field);
@@ -657,8 +702,8 @@ public class Util {
       try {
         answer = sc.next();
         sc.nextLine();
-      } catch (RuntimeException e) {
-        throw new InputException("Error in reading input: " + e.getMessage());
+      } catch (NoSuchElementException | IllegalStateException e) {
+        throw new AppException("Critical error occurred in 'readEditEnclosure': " + e.getMessage());
       }
 
       if (answer.equalsIgnoreCase("Y") || answer.equalsIgnoreCase("N")) {
@@ -672,12 +717,14 @@ public class Util {
   //-------------------------------------------------------------------------------------------------------------------
   
   /**
-   * Prompts the user to select the type of an enclosure. In case of an input error, an InputException will be thrown.
+   * Prompts the user to select the type of enclosure. In case of an input error, an InputException will be thrown and
+   * an AppException will be thrown if a critical and unrecoverable error occurs while reading user input.
    * @param sc the Scanner object used for reading user input.
    * @return the selected EnclosureType enum value, see {@link EnclosureType} for available enclosure types.
    * @throws InputException if an error occurs while reading user input.
+   * @throws AppException if a critical and unrecoverable error occurs while reading user input.
    */
-  protected static EnclosureType readEnclosureType(Scanner sc) throws InputException {
+  protected static EnclosureType readEnclosureType(Scanner sc) throws InputException, AppException {
     EnclosureType enclosureType;
     do {
       System.out.println("Select the enclosure type: ");
@@ -690,8 +737,10 @@ public class Util {
       try {
         choice = sc.nextInt();
         sc.nextLine();
-      } catch (RuntimeException e) {
-        throw new InputException("Error in reading input: " + e.getMessage());
+      } catch (InputMismatchException e) {
+        throw new InputException("Error in reading 'enclosure type': " + e.getMessage());
+      } catch (NoSuchElementException | IllegalStateException e) {
+        throw new AppException("Critical error occurred in 'readEnclosureType':" + e.getMessage());
       }
       enclosureType = switch (choice) {
         case 1 -> EnclosureType.RAPTORS_PARK;
@@ -718,12 +767,13 @@ public class Util {
   
   /**
    * Prompts the user to select the safety level of an enclosure. In case of an input error, an InputException will be 
-   * thrown.
+   * thrown and an AppException will be thrown if a critical and unrecoverable error occurs while reading user input.
    * @param sc the Scanner object used for reading user input.
    * @return the selected SafetyLevel enum value, see {@link SafetyLevel} for available safety levels.
    * @throws InputException if an error occurs while reading user input.
+   * @throws AppException if a critical and unrecoverable error occurs while reading user input.
    */
-  protected static SafetyLevel readSafetyLevel(Scanner sc) throws InputException {
+  protected static SafetyLevel readSafetyLevel(Scanner sc) throws InputException, AppException {
     SafetyLevel safetyLevel;
     
     do {
@@ -737,8 +787,10 @@ public class Util {
       try {
         choice = sc.nextInt();
         sc.nextLine();
-      } catch (RuntimeException e) {
-        throw new InputException("Error in reading input: " + e.getMessage());
+      } catch (InputMismatchException e) {
+        throw new InputException("Error in reading 'safety level': " + e.getMessage());
+      } catch (NoSuchElementException | IllegalStateException e) {
+        throw new AppException("Critical error occurred in 'readSafetyLevel':" + e.getMessage());
       }
       safetyLevel = switch (choice) {
         case 1 -> SafetyLevel.LOW;
@@ -759,19 +811,22 @@ public class Util {
   
   /**
    * Prompts the user to enter the security level of an enclosure. In case of an input error, an InputException will be 
-   * thrown.
+   * thrown and an AppException will be thrown if a critical and unrecoverable error occurs while reading user input.
    * @param sc the Scanner object used for reading user input.
    * @return the entered security level as an integer (0-100).
    * @throws InputException if an error occurs while reading user input.
+   * @throws AppException if a critical and unrecoverable error occurs while reading user input.
    */
-  protected static int readEnclosureSecurityLevel(Scanner sc) throws InputException {
+  protected static int readEnclosureSecurityLevel(Scanner sc) throws InputException, AppException {
     try {
       System.out.print("Enter enclosure security level (0-100): ");
       int securityLevel = sc.nextInt();
       sc.nextLine();
       return securityLevel;
-    } catch (RuntimeException e) {
-      throw new InputException("Error in reading input: " + e.getMessage());
+    } catch (InputMismatchException e) {
+      throw new InputException("Error in reading 'enclosure security level': " + e.getMessage());
+    } catch (NoSuchElementException | IllegalStateException e) {
+      throw new AppException("Critical error occurred in 'readEnclosureSecurityLevel':" + e.getMessage());
     }
   }
   
@@ -780,69 +835,79 @@ public class Util {
   //-------------------------------------------------------------------------------------------------------------------
   
   /**
-   * Prompts the user to enter the time of a special event. In case of an input error, an InputException will be thrown.
+   * Prompts the user to enter the time of a special event. In case of an input error, an InputException will be thrown
+   * and an AppException will be thrown if a critical and unrecoverable error occurs while reading user input.
    * @param sc the Scanner object used for reading user input.
    * @return the entered time as a LocalTime object.
    * @throws InputException if an error occurs while reading or parsing user input.
+   * @throws AppException if a critical and unrecoverable error occurs while reading user input.
    */
-  protected static LocalTime readSpecialEventTime(Scanner sc) throws InputException {
+  protected static LocalTime readSpecialEventTime(Scanner sc) throws InputException, AppException {
     try {
       System.out.print("Please enter a time (HH:mm (24h format)): ");
       LocalTime time = LocalTime.parse(sc.next());
       sc.nextLine();
       return time;
-    } catch (RuntimeException e) {
-      throw new InputException("Error in reading input: " + e.getMessage());
+    } catch (DateTimeParseException e) {
+      throw new InputException("Error in reading 'special event time': " + e.getMessage());
+    } catch (NoSuchElementException | IllegalStateException e) {
+      throw new AppException("Critical error occurred in 'readSpecialEventTime':" + e.getMessage());
     }
   }
   
   //-------------------------------------------------------------------------------------------------------------------
   
   /**
-   * Prompts the user to enter the date of a special event. In case of an input error, an InputException will be thrown.
+   * Prompts the user to enter the date of a special event. In case of an input error, an InputException will be thrown
+   * and an AppException will be thrown if a critical and unrecoverable error occurs while reading user input.
    * @param sc the Scanner object used for reading user input.
    * @return the entered date as a LocalDate object.
    * @throws InputException if an error occurs while reading or parsing user input.
+   * @throws AppException if a critical and unrecoverable error occurs while reading user input.
    */
-  protected static LocalDate readSpecialEventDate(Scanner sc) throws InputException {
+  protected static LocalDate readSpecialEventDate(Scanner sc) throws InputException, AppException {
     try {
       System.out.print("Please enter a date (YYYY-MM-DD): ");
       LocalDate date = LocalDate.parse(sc.next());
       sc.nextLine();
       return date;
-    } catch (RuntimeException e) {
-      throw new InputException("Error in reading input: " + e.getMessage());
+    } catch (DateTimeParseException e) {
+      throw new InputException("Error in reading 'special event date': " + e.getMessage());
+    } catch (NoSuchElementException | IllegalStateException e) {
+      throw new AppException("Critical error occurred in 'readSpecialEventDate':" + e.getMessage());
     }
   }
   
   //-------------------------------------------------------------------------------------------------------------------
   
   /**
-   * Prompts the user to enter a specific field of a special event. In case of an input error, an InputException will be 
+   * Prompts the user to enter a specific field of a special event. In case of an input error, an AppException will be
    * thrown.
    * @param sc the Scanner object used for reading user input.
    * @param field the name of the field to be entered.
    * @return the entered value as a String.
-   * @throws InputException if an error occurs while reading user input.
+   * @throws AppException if a critical and unrecoverable error occurs while reading user input.
    */
-  protected static String readSpecialEventField(Scanner sc, String field) throws InputException {
+  protected static String readSpecialEventField(Scanner sc, String field) throws AppException {
     try {
       System.out.printf("Enter event's %s: ", field);
       return sc.nextLine();
-    } catch (RuntimeException e) {
-      throw new InputException("Error in reading input: " + e.getMessage());
+    } catch (NoSuchElementException | IllegalStateException e) {
+      throw new AppException("Critical error occurred in 'readSpecialEventField': " + e.getMessage());
     }
   }
   
   //-------------------------------------------------------------------------------------------------------------------
   
   /**
-   * Prompts the user to select the type of a special event. In case of an input error, an InputException will be thrown.
+   * Prompts the user to select the type of special event. In case of an input error, an InputException will be thrown
+   * and an AppException will be thrown if a critical and unrecoverable error occurs while reading user input.
    * @param sc the Scanner object used for reading user input.
    * @return the selected EventType enum value, see {@link EventType} for available event types.
    * @throws InputException if an error occurs while reading user input.
+   * @throws AppException if a critical and unrecoverable error occurs while reading user input.
    */
-  protected static EventType readSpecialEventType(Scanner sc) throws InputException {
+  protected static EventType readSpecialEventType(Scanner sc) throws InputException, AppException {
     EventType eventType;
     do {
       System.out.println("Select the event's type: ");
@@ -855,8 +920,10 @@ public class Util {
       try {
         choice = sc.nextInt();
         sc.nextLine();
-      } catch (RuntimeException e) {
-        throw new InputException("Error in reading input: " + e.getMessage());
+      } catch (InputMismatchException e) {
+        throw new InputException("Error in reading 'event type': " + e.getMessage());
+      } catch (NoSuchElementException | IllegalStateException e) {
+        throw new AppException("Critical error occurred in 'readSpecialEventType':" + e.getMessage());
       }
       eventType = switch (choice) {
         case 1 -> EventType.SCHOOL;
@@ -879,12 +946,14 @@ public class Util {
   //-------------------------------------------------------------------------------------------------------------------
   
   /**
-   * Prompts the user to select the vehivle type. In case of an input error, an InputException will be thrown.
+   * Prompts the user to select the vehicle type. In case of an input error, an InputException will be thrown and an
+   * AppException will be thrown if a critical and unrecoverable error occurs while reading user input.
    * @param sc the Scanner object used for reading user input.
    * @return the select vehicle type enum value, see {@link VehicleType} for available vehicle types.
    * @throws InputException if an error occurs while reading user input.
+   * @throws AppException if a critical and unrecoverable error occurs while reading user input.
    */
-  public static VehicleType readVehicleType(Scanner sc) throws InputException {
+  public static VehicleType readVehicleType(Scanner sc) throws InputException, AppException {
     VehicleType vehicleType;
     do {
       System.out.println("Select the vehicle type: ");
@@ -897,8 +966,10 @@ public class Util {
       try {
         choice = sc.nextInt();
         sc.nextLine();
-      } catch (RuntimeException e) {
-        throw new InputException("Error in reading input: " + e.getMessage());
+      } catch (InputMismatchException e) {
+        throw new InputException("Error in reading 'vehicle type': " + e.getMessage());
+      } catch (NoSuchElementException | IllegalStateException e) {
+        throw new AppException("Critical error occurred in 'readVehicleType':" + e.getMessage());
       }
       vehicleType = switch (choice) {
         case 1 -> VehicleType.CAR;
@@ -918,19 +989,19 @@ public class Util {
   //-------------------------------------------------------------------------------------------------------------------
   
   /**
-   * Prompts the user to enter a specific field of a vehicle. In case of an input error, an InputException will be 
+   * Prompts the user to enter a specific field of a vehicle. In case of an input error, an AppException will be
    * thrown.
    * @param sc the Scanner object used for reading user input.
    * @param field the name of the field to be entered.
    * @return the entered value as a String.
-   * @throws InputException if an error occurs while reading user input.
+   * @throws AppException if a critical and unrecoverable error occurs while reading user input.
    */
-  public static String readVehicleField(Scanner sc, String field) throws InputException {
+  public static String readVehicleField(Scanner sc, String field) throws AppException {
     try {
       System.out.printf("Enter vehicle's %s: ", field);
       return sc.nextLine();
-    } catch (RuntimeException e) {
-      throw new InputException("Error in reading input: " + e.getMessage());
+    } catch (NoSuchElementException | IllegalStateException e) {
+      throw new AppException("Critical error occurred in 'readVehicleField': " + e.getMessage());
     }
   }
   
@@ -938,40 +1009,47 @@ public class Util {
   
   /**
    * Prompts the user to enter a specific integer field of a vehicle. In case of an input error, an InputException will 
-   * be thrown.
+   * be thrown and an AppException will be thrown if a critical and unrecoverable error occurs while reading user input.
    * @param sc the Scanner object used for reading user input.
    * @param field the name of the field to be entered.
    * @return the entered value as an int.
    * @throws InputException if an error occurs while reading user input.
+   * @throws AppException if a critical and unrecoverable error occurs while reading user input.
    */
-  public static int readVehicleIntField(Scanner sc, String field) throws InputException {
+  public static int readVehicleIntField(Scanner sc, String field) throws InputException, AppException {
     try {
       System.out.printf("Enter vehicle's %s: ", field);
       int value = sc.nextInt();
       sc.nextLine();
       return value;
-    } catch (RuntimeException e) {
-      throw new InputException("Error in reading input: " + e.getMessage());
+    } catch (InputMismatchException e) {
+      throw new InputException("Error in reading vehicle's '" + field + "': " + e.getMessage());
+    } catch (NoSuchElementException | IllegalStateException e) {
+      throw new AppException("Critical error occurred in 'readVehicleIntField': " + e.getMessage());
     }
   }
   
   //-------------------------------------------------------------------------------------------------------------------
   
   /**
-   * Prompts the user to enter a specific double field of a vehicle. In case of an input error, an InputException will be thrown.
+   * Prompts the user to enter a specific double field of a vehicle. In case of an input error, an InputException will
+   * be thrown and an AppException will be thrown if a critical and unrecoverable error occurs while reading user input.
    * @param sc the Scanner object used for reading user input.
    * @param field the name of the field to be entered.
    * @return the entered value as a double.
    * @throws InputException if an error occurs while reading user input.
+   * @throws AppException if a critical and unrecoverable error occurs while reading user input.
    */
-  public static double readVehicleDoubleField(Scanner sc, String field) throws InputException {
+  public static double readVehicleDoubleField(Scanner sc, String field) throws InputException, AppException {
     try {
       System.out.printf("Enter vehicle's %s: ", field);
       double value = sc.nextDouble();
       sc.nextLine();
       return value;
-    } catch (RuntimeException e) {
-      throw new InputException("Error in reading input: " + e.getMessage());
+    } catch (InputMismatchException e) {
+      throw new InputException("Error in reading vehicle's '" + field + "': " + e.getMessage());
+    } catch (NoSuchElementException | IllegalStateException e) {
+      throw new AppException("Critical error occurred in 'readVehicleDoubleField': " + e.getMessage());
     }
   }
   
@@ -979,14 +1057,14 @@ public class Util {
   
   /**
    * Prompts the user to decide whether to edit a specific field of a vehicle. In case of an input error, an 
-   * InputException will be thrown.
+   * AppException will be thrown.
    * @param sc the Scanner object used for reading user input.
    * @param vehicle the vehicle object to be edited.
    * @param field the name of the field to be edited.
    * @return the user's choice as a String ("Y" or "N").
-   * @throws InputException if an error occurs while reading user input.
+   * @throws AppException if a critical and unrecoverable error occurs while reading user input.
    */
-  protected static String readEditVehicle(Scanner sc, Vehicle vehicle, String field) throws InputException {
+  protected static String readEditVehicle(Scanner sc, Vehicle vehicle, String field) throws AppException {
     String answer;
     for (;;) {
       if (vehicle == null) System.out.printf("Edit vehicle's %s? (Y/N) ", field);
@@ -995,8 +1073,8 @@ public class Util {
       try {
         answer = sc.next();
         sc.nextLine();
-      } catch (RuntimeException e) {
-        throw new InputException("Error in reading input: " + e.getMessage());
+      } catch (NoSuchElementException | IllegalStateException e) {
+        throw new AppException("Critical error occurred in 'readEditVehicle': " + e.getMessage());
       }
 
       if (answer.equalsIgnoreCase("Y") || answer.equalsIgnoreCase("N")) {
@@ -1012,19 +1090,19 @@ public class Util {
   //-------------------------------------------------------------------------------------------------------------------
   
   /**
-   * Prompts the user to enter a specific field of an activity. In case of an input error, an InputException will be 
+   * Prompts the user to enter a specific field of an activity. In case of an input error, an AppException will be
    * thrown.
    * @param sc the Scanner object used for reading user input.
    * @param field the name of the field to be entered.
    * @return the entered value as a String.
-   * @throws InputException if an error occurs while reading user input.
+   * @throws AppException if a critical and unrecoverable error occurs while reading user input.
    */
-  protected static String readActivityField(Scanner sc, String field) throws InputException {
+  protected static String readActivityField(Scanner sc, String field) throws AppException {
     try {
       System.out.printf("Enter activity's %s: ", field);
       return sc.nextLine();
-    } catch (RuntimeException e) {
-      throw new InputException("Error in reading input: " + e.getMessage());
+    } catch (NoSuchElementException | IllegalStateException e) {
+      throw new AppException("Critical error occurred in 'readActivityField': " + e.getMessage());
     }
   }
   
@@ -1032,17 +1110,20 @@ public class Util {
   
   /**
    * Prompts the user to enter the date and time of an activity. In case of an input error, an InputException will be 
-   * thrown.
+   * thrown and an AppException will be thrown if a critical and unrecoverable error occurs while reading user input.
    * @param sc the Scanner object used for reading user input.
    * @return the entered date and time as a LocalDateTime object.
    * @throws InputException if an error occurs while reading or parsing user input.
+   * @throws AppException if a critical and unrecoverable error occurs while reading user input.
    */
-  protected static LocalDateTime readActivityTms(Scanner sc) throws InputException {
+  protected static LocalDateTime readActivityTms(Scanner sc) throws InputException, AppException {
     try {
       System.out.print("Please enter a date and time (yyyy-MM-dd HH:mm): ");
       return LocalDateTime.parse(sc.nextLine(), PARSING_DATE_TIME_FORMAT);
-    } catch (RuntimeException e) {
-      throw new InputException("Error in reading input: " + e.getMessage());
+    } catch (DateTimeParseException e) {
+      throw new InputException("Error in reading activity's 'date and time': " + e.getMessage());
+    } catch (NoSuchElementException | IllegalStateException e) {
+      throw new AppException("Critical error occurred in 'readActivityTms': " + e.getMessage());
     }
   }
   
@@ -1050,19 +1131,23 @@ public class Util {
   
   /**
    * Prompts the user to enter the duration of an activity in minutes. In case of an input error, an InputException 
-   * will be thrown.
+   * will be thrown and an AppException will be thrown if a critical and unrecoverable error occurs while reading
+   * user input.
    * @param sc the Scanner object used for reading user input.
    * @return the entered duration as a Duration object.
    * @throws InputException if an error occurs while reading or converting user input.
+   * @throws AppException if a critical and unrecoverable error occurs while reading user input.
    */
-  protected static Duration readActivityDuration(Scanner sc) throws InputException {
+  protected static Duration readActivityDuration(Scanner sc) throws InputException, AppException {
     try {
       System.out.print("Please enter activity duration in minutes: ");
       Duration duration = Duration.ofMinutes(sc.nextLong());
       sc.nextLine();
       return duration;
-    } catch (RuntimeException e) {
-      throw new InputException("Error in reading input: " + e.getMessage());
+    } catch (InputMismatchException | ArithmeticException e) {
+      throw new InputException("Error in reading activity's 'duration': " + e.getMessage());
+    } catch (NoSuchElementException | IllegalStateException e) {
+      throw new AppException("Critical error occurred in 'readActivityDuration': " + e.getMessage());
     }
   }
   
