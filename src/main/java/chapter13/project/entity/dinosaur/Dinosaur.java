@@ -27,10 +27,10 @@ public sealed abstract class Dinosaur implements Actionable, Comparable<Dinosaur
   //-------------------------------------------------------------------------------------------------------------------
   
   /**
-   * Constructs a new Dinosaur instance with the specified name, birth date, type, species, and size. The health score 
+   * Constructs a new Dinosaur instance with the specified name, birthdate, type, species, and size. The health score
    * is initialized to 100.
    * @param name the name of the dinosaur.
-   * @param birthDate the birth date of the dinosaur.
+   * @param birthDate the birthdate of the dinosaur.
    * @param type the type of the dinosaur, see {@link DinosaurType} for possible values.
    * @param species the species of the dinosaur, see {@link DinosaurSpecies} for possible values.
    * @param size the size of the dinosaur, see {@link DinosaurSize} for possible values.
@@ -47,9 +47,9 @@ public sealed abstract class Dinosaur implements Actionable, Comparable<Dinosaur
   //-------------------------------------------------------------------------------------------------------------------
   
   /**
-   * Constructs a new Dinosaur instance with the specified name, birth date, type, species, size, and health score.
+   * Constructs a new Dinosaur instance with the specified name, birthdate, type, species, size, and health score.
    * @param name the name of the dinosaur.
-   * @param birthDate the birth date of the dinosaur.
+   * @param birthDate the birthdate of the dinosaur.
    * @param type the type of the dinosaur see {@link DinosaurType} for possible values.
    * @param species the species of the dinosaur, see {@link DinosaurSpecies} for possible values.
    * @param size the size of the dinosaur, see {@link DinosaurSize} for possible values.
@@ -94,8 +94,8 @@ public sealed abstract class Dinosaur implements Actionable, Comparable<Dinosaur
   //-------------------------------------------------------------------------------------------------------------------
   
   /**
-   * Returns the birth date of the dinosaur.
-   * @return the birth date of the dinosaur.
+   * Returns the birthdate of the dinosaur.
+   * @return the birthdate of the dinosaur.
    */
   public LocalDate getBirthdate() {
     return birthDate;
@@ -104,8 +104,8 @@ public sealed abstract class Dinosaur implements Actionable, Comparable<Dinosaur
   //-------------------------------------------------------------------------------------------------------------------
   
   /**
-   * Sets the birth date of the dinosaur.
-   * @param birthDate the birth date of the dinosaur.
+   * Sets the birthdate of the dinosaur.
+   * @param birthDate the birthdate of the dinosaur.
    */
   public void setBirthDate(LocalDate birthDate) {
     this.birthDate = birthDate;
@@ -205,7 +205,7 @@ public sealed abstract class Dinosaur implements Actionable, Comparable<Dinosaur
   
   /**
    * Compares this dinosaur to the specified object. The result is true if and only if the argument is not null and is 
-   * a Dinosaur object that has the same name, birth date, type, species, and size as this dinosaur. 
+   * a Dinosaur object that has the same name, birthdate, type, species, and size as this dinosaur.
    * @param o the object to compare this dinosaur against.
    * @return true if the given object represents a Dinosaur equivalent to this dinosaur, false otherwise.
    */

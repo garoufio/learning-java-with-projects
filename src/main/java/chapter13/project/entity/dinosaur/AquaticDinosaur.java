@@ -1,6 +1,9 @@
 package chapter13.project.entity.dinosaur;
 
+import chapter13.project.api.Util;
+
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.Objects;
 
 /**
@@ -178,6 +181,7 @@ public non-sealed class AquaticDinosaur extends Dinosaur implements Carnivore, H
         " [" +
         "name=" + getName() +
         ", age=" + getAge() +
+        ", birthDate=" + getBirthdate().format(Util.DATE_FORMAT) +
         ", type=" + getType().name() +
         ", size=" + getSize().name() +
         ", maxDivingDepth=" + maxDivingDepth + "m" +

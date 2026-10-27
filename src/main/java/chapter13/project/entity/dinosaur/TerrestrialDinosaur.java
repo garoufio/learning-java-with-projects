@@ -1,5 +1,7 @@
 package chapter13.project.entity.dinosaur;
 
+import chapter13.project.api.Util;
+
 import java.time.LocalDate;
 import java.util.Objects;
 
@@ -150,6 +152,7 @@ public non-sealed class TerrestrialDinosaur extends Dinosaur implements Carnivor
         " [" +
         "name=" + getName() +
         ", age=" + getAge() +
+        ", birthDate=" + getBirthdate().format(Util.DATE_FORMAT) +
         ", type=" + getType().name() +
         ", size=" + getSize().name() +
         ", height=" + height + "cm" +
