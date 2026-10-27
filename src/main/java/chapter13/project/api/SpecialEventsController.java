@@ -8,6 +8,8 @@ import chapter13.project.entity.ticket.TicketType;
 import chapter13.project.entity.ticket.Visitor;
 import chapter13.project.service.SpecialEventsService;
 import chapter13.project.service.TicketService;
+import chapter13.project.exception.InputException;
+import chapter13.project.exception.AppException;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -48,29 +50,46 @@ public class SpecialEventsController {
    */
   public void handleSpecialEvents() {
     for (;;) {
-      System.out.print("""
-       
-       Special events service:
-       1. Show all Special Events
-       2. Add Event
-       3. Find Event
-       4. Remove Event
-       5. Return to main menu
-       Enter your choice:\t"""
-      );
-      int choice = sc.nextInt();
-      sc.nextLine(); // Consume the newline character after nextInt()
-      switch (choice) {
-        case 1 -> printSpecialEvents(sortSpecialEvents(specialEventsService.getAllSpecialEvents(), null));
-        case 2 -> addSpecialEvent();
-        case 3 -> findSpecialEvent();
-        case 4 -> removeSpecialEvent();
-        case 5 -> System.out.println("Returning to main menu...");
-        default -> System.out.println("Invalid choice. Please try again.");
-      }
-      if (choice == 5) {
-        System.out.println();
-        break;
+      try {
+        System.out.print("""
+            
+            Special events service:
+            1. Show all Special Events
+            2. Add Event
+            3. Find Event
+            4. Remove Event
+            5. Return to main menu
+            Enter your choice:\t"""
+        );
+        int choice = sc.nextInt();
+        sc.nextLine(); // Consume the newline character after nextInt()
+        switch (choice) {
+          case 1 -> printSpecialEvents(sortSpecialEvents(specialEventsService.getAllSpecialEvents(), null));
+          case 2 -> addSpecialEvent();
+          case 3 -> findSpecialEvent();
+          case 4 -> removeSpecialEvent();
+          case 5 -> System.out.println("Returning to main menu...");
+          default -> System.out.println("Invalid choice. Please try again.");
+        }
+        if (choice == 5) {
+          System.out.println();
+          break;
+        }
+      } catch (InputMismatchException e) {
+        System.out.println("Invalid input. Please enter a number between 1 and 5.");
+        sc.nextLine(); // Consume the invalid input
+      } catch (InputException e) {
+        System.out.printf("""
+          Error: %s
+          Please try again or return to Main Menu...
+        """, e.getMessage()
+        );
+      } catch (AppException e) {
+        System.out.printf("""
+          Error while managing Special Events: %s
+          Please try again or return to Main Menu...
+        """, e.getMessage()
+        );
       }
     }
   }
@@ -101,8 +120,9 @@ public class SpecialEventsController {
    * @param sc Scanner for user input.
    * @param date Date of the special event.
    * @return A new Ticket for the visitor attending the special event.
+   * @throws InputException if there is an error in the input provided by the user.
    */
-  private Ticket createTicket(Scanner sc, LocalDate date) {
+  private Ticket createTicket(Scanner sc, LocalDate date) throws InputException {
     // read visitor's firstname, lastname and phone number
     Visitor visitor = Util.readVisitor(sc);
     // read ticket type
@@ -118,8 +138,9 @@ public class SpecialEventsController {
    * @param sc Scanner for user input.
    * @param event SpecialEvent for which tickets are being added.
    * @return A set of tickets added for the special event.
+   * @throws InputException if there is an error in the input provided by the user.
    */
-  private Set<Ticket> addSpecialEventTickets(Scanner sc, SpecialEvent event) {
+  private Set<Ticket> addSpecialEventTickets(Scanner sc, SpecialEvent event) throws InputException {
     if (event == null) return null;
     
     Set<Ticket> tickets = new HashSet<>();
@@ -141,8 +162,9 @@ public class SpecialEventsController {
   /**
    * Adds a new special event to the system by prompting the user for event details, including name, description,
    * contact information, date, time, and event type. It also allows adding tickets for the event.
+   * @throws InputException if there is an error in the input provided by the user.
    */
-  public void addSpecialEvent() {
+  public void addSpecialEvent() throws InputException {
     // read name
     String name = Util.readSpecialEventField(sc, "name");
     // read description
@@ -197,68 +219,80 @@ public class SpecialEventsController {
    */
   public void findSpecialEvent() {
     for (;;) {
-      printSpecialEventSubmenuOptions("Find");
-      int choice = sc.nextInt();
-      sc.nextLine(); // Consume the newline character after nextInt()
-      switch (choice) {
-        case 1 -> { // UUID
-          String id =  Util.readSpecialEventField(sc, "id");
-          SpecialEvent event = specialEventsService.getSpecialEvent(id);
-          if (event == null) System.out.printf("Special event with id '%s' not found\n", id);
-          else System.out.println(event);
+      try {
+        printSpecialEventSubmenuOptions("Find");
+        int choice = sc.nextInt();
+        sc.nextLine(); // Consume the newline character after nextInt()
+        switch (choice) {
+          case 1 -> { // UUID
+            String id = Util.readSpecialEventField(sc, "id");
+            SpecialEvent event = specialEventsService.getSpecialEvent(id);
+            if (event == null) System.out.printf("Special event with id '%s' not found\n", id);
+            else System.out.println(event);
+          }
+          case 2 -> { // Name
+            String name = Util.readSpecialEventField(sc, "name");
+            Set<SpecialEvent> events = specialEventsService.getSpecialEvents(name, false);
+            if (events.isEmpty()) System.out.printf("No event(s) found with name '%s'\n", name);
+            else printSpecialEvents(events);
+          }
+          case 3 -> { // Contact number
+            String contactNumber = Util.readSpecialEventField(sc, "contact number");
+            Set<SpecialEvent> events = specialEventsService.getSpecialEvents(contactNumber, true);
+            if (events.isEmpty()) System.out.printf("No event(s) found for contact number '%s'\n", contactNumber);
+            else printSpecialEvents(events);
+          }
+          case 4 -> { // Date
+            LocalDate date = Util.readSpecialEventDate(sc);
+            Set<SpecialEvent> events = specialEventsService.getSpecialEvents(date);
+            if (events.isEmpty()) System.out.printf("No event(s) found for event date '%s'\n", date);
+            else printSpecialEvents(events);
+          }
+          case 5 -> { // Event type
+            EventType eventType = Util.readSpecialEventType(sc);
+            Set<SpecialEvent> events = specialEventsService.getSpecialEvents(eventType);
+            if (events.isEmpty()) System.out.printf("No event(s) found for event type '%s'\n", eventType.name());
+            else printSpecialEvents(events);
+          }
+          case 6 -> {
+            // read name
+            String name = Util.readSpecialEventField(sc, "name");
+            // read description
+            String description = Util.readSpecialEventField(sc, "description");
+            // contact number
+            String contactNumber = Util.readSpecialEventField(sc, "contactNumber");
+            // contact name
+            String contactName = Util.readSpecialEventField(sc, "contactName");
+            // contact email
+            String contactEmail = Util.readSpecialEventField(sc, "contactEmail");
+            // date
+            LocalDate date = Util.readSpecialEventDate(sc);
+            // time
+            LocalTime time = Util.readSpecialEventTime(sc);
+            // event type
+            EventType eventType = Util.readSpecialEventType(sc);
+            SpecialEvent event = new SpecialEvent(
+                name, description, contactNumber, contactName, contactEmail, eventType, date, time
+            );
+            SpecialEvent specialEvent = specialEventsService.getSpecialEvent(event);
+            if (specialEvent == null) System.out.println("No event found!");
+            else System.out.printf("Event found: '%s'\n", specialEvent);
+          }
+          case 7 -> {
+          }
+          default -> System.out.println("Invalid choice. Please try again.");
         }
-        case 2 -> { // Name
-          String name = Util.readSpecialEventField(sc, "name");
-          Set<SpecialEvent> events = specialEventsService.getSpecialEvents(name, false);
-          if (events.isEmpty()) System.out.printf("No event(s) found with name '%s'\n", name);
-          else printSpecialEvents(events);
-        }
-        case 3 -> { // Contact number
-          String contactNumber = Util.readSpecialEventField(sc, "contact number");
-          Set<SpecialEvent> events = specialEventsService.getSpecialEvents(contactNumber, true);
-          if (events.isEmpty()) System.out.printf("No event(s) found for contact number '%s'\n", contactNumber);
-          else printSpecialEvents(events);
-        }
-        case 4 -> { // Date
-          LocalDate date = Util.readSpecialEventDate(sc);
-          Set<SpecialEvent> events = specialEventsService.getSpecialEvents(date);
-          if (events.isEmpty()) System.out.printf("No event(s) found for event date '%s'\n", date);
-          else printSpecialEvents(events);
-        }
-        case 5 -> { // Event type
-          EventType eventType = Util.readSpecialEventType(sc);
-          Set<SpecialEvent> events = specialEventsService.getSpecialEvents(eventType);
-          if (events.isEmpty()) System.out.printf("No event(s) found for event type '%s'\n", eventType.name());
-          else printSpecialEvents(events);
-        }
-        case 6 -> {
-          // read name
-          String name = Util.readSpecialEventField(sc, "name");
-          // read description
-          String description = Util.readSpecialEventField(sc, "description");
-          // contact number
-          String contactNumber = Util.readSpecialEventField(sc, "contactNumber");
-          // contact name
-          String contactName = Util.readSpecialEventField(sc, "contactName");
-          // contact email
-          String contactEmail = Util.readSpecialEventField(sc, "contactEmail");
-          // date
-          LocalDate date = Util.readSpecialEventDate(sc);
-          // time
-          LocalTime time = Util.readSpecialEventTime(sc);
-          // event type
-          EventType eventType = Util.readSpecialEventType(sc);
-          SpecialEvent event = new SpecialEvent(
-              name, description, contactNumber, contactName, contactEmail, eventType, date, time
-          );
-          SpecialEvent specialEvent = specialEventsService.getSpecialEvent(event);
-          if (specialEvent == null) System.out.println("No event found!");
-          else System.out.printf("Event found: '%s'\n", specialEvent);
-        }
-        case 7 -> { }
-        default -> System.out.println("Invalid choice. Please try again.");
+        if (choice < 8) break;
+      } catch (InputMismatchException e) {
+        System.out.println("Invalid input. Please enter a number between 1 and 7.");
+        sc.nextLine(); // Consume the invalid input
+      } catch (InputException e) {
+        System.out.printf("""
+          Error while finding Special Events: %s
+          Please try again or return to Special Events Menu...
+        """, e.getMessage()
+        );
       }
-      if (choice < 8) break;
     }
   }
   
@@ -311,74 +345,86 @@ public class SpecialEventsController {
    */
   public void removeSpecialEvent() {
     for (;;) {
-      printSpecialEventSubmenuOptions("Remove");
-      int choice = sc.nextInt();
-      sc.nextLine(); // Consume the newline character after nextInt()
-      switch (choice) {
-        case 1 -> { // UUID
-          String id =  Util.readSpecialEventField(sc, "id");
-          SpecialEvent event = specialEventsService.getSpecialEvent(id);
-          if (event == null) System.out.printf("Special event with id '%s' not found\n", id);
-          else {
-            if (removeEvent(event)) System.out.println("Event removed!");
-            else System.out.printf("Unable to remove event with id '%s'\n", id);
+      try {
+        printSpecialEventSubmenuOptions("Remove");
+        int choice = sc.nextInt();
+        sc.nextLine(); // Consume the newline character after nextInt()
+        switch (choice) {
+          case 1 -> { // UUID
+            String id = Util.readSpecialEventField(sc, "id");
+            SpecialEvent event = specialEventsService.getSpecialEvent(id);
+            if (event == null) System.out.printf("Special event with id '%s' not found\n", id);
+            else {
+              if (removeEvent(event)) System.out.println("Event removed!");
+              else System.out.printf("Unable to remove event with id '%s'\n", id);
+            }
           }
-        }
-        case 2 -> { // Name
-          String name = Util.readSpecialEventField(sc, "name");
-          Set<SpecialEvent> events = specialEventsService.getSpecialEvents(name, false);
-          if (events.isEmpty()) System.out.printf("No event(s) found with name '%s'\n", name);
-          else removeEvents(events);
-        }
-        case 3 -> { // Contact number
-          String contactNumber = Util.readSpecialEventField(sc, "contact number");
-          Set<SpecialEvent> events = specialEventsService.getSpecialEvents(contactNumber, true);
-          if (events .isEmpty()) System.out.printf("No event(s) found for contact number '%s'\n", contactNumber);
-          else removeEvents(events);
-        }
-        case 4 -> { // Date
-          LocalDate date = Util.readSpecialEventDate(sc);
-          Set<SpecialEvent> events = specialEventsService.getSpecialEvents(date);
-          if (events.isEmpty()) System.out.printf("No event(s) found for event date '%s'\n", date);
-          else removeEvents(events);
-        }
-        case 5 -> { // Event type
-          EventType eventType = Util.readSpecialEventType(sc);
-          Set<SpecialEvent> events = specialEventsService.getSpecialEvents(eventType);
-          if (events.isEmpty()) System.out.printf("No event(s) found for event type '%s'\n", eventType.name());
-          else removeEvents(events);
-        }
-        case 6 -> {
-          // read name
-          String name = Util.readSpecialEventField(sc, "name");
-          // read description
-          String description = Util.readSpecialEventField(sc, "description");
-          // contact number
-          String contactNumber = Util.readSpecialEventField(sc, "contactNumber");
-          // contact name
-          String contactName = Util.readSpecialEventField(sc, "contactName");
-          // contact email
-          String contactEmail = Util.readSpecialEventField(sc, "contactEmail");
-          // date
-          LocalDate date = Util.readSpecialEventDate(sc);
-          // time
-          LocalTime time = Util.readSpecialEventTime(sc);
-          // event type
-          EventType eventType = Util.readSpecialEventType(sc);
-          SpecialEvent event = new SpecialEvent(
-              name, description, contactNumber, contactName, contactEmail, eventType, date, time
-          );
-          SpecialEvent specialEvent = specialEventsService.getSpecialEvent(event);
-          if (specialEvent == null) System.out.println("No event found!");
-          else {
-            if (removeEvent(event)) System.out.println("Event removed!");
-            else System.out.println("Unable to remove event");
+          case 2 -> { // Name
+            String name = Util.readSpecialEventField(sc, "name");
+            Set<SpecialEvent> events = specialEventsService.getSpecialEvents(name, false);
+            if (events.isEmpty()) System.out.printf("No event(s) found with name '%s'\n", name);
+            else removeEvents(events);
           }
+          case 3 -> { // Contact number
+            String contactNumber = Util.readSpecialEventField(sc, "contact number");
+            Set<SpecialEvent> events = specialEventsService.getSpecialEvents(contactNumber, true);
+            if (events.isEmpty()) System.out.printf("No event(s) found for contact number '%s'\n", contactNumber);
+            else removeEvents(events);
+          }
+          case 4 -> { // Date
+            LocalDate date = Util.readSpecialEventDate(sc);
+            Set<SpecialEvent> events = specialEventsService.getSpecialEvents(date);
+            if (events.isEmpty()) System.out.printf("No event(s) found for event date '%s'\n", date);
+            else removeEvents(events);
+          }
+          case 5 -> { // Event type
+            EventType eventType = Util.readSpecialEventType(sc);
+            Set<SpecialEvent> events = specialEventsService.getSpecialEvents(eventType);
+            if (events.isEmpty()) System.out.printf("No event(s) found for event type '%s'\n", eventType.name());
+            else removeEvents(events);
+          }
+          case 6 -> {
+            // read name
+            String name = Util.readSpecialEventField(sc, "name");
+            // read description
+            String description = Util.readSpecialEventField(sc, "description");
+            // contact number
+            String contactNumber = Util.readSpecialEventField(sc, "contactNumber");
+            // contact name
+            String contactName = Util.readSpecialEventField(sc, "contactName");
+            // contact email
+            String contactEmail = Util.readSpecialEventField(sc, "contactEmail");
+            // date
+            LocalDate date = Util.readSpecialEventDate(sc);
+            // time
+            LocalTime time = Util.readSpecialEventTime(sc);
+            // event type
+            EventType eventType = Util.readSpecialEventType(sc);
+            SpecialEvent event = new SpecialEvent(
+                name, description, contactNumber, contactName, contactEmail, eventType, date, time
+            );
+            SpecialEvent specialEvent = specialEventsService.getSpecialEvent(event);
+            if (specialEvent == null) System.out.println("No event found!");
+            else {
+              if (removeEvent(event)) System.out.println("Event removed!");
+              else System.out.println("Unable to remove event");
+            }
+          }
+          case 7 -> {
+          }
+          default -> System.out.println("Invalid choice. Please try again.");
         }
-        case 7 -> { }
-        default -> System.out.println("Invalid choice. Please try again.");
+        if (choice > 0 && choice < 8) break;
+      } catch (InputMismatchException e) {
+        System.out.println("Invalid input. Please enter a number between 1 and 7.");
+        sc.nextLine(); // Consume the invalid input
+      } catch (InputException e) {
+        System.out.printf("""
+          Error while removing Special Events: %s
+          Please try again or return to Special Events Menu...
+        """, e.getMessage()
+        );
       }
-      if (choice > 0 && choice < 8) break;
     }
   }
     

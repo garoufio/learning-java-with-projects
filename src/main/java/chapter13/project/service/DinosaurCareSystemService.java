@@ -6,6 +6,7 @@ import chapter13.project.entity.enclosure.Enclosure;
 import chapter13.project.entity.park.DinosaurCareSystem;
 import chapter13.project.exception.DinosaurIllException;
 
+import java.util.Collection;
 import java.util.Set;
 
 public class DinosaurCareSystemService {
@@ -94,7 +95,7 @@ public class DinosaurCareSystemService {
   
   //-------------------------------------------------------------------------------------------------------------------
   
-  public void addEnclosures(Set<Enclosure> enclosures) {
+  public void addEnclosures(Collection<Enclosure> enclosures) {
     if (enclosures == null || enclosures.isEmpty()) {
       System.out.println("No enclosures were added into the Dinosaur Care System");
       return;

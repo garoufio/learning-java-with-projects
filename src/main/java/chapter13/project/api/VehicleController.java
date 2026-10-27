@@ -2,6 +2,8 @@ package chapter13.project.api;
 
 import chapter13.project.collections.VehicleComparator;
 import chapter13.project.entity.vehicle.*;
+import chapter13.project.exception.AppException;
+import chapter13.project.exception.InputException;
 import chapter13.project.service.VehicleService;
 
 import java.util.*;
@@ -34,30 +36,48 @@ public class VehicleController {
    */
   public void manageVehicles() {
     for (;;) {
-      System.out.print("""
+      try {
+        System.out.print("""
+            
+            Vehicles service:
+            1. Show all vehicles
+            2. Add Vehicle
+            3. Find Vehicle
+            4. Edit Vehicle
+            5. Remove Vehicle
+            6. Return to main menu
+            System.out.print("Enter your choice:\t"""
+        );
+        int choice = sc.nextInt();
+        sc.nextLine(); // Consume the newline character after nextInt()
+        switch (choice) {
+          case 1 -> printVehicles(sortVehicles(vehicleService.getAllVehicles(), null));
+          case 2 -> addVehicle();
+          case 3 -> findVehicle();
+          case 4 -> editVehicle();
+          case 5 -> removeVehicle();
+          case 6 -> {
+            System.out.printf("Returning to main menu...\n\n");
+          }
+          default -> System.out.println("Invalid choice. Please try again.");
+        }
+        if (choice == 6) {
+          break;
+        }
+      } catch (InputMismatchException e) {
       
-      Vehicles service:
-      1. Show all vehicles
-      2. Add Vehicle
-      3. Find Vehicle
-      4. Edit Vehicle
-      5. Remove Vehicle
-      6. Return to main menu
-      System.out.print("Enter your choice:\t"""
-      );
-      int choice = sc.nextInt();
-      sc.nextLine(); // Consume the newline character after nextInt()
-      switch (choice) {
-        case 1 -> printVehicles(sortVehicles(vehicleService.getAllVehicles(), null));
-        case 2 -> addVehicle();
-        case 3 -> findVehicle();
-        case 4 -> editVehicle();
-        case 5 -> removeVehicle();
-        case 6 -> { System.out.printf("Returning to main menu...\n\n"); }
-        default -> System.out.println("Invalid choice. Please try again.");
-      }
-      if (choice == 6) {
-        break;
+      } catch (InputException e) {
+        System.out.printf("""
+          Error : %s
+          Please try again or return to Main Menu...
+        """, e.getMessage()
+        );
+      } catch (AppException e) {
+        System.out.printf("""
+          Error while managing vehicles: %s
+          Please try again or return to Main Menu...
+        """, e.getMessage()
+        );
       }
     }
   }
@@ -87,8 +107,9 @@ public class VehicleController {
    * production year, color, and other relevant attributes depending on the vehicle type.
    * @param vehicleType the type of vehicle to create, see {@link VehicleType} for available vehicle types.
    * @return the newly created vehicle, or null if the creation failed.
+   * @throws InputException if there is an error in user input while creating the vehicle.
    */
-  private Vehicle createVehicle(VehicleType vehicleType) {
+  private Vehicle createVehicle(VehicleType vehicleType) throws InputException {
     String make = Util.readVehicleField(sc, "make");
     String model = Util.readVehicleField(sc, "model");
     int productionYear = Util.readVehicleIntField(sc, "production year");
@@ -125,8 +146,9 @@ public class VehicleController {
   /**
    * Adds a new vehicle to the collection managed by the vehicle service by prompting the user for the necessary 
    * details. If the vehicle creation fails, an appropriate message will be displayed.
+   * @throws InputException if there is an error in user input while adding the vehicle.
    */
-  public void addVehicle() {
+  public void addVehicle() throws InputException {
     VehicleType vehicleType = Util.readVehicleType(sc);
     Vehicle vehicle = createVehicle(vehicleType);
     if (vehicle != null) {
@@ -143,40 +165,52 @@ public class VehicleController {
    */
   public void findVehicle() {
     for(;;) {
-      System.out.print("""
-      
-      Search by:
-      1. Make
-      2. Vehicle type
-      3. Detailed search
-      4. Return to vehicles menu
-      Enter your choice:\t"""
-      );
-      int choice = sc.nextInt();
-      sc.nextLine(); // Consume the newline character after nextInt()
-      switch (choice) {
-        case 1 -> {
-          String make = Util.readVehicleField(sc, "make");
-          Set<Vehicle> vehicles = vehicleService.getVehicle(make);
-          if (vehicles.isEmpty()) System.out.printf("No vehicles found with make '%s'\n", make);
-          else printVehicles(vehicles);
+      try {
+        System.out.print("""
+            
+            Search by:
+            1. Make
+            2. Vehicle type
+            3. Detailed search
+            4. Return to vehicles menu
+            Enter your choice:\t"""
+        );
+        int choice = sc.nextInt();
+        sc.nextLine(); // Consume the newline character after nextInt()
+        switch (choice) {
+          case 1 -> {
+            String make = Util.readVehicleField(sc, "make");
+            Set<Vehicle> vehicles = vehicleService.getVehicle(make);
+            if (vehicles.isEmpty()) System.out.printf("No vehicles found with make '%s'\n", make);
+            else printVehicles(vehicles);
+          }
+          case 2 -> {
+            VehicleType vehicleType = Util.readVehicleType(sc);
+            Set<Vehicle> vehicles = vehicleService.getVehicle(vehicleType);
+            if (vehicles.isEmpty()) System.out.printf("No vehicles found of type '%s'\n", vehicleType.name());
+            else printVehicles(vehicles);
+          }
+          case 3 -> {
+            VehicleType vehicleType = Util.readVehicleType(sc);
+            Vehicle vehicle = vehicleService.getVehicle(createVehicle(vehicleType));
+            if (vehicle == null) System.out.println("Vehicle not found");
+            else System.out.printf("Vehicle found: '%s'\n", vehicle);
+          }
+          case 4 -> {
+          }
+          default -> System.out.println("Invalid choice. Please try again.");
         }
-        case 2 -> {
-          VehicleType vehicleType = Util.readVehicleType(sc);
-          Set<Vehicle> vehicles = vehicleService.getVehicle(vehicleType);
-          if (vehicles.isEmpty()) System.out.printf("No vehicles found of type '%s'\n", vehicleType.name());
-          else printVehicles(vehicles);
-        }
-        case 3 -> {
-          VehicleType vehicleType = Util.readVehicleType(sc);
-          Vehicle vehicle = vehicleService.getVehicle(createVehicle(vehicleType));
-          if (vehicle == null) System.out.println("Vehicle not found");
-          else System.out.printf("Vehicle found: '%s'\n", vehicle);
-        }
-        case 4 -> { }
-        default -> System.out.println("Invalid choice. Please try again.");
+        if (choice >= 1 && choice <= 4) break;
+      } catch (InputMismatchException e) {
+        System.out.println("Invalid input. Please enter a number between 1 and 4.");
+        sc.nextLine(); // Consume the invalid input
+      } catch (InputException e) {
+        System.out.printf("""
+          Error while searching for vehicles: %s
+          Please try again or return to Vehicles Menu...
+        """, e.getMessage()
+        );
       }
-      if (choice >= 1 && choice <= 4) break;
     }
   }
   
@@ -184,9 +218,10 @@ public class VehicleController {
   
   /**
    * Edits the details of the specified vehicle by prompting the user for new values for each editable field.
-   * @param vehicle
+   * @param vehicle the vehicle to be edited. If the vehicle is null, no changes will be made.
+   * @throws InputException if there is an error in user input while editing the vehicle details.
    */
-  private void editVehicleDetails(Vehicle vehicle) {
+  private void editVehicleDetails(Vehicle vehicle) throws InputException {
     // change make
     if (Util.readEditVehicle(sc, null, "make").equals("Y")) {
       String newMake = Util.readVehicleField(sc, "make");
@@ -261,61 +296,73 @@ public class VehicleController {
    */
   public void editVehicle() {
     for (;;) {
-      System.out.print("""
-      
-      Edit by:
-      1. Make
-      2. Vehicle type
-      3. Detailed search
-      4. Return to vehicles menu
-      Enter your choice:\t"""
-      );
-      int choice = sc.nextInt();
-      sc.nextLine(); // Consume the newline character after nextInt()
-      switch (choice) {
-        case 1 -> {
-          String make = Util.readVehicleField(sc, "make");
-          Set<Vehicle> vehicles = vehicleService.getVehicle(make);
-          if (vehicles.isEmpty()) System.out.printf("No vehicles found with make '%s'\n", make);
-          else {
-            System.out.printf("'%d' vehicles found with make '%s'\n", vehicles.size(), make);
-            for (Vehicle v : vehicles) {
-              if (Util.readEditVehicle(sc, v, null).equals("Y")) {
-                editVehicleDetails(v);
-                System.out.printf("Vehicle updated: '%s'\n", v);
+      try {
+        System.out.print("""
+            
+            Edit by:
+            1. Make
+            2. Vehicle type
+            3. Detailed search
+            4. Return to vehicles menu
+            Enter your choice:\t"""
+        );
+        int choice = sc.nextInt();
+        sc.nextLine(); // Consume the newline character after nextInt()
+        switch (choice) {
+          case 1 -> {
+            String make = Util.readVehicleField(sc, "make");
+            Set<Vehicle> vehicles = vehicleService.getVehicle(make);
+            if (vehicles.isEmpty()) System.out.printf("No vehicles found with make '%s'\n", make);
+            else {
+              System.out.printf("'%d' vehicles found with make '%s'\n", vehicles.size(), make);
+              for (Vehicle v : vehicles) {
+                if (Util.readEditVehicle(sc, v, null).equals("Y")) {
+                  editVehicleDetails(v);
+                  System.out.printf("Vehicle updated: '%s'\n", v);
+                }
               }
             }
           }
-        }
-        case 2 -> {
-          VehicleType vehicleType = Util.readVehicleType(sc);
-          Set<Vehicle> vehicles = vehicleService.getVehicle(vehicleType);
-          if (vehicles.isEmpty()) System.out.printf("No vehicles found of type '%s'\n", vehicleType.name());
-          else {
-            System.out.printf("'%d' vehicles found with type '%s'\n", vehicles.size(), vehicleType.name());
-            for (Vehicle v : vehicles) {
-              if (Util.readEditVehicle(sc, v, null).equals("Y")) {
-                editVehicleDetails(v);
-                System.out.printf("Vehicle updated: '%s'\n", v);
+          case 2 -> {
+            VehicleType vehicleType = Util.readVehicleType(sc);
+            Set<Vehicle> vehicles = vehicleService.getVehicle(vehicleType);
+            if (vehicles.isEmpty()) System.out.printf("No vehicles found of type '%s'\n", vehicleType.name());
+            else {
+              System.out.printf("'%d' vehicles found with type '%s'\n", vehicles.size(), vehicleType.name());
+              for (Vehicle v : vehicles) {
+                if (Util.readEditVehicle(sc, v, null).equals("Y")) {
+                  editVehicleDetails(v);
+                  System.out.printf("Vehicle updated: '%s'\n", v);
+                }
               }
             }
           }
-        }
-        case 3 -> {
-          VehicleType vehicleType = Util.readVehicleType(sc);
-          Vehicle vehicle = vehicleService.getVehicle(createVehicle(vehicleType));
-          if (vehicle == null) System.out.println("Vehicle not found");
-          else {
-            if (Util.readEditVehicle(sc, vehicle, null).equals("Y")) {
-              editVehicleDetails(vehicle);
-              System.out.printf("Vehicle updated: '%s'\n", vehicle);
+          case 3 -> {
+            VehicleType vehicleType = Util.readVehicleType(sc);
+            Vehicle vehicle = vehicleService.getVehicle(createVehicle(vehicleType));
+            if (vehicle == null) System.out.println("Vehicle not found");
+            else {
+              if (Util.readEditVehicle(sc, vehicle, null).equals("Y")) {
+                editVehicleDetails(vehicle);
+                System.out.printf("Vehicle updated: '%s'\n", vehicle);
+              }
             }
           }
+          case 4 -> {
+          }
+          default -> System.out.println("Invalid choice. Please try again.");
         }
-        case 4 -> {  }
-        default -> System.out.println("Invalid choice. Please try again.");
+        if (choice >= 1 && choice <= 4) break;
+      } catch (InputMismatchException e) {
+        System.out.println("Invalid input. Please enter a number between 1 and 4.");
+        sc.nextLine(); // Consume the invalid input
+      } catch (InputException e) {
+        System.out.printf("""
+          Error while editing vehicles: %s
+          Please try again or return to Vehicles Menu...
+        """, e.getMessage()
+        );
       }
-      if (choice >= 1 && choice <= 4) break;
     }
   }
   
@@ -347,48 +394,60 @@ public class VehicleController {
    */
   public void removeVehicle() {
     for (;;) {
-      System.out.print("""
-      
-      Remove by:
-      1. Make
-      2. Vehicle type
-      3. Detailed search
-      4. Return to vehicles menu
-      Enter your choice:\t"""
-      );
-      int choice = sc.nextInt();
-      sc.nextLine(); // Consume the newline character after nextInt()
-      switch (choice) {
-        case 1 -> {
-          String make = Util.readVehicleField(sc, "make");
-          Set<Vehicle> vehicles = vehicleService.getVehicle(make);
-          if (vehicles.isEmpty()) System.out.printf("No vehicles found with make '%s'\n", make);
-          else {
-            for (Vehicle v : vehicles) {
-              removeVehicle(v);
+      try {
+        System.out.print("""
+            
+            Remove by:
+            1. Make
+            2. Vehicle type
+            3. Detailed search
+            4. Return to vehicles menu
+            Enter your choice:\t"""
+        );
+        int choice = sc.nextInt();
+        sc.nextLine(); // Consume the newline character after nextInt()
+        switch (choice) {
+          case 1 -> {
+            String make = Util.readVehicleField(sc, "make");
+            Set<Vehicle> vehicles = vehicleService.getVehicle(make);
+            if (vehicles.isEmpty()) System.out.printf("No vehicles found with make '%s'\n", make);
+            else {
+              for (Vehicle v : vehicles) {
+                removeVehicle(v);
+              }
             }
           }
-        }
-        case 2 -> {
-          VehicleType vehicleType = Util.readVehicleType(sc);
-          Set<Vehicle> vehicles = vehicleService.getVehicle(vehicleType);
-          if (vehicles.isEmpty()) System.out.printf("No vehicles found of type '%s'\n", vehicleType.name());
-          else {
-            for (Vehicle v : vehicles) {
-              removeVehicle(v);
+          case 2 -> {
+            VehicleType vehicleType = Util.readVehicleType(sc);
+            Set<Vehicle> vehicles = vehicleService.getVehicle(vehicleType);
+            if (vehicles.isEmpty()) System.out.printf("No vehicles found of type '%s'\n", vehicleType.name());
+            else {
+              for (Vehicle v : vehicles) {
+                removeVehicle(v);
+              }
             }
           }
+          case 3 -> {
+            VehicleType vehicleType = Util.readVehicleType(sc);
+            Vehicle vehicle = vehicleService.getVehicle(createVehicle(vehicleType));
+            if (vehicle == null) System.out.println("Vehicle not found");
+            else removeVehicle(vehicle);
+          }
+          case 4 -> {
+          }
+          default -> System.out.println("Invalid choice. Please try again.");
         }
-        case 3 -> {
-          VehicleType vehicleType = Util.readVehicleType(sc);
-          Vehicle vehicle = vehicleService.getVehicle(createVehicle(vehicleType));
-          if (vehicle == null) System.out.println("Vehicle not found");
-          else removeVehicle(vehicle);
-        }
-        case 4 -> { }
-        default -> System.out.println("Invalid choice. Please try again.");
+        if (choice >= 1 && choice <= 4) break;
+      } catch (InputMismatchException e) {
+        System.out.println("Invalid input. Please enter a number between 1 and 4.");
+        sc.nextLine(); // Consume the invalid input
+      } catch (InputException e) {
+        System.out.printf("""
+          Error while removing vehicles: %s
+          Please try again or return to Vehicles Menu...
+        """, e.getMessage()
+        );
       }
-      if (choice >= 1 && choice <= 4) break;
     }
   }
   

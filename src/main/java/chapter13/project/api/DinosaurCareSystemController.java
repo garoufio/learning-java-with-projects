@@ -2,6 +2,7 @@ package chapter13.project.api;
 
 import chapter13.project.entity.activity.Activity;
 import chapter13.project.entity.dinosaur.Dinosaur;
+import chapter13.project.exception.AppException;
 import chapter13.project.exception.InputException;
 import chapter13.project.service.DinosaurCareSystemService;
 
@@ -64,6 +65,12 @@ public class DinosaurCareSystemController {
       } catch (InputMismatchException e) {
         System.out.println("Invalid input. Please enter a number between 1 and 4.");
         sc.nextLine(); // Consume the invalid input
+      } catch (AppException e) {
+        System.out.printf("""
+          Error while managing Dinosaur Care System: %s
+          Please try again or return to Main Menu...
+        """, e.getMessage()
+        );
       }
     }
   }
@@ -71,7 +78,8 @@ public class DinosaurCareSystemController {
   //-------------------------------------------------------------------------------------------------------------------
   
   /**
-   * Manages the activities schedule by providing a menu for viewing, adding, and removing activities.
+   * Manages the activities schedule by providing a menu for viewing, adding, and removing activities in the Dinosaur
+   * Care System.
    */
   private void manageActivitiesSchedule() {
     for (;;) {
@@ -100,7 +108,11 @@ public class DinosaurCareSystemController {
         System.out.println("Invalid input. Please enter a number between 1 and 4.");
         sc.nextLine(); // Consume the invalid input
       } catch (InputException e) {
-        System.out.println("Error: " + e.getMessage());
+        System.out.printf("""
+          Error while adding/removing activities: %s
+          Please try again or return to Dinosaur Care System Menu...
+        """, e.getMessage()
+        );
       }
     }
   }
@@ -157,7 +169,7 @@ public class DinosaurCareSystemController {
   /**
    * Removes an existing activity from the Dinosaur Care System based on the activity name provided by the user.
    * @throws InputException if there is an error in user input while removing the activity.
-   */
+-   */
   private void removeActivity() throws InputException {
     String name = Util.readActivityField(sc, "name");
     Set<Activity> allActivities = dinosaurCareSystemService.getActivities();
@@ -179,8 +191,9 @@ public class DinosaurCareSystemController {
    * Prompts the user to select a dinosaur from the list of available dinosaurs. The user can choose a specific
    * dinosaur or select all dinosaurs. If no dinosaurs are available, an empty set is returned.
    * @return The selected Dinosaur object(s), as a set or an empty set.
+   * @throws InputException if there is an error in user input while selecting the dinosaur(s).
    */
-  private Set<Dinosaur> selectDinosaur() {
+  private Set<Dinosaur> selectDinosaur() throws InputException {
     if (dinosaurCareSystemService.getDinosaurs().isEmpty()) return Set.of();
     
     int choice;

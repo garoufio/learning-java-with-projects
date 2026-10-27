@@ -5,11 +5,13 @@ import chapter13.project.entity.ticket.*;
 import chapter13.project.entity.vehicle.*;
 import chapter13.project.entity.dinosaur.*;
 import chapter13.project.entity.enclosure.*;
+import chapter13.project.exception.AppException;
 import chapter13.project.service.*;
 import chapter13.project.api.*;
 import chapter13.project.entity.park.*;
 
 import java.time.LocalDate;
+import java.util.InputMismatchException;
 import java.util.Set;
 import java.util.HashSet;
 import java.util.Scanner;
@@ -97,10 +99,21 @@ public class App {
   public void start() {
     // this is the main loop of the application. It will keep running until the user decides to exit
     while (true) {
-      displayMenu();
-      int choice = sc.nextInt();
-      sc.nextLine(); // consume the newline character after the integer input
-      handleMenuChoice(choice);
+      try {
+        displayMenu();
+        int choice = sc.nextInt();
+        sc.nextLine(); // consume the newline character after the integer input
+        handleMenuChoice(choice);
+      } catch (InputMismatchException e) {
+        System.out.println("Invalid input. Please enter a number between 1 and 8.");
+        sc.nextLine(); // consume the invalid input
+      } catch (AppException e) {
+        System.out.printf("""
+            Error while managing Mesozoic Eden Park: %s
+            App is terminating...
+          """, e.getMessage()
+        );
+      }
     }
   }
   

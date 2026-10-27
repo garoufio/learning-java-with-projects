@@ -7,6 +7,8 @@ import chapter13.project.entity.employee.JobTitle;
 import chapter13.project.entity.enclosure.Enclosure;
 import chapter13.project.entity.enclosure.EnclosureType;
 import chapter13.project.entity.enclosure.SafetyLevel;
+import chapter13.project.exception.AppException;
+import chapter13.project.exception.InputException;
 import chapter13.project.service.DinosaurCareSystemService;
 import chapter13.project.service.EnclosureService;
 
@@ -51,40 +53,57 @@ public class EnclosureController {
    */
   public void manageEnclosures() {
     for (;;) {
-      System.out.printf("\nEnclosures service:\n");
-      System.out.println("1. Show all Enclosures");
-      System.out.println("2. Add Enclosure");
-      System.out.println("3. Find Enclosure");
-      System.out.println("4. Edit Enclosure");
-      System.out.println("5. Remove Enclosure");
-      System.out.println("6. Return to main menu");
-      System.out.print("Enter your choice: ");
-      int choice = sc.nextInt();
-      sc.nextLine(); // Consume the newline character after nextInt()
-      switch (choice) {
-        case 1:
-          printEnclosures(sortEnclosures(enclosureService.getAllEnclosures(), null));
+      try {
+        System.out.printf("\nEnclosures service:\n");
+        System.out.println("1. Show all Enclosures");
+        System.out.println("2. Add Enclosure");
+        System.out.println("3. Find Enclosure");
+        System.out.println("4. Edit Enclosure");
+        System.out.println("5. Remove Enclosure");
+        System.out.println("6. Return to main menu");
+        System.out.print("Enter your choice: ");
+        int choice = sc.nextInt();
+        sc.nextLine(); // Consume the newline character after nextInt()
+        switch (choice) {
+          case 1:
+            printEnclosures(sortEnclosures(enclosureService.getAllEnclosures(), null));
+            break;
+          case 2:
+            addEnclosure();
+            break;
+          case 3:
+            findEnclosure();
+            break;
+          case 4:
+            editEnclosure();
+            break;
+          case 5:
+            removeEnclosure();
+            break;
+          case 6:
+            System.out.println("Returning to main menu...");
+            break;
+          default:
+            System.out.println("Invalid choice. Please try again.");
+        }
+        if (choice == 6) {
+          System.out.println();
           break;
-        case 2:
-          addEnclosure();
-          break;
-        case 3:
-          findEnclosure();
-          break;
-        case 4:
-          editEnclosure();
-          break;
-        case 5:
-          removeEnclosure();
-          break;
-        case 6:
-          System.out.println("Returning to main menu...");
-          break;
-        default:
-          System.out.println("Invalid choice. Please try again.");
-      }
-      if (choice == 6) {
-        System.out.println();
+        }
+      } catch (InputMismatchException e) {
+        System.out.println("Invalid input. Please enter a number between 1 and 6.");
+        sc.nextLine(); // Consume the invalid input
+      } catch (InputException e) {
+        System.out.printf("""
+          Error: %s
+          Please try again or return to Main Menu...
+        """, e.getMessage());
+      } catch (AppException e) {
+        System.out.printf("""
+            Error occurred while managing enclosures: %s
+            Please try again or return to Main Menu...
+        """, e.getMessage()
+        );
         break;
       }
     }
@@ -113,8 +132,9 @@ public class EnclosureController {
    * Adds a new Enclosure to the system by reading the EnclosureType, SafetyLevel and SecurityLevel from user input.
    * The new Enclosure is then added to the EnclosureService and DinosaurCareSystemService. It also checks if the user
    * wants to edit the security level before adding the enclosure.
+   * @throws InputException if there is an error in user input.
    */
-  public void addEnclosure() {
+  public void addEnclosure() throws InputException {
     EnclosureType enclosureType = Util.readEnclosureType(sc);
     SafetyLevel  safetyLevel = Util.readSafetyLevel(sc);
     int securityLevel = 100;
@@ -142,84 +162,98 @@ public class EnclosureController {
    */
   public void findEnclosure() {
     for (;;) {
-      System.out.printf("\nSearch by:\n");
-      System.out.println("1. Enclosure Type");
-      System.out.println("2. SafetyLevel");
-      System.out.println("3. Dinosaur name");
-      System.out.println("4. Dinosaur type");
-      System.out.println("5. Dinosaur species");
-      System.out.println("6. Employee name");
-      System.out.println("7. Employee job title");
-      System.out.println("8. Dinosaur detail search");
-      System.out.println("9. Employee detail search");
-      System.out.println("10. Return to enclosure menu");
-      System.out.print("Enter your choice: ");
-      int choice = sc.nextInt();
-      sc.nextLine(); // Consume the newline character after nextInt()
-      switch (choice) {
-        case 1 -> { // by enclosure type
-          EnclosureType enclosureType = Util.readEnclosureType(sc);
-          Enclosure enclosure = enclosureService.getEnclosure(enclosureType);
-          if (enclosure == null) System.out.printf("No enclosure found for type '%s'\n", enclosureType);
-          else System.out.println(enclosure);
+      try {
+        System.out.printf("\nSearch by:\n");
+        System.out.println("1. Enclosure Type");
+        System.out.println("2. SafetyLevel");
+        System.out.println("3. Dinosaur name");
+        System.out.println("4. Dinosaur type");
+        System.out.println("5. Dinosaur species");
+        System.out.println("6. Employee name");
+        System.out.println("7. Employee job title");
+        System.out.println("8. Dinosaur detail search");
+        System.out.println("9. Employee detail search");
+        System.out.println("10. Return to enclosure menu");
+        System.out.print("Enter your choice: ");
+        int choice = sc.nextInt();
+        sc.nextLine(); // Consume the newline character after nextInt()
+        switch (choice) {
+          case 1 -> { // by enclosure type
+            EnclosureType enclosureType = Util.readEnclosureType(sc);
+            Enclosure enclosure = enclosureService.getEnclosure(enclosureType);
+            if (enclosure == null) System.out.printf("No enclosure found for type '%s'\n", enclosureType);
+            else System.out.println(enclosure);
+          }
+          case 2 -> { // by safety level
+            SafetyLevel safetyLevel = Util.readSafetyLevel(sc);
+            Set<Enclosure> enclosures = enclosureService.getEnclosure(safetyLevel);
+            if (enclosures.isEmpty()) System.out.printf("No enclosures found with safety level '%s'\n", safetyLevel);
+            else printEnclosures(enclosures);
+          }
+          case 3 -> { // by dinosaur name
+            String dinosaurName = Util.readDinosaurName(sc);
+            Set<Enclosure> enclosures = enclosureService.getEnclosure(dinosaurName, true);
+            if (enclosures.isEmpty()) System.out.printf("No enclosure found for dinosaur '%s'\n", dinosaurName);
+            else printEnclosures(enclosures);
+          }
+          case 4 -> { // by dinosaur type
+            DinosaurType dinosaurType = Util.readDinosaurType(sc);
+            Set<Enclosure> enclosures = enclosureService.getEnclosure(dinosaurType);
+            if (enclosures.isEmpty())
+              System.out.printf("No enclosure found for dinosaur type '%s'\n", dinosaurType.name());
+            else printEnclosures(enclosures);
+          }
+          case 5 -> { // by dinosaur species
+            DinosaurSpecies dinosaurSpecies = Util.readDinosaurSpecies(sc);
+            Set<Enclosure> enclosures = enclosureService.getEnclosure(dinosaurSpecies);
+            if (enclosures == null)
+              System.out.printf("No enclosure found for dinosaur species '%s'\n", dinosaurSpecies.name());
+            else printEnclosures(enclosures);
+          }
+          case 6 -> { // by employee name
+            String employeeName = Util.readEmployeeName(sc);
+            Set<Enclosure> enclosures = enclosureService.getEnclosure(employeeName, false);
+            if (enclosures.isEmpty()) System.out.printf("No enclosure found for employee '%s'\n", employeeName);
+            else printEnclosures(enclosures);
+          }
+          case 7 -> { // by employee's job title
+            JobTitle jobTitle = Util.readEmployeeJobTitle(sc);
+            Set<Enclosure> enclosures = enclosureService.getEnclosure(jobTitle);
+            if (enclosures.isEmpty()) System.out.printf("No enclosures found for job title '%s'\n", jobTitle);
+            else printEnclosures(enclosures);
+          }
+          case 8 -> { // by dinosaur detail search
+            EnclosureType enclosureType = Util.readEnclosureType(sc);
+            String dinosaurName = Util.readDinosaurName(sc);
+            DinosaurType dinosaurType = Util.readDinosaurType(sc);
+            DinosaurSpecies dinosaurSpecies = Util.readDinosaurSpecies(sc);
+            Enclosure enclosure = enclosureService.getEnclosure(enclosureType, dinosaurType, dinosaurSpecies, dinosaurName);
+            if (enclosure == null) System.out.println("No enclosure found");
+            else System.out.println(enclosure);
+          }
+          case 9 -> { // by employee detail search
+            EnclosureType enclosureType = Util.readEnclosureType(sc);
+            String employeeName = Util.readEmployeeName(sc);
+            JobTitle jobTitle = Util.readEmployeeJobTitle(sc);
+            Set<Enclosure> enclosures = enclosureService.getEnclosure(enclosureType, jobTitle, employeeName);
+            if (enclosures.isEmpty()) System.out.println("No enclosure found");
+            else printEnclosures(enclosures);
+          }
+          case 10 -> {
+          } // return to enclosure menu
+          default -> System.out.println("Invalid choice. Please try again.");
         }
-        case 2 -> { // by safety level
-          SafetyLevel safetyLevel = Util.readSafetyLevel(sc);
-          Set<Enclosure> enclosures = enclosureService.getEnclosure(safetyLevel);
-          if (enclosures.isEmpty()) System.out.printf("No enclosures found with safety level '%s'\n", safetyLevel);
-          else printEnclosures(enclosures);
-        }
-        case 3 -> { // by dinosaur name
-          String dinosaurName = Util.readDinosaurName(sc);
-          Set<Enclosure> enclosures = enclosureService.getEnclosure(dinosaurName, true);
-          if (enclosures.isEmpty()) System.out.printf("No enclosure found for dinosaur '%s'\n", dinosaurName);
-          else printEnclosures(enclosures);
-        }
-        case 4 -> { // by dinosaur type
-          DinosaurType dinosaurType = Util.readDinosaurType(sc);
-          Set<Enclosure> enclosures = enclosureService.getEnclosure(dinosaurType);
-          if (enclosures.isEmpty()) System.out.printf("No enclosure found for dinosaur type '%s'\n", dinosaurType.name());
-          else printEnclosures(enclosures);
-        }
-        case 5 -> { // by dinosaur species
-          DinosaurSpecies dinosaurSpecies = Util.readDinosaurSpecies(sc);
-          Set<Enclosure> enclosures = enclosureService.getEnclosure(dinosaurSpecies);
-          if (enclosures == null) System.out.printf("No enclosure found for dinosaur species '%s'\n", dinosaurSpecies.name());
-          else printEnclosures(enclosures);
-        }
-        case 6 -> { // by employee name
-          String employeeName = Util.readEmployeeName(sc);
-          Set<Enclosure> enclosures = enclosureService.getEnclosure(employeeName, false);
-          if (enclosures.isEmpty()) System.out.printf("No enclosure found for employee '%s'\n", employeeName);
-          else printEnclosures(enclosures);
-        }
-        case 7 -> { // by employee's job title
-          JobTitle jobTitle = Util.readEmployeeJobTitle(sc);
-          Set<Enclosure> enclosures = enclosureService.getEnclosure(jobTitle);
-          if (enclosures.isEmpty()) System.out.printf("No enclosures found for job title '%s'\n", jobTitle);
-          else printEnclosures(enclosures);
-        }
-        case 8 -> { // by dinosaur detail search
-          EnclosureType enclosureType = Util.readEnclosureType(sc);
-          String dinosaurName = Util.readDinosaurName(sc);
-          DinosaurType dinosaurType = Util.readDinosaurType(sc);
-          DinosaurSpecies dinosaurSpecies = Util.readDinosaurSpecies(sc);
-          Enclosure enclosure = enclosureService.getEnclosure(enclosureType, dinosaurType, dinosaurSpecies, dinosaurName);
-          if (enclosure == null) System.out.println("No enclosure found");
-          else System.out.println(enclosure);
-        }
-        case 9 -> { // by employee detail search
-          EnclosureType enclosureType = Util.readEnclosureType(sc);
-          String employeeName = Util.readEmployeeName(sc);
-          JobTitle jobTitle = Util.readEmployeeJobTitle(sc);
-          Set<Enclosure> enclosures = enclosureService.getEnclosure(enclosureType, jobTitle, employeeName);
-          if (enclosures.isEmpty()) System.out.println("No enclosure found");
-          else printEnclosures(enclosures);
-        }
-        case 10 -> { } // return to enclosure menu
-        default -> System.out.println("Invalid choice. Please try again.");
+        if (choice > 0 && choice < 11) break;
+      } catch (InputMismatchException e) {
+        System.out.println("Invalid input. Please enter a number between 1 and 10.");
+        sc.nextLine(); // Consume the invalid input
+      } catch (InputException e) {
+        System.out.printf("""
+          Error while finding enclosure: %s
+          Please try again or return to Enclosure Menu...
+        """, e.getMessage()
+        );
       }
-      if (choice > 0 && choice < 11) break;
     }
   }
   
@@ -230,8 +264,9 @@ public class EnclosureController {
    * security level of the enclosure. If the user chooses to edit, the new values are read from user input and updated
    * in the Enclosure object.
    * @param enclosure The Enclosure object to be edited.
+   * @throws InputException if there is an error in user input while editing the enclosure details.
    */
-  private void editEnclosureDetails(Enclosure enclosure) {
+  private void editEnclosureDetails(Enclosure enclosure) throws InputException {
     // change safety level
     if (Util.readEditEnclosure(sc, null, "safety level", "Edit").equals("Y")) {
       SafetyLevel safetyLevel = Util.readSafetyLevel(sc);
@@ -254,26 +289,38 @@ public class EnclosureController {
    */
   public void editEnclosure() {
     for (;;) {
-      System.out.printf("\nEdit by:\n");
-      System.out.println("1. Enclosure Type");
-      System.out.println("2. Return to enclosure menu");
-      System.out.print("Enter your choice: ");
-      int choice = sc.nextInt();
-      sc.nextLine(); // Consume the newline character after nextInt()
-      switch (choice) {
-        case 1 -> {
-          EnclosureType enclosureType = Util.readEnclosureType(sc);
-          Enclosure enclosure = enclosureService.getEnclosure(enclosureType);
-          if (enclosure == null) {
-            System.out.printf("No enclosure found for type '%s'\n", enclosureType);
-          } else {
-            editEnclosureDetails(enclosure);
+      try {
+        System.out.printf("\nEdit by:\n");
+        System.out.println("1. Enclosure Type");
+        System.out.println("2. Return to enclosure menu");
+        System.out.print("Enter your choice: ");
+        int choice = sc.nextInt();
+        sc.nextLine(); // Consume the newline character after nextInt()
+        switch (choice) {
+          case 1 -> {
+            EnclosureType enclosureType = Util.readEnclosureType(sc);
+            Enclosure enclosure = enclosureService.getEnclosure(enclosureType);
+            if (enclosure == null) {
+              System.out.printf("No enclosure found for type '%s'\n", enclosureType);
+            } else {
+              editEnclosureDetails(enclosure);
+            }
           }
+          case 2 -> {
+          }
+          default -> System.out.println("Invalid choice. Please try again.");
         }
-        case 2 -> { }
-        default -> System.out.println("Invalid choice. Please try again.");
+        if (choice > 0 && choice < 3) break;
+      } catch (InputMismatchException e) {
+        System.out.println("Invalid input. Please enter a number between 1 and 2.");
+        sc.nextLine(); // Consume the invalid input
+      } catch (InputException e) {
+        System.out.printf("""
+          Error while editing enclosure: %s
+          Please try again or return to Enclosure Menu...
+        """, e.getMessage()
+        );
       }
-      if (choice > 0 && choice < 3) break;
     }
   }
   
@@ -286,27 +333,38 @@ public class EnclosureController {
    */
   public void removeEnclosure() {
     for (;;) {
-      System.out.printf("\nRemove by:\n");
-      System.out.println("1. Enclosure Type");
-      System.out.println("2. Return to enclosure menu");
-      System.out.println("Enter  your choice: ");
-      int choice = sc.nextInt();
-      sc.nextLine(); // Consume the newline character after nextInt()
-      switch (choice) {
-        case 1 -> {
-          EnclosureType  enclosureType = Util.readEnclosureType(sc);
-          Enclosure enclosure = enclosureService.getEnclosure(enclosureType);
-          if (enclosure != null) {
-            enclosureService.removeEnclosure(enclosure);
-            dinosaurCareSystemService.removeEnclosure(enclosure);
-            System.out.println("Enclosure removed");
+      try {
+        System.out.printf("\nRemove by:\n");
+        System.out.println("1. Enclosure Type");
+        System.out.println("2. Return to enclosure menu");
+        System.out.println("Enter  your choice: ");
+        int choice = sc.nextInt();
+        sc.nextLine(); // Consume the newline character after nextInt()
+        switch (choice) {
+          case 1 -> {
+            EnclosureType enclosureType = Util.readEnclosureType(sc);
+            Enclosure enclosure = enclosureService.getEnclosure(enclosureType);
+            if (enclosure != null) {
+              enclosureService.removeEnclosure(enclosure);
+              dinosaurCareSystemService.removeEnclosure(enclosure);
+              System.out.println("Enclosure removed");
+            } else System.out.printf("No enclosure found for type '%s'\n", enclosureType);
           }
-          else System.out.printf("No enclosure found for type '%s'\n", enclosureType);
+          case 2 -> {
+          }
+          default -> System.out.println("Invalid choice. Please try again");
         }
-        case 2 -> { }
-        default -> System.out.println("Invalid choice. Please try again");
+        if (choice > 0 && choice < 3) break;
+      } catch (InputMismatchException e) {
+        System.out.println("Invalid input. Please enter a number between 1 and 2.");
+        sc.nextLine(); // Consume the invalid input
+      } catch (InputException e) {
+        System.out.printf("""
+          Error while removing enclosure: %s
+          Please try again or return to Enclosure Menu...
+        """, e.getMessage()
+        );
       }
-      if (choice > 0 && choice < 3) break;
     }
   }
   
