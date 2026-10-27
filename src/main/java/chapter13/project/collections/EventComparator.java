@@ -1,14 +1,43 @@
 package chapter13.project.collections;
 
+import chapter13.project.entity.event.EventType;
 import chapter13.project.entity.event.SpecialEvent;
+import chapter13.project.entity.ticket.Ticket;
 
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.Comparator;
+import java.util.Set;
+import java.util.UUID;
 
 /**
  * Comparator for SpecialEvent objects based on date, time, name, and event type. EventComparator implements the
  * Comparator interface for SpecialEvent objects.
  */
 public class EventComparator implements Comparator<SpecialEvent> {
+  
+  public static final Comparator<SpecialEvent> BY_ID =
+      (e1, e2) -> e1.getUuid().compareTo(e2.getUuid());
+  public static final Comparator<SpecialEvent> BY_NAME =
+      (e1, e2) -> e1.getName().compareTo(e2.getName());
+  public static final Comparator<SpecialEvent> BY_DESCRIPTION =
+      (e1, e2) -> e1.getDescription().compareTo(e2.getDescription());
+  public static final Comparator<SpecialEvent> BY_CONTACT_NUMBER =
+      (e1, e2) -> e1.getContactNumber().compareTo(e2.getContactNumber());
+  public static final Comparator<SpecialEvent> BY_CONTACT_NAME =
+      (e1, e2) -> e1.getContactName().compareTo(e2.getContactName());
+  public static final Comparator<SpecialEvent> BY_CONTACT_EMAIL =
+      (e1, e2) -> e1.getContactEmail().compareTo(e2.getContactEmail());
+  public static final Comparator<SpecialEvent> BY_DATE =
+      (e1, e2) -> e1.getDate().compareTo(e2.getDate());
+  public static final Comparator<SpecialEvent> BY_TIME =
+      (e1, e2) -> e1.getTime().compareTo(e2.getTime());
+  public static final Comparator<SpecialEvent> BY_EVENT_TYPE =
+      (e1, e2) -> e1.getEventType().compareTo(e2.getEventType());
+  public static final Comparator<SpecialEvent> DEFAULT =
+      (e1, e2) -> (new EventComparator()).compare(e1, e2);
+  
+  //-------------------------------------------------------------------------------------------------------------------
   
   /**
    * Compares two SpecialEvent objects based on date, time, name, and event type.
@@ -43,16 +72,6 @@ public class EventComparator implements Comparator<SpecialEvent> {
     
     // compare by event type
     return e1.getEventType().compareTo(e2.getEventType());
-  }
-  
-  //-------------------------------------------------------------------------------------------------------------------
-  
-  /**
-   * Returns the default EventComparator instance.
-   * @return a Comparator that compares SpecialEvent objects by date, time, name, and event type.
-   */
-  public static Comparator<SpecialEvent> getDefaultComparator() {
-    return new EventComparator();
   }
   
   //-------------------------------------------------------------------------------------------------------------------

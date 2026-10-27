@@ -10,6 +10,19 @@ import java.util.Comparator;
  */
 public class EmployeeComparator implements Comparator<Employee> {
   
+  public static final Comparator<Employee> BY_NAME =
+      (e1, e2) -> e1.getName().compareToIgnoreCase(e2.getName());
+  public static final Comparator<Employee> BY_BIRTHDATE =
+      (e1, e2) -> e1.getBirthDate().compareTo(e2.getBirthDate());
+  public static final Comparator<Employee> BY_AGE =
+      (e1, e2) -> Integer.compare(e1.getAge(), e2.getAge());
+  public static final Comparator<Employee> BY_JOB_TITLE =
+      (e1, e2) -> e1.getJobTitle().compareTo(e2.getJobTitle());
+  public static final Comparator<Employee> DEFAULT =
+      (e1, e2) -> (new EmployeeComparator()).compare(e1, e2);
+  
+  //-------------------------------------------------------------------------------------------------------------------
+  
   /**
    * Compares two Employee objects based on name, birthdate, and job title.
    * @param e1 the first object to be compared.
@@ -37,16 +50,6 @@ public class EmployeeComparator implements Comparator<Employee> {
     
     // compare by job title
     return e1.getJobTitle().compareTo(e2.getJobTitle());
-  }
-  
-  //-------------------------------------------------------------------------------------------------------------------
-  
-  /**
-   * Returns a default comparator for Employee objects.
-   * @return a Comparator that compares Employee objects by their name, birthdate, and job title.
-   */
-  public static Comparator<Employee> getDefaultComparator() {
-    return new EmployeeComparator();
   }
   
   //-------------------------------------------------------------------------------------------------------------------

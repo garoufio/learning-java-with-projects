@@ -10,6 +10,26 @@ import java.util.Comparator;
  */
 public class VehicleComparator implements Comparator<Vehicle> {
   
+  public static final Comparator<Vehicle> BY_MAKE = (v1, v2) -> v1.getMake().compareTo(v2.getMake());
+  public static final Comparator<Vehicle> BY_MODEL = (v1, v2) -> v1.getModel().compareTo(v2.getModel());
+  public static final Comparator<Vehicle> BY_PRODUCTION_YEAR =
+      (v1, v2) -> Integer.compare(v1.getProductionYear(), v2.getProductionYear());
+  public static final Comparator<Vehicle> BY_COLOR = (v1, v2) -> v1.getColor().compareTo(v2.getColor());
+  public static final Comparator<Vehicle> BY_NUMBER_OF_WHEELS =
+      (v1, v2) -> Integer.compare(v1.getNumberOfWheels(), v2.getNumberOfWheels());
+  public static final Comparator<Vehicle> BY_NUMBER_OF_PASSENGERS =
+      (v1, v2) -> Integer.compare(v1.getNumberOfPassengers(), v2.getNumberOfPassengers());
+  public static final Comparator<Vehicle> BY_MAX_SPEED =
+      (v1, v2) -> Double.compare(v1.getMaxSpeed(), v2.getMaxSpeed());
+  public static final Comparator<Vehicle> BY_CAN_FLY =
+      (v1, v2) -> Boolean.compare(v1.getCanFly(), v2.getCanFly());
+  public static final Comparator<Vehicle> BY_VEHICLE_TYPE =
+      (v1, v2) -> v1.getVehicleType().compareTo(v2.getVehicleType());
+  public static final Comparator<Vehicle> DEFAULT =
+      (v1, v2) -> (new VehicleComparator()).compare(v1, v2);
+  
+  //-------------------------------------------------------------------------------------------------------------------
+  
   @Override
     public int compare(Vehicle v1, Vehicle v2) {
       if (v1 == null && v2 == null) return 0;
@@ -42,16 +62,6 @@ public class VehicleComparator implements Comparator<Vehicle> {
       
       // compare by vehicle type
       return v1.getVehicleType().compareTo(v2.getVehicleType());
-    }
-
-    //-------------------------------------------------------------------------------------------------------------------
-  
-  /**
-   * Returns a default comparator for Vehicle objects.
-   * @return a Comparator that compares Vehicle objects by make, model, production year, color, and vehicle type.
-   */
-  public static Comparator<Vehicle> getDefaultComparator() {
-        return new VehicleComparator();
     }
 
     //-------------------------------------------------------------------------------------------------------------------

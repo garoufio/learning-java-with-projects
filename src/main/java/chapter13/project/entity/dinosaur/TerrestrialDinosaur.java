@@ -3,6 +3,7 @@ package chapter13.project.entity.dinosaur;
 import chapter13.project.api.Util;
 
 import java.time.LocalDate;
+import java.util.Comparator;
 import java.util.Objects;
 
 /**
@@ -19,7 +20,7 @@ public non-sealed class TerrestrialDinosaur extends Dinosaur implements Carnivor
   /**
    * Constructs a new TerrestrialDinosaur with the specified attributes.
    * @param name the name of the terrestrial dinosaur.
-   * @param birthDate the birth date of the terrestrial dinosaur.
+   * @param birthDate the birthdate of the terrestrial dinosaur.
    * @param type the type of the terrestrial dinosaur, see {@link DinosaurType} for possible values.
    * @param species the species of the terrestrial dinosaur, see {@link DinosaurSpecies} for possible values (currently 
    * only TYRANNOSAURUS, TRICERATOPS, VELOCIRAPTOR, STEGOSAURUS, BRACHIOSAURUS, SPINOSAURUS, PARASAUROLOPHUS and ANKYLOSAURUS 
@@ -48,7 +49,7 @@ public non-sealed class TerrestrialDinosaur extends Dinosaur implements Carnivor
   /**
    * Constructs a new TerrestrialDinosaur with the specified attributes, assuming a default health score of 100.
    * @param name the name of the terrestrial dinosaur.
-   * @param birthDate the birth date of the terrestrial dinosaur.
+   * @param birthDate the birthdate of the terrestrial dinosaur.
    * @param type the type of the terrestrial dinosaur, see {@link DinosaurType} for possible values.
    * @param species the species of the terrestrial dinosaur, see {@link DinosaurSpecies} for possible values (currently 
    * only TYRANNOSAURUS, TRICERATOPS, VELOCIRAPTOR, STEGOSAURUS, BRACHIOSAURUS, SPINOSAURUS, PARASAUROLOPHUS and ANKYLOSAURUS 

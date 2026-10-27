@@ -10,6 +10,25 @@ import java.util.Comparator;
  */
 public class DinosaurComparator implements Comparator<Dinosaur> {
   
+  public static final Comparator<Dinosaur> BY_NAME =
+      (d1, d2) -> d1.getName().compareToIgnoreCase(d2.getName());
+  public static final Comparator<Dinosaur> BY_BIRTHDATE =
+      (d1, d2) -> d1.getBirthdate().compareTo(d2.getBirthdate());
+  public static final Comparator<Dinosaur> BY_AGE =
+      (d1, d2) -> Integer.compare(d1.getAge(), d2.getAge());
+  public static final Comparator<Dinosaur> BY_TYPE =
+      (d1, d2) -> d1.getType().compareTo(d2.getType());
+  public static final Comparator<Dinosaur> BY_SPECIES =
+      (d1, d2) -> d1.getSpecies().compareTo(d2.getSpecies());
+  public static final Comparator<Dinosaur> BY_SIZE =
+      (d1, d2) -> d1.getSize().compareTo(d2.getSize());
+  public static final Comparator<Dinosaur> BY_HEALTH_SCORE =
+      (d1, d2) -> Integer.compare(d1.getHealthScore(), d2.getHealthScore());
+  public static final Comparator<Dinosaur> DEFAULT =
+      (d1, d2) -> (new DinosaurComparator()).compare(d1, d2);
+  
+  //-------------------------------------------------------------------------------------------------------------------
+  
   /**
    * Compares two Dinosaur objects based on name, birthdate, type, species, and size.
    * @param d1 the first Dinosaur to be compared.
@@ -49,16 +68,6 @@ public class DinosaurComparator implements Comparator<Dinosaur> {
     
     // compare by size
     return d1.getSize().compareTo(d2.getSize());
-  }
-  
-  //-------------------------------------------------------------------------------------------------------------------
-  
-  /**
-   * Returns the default DinosaurComparator instance.
-   * @return the default DinosaurComparator instance.
-   */
-  public static Comparator<Dinosaur> getDefaultComparator() {
-    return new DinosaurComparator();
   }
   
   //-------------------------------------------------------------------------------------------------------------------

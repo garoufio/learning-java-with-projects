@@ -62,7 +62,7 @@ public class EmployeeController {
         int choice = sc.nextInt();
         sc.nextLine(); // Consume the newline character after nextInt()
         switch (choice) {
-          case 1 -> printEmployees(sortEmployees(employeeService.getAllEmployees(), null));
+          case 1 -> printEmployees();
           case 2 -> addEmployee();
           case 3 -> findEmployee();
           case 4 -> editEmployee();
@@ -112,6 +112,43 @@ public class EmployeeController {
     }
   }
  
+  //-------------------------------------------------------------------------------------------------------------------
+  
+  public void printEmployees() {
+    for (;;) {
+      try {
+        System.out.print("""
+            
+            Print employees sorted by
+            1. No sorting
+            2. Default
+            3. Name
+            4. Birthdate
+            5. Age
+            6. Job title
+            7. Return to Employee Menu
+            Enter your choice:\t"""
+        );
+        int choice = sc.nextInt();
+        sc.nextLine();
+        switch (choice) {
+          case 1 -> printEmployees(employeeService.getAllEmployees());
+          case 2 -> printEmployees(sortEmployees(employeeService.getAllEmployees(), null));
+          case 3 -> printEmployees(sortEmployees(employeeService.getAllEmployees(), EmployeeComparator.BY_NAME));
+          case 4 -> printEmployees(sortEmployees(employeeService.getAllEmployees(), EmployeeComparator.BY_BIRTHDATE));
+          case 5 -> printEmployees(sortEmployees(employeeService.getAllEmployees(), EmployeeComparator.BY_AGE));
+          case 6 -> printEmployees(sortEmployees(employeeService.getAllEmployees(), EmployeeComparator.BY_JOB_TITLE));
+          case 7 -> System.out.println("Returning to Employee Menu...");
+          default -> System.out.println("Invalid choice. Please try again.");
+        }
+        if (choice > 0 && choice < 8) break;
+      } catch (InputMismatchException e) {
+        System.out.println("Invalid input. Please enter a number between 1 and 7.");
+        sc.nextLine(); // Consume the invalid input
+      }
+    }
+  }
+  
   //-------------------------------------------------------------------------------------------------------------------
   
   /**
@@ -617,7 +654,7 @@ public class EmployeeController {
     if (employees == null || employees.isEmpty()) return List.of();
     
     List<Employee> sortedEmployees = new ArrayList<>(employees);
-    Collections.sort(sortedEmployees, comparator == null ? EmployeeComparator.getDefaultComparator() : comparator);
+    Collections.sort(sortedEmployees, comparator == null ? EmployeeComparator.DEFAULT : comparator);
     return sortedEmployees;
   }
   

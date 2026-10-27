@@ -66,7 +66,7 @@ public class EnclosureController {
         sc.nextLine(); // Consume the newline character after nextInt()
         switch (choice) {
           case 1:
-            printEnclosures(sortEnclosures(enclosureService.getAllEnclosures(), null));
+            printEnclosures();
             break;
           case 2:
             addEnclosure();
@@ -115,7 +115,7 @@ public class EnclosureController {
    * Prints the Enclosure(s) to the console.
    * @param enclosures Collection of Enclosure objects to be printed.
    */
-  public void printEnclosures(Collection<Enclosure> enclosures) {
+  private void printEnclosures(Collection<Enclosure> enclosures) {
     if (enclosures == null) {
       System.out.println("No Enclosures were added!");
       return;
@@ -123,6 +123,49 @@ public class EnclosureController {
     
     for (Enclosure e : enclosures) {
       if (e != null) System.out.println(e);
+    }
+  }
+  
+  //-------------------------------------------------------------------------------------------------------------------
+  
+  /**
+   * Prints the enclosures sorted by user-selected criteria. The user is prompted to choose a sorting option,
+   * and the corresponding sorted list of enclosures is printed to the console. The available sorting options include
+   * no sorting, default sorting, sorting by type, safety level, and security level. The user can also choose to return
+   * to the Enclosure menu.
+   */
+  public void printEnclosures() {
+    for (;;) {
+      try {
+        System.out.print("""
+            
+            Print enclosures sorted by:
+            1. No sorting
+            2. Default
+            3. Type
+            4. Safety Level
+            5. Security Level
+            6. Return to Enclosure menu
+            Enter your choice:\t"""
+        );
+        int choice = sc.nextInt();
+        sc.nextLine(); // Consume the newline character after nextInt()
+        switch (choice) {
+          case 1 -> printEnclosures(enclosureService.getAllEnclosures());
+          case 2 -> printEnclosures(sortEnclosures(enclosureService.getAllEnclosures(), null));
+          case 3 -> printEnclosures(sortEnclosures(enclosureService.getAllEnclosures(), EnclosureComparator.BY_TYPE));
+          case 4 ->
+              printEnclosures(sortEnclosures(enclosureService.getAllEnclosures(), EnclosureComparator.BY_SAFETY_LEVEL));
+          case 5 ->
+              printEnclosures(sortEnclosures(enclosureService.getAllEnclosures(), EnclosureComparator.BY_SECURITY_LEVEL));
+          case 6 -> System.out.println("Returning to Enclosure menu...");
+          default -> System.out.println("Invalid choice. Please try again.");
+        }
+        if (choice > 0 && choice < 7) break;
+      } catch (InputMismatchException e) {
+        System.out.println("Invalid input. Please enter a number between 1 and 6.");
+        sc.nextLine(); // Consume the invalid input
+      }
     }
   }
   
@@ -381,7 +424,7 @@ public class EnclosureController {
     if (enclosures == null || enclosures.isEmpty()) return List.of();
     
     List<Enclosure> sortedEnclosures = new ArrayList<>(enclosures);
-    Collections.sort(sortedEnclosures, comparator == null ? EnclosureComparator.getDefaultComparator() : comparator);
+    Collections.sort(sortedEnclosures, comparator == null ? EnclosureComparator.DEFAULT : comparator);
     return sortedEnclosures;
   }
   

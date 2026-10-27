@@ -4,6 +4,7 @@ import chapter13.project.api.Util;
 
 import java.time.DayOfWeek;
 import java.time.LocalDate;
+import java.time.Period;
 import java.util.Objects;
 import java.util.UUID;
 
@@ -26,11 +27,11 @@ public class Employee implements Worker, Comparable<Employee> {
   
   /**
    * Constructs a new Employee instance with personal and professional details: name, job title, years of experience, 
-   * and birth date.
+   * and birthdate.
    * @param name the name of the employee.
    * @param jobTitle the job title of the employee, (see {@link JobTitle} for possible values).
    * @param yearsOfExperience the number of years of experience the employee has.
-   * @param birthDate the birth date of the employee.
+   * @param birthDate the birthdate of the employee.
    */
   public Employee(String name, JobTitle jobTitle, int yearsOfExperience, LocalDate birthDate) {
     this.uuid = UUID.randomUUID();
@@ -114,8 +115,8 @@ public class Employee implements Worker, Comparable<Employee> {
   //-------------------------------------------------------------------------------------------------------------------
   
   /**
-   * Returns the birth date of the employee.
-   * @return the birth date of the employee.
+   * Returns the birthdate of the employee.
+   * @return the birthdate of the employee.
    */
   public LocalDate getBirthDate() {
     return birthDate;
@@ -124,11 +125,21 @@ public class Employee implements Worker, Comparable<Employee> {
   //-------------------------------------------------------------------------------------------------------------------
   
   /**
-   * Sets the birth date of the employee.
-   * @param birthDate the new birth date of the employee.
+   * Sets the birthdate of the employee.
+   * @param birthDate the new birthdate of the employee.
    */
   public void setBirthDate(LocalDate birthDate) {
     this.birthDate = birthDate;
+  }
+  
+  //-------------------------------------------------------------------------------------------------------------------
+  
+  /**
+   * Calculates and returns the age of the employee based on the birthdate and the current date.
+   * @return the age of the employee in years.
+   */
+  public int getAge() {
+    return Period.between(birthDate, LocalDate.now()).getYears();
   }
   
   //-------------------------------------------------------------------------------------------------------------------
@@ -220,6 +231,7 @@ public class Employee implements Worker, Comparable<Employee> {
         ", responsibility=" + jobTitle.getDescription() +
         ", yearsOfExperience=" + yearsOfExperience +
         ", birthDate=" + birthDate.format(Util.DATE_FORMAT) +
+        ", age=" + getAge() +
         "]";
   }
   

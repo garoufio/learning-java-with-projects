@@ -10,6 +10,17 @@ import java.util.Comparator;
  */
 public class EnclosureComparator implements Comparator<Enclosure> {
   
+  public static final Comparator<Enclosure> BY_TYPE =
+      (e1, e2) -> e1.getEnclosureType().name().compareTo(e2.getEnclosureType().name());
+  public static final Comparator<Enclosure> BY_SAFETY_LEVEL =
+      (e1, e2) -> e1.getSafetyLevel().compareTo(e2.getSafetyLevel());
+  public static final Comparator<Enclosure> BY_SECURITY_LEVEL =
+      (e1, e2) -> Integer.compare(e1.getSecurityLevel(), e2.getSecurityLevel());
+  public static final Comparator<Enclosure> DEFAULT =
+      (e1, e2) -> (new EnclosureComparator()).compare(e1, e2);
+  
+  //-------------------------------------------------------------------------------------------------------------------
+  
   /**
    * Compares two Enclosure objects first by their enclosure type and then by their safety level.
    * @param o1 the first Enclosure object to be compared.
@@ -29,16 +40,6 @@ public class EnclosureComparator implements Comparator<Enclosure> {
 
     // compare by safety level
     return o1.getSafetyLevel().compareTo(o2.getSafetyLevel());
-  }
-  
-  //-------------------------------------------------------------------------------------------------------------------
-  
-  /**
-   * Returns a default comparator for Enclosure objects.
-   * @return a Comparator that compares Enclosure objects by their type and safety level.
-   */
-  public static Comparator<Enclosure> getDefaultComparator() {
-    return new EnclosureComparator();
   }
   
   //-------------------------------------------------------------------------------------------------------------------

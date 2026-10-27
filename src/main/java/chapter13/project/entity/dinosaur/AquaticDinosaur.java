@@ -4,6 +4,7 @@ import chapter13.project.api.Util;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.Comparator;
 import java.util.Objects;
 
 /**
@@ -22,7 +23,7 @@ public non-sealed class AquaticDinosaur extends Dinosaur implements Carnivore, H
   /**
    * Constructs an AquaticDinosaur with the specified attributes.
    * @param name the name of the aquatic dinosaur.
-   * @param birthDate the birth date of the aquatic dinosaur.
+   * @param birthDate the birthdate of the aquatic dinosaur.
    * @param type the type of the aquatic dinosaur, see {@link DinosaurType} for possible values.
    * @param species the species of the aquatic dinosaur, see {@link DinosaurSpecies} for possible values 
    * (currently only the PLIOSAURS species is supported as aquatic dinosaurs).
@@ -54,7 +55,7 @@ public non-sealed class AquaticDinosaur extends Dinosaur implements Carnivore, H
   /**
    * Constructs an AquaticDinosaur with the specified attributes and a default health score of 100.
    * @param name the name of the aquatic dinosaur.
-   * @param birthDate the birth date of the aquatic dinosaur.
+   * @param birthDate the birthdate of the aquatic dinosaur.
    * @param type the type of the aquatic dinosaur, see {@link DinosaurType} for possible values.
    * @param species the species of the aquatic dinosaur, see {@link DinosaurSpecies} (currently only the PLIOSAURS 
    * species is supported).

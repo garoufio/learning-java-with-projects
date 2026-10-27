@@ -11,9 +11,11 @@ import chapter13.project.service.TicketService;
 import chapter13.project.exception.InputException;
 import chapter13.project.exception.AppException;
 
+import java.awt.*;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.*;
+import java.util.List;
 
 /**
  * Controller class for managing special events in the DinosaurCareSystem. Provides methods to add, find, remove, and 
@@ -64,7 +66,7 @@ public class SpecialEventsController {
         int choice = sc.nextInt();
         sc.nextLine(); // Consume the newline character after nextInt()
         switch (choice) {
-          case 1 -> printSpecialEvents(sortSpecialEvents(specialEventsService.getAllSpecialEvents(), null));
+          case 1 -> printSpecialEvents();
           case 2 -> addSpecialEvent();
           case 3 -> findSpecialEvent();
           case 4 -> removeSpecialEvent();
@@ -101,7 +103,7 @@ public class SpecialEventsController {
    * special events were added.
    * @param specialEvents Collection of SpecialEvents to be printed.
    */
-  public void printSpecialEvents(Collection<SpecialEvent> specialEvents) {
+  private void printSpecialEvents(Collection<SpecialEvent> specialEvents) {
     if (specialEvents == null || specialEvents.isEmpty()) {
       System.out.println("No special events found.");
       return;
@@ -109,6 +111,64 @@ public class SpecialEventsController {
     
     for (SpecialEvent se : specialEvents) {
       if (se != null) System.out.println(se);
+    }
+  }
+  
+  //-------------------------------------------------------------------------------------------------------------------
+  
+  public void printSpecialEvents() {
+    for (;;) {
+      try {
+        System.out.print("""
+            
+            Print Special Events sorted by:
+            1. No sorting
+            2. Default
+            3. ID
+            4. Name
+            5. Description
+            6. Contact Number
+            7. Contact Name
+            8. Contact Email
+            9. Date
+            10. Time
+            11. Event Type
+            12. Return to Special Events Menu
+            Enter your choice:\t"""
+        );
+        int choice = sc.nextInt();
+        sc.nextLine(); // Consume the newline character after nextInt()
+        
+        switch (choice) {
+          case 1 -> printSpecialEvents(specialEventsService.getAllSpecialEvents());
+          case 2 ->
+              printSpecialEvents(sortSpecialEvents(specialEventsService.getAllSpecialEvents(), null));
+          case 3 ->
+              printSpecialEvents(sortSpecialEvents(specialEventsService.getAllSpecialEvents(), EventComparator.BY_ID));
+          case 4 ->
+              printSpecialEvents(sortSpecialEvents(specialEventsService.getAllSpecialEvents(), EventComparator.BY_NAME));
+          case 5 ->
+              printSpecialEvents(sortSpecialEvents(specialEventsService.getAllSpecialEvents(), EventComparator.BY_DESCRIPTION));
+          case 6 ->
+              printSpecialEvents(sortSpecialEvents(specialEventsService.getAllSpecialEvents(), EventComparator.BY_CONTACT_NUMBER));
+          case 7 ->
+              printSpecialEvents(sortSpecialEvents(specialEventsService.getAllSpecialEvents(), EventComparator.BY_CONTACT_NAME));
+          case 8 ->
+              printSpecialEvents(sortSpecialEvents(specialEventsService.getAllSpecialEvents(), EventComparator.BY_CONTACT_EMAIL));
+          case 9 ->
+              printSpecialEvents(sortSpecialEvents(specialEventsService.getAllSpecialEvents(), EventComparator.BY_DATE));
+          case 10 ->
+              printSpecialEvents(sortSpecialEvents(specialEventsService.getAllSpecialEvents(), EventComparator.BY_TIME));
+          case 11 ->
+              printSpecialEvents(sortSpecialEvents(specialEventsService.getAllSpecialEvents(), EventComparator.BY_EVENT_TYPE));
+          case 12 -> System.out.println("Returning to Special Events Menu...");
+          default -> System.out.println("Invalid choice. Please try again.");
+        }
+        if (choice > 0 && choice < 13) break;
+      } catch (InputMismatchException e) {
+        System.out.println("Invalid input. Please enter a number between 1 and 12.");
+        sc.nextLine(); // Consume the invalid input
+      }
     }
   }
   
@@ -441,7 +501,7 @@ public class SpecialEventsController {
     if (events == null || events.isEmpty()) return List.of();
     
     List<SpecialEvent> sortedEvents = new ArrayList<>(events);
-    Collections.sort(sortedEvents, comparator == null ? EventComparator.getDefaultComparator() : comparator);
+    Collections.sort(sortedEvents, comparator == null ? EventComparator.DEFAULT : comparator);
     return sortedEvents;
   }
   

@@ -46,12 +46,12 @@ public class VehicleController {
             4. Edit Vehicle
             5. Remove Vehicle
             6. Return to main menu
-            System.out.print("Enter your choice:\t"""
+            Enter your choice:\t"""
         );
         int choice = sc.nextInt();
         sc.nextLine(); // Consume the newline character after nextInt()
         switch (choice) {
-          case 1 -> printVehicles(sortVehicles(vehicleService.getAllVehicles(), null));
+          case 1 -> printVehicles();
           case 2 -> addVehicle();
           case 3 -> findVehicle();
           case 4 -> editVehicle();
@@ -89,7 +89,7 @@ public class VehicleController {
    * @param vehicles the collection of vehicles to print. If the collection is null or empty, a message indicating no 
    * vehicles were added will be displayed.
    */
-  public void printVehicles(Collection<Vehicle> vehicles) {
+  private void printVehicles(Collection<Vehicle> vehicles) {
     if (vehicles == null || vehicles.isEmpty()) {
       System.out.println("No vehicles were added");
       return;
@@ -97,6 +97,54 @@ public class VehicleController {
     
     for (Vehicle v : vehicles) {
       if (v != null) System.out.println(v);
+    }
+  }
+  
+  //-------------------------------------------------------------------------------------------------------------------
+  
+  /**
+   * Displays a menu for sorting and printing vehicles based on various criteria. The user can choose to sort by make,
+   * model, production year, color, number of wheels, number of passengers, max speed, or return to the vehicles' menu.
+   * The method will continue to prompt the user until a valid choice is made.
+   */
+  public void printVehicles() {
+    for (;;) {
+      try {
+        System.out.print("""
+            
+            Sort by:
+            1. No sorting
+            2. Default
+            3. Make
+            4. Model
+            5. Production Year
+            6. Color
+            7. Number of Wheels
+            8. Number of Passengers
+            9. Max Speed
+            10. Return to Vehicles Menu
+            Enter your choice:\t"""
+        );
+        int choice = sc.nextInt();
+        sc.nextLine(); // Consume the newline character after nextInt()
+        switch (choice) {
+          case 1 -> printVehicles(vehicleService.getAllVehicles());
+          case 2 -> printVehicles(sortVehicles(vehicleService.getAllVehicles(), null));
+          case 3 -> printVehicles(sortVehicles(vehicleService.getAllVehicles(), VehicleComparator.BY_MAKE));
+          case 4 -> printVehicles(sortVehicles(vehicleService.getAllVehicles(), VehicleComparator.BY_MODEL));
+          case 5 -> printVehicles(sortVehicles(vehicleService.getAllVehicles(), VehicleComparator.BY_PRODUCTION_YEAR));
+          case 6 -> printVehicles(sortVehicles(vehicleService.getAllVehicles(), VehicleComparator.BY_COLOR));
+          case 7 -> printVehicles(sortVehicles(vehicleService.getAllVehicles(), VehicleComparator.BY_NUMBER_OF_WHEELS));
+          case 8 -> printVehicles(sortVehicles(vehicleService.getAllVehicles(), VehicleComparator.BY_NUMBER_OF_PASSENGERS));
+          case 9 -> printVehicles(sortVehicles(vehicleService.getAllVehicles(), VehicleComparator.BY_MAX_SPEED));
+          case 10 ->  System.out.println("Returning to vehicles menu...");
+          default -> System.out.println("Invalid choice. Please try again.");
+        };
+        if (choice > 0 && choice < 11) break;
+      } catch (InputMismatchException e) {
+        System.out.println("Invalid input. Please enter a number between 1 and 10.");
+        sc.nextLine(); // Consume the invalid input
+      }
     }
   }
   
@@ -463,7 +511,7 @@ public class VehicleController {
     if (vehicles == null || vehicles.isEmpty()) return List.of();
     
     List<Vehicle> sortedVehicles = new ArrayList<>(vehicles);
-    Collections.sort(sortedVehicles, comparator == null ? VehicleComparator.getDefaultComparator() : comparator);
+    Collections.sort(sortedVehicles, comparator == null ? VehicleComparator.DEFAULT : comparator);
     return sortedVehicles;
   }
   

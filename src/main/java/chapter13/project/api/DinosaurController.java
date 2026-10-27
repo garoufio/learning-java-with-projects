@@ -73,7 +73,7 @@ public class DinosaurController {
         int choice = sc.nextInt();
         sc.nextLine(); // Consume the newline character after nextInt()
         switch (choice) {
-          case 1 -> printDinosaurs(sortDinosaurs(dinosaurService.getAllDinosaurs(), null));
+          case 1 -> printDinosaurs();
           case 2 -> addDinosaur();
           case 3 -> findDinosaur();
           case 4 -> editDinosaur();
@@ -111,7 +111,7 @@ public class DinosaurController {
    * Prints the Dinosaur(s) to the console.
    * @param dinosaurs Collection of Dinosaur objects to be printed.
    */
-  public void printDinosaurs(Collection<Dinosaur> dinosaurs) {
+  private void printDinosaurs(Collection<Dinosaur> dinosaurs) {
     if (dinosaurs == null || dinosaurs.isEmpty()) {
       System.out.println("No dinosaurs were added");
       return;
@@ -119,6 +119,54 @@ public class DinosaurController {
     
     for (Dinosaur d : dinosaurs) {
       if (d != null) System.out.println(d);
+    }
+  }
+  
+  //-------------------------------------------------------------------------------------------------------------------
+  
+  /**
+   * Prints the list of dinosaurs sorted by various criteria. It prompts the user to choose a sorting option and then
+   * displays the sorted list.
+   */
+  public void printDinosaurs() {
+    for (;;) {
+      try {
+        System.out.print("""
+            
+            Print dinosaurs sorted by:
+            1. No sorting
+            2. Default
+            3. Name
+            4. Birthdate
+            5. Age
+            6. Type
+            7. Species
+            8. Size
+            9. Health Score
+            10. Return to Dinosaur Menu
+            Enter your choice:\t"""
+        );
+        int choice = sc.nextInt();
+        sc.nextLine(); // Consume the newline character after nextInt()
+        
+        switch (choice) {
+          case 1 -> printDinosaurs(dinosaurService.getAllDinosaurs());
+          case 2 -> printDinosaurs(sortDinosaurs(dinosaurService.getAllDinosaurs(), null));
+          case 3 -> printDinosaurs(sortDinosaurs(dinosaurService.getAllDinosaurs(), DinosaurComparator.BY_NAME));
+          case 4 -> printDinosaurs(sortDinosaurs(dinosaurService.getAllDinosaurs(), DinosaurComparator.BY_BIRTHDATE));
+          case 5 -> printDinosaurs(sortDinosaurs(dinosaurService.getAllDinosaurs(), DinosaurComparator.BY_AGE));
+          case 6 -> printDinosaurs(sortDinosaurs(dinosaurService.getAllDinosaurs(), DinosaurComparator.BY_TYPE));
+          case 7 -> printDinosaurs(sortDinosaurs(dinosaurService.getAllDinosaurs(), DinosaurComparator.BY_SPECIES));
+          case 8 -> printDinosaurs(sortDinosaurs(dinosaurService.getAllDinosaurs(), DinosaurComparator.BY_SIZE));
+          case 9 -> printDinosaurs(sortDinosaurs(dinosaurService.getAllDinosaurs(), DinosaurComparator.BY_HEALTH_SCORE));
+          case 10 -> System.out.println("Returning to Dinosaur Menu...");
+          default -> System.out.println("Invalid choice. Please try again.");
+        }
+        if (choice > 0 && choice < 11) break;
+      } catch (InputMismatchException e) {
+        System.out.println("Invalid input. Please enter a number between 1 and 10.");
+        sc.nextLine(); // Consume the invalid input
+      }
     }
   }
   
@@ -675,7 +723,7 @@ public class DinosaurController {
     if (dinosaurs == null || dinosaurs.isEmpty()) return List.of();
     
     List<Dinosaur> sortedDinosaurs = new ArrayList<>(dinosaurs);
-    Collections.sort(sortedDinosaurs, comparator == null ? DinosaurComparator.getDefaultComparator() : comparator);
+    Collections.sort(sortedDinosaurs, comparator == null ? DinosaurComparator.DEFAULT : comparator);
     return sortedDinosaurs;
   }
   
