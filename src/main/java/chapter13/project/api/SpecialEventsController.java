@@ -116,6 +116,12 @@ public class SpecialEventsController {
   
   //-------------------------------------------------------------------------------------------------------------------
   
+  /**
+   * Prints a submenu for sorting and displaying special events based on various criteria. The user can choose to sort
+   * the events by ID, name, description, contact number, contact name, contact email, date, time, or event type, or
+   * return to the special events' menu. The method handles user input and calls the appropriate sorting and printing
+   * methods based on the user's choice.
+   */
   public void printSpecialEvents() {
     for (;;) {
       try {
