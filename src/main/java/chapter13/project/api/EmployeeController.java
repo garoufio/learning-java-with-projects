@@ -163,7 +163,7 @@ public class EmployeeController {
             2. Employee job title
             3. Detailed search
             4. Return to employee menu
-            System.out.print("Enter your choice:\t"""
+            Enter your choice:\t"""
         );
         int choice = sc.nextInt();
         sc.nextLine(); // Consume the newline character after nextInt()
@@ -200,6 +200,7 @@ public class EmployeeController {
         System.out.printf("""
           Error while searching for employee: %s
           Please try again or return to Employee Menu...
+          
         """, e.getMessage()
         );
       }

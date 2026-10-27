@@ -111,7 +111,7 @@ public class Util {
       sc.nextLine();
       return birthDate;
     } catch (DateTimeParseException e) {
-      throw new InputException("Error in reading 'birthdate': " + e.getMessage());
+      throw new InputException("Cannot read 'birthdate': " + e.getMessage());
     } catch (NoSuchElementException | IllegalArgumentException e) {
       throw new AppException("Critical error occurred in 'readDinosaurBirthDate':" + e.getMessage());
     }
@@ -135,7 +135,7 @@ public class Util {
       sc.nextLine();
       return value;
     } catch (InputMismatchException e) {
-      throw new InputException("Error in reading '" + field + "': " + e.getMessage());
+      throw new InputException("Cannot read '" + field + "': " + e.getMessage());
     }  catch (NoSuchElementException | IllegalStateException e) {
       throw new AppException("Critical error occurred in 'readDinosaurIntField':" + e.getMessage());
     }
@@ -158,7 +158,7 @@ public class Util {
       sc.nextLine();
       return amphibious;
     } catch (InputMismatchException e) {
-      throw new AppException("Error in reading 'amphibious capability': " + e.getMessage());
+      throw new AppException("Cannot read 'amphibious capability': " + e.getMessage());
     } catch (NoSuchElementException | IllegalStateException e) {
       throw new AppException("Critical error occurred in 'readDinosaurAmphibiousCapability':" + e.getMessage());
     }
@@ -188,7 +188,7 @@ public class Util {
         choice = sc.nextInt();
         sc.nextLine();
       } catch (InputMismatchException e) {
-        throw new InputException("Error in reading 'dinosaur type': " + e.getMessage());
+        throw new InputException("Cannot read 'dinosaur type': " + e.getMessage());
       } catch (NoSuchElementException | IllegalStateException e) {
         throw new AppException("Critical error occurred in 'readDinosaurType':" + e.getMessage());
       }
@@ -230,7 +230,7 @@ public class Util {
         choice = sc.nextInt();
         sc.nextLine();
       } catch (InputMismatchException e) {
-        throw new InputException("Error in reading 'dinosaur species': " + e.getMessage());
+        throw new InputException("Cannot read 'dinosaur species': " + e.getMessage());
       } catch (NoSuchElementException | IllegalStateException e) {
         throw new AppException("Critical error occurred in 'readDinosaurSpecies':" + e.getMessage());
       }
@@ -279,7 +279,7 @@ public class Util {
         choice = sc.nextInt();
         sc.nextLine();
       } catch (InputMismatchException e) {
-        throw new InputException("Error in reading 'dinosaur size': " + e.getMessage());
+        throw new InputException("Cannot read 'dinosaur size': " + e.getMessage());
       } catch (NoSuchElementException | IllegalStateException e) {
         throw new AppException("Critical error occurred in 'readDinosaurSize':" + e.getMessage());
       }
@@ -359,7 +359,7 @@ public class Util {
         choice = sc.nextInt();
         sc.nextLine();
       } catch (InputMismatchException e) {
-        throw new InputException("Error in reading 'ticket type': " + e.getMessage());
+        throw new InputException("Cannot read 'ticket type': " + e.getMessage());
       } catch (NoSuchElementException | IllegalStateException e) {
         throw new InputException("Critical error occurred in 'readTicketType':" + e.getMessage());
       }
@@ -406,7 +406,7 @@ public class Util {
         answer = sc.next();
         sc.nextLine();
       } catch (DateTimeParseException e) {
-        throw new InputException("Error in parsing 'ticket date': " + e.getMessage());
+        throw new InputException("Cannot read 'ticket date': " + e.getMessage());
       } catch (NoSuchElementException | IllegalStateException e) {
         throw new AppException("Critical error occurred in 'readTicketDate':" + e.getMessage());
       }
@@ -439,7 +439,7 @@ public class Util {
       sc.nextLine();
       return UUID.fromString(ticketID);
     } catch (IllegalArgumentException e) {
-      throw new InputException("Error in parsing 'ticketID': " + e.getMessage());
+      throw new InputException("Cannot read 'ticketID': " + e.getMessage());
     } catch (NoSuchElementException | IllegalStateException e) {
       throw new AppException("Critical error in 'readTicketUUID': " + e.getMessage());
     }
@@ -539,12 +539,12 @@ public class Util {
    */
   protected static int readEmployeeIntField(Scanner sc, String msg) throws InputException, AppException {
     try {
-      System.out.printf("Enter %s\n", msg);
+      System.out.printf("Enter %s ", msg);
       int value = sc.nextInt();
       sc.nextLine();
       return value;
     } catch (InputMismatchException e) {
-      throw new InputException("Error in reading 'employee's " + msg + "': " + e.getMessage());
+      throw new InputException("Cannot read 'employee's " + msg + "': " + e.getMessage());
     } catch (NoSuchElementException | IllegalStateException e) {
       throw new AppException("Critical error in 'readEmployeeIntField': " + e.getMessage());
     }
@@ -575,7 +575,7 @@ public class Util {
         choice = sc.nextInt();
         sc.nextLine();
       } catch (InputMismatchException e) {
-        throw new InputException("Error in reading 'employee's job title': " + e.getMessage());
+        throw new InputException("Cannot read 'employee's job title': " + e.getMessage());
       } catch (NoSuchElementException | IllegalStateException e) {
         throw new AppException("Critical error in 'readEmployeeJobTitle': " + e.getMessage());
       }
@@ -633,7 +633,7 @@ public class Util {
         choice = sc.nextInt();
         sc.nextLine();
       } catch (InputMismatchException e) {
-        throw new InputException("Error in reading 'employee's day of the week': " + e.getMessage());
+        throw new InputException("Cannot read 'employee's day of the week': " + e.getMessage());
       } catch (NoSuchElementException | IllegalStateException e) {
         throw new AppException("Critical error in 'readEmployeeDayOfWeek': " + e.getMessage());
       }
@@ -673,7 +673,7 @@ public class Util {
       sc.nextLine();
       return birthDate;
     } catch (DateTimeParseException e) {
-      throw new InputException("Error in reading 'employee birthdate': " + e.getMessage());
+      throw new InputException("Cannot read 'employee's birthdate': " + e.getMessage());
     } catch (NoSuchElementException | IllegalStateException e) {
       throw new AppException("Critical error occurred in 'readEmployeeBirthDate':" + e.getMessage());
     }
@@ -738,7 +738,7 @@ public class Util {
         choice = sc.nextInt();
         sc.nextLine();
       } catch (InputMismatchException e) {
-        throw new InputException("Error in reading 'enclosure type': " + e.getMessage());
+        throw new InputException("Cannot read 'enclosure type': " + e.getMessage());
       } catch (NoSuchElementException | IllegalStateException e) {
         throw new AppException("Critical error occurred in 'readEnclosureType':" + e.getMessage());
       }
@@ -788,7 +788,7 @@ public class Util {
         choice = sc.nextInt();
         sc.nextLine();
       } catch (InputMismatchException e) {
-        throw new InputException("Error in reading 'safety level': " + e.getMessage());
+        throw new InputException("Cannot read 'safety level': " + e.getMessage());
       } catch (NoSuchElementException | IllegalStateException e) {
         throw new AppException("Critical error occurred in 'readSafetyLevel':" + e.getMessage());
       }
@@ -824,7 +824,7 @@ public class Util {
       sc.nextLine();
       return securityLevel;
     } catch (InputMismatchException e) {
-      throw new InputException("Error in reading 'enclosure security level': " + e.getMessage());
+      throw new InputException("Cannot read 'enclosure security level': " + e.getMessage());
     } catch (NoSuchElementException | IllegalStateException e) {
       throw new AppException("Critical error occurred in 'readEnclosureSecurityLevel':" + e.getMessage());
     }
@@ -849,7 +849,7 @@ public class Util {
       sc.nextLine();
       return time;
     } catch (DateTimeParseException e) {
-      throw new InputException("Error in reading 'special event time': " + e.getMessage());
+      throw new InputException("Cannot read 'special event time': " + e.getMessage());
     } catch (NoSuchElementException | IllegalStateException e) {
       throw new AppException("Critical error occurred in 'readSpecialEventTime':" + e.getMessage());
     }
@@ -872,7 +872,7 @@ public class Util {
       sc.nextLine();
       return date;
     } catch (DateTimeParseException e) {
-      throw new InputException("Error in reading 'special event date': " + e.getMessage());
+      throw new InputException("Cannot read 'special event date': " + e.getMessage());
     } catch (NoSuchElementException | IllegalStateException e) {
       throw new AppException("Critical error occurred in 'readSpecialEventDate':" + e.getMessage());
     }
@@ -921,7 +921,7 @@ public class Util {
         choice = sc.nextInt();
         sc.nextLine();
       } catch (InputMismatchException e) {
-        throw new InputException("Error in reading 'event type': " + e.getMessage());
+        throw new InputException("Cannot read 'event type': " + e.getMessage());
       } catch (NoSuchElementException | IllegalStateException e) {
         throw new AppException("Critical error occurred in 'readSpecialEventType':" + e.getMessage());
       }
@@ -967,7 +967,7 @@ public class Util {
         choice = sc.nextInt();
         sc.nextLine();
       } catch (InputMismatchException e) {
-        throw new InputException("Error in reading 'vehicle type': " + e.getMessage());
+        throw new InputException("Cannot read 'vehicle type': " + e.getMessage());
       } catch (NoSuchElementException | IllegalStateException e) {
         throw new AppException("Critical error occurred in 'readVehicleType':" + e.getMessage());
       }
@@ -1023,7 +1023,7 @@ public class Util {
       sc.nextLine();
       return value;
     } catch (InputMismatchException e) {
-      throw new InputException("Error in reading vehicle's '" + field + "': " + e.getMessage());
+      throw new InputException("Cannot read vehicle's '" + field + "': " + e.getMessage());
     } catch (NoSuchElementException | IllegalStateException e) {
       throw new AppException("Critical error occurred in 'readVehicleIntField': " + e.getMessage());
     }
@@ -1047,7 +1047,7 @@ public class Util {
       sc.nextLine();
       return value;
     } catch (InputMismatchException e) {
-      throw new InputException("Error in reading vehicle's '" + field + "': " + e.getMessage());
+      throw new InputException("Cannot read vehicle's '" + field + "': " + e.getMessage());
     } catch (NoSuchElementException | IllegalStateException e) {
       throw new AppException("Critical error occurred in 'readVehicleDoubleField': " + e.getMessage());
     }
@@ -1121,7 +1121,7 @@ public class Util {
       System.out.print("Please enter a date and time (yyyy-MM-dd HH:mm): ");
       return LocalDateTime.parse(sc.nextLine(), PARSING_DATE_TIME_FORMAT);
     } catch (DateTimeParseException e) {
-      throw new InputException("Error in reading activity's 'date and time': " + e.getMessage());
+      throw new InputException("Cannot read activity's 'date and time': " + e.getMessage());
     } catch (NoSuchElementException | IllegalStateException e) {
       throw new AppException("Critical error occurred in 'readActivityTms': " + e.getMessage());
     }
@@ -1145,7 +1145,7 @@ public class Util {
       sc.nextLine();
       return duration;
     } catch (InputMismatchException | ArithmeticException e) {
-      throw new InputException("Error in reading activity's 'duration': " + e.getMessage());
+      throw new InputException("Cannot read activity's 'duration': " + e.getMessage());
     } catch (NoSuchElementException | IllegalStateException e) {
       throw new AppException("Critical error occurred in 'readActivityDuration': " + e.getMessage());
     }

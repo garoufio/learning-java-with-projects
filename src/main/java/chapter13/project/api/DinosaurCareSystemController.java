@@ -215,7 +215,7 @@ public class DinosaurCareSystemController {
         sc.nextLine(); // Consume the newline character after nextInt()
       } catch (InputMismatchException e) {
         sc.nextLine(); // Consume the invalid input
-        throw new InputException("Invalid number while selection dinosaur(s). Please try again.");
+        throw new InputException("Invalid number while selecting dinosaur(s).");
       }
       if (choice > 0 && choice < i) {
         selectedDinosaurs.add((Dinosaur) dinosaurCareSystemService.getDinosaurs().toArray()[choice - 1]);
