@@ -1,6 +1,5 @@
 package chapter13.project.api;
 
-import chapter13.project.App;
 import chapter13.project.entity.dinosaur.*;
 import chapter13.project.entity.employee.Employee;
 import chapter13.project.entity.employee.JobTitle;
