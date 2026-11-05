@@ -7,7 +7,7 @@ import java.util.function.IntFunction;
 
 public class TestFunction {
   
-  static void main() {
+  public static void main(String[] args) {
     Function<String, Integer> len = s -> s.length();
     System.out.println(len.apply("Hello"));
     

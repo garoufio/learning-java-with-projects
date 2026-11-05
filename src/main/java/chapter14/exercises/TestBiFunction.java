@@ -4,7 +4,7 @@ import java.util.function.BiFunction;
 
 public class TestBiFunction {
   
-  static void main() {
+  public static void main(String[] args) {
     BiFunction<String, String, Integer> howMany =
         (haystack, needle) -> {
           return haystack.contains(needle) ?

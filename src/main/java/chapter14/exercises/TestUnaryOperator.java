@@ -4,7 +4,7 @@ import java.util.function.UnaryOperator;
 
 public class TestUnaryOperator {
   
-  static void main() {
+  public static void main(String[] args) {
     UnaryOperator<String> toUpperCase = s -> s.toUpperCase();
     System.out.println(toUpperCase.apply("hello"));
   }

@@ -6,7 +6,7 @@ import java.util.function.*;
 
 public class TestSupplier {
   
-  static void main() {
+  public static void main(String[] args) {
     Supplier<List<Integer>> randomIntegerList = () -> List.of(
         (int) (Math.random() * 100),
         (int) (Math.random() * 100),

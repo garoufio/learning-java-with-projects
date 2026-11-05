@@ -5,7 +5,7 @@ import java.util.function.BiConsumer;
 
 public class TestBiConsumer {
   
-  static void main() {
+  public static void main(String[] args) {
     BiConsumer<String, String> printFullName =
         (firstName, lastName) -> System.out.println(firstName + " " + lastName);
     printFullName.accept("Mike", "Ross");
