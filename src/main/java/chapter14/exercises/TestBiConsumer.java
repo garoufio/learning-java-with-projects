@@ -1,7 +1,6 @@
 package chapter14.exercises;
 
 import java.util.HashMap;
-import java.util.Map;
 import java.util.function.BiConsumer;
 
 public class TestBiConsumer {
