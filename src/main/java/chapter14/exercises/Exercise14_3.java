@@ -2,7 +2,6 @@ package chapter14.exercises;
 
 import java.time.LocalDate;
 import java.util.function.Consumer;
-import java.util.function.Supplier;
 
 public class Exercise14_3 {
   
