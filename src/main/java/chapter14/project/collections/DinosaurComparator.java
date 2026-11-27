@@ -11,21 +11,20 @@ import java.util.Comparator;
 public class DinosaurComparator implements Comparator<Dinosaur> {
   
   public static final Comparator<Dinosaur> BY_NAME =
-      (d1, d2) -> d1.getName().compareToIgnoreCase(d2.getName());
-  public static final Comparator<Dinosaur> BY_BIRTHDATE =
-      (d1, d2) -> d1.getBirthdate().compareTo(d2.getBirthdate());
-  public static final Comparator<Dinosaur> BY_AGE =
-      (d1, d2) -> Integer.compare(d1.getAge(), d2.getAge());
-  public static final Comparator<Dinosaur> BY_TYPE =
-      (d1, d2) -> d1.getType().compareTo(d2.getType());
-  public static final Comparator<Dinosaur> BY_SPECIES =
-      (d1, d2) -> d1.getSpecies().compareTo(d2.getSpecies());
-  public static final Comparator<Dinosaur> BY_SIZE =
-      (d1, d2) -> d1.getSize().compareTo(d2.getSize());
-  public static final Comparator<Dinosaur> BY_HEALTH_SCORE =
-      (d1, d2) -> Integer.compare(d1.getHealthScore(), d2.getHealthScore());
-  public static final Comparator<Dinosaur> DEFAULT =
-      (d1, d2) -> (new DinosaurComparator()).compare(d1, d2);
+      Comparator.comparing(Dinosaur::getName, String::compareToIgnoreCase);
+  public static final Comparator<Dinosaur> BY_BIRTHDATE = Comparator.comparing(Dinosaur::getBirthdate);
+  public static final Comparator<Dinosaur> BY_AGE = Comparator.comparingInt(Dinosaur::getAge);
+  public static final Comparator<Dinosaur> BY_TYPE = Comparator.comparing(Dinosaur::getType);
+  public static final Comparator<Dinosaur> BY_SPECIES = Comparator.comparing(Dinosaur::getSpecies);
+  public static final Comparator<Dinosaur> BY_SIZE = Comparator.comparing(Dinosaur::getSize);
+  public static final Comparator<Dinosaur> BY_HEALTH_SCORE = Comparator.comparingInt(Dinosaur::getHealthScore);
+  public static final Comparator<Dinosaur> DEFAULT = Comparator.nullsFirst(
+      Comparator.comparing(Dinosaur::getName)
+          .thenComparing(Dinosaur::getBirthdate)
+          .thenComparing(Dinosaur::getType)
+          .thenComparing(Dinosaur::getSpecies)
+          .thenComparing(Dinosaur::getSize)
+  );
   
   //-------------------------------------------------------------------------------------------------------------------
   
@@ -38,36 +37,7 @@ public class DinosaurComparator implements Comparator<Dinosaur> {
    */
   @Override
   public int compare(Dinosaur d1, Dinosaur d2) {
-    if (d1 == null && d2 == null) return 0;
-    if (d1 == null) return -1;
-    if (d2 == null) return 1;
-
-    // compare by name
-    int cmp = d1.getName().compareTo(d2.getName());
-    if (cmp != 0) {
-      return cmp;
-    }
-
-    // compare by birthdate
-    cmp = d1.getBirthdate().compareTo(d2.getBirthdate());
-    if (cmp != 0) {
-      return cmp;
-    }
-    
-    // compare by type
-    cmp = d1.getType().compareTo(d2.getType());
-    if (cmp != 0) {
-      return cmp;
-    }
-    
-    // compare by species
-    cmp = d1.getSpecies().compareTo(d2.getSpecies());
-    if (cmp != 0) {
-      return cmp;
-    }
-    
-    // compare by size
-    return d1.getSize().compareTo(d2.getSize());
+    return DEFAULT.compare(d1, d2);
   }
   
   //-------------------------------------------------------------------------------------------------------------------

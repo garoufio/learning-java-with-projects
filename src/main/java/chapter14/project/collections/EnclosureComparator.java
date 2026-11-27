@@ -10,14 +10,13 @@ import java.util.Comparator;
  */
 public class EnclosureComparator implements Comparator<Enclosure> {
   
-  public static final Comparator<Enclosure> BY_TYPE =
-      (e1, e2) -> e1.getEnclosureType().name().compareTo(e2.getEnclosureType().name());
-  public static final Comparator<Enclosure> BY_SAFETY_LEVEL =
-      (e1, e2) -> e1.getSafetyLevel().compareTo(e2.getSafetyLevel());
-  public static final Comparator<Enclosure> BY_SECURITY_LEVEL =
-      (e1, e2) -> Integer.compare(e1.getSecurityLevel(), e2.getSecurityLevel());
-  public static final Comparator<Enclosure> DEFAULT =
-      (e1, e2) -> (new EnclosureComparator()).compare(e1, e2);
+  public static final Comparator<Enclosure> BY_TYPE = Comparator.comparing(Enclosure::getEnclosureType);
+  public static final Comparator<Enclosure> BY_SAFETY_LEVEL = Comparator.comparing(Enclosure::getSafetyLevel);
+  public static final Comparator<Enclosure> BY_SECURITY_LEVEL = Comparator.comparingInt(Enclosure::getSecurityLevel);
+  public static final Comparator<Enclosure> DEFAULT = Comparator.nullsFirst(
+      Comparator.comparing(Enclosure::getEnclosureType)
+          .thenComparing(Enclosure::getSafetyLevel)
+  );
   
   //-------------------------------------------------------------------------------------------------------------------
   
@@ -30,16 +29,7 @@ public class EnclosureComparator implements Comparator<Enclosure> {
    */
   @Override
   public int compare(Enclosure o1, Enclosure o2) {
-    if (o1 == null && o2 == null) return 0;
-    if (o1 == null) return -1;
-    if (o2 == null) return 1;
-
-    // compare by enclosure type
-    int cmp = o1.getEnclosureType().name().compareTo(o2.getEnclosureType().name());
-    if (cmp != 0) return cmp;
-
-    // compare by safety level
-    return o1.getSafetyLevel().compareTo(o2.getSafetyLevel());
+    return DEFAULT.compare(o1, o2);
   }
   
   //-------------------------------------------------------------------------------------------------------------------

@@ -1,6 +1,7 @@
 package chapter14.project.collections;
 
 import chapter14.project.entity.employee.Employee;
+import chapter14.project.entity.employee.JobTitle;
 
 import java.util.Comparator;
 
@@ -10,16 +11,19 @@ import java.util.Comparator;
  */
 public class EmployeeComparator implements Comparator<Employee> {
   
+  private static final Comparator<JobTitle> JOB_TITLE_BY_TITLE =
+      Comparator.comparing(JobTitle::getTitle, String::compareToIgnoreCase);
   public static final Comparator<Employee> BY_NAME =
-      (e1, e2) -> e1.getName().compareToIgnoreCase(e2.getName());
-  public static final Comparator<Employee> BY_BIRTHDATE =
-      (e1, e2) -> e1.getBirthDate().compareTo(e2.getBirthDate());
-  public static final Comparator<Employee> BY_AGE =
-      (e1, e2) -> Integer.compare(e1.getAge(), e2.getAge());
+      Comparator.comparing(Employee::getName, String::compareToIgnoreCase);
+  public static final Comparator<Employee> BY_BIRTHDATE = Comparator.comparing(Employee::getBirthDate);
+  public static final Comparator<Employee> BY_AGE = Comparator.comparingInt(Employee::getAge);
   public static final Comparator<Employee> BY_JOB_TITLE =
-      (e1, e2) -> e1.getJobTitle().compareTo(e2.getJobTitle());
-  public static final Comparator<Employee> DEFAULT =
-      (e1, e2) -> (new EmployeeComparator()).compare(e1, e2);
+      Comparator.comparing(Employee::getJobTitle, JOB_TITLE_BY_TITLE);
+  public static final Comparator<Employee> DEFAULT = Comparator.nullsFirst(
+      Comparator.comparing(Employee::getName)
+          .thenComparing(Employee::getBirthDate)
+          .thenComparing(Employee::getJobTitle, JOB_TITLE_BY_TITLE)
+  );
   
   //-------------------------------------------------------------------------------------------------------------------
   
@@ -32,24 +36,7 @@ public class EmployeeComparator implements Comparator<Employee> {
    */
   @Override
   public int compare(Employee e1, Employee e2) {
-    if (e1 == null && e2 == null) return 0;
-    if (e1 == null) return -1;
-    if (e2 == null) return 1;
-
-    // compare by name
-    int cmp = e1.getName().compareTo(e2.getName());
-    if (cmp != 0) {
-      return cmp;
-    }
-
-    // compare by birthdate
-    cmp = e1.getBirthDate().compareTo(e2.getBirthDate());
-    if (cmp != 0) {
-      return cmp;
-    }
-    
-    // compare by job title
-    return e1.getJobTitle().compareTo(e2.getJobTitle());
+    return DEFAULT.compare(e1, e2);
   }
   
   //-------------------------------------------------------------------------------------------------------------------
